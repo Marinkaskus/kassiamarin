@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { useToast } from '@/hooks/use-toast';
@@ -87,7 +86,7 @@ const Contact = () => {
             <h3 className="text-lg font-medium mb-4">Connect with me on Social Media</h3>
             <div className="flex justify-center space-x-6">
               <a 
-                href="https://instagram.com/kassiamarin" 
+                href="https://www.instagram.com/marinkunst?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors"

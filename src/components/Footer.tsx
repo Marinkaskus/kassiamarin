@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Instagram, Mail, Twitter, Linkedin } from 'lucide-react';
@@ -41,7 +40,7 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-medium">Connect</h3>
             <div className="flex space-x-4">
-              <a href="https://instagram.com/kassiamarin" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-muted-foreground hover:text-foreground transition-colors">
+              <a href="https://www.instagram.com/marinkunst?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-muted-foreground hover:text-foreground transition-colors">
                 <Instagram size={20} />
               </a>
               <a href="https://linkedin.com/in/kassiamarin" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-muted-foreground hover:text-foreground transition-colors">
