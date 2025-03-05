@@ -23,8 +23,8 @@ const previousProjects = [
     title: 'Jeg tenker ikke på dere lenger',
     description: 'An area covered with tiles. The floor you walk on is decorated with immersive, varied, and fragile paintings that flow in and out of each other. The paintings tell stories of memories, dreams, and nightmares – everything that takes place in the world of thoughts, the sleepless nights when the only company one has is their own past and imagination. Through the act of walking on the tiles, the viewer changes the work and becomes a part of it.',
     norwegianDescription: 'Et område dekket av fliser. Gulvet du går på er utsmykket med oppslukende, varierte og skjøre malerier, som flyter inn og ut av hverandre. Maleriene forteller om minner, drømmer og mareritt – alt som foregår i tankenes verden, de søvnløse nettene når det eneste selskapet man har er sin egen fortid og fantasi. Gjennom handlingen av å gå på flisene, forandrer tilskueren verket og blir en del av det.',
-    year: '2020',
-    location: 'Oslo Kunsthall',
+    year: '2024',
+    location: Oslo kunstforening,
     imageSrc: '/lovable-uploads/e9b9ccf2-3848-4e6c-b3b8-355ecc19d86a.png',
     additionalImages: [
       '/lovable-uploads/07247a31-eeb0-4255-8104-4f83cceefd72.png', 
