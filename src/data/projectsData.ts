@@ -5,8 +5,8 @@ export const previousProjects: Project[] = [
   {
     id: 9,
     title: "Rom jeg ikke får sove i",
-    description: "Et video- og lydverk som skildrer insomnia – nærmere bestemt det fysiske og virkelige rommet der søvnløsheten utspiller seg, satt sammen med utdrag fra en "nattbok," en dagbok som kun skrives på netter der søvnen uteblir.",
-    norwegianDescription: "A video and sound work depicting insomnia – specifically the physical and real room where sleeplessness takes place, combined with excerpts from a "night book," a diary written only on nights when sleep is absent.",
+    description: "Et video- og lydverk som skildrer insomnia – nærmere bestemt det fysiske og virkelige rommet der søvnløsheten utspiller seg, satt sammen med utdrag fra en 'nattbok,' en dagbok som kun skrives på netter der søvnen uteblir.",
+    norwegianDescription: "A video and sound work depicting insomnia – specifically the physical and real room where sleeplessness takes place, combined with excerpts from a 'night book,' a diary written only on nights when sleep is absent.",
     year: '2023',
     location: 'Oslo Gallery',
     imageSrc: 'https://images.unsplash.com/photo-1489278353717-f64c6ee8a4d2?auto=format&fit=crop&w=800&q=80',
