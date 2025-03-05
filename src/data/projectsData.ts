@@ -36,6 +36,9 @@ export const previousProjects: Project[] = [
     year: '2023',
     location: 'White box, KHiO',
     imageSrc: 'https://khio.no/system/images/W1siZiIsIjIwMjMvMDgvMjQvb3p4N2E4NHcwX3BsYWthdF8xNy4wMC5wbmciXSxbInAiLCJ0aHVtYiIsIjE1MzZ4MTE1MiJdLFsicCIsImVuY29kZSIsIndlYnAiLCItcXVhbGl0eSA5MCJdXQ/plakat%2017.00.webp',
+    additionalImages: [
+      'https://dl.dropboxusercontent.com/s/fi/57pgme3kvk86cxkq5thhj/cc10.jpg?rlkey=jdl06lbz3fvwk4kchy2mbrfav&st=6wtjh55f&dl=0'
+    ],
     videoUrl: 'https://player.vimeo.com/video/1059750892',
   },
   {
