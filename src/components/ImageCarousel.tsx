@@ -132,7 +132,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
           <img 
             src={src} 
             alt={`${title} - image ${index + 1}`} 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain" // Changed from object-cover to object-contain
             loading={index === currentImageIndex ? "eager" : "lazy"}
             onError={() => handleImageError(src)}
             onLoad={() => handleImageLoad(src)}
