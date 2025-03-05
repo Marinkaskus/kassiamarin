@@ -50,7 +50,7 @@ const About = () => {
                   In my video works, I capture the stillness of the world around me, while inner thoughts and fragmented narratives disrupt that silence.
                 </p>
 
-                  <p>
+                 <p>
                     Ultimately, I seek to explore how our memories shape our understanding of the world and our identities.   
                     I believe that through art, we can reframe and re-interpret our pasts, creating new ways of seeing and being.   
                     My hope is that my work invites the viewer to reflect on their own memories and experiences, fostering a deeper connection to their own inner worlds and to the world around them.
