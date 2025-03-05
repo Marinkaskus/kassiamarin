@@ -88,7 +88,7 @@ const Index = () => {
             <div className="relative">
               <div className="absolute -bottom-6 -left-6 w-3/4 h-3/4 bg-accent -z-10"></div>
               <img 
-                src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=800&q=80" 
+                src="https://dl.dropboxusercontent.com/s/fi/e9m3o8jrdfqu2f7npi4u4/IMG_20210428_194746.jpg?rlkey=um38ypc42lecml4t5bghlqffp&st=7kcl5mdy&dl=0" 
                 alt="Kassia Marin in her studio" 
                 className="w-full h-auto object-cover"
               />
