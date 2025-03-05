@@ -10,8 +10,9 @@ const galleryImages = [
     alt: 'Jeg tenker ikke på dere lengre close-up',
     title: 'Jeg tenker ikke på dere lenger ',
     year: '2024',
-    medium: 'Ink on tille',
-    dimensions: '80 × 100 cm',
+    medium: 'Installasjon; Ink on tille',
+    dimensions: '7 x 2 m',
+    Prosjekt: 'Et område dekket av fliser. Gulvet du går på er utsmykket med oppslukende, varierte og skjøre malerier, som flyter inn og ut av hverandre. Maleriene forteller om minner, drømmer og mareritt – alt som foregår i tankenes verden, de søvnløse nettene når det eneste selskapet man har er sin egen fortid og fantasi. Gjennom handlingen av å gå på flisene, forandrer tilskueren verket og blir en del av det.',
   },
   {
     id: 2,
