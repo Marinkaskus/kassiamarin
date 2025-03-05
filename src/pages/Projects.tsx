@@ -1,7 +1,7 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '@/components/Layout';
-import { ExternalLink, Footprints } from 'lucide-react';
+import { ExternalLink, Footprints, History } from 'lucide-react';
 
 interface Project {
   id: number;
@@ -13,6 +13,7 @@ interface Project {
   additionalImages?: string[];
   url?: string;
   norwegianDescription?: string;
+  isEarlier?: boolean;
 }
 
 const projects: Project[] = [
@@ -58,8 +59,50 @@ const projects: Project[] = [
   },
 ];
 
+// Adding earlier projects
+const earlierProjects: Project[] = [
+  {
+    id: 5,
+    title: 'Fragments of Memory',
+    description: 'An exploration of the fragility of memory through a series of fragmented photographs and text-based installations.',
+    year: '2019',
+    location: 'Nordic Arts Festival, Copenhagen',
+    imageSrc: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=800&q=80',
+    isEarlier: true,
+  },
+  {
+    id: 6,
+    title: 'Echoes of Light',
+    description: 'A light-based installation exploring the interplay between natural and artificial light sources in enclosed spaces.',
+    year: '2018',
+    location: 'Modern Art Museum, Gothenburg',
+    imageSrc: 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=800&q=80',
+    url: '#',
+    isEarlier: true,
+  },
+  {
+    id: 7,
+    title: 'Beneath the Surface',
+    description: 'A mixed media exhibition examining the hidden layers of urban landscapes and architectural structures.',
+    year: '2017',
+    location: 'Contemporary Arts Space, Oslo',
+    imageSrc: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=80',
+    isEarlier: true,
+  },
+];
+
 const Projects = () => {
-  // Let's add some debug code to see what's happening with the images
+  const [showEarlierProjects, setShowEarlierProjects] = useState(false);
+  
+  // Combine all projects
+  const allProjects = [...projects, ...earlierProjects];
+  
+  // Filter projects based on selection
+  const displayedProjects = showEarlierProjects 
+    ? allProjects.filter(project => project.isEarlier) 
+    : projects;
+  
+  // Log for debugging
   console.log("Project images:", projects[0].imageSrc, projects[0].additionalImages);
   
   return (
@@ -73,10 +116,31 @@ const Projects = () => {
               A curated selection of exhibitions, collaborations, and commissioned works 
               from throughout my artistic career.
             </p>
+            
+            {/* Toggle between current and earlier projects */}
+            <div className="flex items-center justify-center mt-8 space-x-4">
+              <button 
+                onClick={() => setShowEarlierProjects(false)}
+                className={`px-4 py-2 rounded-full transition-colors ${!showEarlierProjects 
+                  ? 'bg-primary text-primary-foreground' 
+                  : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}
+              >
+                Current Projects
+              </button>
+              <button 
+                onClick={() => setShowEarlierProjects(true)}
+                className={`px-4 py-2 rounded-full flex items-center transition-colors ${showEarlierProjects 
+                  ? 'bg-primary text-primary-foreground' 
+                  : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}
+              >
+                <History size={16} className="mr-2" />
+                Earlier Projects
+              </button>
+            </div>
           </div>
           
           <div className="space-y-20">
-            {projects.map((project, index) => {
+            {displayedProjects.map((project, index) => {
               console.log(`Rendering project ${project.id} with image: ${project.imageSrc}`);
               return (
                 <div 
@@ -154,6 +218,13 @@ const Projects = () => {
               );
             })}
           </div>
+          
+          {/* Display a message when no projects are available for the selected category */}
+          {displayedProjects.length === 0 && (
+            <div className="text-center py-16">
+              <p className="text-lg text-muted-foreground">No projects to display in this category.</p>
+            </div>
+          )}
         </div>
       </section>
     </Layout>
