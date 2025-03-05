@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { useToast } from '@/hooks/use-toast';
-import { Mail, MapPin, Phone, Instagram, Linkedin, ExternalLink } from 'lucide-react';
+import { Mail, Phone, Instagram, Linkedin, ExternalLink } from 'lucide-react';
 
 const Contact = () => {
   const { toast } = useToast();
@@ -53,7 +53,7 @@ const Contact = () => {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-12 animate-fade-in-up">
+          <div className="grid md:grid-cols-2 gap-12 animate-fade-in-up">
             <div className="bg-secondary p-8 rounded-lg text-center flex flex-col items-center">
               <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center mb-4">
                 <Mail size={20} />
@@ -61,7 +61,7 @@ const Contact = () => {
               <h3 className="text-lg font-medium">Email</h3>
               <p className="mt-2 text-muted-foreground">kassiamarin486@gmail.com</p>
               <a 
-                href="kassiamarin486@gmail.com" 
+                href="mailto:kassiamarin486@gmail.com" 
                 className="mt-4 text-sm font-medium hover:opacity-70 transition-opacity"
               >
                 Send an email
@@ -75,29 +75,10 @@ const Contact = () => {
               <h3 className="text-lg font-medium">Phone</h3>
               <p className="mt-2 text-muted-foreground">+47 909 66 965</p>
               <a 
-                href="tel:+47123456789" 
+                href="tel:+47909 66 965" 
                 className="mt-4 text-sm font-medium hover:opacity-70 transition-opacity"
               >
                 Call me
-              </a>
-            </div>
-            
-            <div className="bg-secondary p-8 rounded-lg text-center flex flex-col items-center">
-              <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center mb-4">
-                <MapPin size={20} />
-              </div>
-              <h3 className="text-lg font-medium">Studio</h3>
-              <p className="mt-2 text-muted-foreground">
-                Art District, 456 Creative St.<br />
-                Oslo, Norway
-              </p>
-              <a 
-                href="https://maps.google.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="mt-4 text-sm font-medium hover:opacity-70 transition-opacity"
-              >
-                View on map
               </a>
             </div>
           </div>
