@@ -55,7 +55,7 @@ export const previousProjects: Project[] = [
     norwegianDescription: 'Livets tre er en videoinstallasjon der en video av en pustende, kvinnelig torso kombineres med en stubbe med samme form som et hofteparti. I bakgrunnen hører vi en ujevn pusting med varierende intensitet. Med dette arbeidet utforsker jeg prioriteringer mennesker gjør med tanke på teknologi kontra det å oppleve en levende natur der og da. Skal det foreviges eller oppleves?',
     year: '2019',
     location: 'Galleri X, Oslo',
-    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/xwyetgu2q8q18u58ll6ay/thumb-3.jpg?rlkey=86l0vdpwvpbosf2utyn6ff5um&st=c6z0ofqy&dl=0',
-    videoUrl: 'https://player.vimeo.com/video/485936188',
+    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/qp6h3a25u59dc0ehumdr1/IMG_0783.jpg?rlkey=5ssco64fg6qqo9pzy29l6rpze&st=h5fz1abs&dl=0',
+    videoUrl: 'https://player.vimeo.com/video/503458155',
   },
 ];
