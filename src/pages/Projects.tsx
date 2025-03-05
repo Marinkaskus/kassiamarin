@@ -26,7 +26,7 @@ const previousProjects = [
     norwegianDescription: 'Et område dekket av fliser. Gulvet du går på er utsmykket med oppslukende, varierte og skjøre malerier, som flyter inn og ut av hverandre. Maleriene forteller om minner, drømmer og mareritt – alt som foregår i tankenes verden, de søvnløse nettene når det eneste selskapet man har er sin egen fortid og fantasi. Gjennom handlingen av å gå på flisene, forandrer tilskueren verket og blir en del av det.',
     year: '2024',
     location: 'Oslo kunstforening',
-    imageSrc: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=80',
+    imageSrc: 'https://storage.googleapis.com/gpt-engineer-file-uploads/XDmtjvK23Va49uZSa12BUDRhgQn1/f2efb2f2-ce9b-48ab-8be5-a9d35626f1bc?Expires=1741193746&GoogleAccessId=admin-2%40gpt-engineer-390607.iam.gserviceaccount.com&Signature=qt6fNYOSS31IcmF3RTwZ4b97YqI0yF3MvCJ0nD9yPNyv%2BlrC650Nl0Gd4wHVTR%2Fw4FFvz4FegBZCpmlbyZ5duERH3xV%2BOp5j%2Fj9cMLIpYSf4UIFUuQ%2FaahS5ljfOj0aZarxSsTmJsXHcjF7rB0GeHzOu1Bp5TisJ15hWP4YHNoLwqCduCAkhFe%2BX1jun%2FPZ0J5VfEsRU5KlBoNQ3i6bPM1M%2FJG%2FnjbWsZbAXEMby7wtR6ZI6lovfFHsJ0LGyZB7CtbywrNQPEy8OE%2BucnwHuETLzWk%2BpF6m%2FeiwxkxBpigKLF8AQuWFm9y91AYN9zbYc4oMGZDhAG0V5lXybSFap5w%3D%3D',
     additionalImages: [
       'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&w=800&q=80', 
       'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=800&q=80'
