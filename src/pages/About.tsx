@@ -25,29 +25,21 @@ const About = () => {
               
               <div className="space-y-6 text-muted-foreground animate-fade-in">
                 <p>
-                  I am a contemporary visual artist based in Norway, working across painting, mixed media, text, and video art.
-                  My practice delves into the complex nature of memory, identity, and perception. 
-                  I explore how personal histories are shaped by time and how memories, often fragile and elusive, can be transformed and distorted over time. 
-                  Through my work, I examine the constant negotiation between the past and the present, questioning the reliability of memory and its emotional weight.
+                  I am a contemporary visual artist based in Norway, working across painting, mixed media, text, and video art. My practice delves into the complex nature of memory, identity, and perception. I explore how personal histories are shaped by time and how memories, often fragile and elusive, can be transformed and distorted over time. Through my work, I examine the constant negotiation between the past and the present, questioning the reliability of memory and its emotional weight.
+                <p>
+                After completing my formal education in Fine Arts at the Oslo National Academy of the Arts, I’ve dedicated my career to exploring how our memories and dreams influence our emotional and psychological landscapes. My work often intertwines text and imagery, creating a dialogue that bridges personal experience with broader universal themes.
                 </p>
                 
                 <p>
-                  After completing my formal education in Fine Arts at the Oslo National Academy of the Arts, 
-                  I've dedicated my career to developing a unique visual language that bridges traditional 
-                  techniques with modern perspectives.
+                  The core of my artistic process involves both introspection and external observation. I immerse myself in moments of stillness, such as sleepless nights, where memories, dreams, and fragmented thoughts resurface. These moments provide me with material for my work, which often manifests through layered paintings and video installations. I use these mediums to evoke emotional responses, capturing the instability of memory and the fluidity of time.
                 </p>
                 
                 <p>
-                  My artistic process begins with immersion in natural environments, gathering impressions 
-                  and emotional responses that later translate into abstract and semi-representational works. 
-                  Through layering, experimentation with materials, and intuitive mark-making, each piece 
-                  evolves organically into a visual dialogue between deliberate intention and spontaneous discovery.
+                A key aspect of my practice is incorporating text into my work, a method I use to manifest thoughts and memories that might otherwise fade. I see the act of writing as a way to translate ephemeral experiences into something concrete, bridging the gap between thought and reality. In my video works, I capture the stillness of the world around me, while inner thoughts and fragmented narratives disrupt that silence.
                 </p>
-                
-                <p>
-                  I believe art has the power to offer new ways of seeing and understanding our relationship 
-                  with the world around us. My hope is that my work creates moments of connection, reflection, 
-                  and perhaps a rediscovery of beauty in the overlooked aspects of our everyday experience.
+
+                  <p>
+               Ultimately, I seek to explore how our memories shape our understanding of the world and our identities. I believe that through art, we can reframe and re-interpret our pasts, creating new ways of seeing and being. My hope is that my work invites the viewer to reflect on their own memories and experiences, fostering a deeper connection to their own inner worlds and to the world around them.
                 </p>
               </div>
             </div>
