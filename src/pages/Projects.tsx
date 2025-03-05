@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { ExternalLink, Footprints, ChevronLeft, ChevronRight, Play } from 'lucide-react';
@@ -29,8 +28,7 @@ const previousProjects = [
     imageSrc: '/lovable-uploads/add91e58-7000-44db-996b-86fc82d9e9c7.png',
     additionalImages: [
       '/lovable-uploads/f2efb2f2-ce9b-48ab-8be5-a9d35626f1bc.png', 
-      '/lovable-uploads/13dd4769-1557-4729-999f-639f146f9e82.png',
-      '/lovable-uploads/315985ab-9acd-46ab-9335-83db6a0d319d.png'
+      '/lovable-uploads/13dd4769-1557-4729-999f-639f146f9e82.png'
     ],
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
     url: '#',
@@ -94,6 +92,7 @@ const previousProjects = [
 
 const ImageCarousel = ({ images, title }: { images: string[], title: string }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
   
   const goToNextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -103,19 +102,31 @@ const ImageCarousel = ({ images, title }: { images: string[], title: string }) =
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
 
+  const handleImageError = (imageSrc: string) => {
+    console.error(`Failed to load image: ${imageSrc}`);
+    setImageErrors(prev => ({...prev, [imageSrc]: true}));
+  };
+
+  const validImages = images.filter(img => !imageErrors[img]);
+  
+  if (validImages.length === 0) {
+    return (
+      <div className="relative w-full aspect-[4/3] overflow-hidden bg-muted flex items-center justify-center">
+        <p className="text-muted-foreground">Image not available</p>
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full aspect-[4/3] overflow-hidden group">
       <img 
-        src={images[currentImageIndex]} 
+        src={validImages[currentImageIndex % validImages.length]} 
         alt={`${title} - image ${currentImageIndex + 1}`} 
         className="w-full h-full object-cover transition-opacity duration-300"
-        onError={(e) => {
-          console.error(`Failed to load image: ${images[currentImageIndex]}`);
-          e.currentTarget.src = 'https://via.placeholder.com/800x600?text=Image+Not+Found';
-        }}
+        onError={() => handleImageError(validImages[currentImageIndex % validImages.length])}
       />
       
-      {images.length > 1 && (
+      {validImages.length > 1 && (
         <>
           <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 group-hover:opacity-100 transition-opacity">
             <button 
@@ -135,11 +146,11 @@ const ImageCarousel = ({ images, title }: { images: string[], title: string }) =
           </div>
           
           <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-            {images.map((_, index) => (
+            {validImages.map((_, index) => (
               <button
                 key={index}
                 className={`w-2 h-2 rounded-full transition-colors ${
-                  index === currentImageIndex ? 'bg-primary' : 'bg-background/70'
+                  index === (currentImageIndex % validImages.length) ? 'bg-primary' : 'bg-background/70'
                 }`}
                 onClick={() => setCurrentImageIndex(index)}
                 aria-label={`Go to image ${index + 1}`}
@@ -161,9 +172,6 @@ const Projects = () => {
     setVideoDialogOpen(true);
   };
   
-  // Log for debugging
-  console.log("Project images:", previousProjects.length > 0 ? previousProjects[0].imageSrc : "No projects");
-  
   return (
     <Layout>
       <section className="pt-32 pb-20">
@@ -179,9 +187,6 @@ const Projects = () => {
           
           <div className="space-y-20">
             {previousProjects.map((project, index) => {
-              console.log(`Rendering project ${project.id} with image: ${project.imageSrc}`);
-              
-              // Determine which images to show in the carousel
               const carouselImages = project.additionalImages 
                 ? [project.imageSrc, ...project.additionalImages]
                 : [project.imageSrc];
