@@ -64,8 +64,8 @@ const About = () => {
                 <ul className="space-y-4">
                   <li>
                     <div className="text-sm text-muted-foreground">2021 - 2024</div>
-                    <div className="font-medium">Bachelor of Arts, Visual Studies</div>
-                    <div>Bergen Academy of Art and Design, Norway</div>
+                    <div className="font-medium">Bachelor of Fine Art</div>
+                    <div>Oslo National Academy of The Arts</div>
                   </li>
                   <li>
                     <div className="text-sm text-muted-foreground">2019 - 2021</div>
