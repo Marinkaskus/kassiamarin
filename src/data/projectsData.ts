@@ -45,7 +45,7 @@ export const previousProjects: Project[] = [
     norwegianDescription: 'Tidskapsel er en skulptur- og videoinstallasjon. Skulpturen er bygd opp av lekablokker fra et deponi i nærheten og etterligner en ruin; formen speiler sandtaket i bakgrunnen av skulpturen. Arbeidet er stedsspesifikt og befinner seg på Hagtvet i Larvik. Jeg ønsket å bygge installasjonen på et sted som blir overtatt av mennesker og projisere en video av ulike steder i nærområdet der det motsatte skjer – naturen gjenerobrer naturen etter menneskelige inngrep. Hva etterlater vi oss? Klarer vi å leve i symbiose eller er det krig?',
     year: '2022',
     location: 'Hagtvet, Larvik',
-    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/fon52yeofhk9l8qw5fujp/2L5A5963.jpg?rlkey=vavbxmfxxu42hm6uc39u84k3l&st=t8rgx9jv&dl=0',
+    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/xwyetgu2q8q18u58ll6ay/thumb-3.jpg?rlkey=86l0vdpwvpbosf2utyn6ff5um&st=c6z0ofqy&dl=0',
     videoUrl: 'https://player.vimeo.com/video/485936188',
   },
 ];
