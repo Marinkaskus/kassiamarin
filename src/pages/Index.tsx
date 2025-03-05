@@ -69,9 +69,11 @@ const Index = () => {
               <h2 className="text-3xl md:text-4xl font-medium mt-2">Kassia Marin</h2>
               <div className="mt-6 space-y-4 text-muted-foreground">
                 <p>
-                  As a contemporary visual artist, I'm fascinated by the intersection of natural forms 
-                  and abstract expression. My work explores themes of transition, memory, and environmental consciousness.
+                  As a contemporary visual artist, I explore themes of memory, transformation, and the fragility of experience.
+                  My work blends personal narratives with abstract expression, translating fleeting memories and emotions into tangible forms.Through painting, text, and mixed media, I examine how time shapes our recollections and the tension between presence and absence. By layering materials and incorporating text, I invite viewers to reflect on their own connections to memory and identity.
+                  In a world dominated by digital experiences, I believe in the enduring power of material art to foster introspection and authentic connection.
                 </p>
+                
                 <p>
                   With a background in both traditional and digital mediums, I create pieces that invite 
                   viewers to experience familiar scenes through a contemplative lens.
