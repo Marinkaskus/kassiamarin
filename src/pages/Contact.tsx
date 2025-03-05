@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { useToast } from '@/hooks/use-toast';
@@ -96,7 +97,7 @@ const Contact = () => {
                 <ExternalLink size={16} />
               </a>
               <a 
-                href="https://linkedin.com/in/kassiamarin" 
+                href="https://www.linkedin.com/in/kassia-marin-31207934a/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors"
