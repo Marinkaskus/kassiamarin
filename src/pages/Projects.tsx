@@ -1,7 +1,7 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '@/components/Layout';
-import { ExternalLink, Footprints } from 'lucide-react';
+import { ExternalLink, Footprints, ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 interface Project {
   id: number;
@@ -11,6 +11,7 @@ interface Project {
   location: string;
   imageSrc: string;
   additionalImages?: string[];
+  videoUrl?: string;
   url?: string;
   norwegianDescription?: string;
 }
@@ -29,6 +30,7 @@ const previousProjects = [
       '/lovable-uploads/07247a31-eeb0-4255-8104-4f83cceefd72.png', 
       '/lovable-uploads/c3d9c883-d45d-4f54-a15e-048158033c3d.png'
     ],
+    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
     url: '#',
   },
   {
@@ -38,6 +40,10 @@ const previousProjects = [
     year: '2023',
     location: 'Contemporary Art Gallery, Oslo',
     imageSrc: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=80',
+    additionalImages: [
+      'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80'
+    ],
     url: '#',
   },
   {
@@ -84,7 +90,75 @@ const previousProjects = [
   },
 ];
 
+const ImageCarousel = ({ images, title }: { images: string[], title: string }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  const goToNextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
+
+  const goToPrevImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+  };
+
+  return (
+    <div className="relative w-full aspect-[4/3] overflow-hidden group">
+      <img 
+        src={images[currentImageIndex]} 
+        alt={`${title} - image ${currentImageIndex + 1}`} 
+        className="w-full h-full object-cover transition-opacity duration-300"
+        onError={(e) => {
+          console.error(`Failed to load image: ${images[currentImageIndex]}`);
+          e.currentTarget.src = 'https://via.placeholder.com/800x600?text=Image+Not+Found';
+        }}
+      />
+      
+      {images.length > 1 && (
+        <>
+          <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button 
+              className="bg-background/70 text-foreground p-2 rounded-full hover:bg-background/90 transition-colors"
+              onClick={goToPrevImage}
+              aria-label="Previous image"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button 
+              className="bg-background/70 text-foreground p-2 rounded-full hover:bg-background/90 transition-colors"
+              onClick={goToNextImage}
+              aria-label="Next image"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+          
+          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  index === currentImageIndex ? 'bg-primary' : 'bg-background/70'
+                }`}
+                onClick={() => setCurrentImageIndex(index)}
+                aria-label={`Go to image ${index + 1}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
 const Projects = () => {
+  const [videoDialogOpen, setVideoDialogOpen] = useState(false);
+  const [currentVideoUrl, setCurrentVideoUrl] = useState("");
+  
+  const openVideoDialog = (videoUrl: string) => {
+    setCurrentVideoUrl(videoUrl);
+    setVideoDialogOpen(true);
+  };
+  
   // Log for debugging
   console.log("Project images:", previousProjects.length > 0 ? previousProjects[0].imageSrc : "No projects");
   
@@ -104,22 +178,20 @@ const Projects = () => {
           <div className="space-y-20">
             {previousProjects.map((project, index) => {
               console.log(`Rendering project ${project.id} with image: ${project.imageSrc}`);
+              
+              // Determine which images to show in the carousel
+              const carouselImages = project.additionalImages 
+                ? [project.imageSrc, ...project.additionalImages]
+                : [project.imageSrc];
+                
               return (
                 <div 
                   key={project.id}
                   className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 lg:gap-16 items-center animate-fade-in`}
                   style={{ animationDelay: `${index * 150}ms` }}
                 >
-                  <div className="w-full lg:w-1/2 aspect-[4/3] overflow-hidden">
-                    <img 
-                      src={project.imageSrc} 
-                      alt={project.title} 
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        console.error(`Failed to load image: ${project.imageSrc}`);
-                        e.currentTarget.src = 'https://via.placeholder.com/800x600?text=Image+Not+Found';
-                      }}
-                    />
+                  <div className="w-full lg:w-1/2">
+                    <ImageCarousel images={carouselImages} title={project.title} />
                   </div>
                   
                   <div className="w-full lg:w-1/2">
@@ -141,33 +213,27 @@ const Projects = () => {
                       </p>
                     )}
                     
-                    {project.additionalImages && project.additionalImages.length > 0 && (
-                      <div className="mt-6 grid grid-cols-2 gap-4">
-                        {project.additionalImages.map((img, i) => (
-                          <img 
-                            key={i} 
-                            src={img} 
-                            alt={`${project.title} - additional view ${i+1}`}
-                            className="w-full h-48 object-cover"
-                            onError={(e) => {
-                              console.error(`Failed to load additional image: ${img}`);
-                              e.currentTarget.src = 'https://via.placeholder.com/800x600?text=Image+Not+Found';
-                            }}
-                          />
-                        ))}
-                      </div>
-                    )}
-                    
-                    {project.url && (
-                      <a 
-                        href={project.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center mt-6 text-sm font-medium hover:opacity-70 transition-opacity"
-                      >
-                        View Project <ExternalLink size={16} className="ml-2" />
-                      </a>
-                    )}
+                    <div className="mt-6 flex flex-wrap gap-4">
+                      {project.url && (
+                        <a 
+                          href={project.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"
+                        >
+                          View Project <ExternalLink size={16} className="ml-2" />
+                        </a>
+                      )}
+                      
+                      {project.videoUrl && (
+                        <button 
+                          onClick={() => openVideoDialog(project.videoUrl!)}
+                          className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"
+                        >
+                          Watch Video <Play size={16} className="ml-2" />
+                        </button>
+                      )}
+                    </div>
                     
                     {project.id === 4 && (
                       <div className="mt-4 flex items-center text-muted-foreground">
@@ -182,6 +248,21 @@ const Projects = () => {
           </div>
         </div>
       </section>
+      
+      <Dialog open={videoDialogOpen} onOpenChange={setVideoDialogOpen}>
+        <DialogContent className="max-w-4xl w-[90vw] max-h-[90vh] p-0 overflow-hidden">
+          <div className="aspect-video w-full">
+            <iframe
+              src={currentVideoUrl}
+              title="Project Video"
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              frameBorder="0"
+            ></iframe>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 };
