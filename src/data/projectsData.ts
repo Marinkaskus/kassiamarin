@@ -1,4 +1,3 @@
-
 import { Project } from "@/types/Project";
 
 export const previousProjects: Project[] = [
@@ -10,7 +9,7 @@ export const previousProjects: Project[] = [
     year: '2022',
     location: 'Hagtvet, Larvik',
     imageSrc: 'https://dl.dropboxusercontent.com/s/fi/fon52yeofhk9l8qw5fujp/2L5A5963.jpg?rlkey=vavbxmfxxu42hm6uc39u84k3l&st=t8rgx9jv&dl=0',
-    videoUrl: 'https://player.vimeo.com/video/1059750892',
+    videoUrl: 'https://player.vimeo.com/video/485936188',
   },
   {
     id: 4,
