@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { Footprints, ExternalLink, Play, VideoOff, Moon, ZoomIn } from 'lucide-react';
+import { Footprints, ExternalLink, Play, VideoOff, Moon, ZoomIn, ArrowLeft, ArrowRight } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
 import { Project } from '@/types/Project';
 import { toast } from '@/components/ui/use-toast';
@@ -16,6 +15,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   const [showVideo, setShowVideo] = useState(false);
   const [videoError, setVideoError] = useState(false);
   const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const carouselImages = project.additionalImages 
     ? [project.imageSrc, ...project.additionalImages]
     : [project.imageSrc];
@@ -51,8 +51,25 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
     });
   };
 
-  const handleImageClick = (imageSrc: string) => {
+  const handleImageClick = (imageSrc: string, idx: number) => {
     setEnlargedImage(imageSrc);
+    setCurrentImageIndex(idx);
+  };
+  
+  const handlePreviousImage = () => {
+    if (!project.additionalImages) return;
+    
+    const newIndex = (currentImageIndex - 1 + project.additionalImages.length) % project.additionalImages.length;
+    setCurrentImageIndex(newIndex);
+    setEnlargedImage(project.additionalImages[newIndex]);
+  };
+  
+  const handleNextImage = () => {
+    if (!project.additionalImages) return;
+    
+    const newIndex = (currentImageIndex + 1) % project.additionalImages.length;
+    setCurrentImageIndex(newIndex);
+    setEnlargedImage(project.additionalImages[newIndex]);
   };
   
   return (
@@ -173,7 +190,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
           </div>
         )}
         
-        {/* Image gallery with smaller thumbnails and click-to-enlarge functionality */}
         {isChildrenProject && project.additionalImages && project.additionalImages.length > 0 && (
           <div className="mt-8">
             <h3 className="text-sm font-medium mb-3">Gallery</h3>
@@ -182,7 +198,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
                 <div 
                   key={idx} 
                   className="aspect-square overflow-hidden rounded-md cursor-pointer relative group"
-                  onClick={() => handleImageClick(image)}
+                  onClick={() => handleImageClick(image, idx)}
                 >
                   <img 
                     src={image} 
@@ -198,16 +214,47 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
           </div>
         )}
 
-        {/* Image Enlargement Dialog */}
         <Dialog open={!!enlargedImage} onOpenChange={() => setEnlargedImage(null)}>
           <DialogContent className="max-w-4xl p-0 overflow-hidden bg-black/90">
             {enlargedImage && (
-              <div className="flex items-center justify-center w-full h-full p-4">
+              <div className="relative flex items-center justify-center w-full h-full">
                 <img 
                   src={enlargedImage} 
                   alt="Enlarged project image" 
-                  className="max-w-full max-h-[80vh] object-contain"
+                  className="max-w-full max-h-[80vh] object-contain p-4"
                 />
+                
+                {project.additionalImages && project.additionalImages.length > 1 && (
+                  <>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handlePreviousImage();
+                      }}
+                      className="absolute left-4 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                      aria-label="Previous image"
+                    >
+                      <ArrowLeft size={24} />
+                    </button>
+                    
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleNextImage();
+                      }}
+                      className="absolute right-4 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                      aria-label="Next image"
+                    >
+                      <ArrowRight size={24} />
+                    </button>
+                    
+                    <div className="absolute bottom-4 left-0 right-0 flex justify-center">
+                      <div className="bg-black/50 px-3 py-1 rounded-full text-white text-sm">
+                        {currentImageIndex + 1} / {project.additionalImages.length}
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             )}
           </DialogContent>
