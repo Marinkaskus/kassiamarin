@@ -166,6 +166,24 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
             <span className="text-sm italic">A diary of sleepless nights presented through video and sound</span>
           </div>
         )}
+        
+        {/* Add image gallery for Children's Children project */}
+        {isChildrenProject && project.additionalImages && project.additionalImages.length > 0 && (
+          <div className="mt-8">
+            <h3 className="text-sm font-medium mb-3">Gallery</h3>
+            <div className="grid grid-cols-3 gap-2">
+              {project.additionalImages.map((image, idx) => (
+                <div key={idx} className="aspect-square overflow-hidden rounded-md">
+                  <img 
+                    src={image} 
+                    alt={`${project.title} - additional image ${idx + 1}`}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
