@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
-import { ExternalLink, Footprints, ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import { ExternalLink, Footprints, ChevronLeft, ChevronRight, Play, AlertCircle } from 'lucide-react';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import ImageUploadHelper from '@/components/ImageUploadHelper';
 
 interface Project {
   id: number;
@@ -16,7 +17,6 @@ interface Project {
   norwegianDescription?: string;
 }
 
-// Combined list of all previous projects
 const previousProjects = [
   {
     id: 4,
@@ -166,10 +166,15 @@ const ImageCarousel = ({ images, title }: { images: string[], title: string }) =
 const Projects = () => {
   const [videoDialogOpen, setVideoDialogOpen] = useState(false);
   const [currentVideoUrl, setCurrentVideoUrl] = useState("");
+  const [showUploadHelper, setShowUploadHelper] = useState(true);
   
   const openVideoDialog = (videoUrl: string) => {
     setCurrentVideoUrl(videoUrl);
     setVideoDialogOpen(true);
+  };
+
+  const handleImageUpload = (imagePath: string) => {
+    console.log("New image path:", imagePath);
   };
   
   return (
@@ -184,6 +189,20 @@ const Projects = () => {
               from throughout my artistic career.
             </p>
           </div>
+
+          {showUploadHelper && (
+            <div className="mb-16 animate-fade-in">
+              <ImageUploadHelper onImageUpload={handleImageUpload} />
+              <div className="flex justify-center mt-4">
+                <button 
+                  onClick={() => setShowUploadHelper(false)}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Hide this guide
+                </button>
+              </div>
+            </div>
+          )}
           
           <div className="space-y-20">
             {previousProjects.map((project, index) => {
