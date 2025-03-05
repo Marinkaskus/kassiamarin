@@ -116,7 +116,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
         )}
         
         <div className="mt-6 flex flex-wrap gap-4">
-          {project.url && (
+          {/* Only display the View Project button if it's not project ID 4 ("Jeg tenker ikke på dere lenger") and has a URL */}
+          {project.url && project.id !== 4 && (
             <a 
               href={project.url}
               target="_blank"
