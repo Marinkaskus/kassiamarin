@@ -10,6 +10,7 @@ interface ImageCarouselProps {
 const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, title }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
+  const [imagesLoaded, setImagesLoaded] = useState<Record<string, boolean>>({});
   
   // Filter out images with errors
   const validImages = images.filter(img => !imageErrors[img]);
@@ -18,6 +19,13 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, title }) => {
   useEffect(() => {
     if (validImages.length > 0 && currentImageIndex >= validImages.length) {
       setCurrentImageIndex(0);
+    }
+    
+    // Preload the next image to improve performance
+    if (validImages.length > 1) {
+      const nextIndex = (currentImageIndex + 1) % validImages.length;
+      const img = new Image();
+      img.src = validImages[nextIndex];
     }
   }, [validImages.length, currentImageIndex]);
   
@@ -36,6 +44,10 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, title }) => {
     setImageErrors(prev => ({...prev, [imageSrc]: true}));
   };
   
+  const handleImageLoad = (imageSrc: string) => {
+    setImagesLoaded(prev => ({...prev, [imageSrc]: true}));
+  };
+  
   if (validImages.length === 0) {
     return (
       <div className="relative w-full aspect-[4/3] overflow-hidden bg-muted flex items-center justify-center">
@@ -49,16 +61,32 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, title }) => {
 
   return (
     <div className="relative w-full aspect-[4/3] overflow-hidden group">
-      <img 
-        src={validImages[currentImageIndex]} 
-        alt={`${title} - image ${currentImageIndex + 1}`} 
-        className="w-full h-full object-cover transition-opacity duration-300"
-        onError={() => handleImageError(validImages[currentImageIndex])}
-      />
+      {validImages.map((src, index) => (
+        <div 
+          key={src} 
+          className={`absolute inset-0 transition-opacity duration-300 ${
+            index === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+          }`}
+        >
+          {!imagesLoaded[src] && (
+            <div className="absolute inset-0 bg-muted flex items-center justify-center">
+              <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          )}
+          <img 
+            src={src} 
+            alt={`${title} - image ${index + 1}`} 
+            className="w-full h-full object-cover"
+            loading={index === currentImageIndex ? "eager" : "lazy"}
+            onError={() => handleImageError(src)}
+            onLoad={() => handleImageLoad(src)}
+          />
+        </div>
+      ))}
       
       {validImages.length > 1 && (
         <>
-          <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 group-hover:opacity-100 transition-opacity z-20">
             <button 
               className="bg-background/70 text-foreground p-2 rounded-full hover:bg-background/90 transition-colors"
               onClick={goToPrevImage}
@@ -75,7 +103,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, title }) => {
             </button>
           </div>
           
-          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-20">
             {validImages.map((_, index) => (
               <button
                 key={index}

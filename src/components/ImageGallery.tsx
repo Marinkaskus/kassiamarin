@@ -23,6 +23,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
   columns = 3 
 }) => {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
+  const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
 
   const handleImageClick = (image: GalleryImage) => {
     setSelectedImage(image);
@@ -30,6 +31,11 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   const closeDialog = () => {
     setSelectedImage(null);
+  };
+
+  const handleImageError = (imageId: number) => {
+    console.error(`Failed to load image with ID: ${imageId}`);
+    setImageErrors(prev => ({...prev, [imageId]: true}));
   };
 
   const getGridClass = () => {
@@ -42,10 +48,13 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
     }
   };
 
+  // Filter out images with loading errors
+  const validImages = images.filter(img => !imageErrors[img.id]);
+
   return (
     <>
       <div className={`grid ${getGridClass()} gap-6 md:gap-8`}>
-        {images.map((image, index) => (
+        {validImages.map((image, index) => (
           <div 
             key={image.id} 
             className="group relative overflow-hidden aspect-square cursor-pointer animate-fade-in"
@@ -57,6 +66,8 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
             <img 
               src={image.src} 
               alt={image.alt}
+              loading="lazy"
+              onError={() => handleImageError(image.id)}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
             
