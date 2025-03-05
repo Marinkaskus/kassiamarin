@@ -1,9 +1,10 @@
 
 import React, { useState } from 'react';
-import { Footprints, ExternalLink, Play, VideoOff, Moon } from 'lucide-react';
+import { Footprints, ExternalLink, Play, VideoOff, Moon, ZoomIn } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
 import { Project } from '@/types/Project';
 import { toast } from '@/components/ui/use-toast';
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 interface ProjectCardProps {
   project: Project;
@@ -14,6 +15,7 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }) => {
   const [showVideo, setShowVideo] = useState(false);
   const [videoError, setVideoError] = useState(false);
+  const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
   const carouselImages = project.additionalImages 
     ? [project.imageSrc, ...project.additionalImages]
     : [project.imageSrc];
@@ -47,6 +49,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
       description: "The video couldn't be loaded. Please try again later.",
       variant: "destructive"
     });
+  };
+
+  const handleImageClick = (imageSrc: string) => {
+    setEnlargedImage(imageSrc);
   };
   
   return (
@@ -167,23 +173,45 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
           </div>
         )}
         
-        {/* Add image gallery for Children's Children project */}
+        {/* Image gallery with smaller thumbnails and click-to-enlarge functionality */}
         {isChildrenProject && project.additionalImages && project.additionalImages.length > 0 && (
           <div className="mt-8">
             <h3 className="text-sm font-medium mb-3">Gallery</h3>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-4 gap-2">
               {project.additionalImages.map((image, idx) => (
-                <div key={idx} className="aspect-square overflow-hidden rounded-md">
+                <div 
+                  key={idx} 
+                  className="aspect-square overflow-hidden rounded-md cursor-pointer relative group"
+                  onClick={() => handleImageClick(image)}
+                >
                   <img 
                     src={image} 
                     alt={`${project.title} - additional image ${idx + 1}`}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <ZoomIn size={20} className="text-white" />
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         )}
+
+        {/* Image Enlargement Dialog */}
+        <Dialog open={!!enlargedImage} onOpenChange={() => setEnlargedImage(null)}>
+          <DialogContent className="max-w-4xl p-0 overflow-hidden bg-black/90">
+            {enlargedImage && (
+              <div className="flex items-center justify-center w-full h-full p-4">
+                <img 
+                  src={enlargedImage} 
+                  alt="Enlarged project image" 
+                  className="max-w-full max-h-[80vh] object-contain"
+                />
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
