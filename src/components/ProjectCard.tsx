@@ -1,6 +1,6 @@
 
-import React from 'react';
-import { Footprints, ExternalLink } from 'lucide-react';
+import React, { useState } from 'react';
+import { Footprints, ExternalLink, Play } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
 import { Project } from '@/types/Project';
 import ImageGallery from './ImageGallery';
@@ -12,12 +12,19 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }) => {
+  const [showVideo, setShowVideo] = useState(false);
   const carouselImages = project.additionalImages 
     ? [project.imageSrc, ...project.additionalImages]
     : [project.imageSrc];
   
-  // Use VideoDialog directly for project with ID 8 (Children's children)
+  // Special handling for project with ID 8 (Children's children)
   const isChildrenProject = project.id === 8;
+  
+  const handleVideoThumbnailClick = () => {
+    if (isChildrenProject && project.videoUrl) {
+      setShowVideo(true);
+    }
+  };
   
   return (
     <div 
@@ -25,34 +32,39 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
       style={{ animationDelay: `${index * 150}ms` }}
     >
       <div className="w-full lg:w-1/2">
-        {isChildrenProject && project.videoUrl ? (
-          <div className="w-full aspect-video mb-4">
-            <iframe
-              src={project.videoUrl}
-              title={`${project.title} Video`}
-              className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              frameBorder="0"
-            ></iframe>
-          </div>
-        ) : (
-          project.id === 8 ? (
-            <div className="w-full aspect-[4/3] overflow-hidden">
+        {isChildrenProject ? (
+          showVideo && project.videoUrl ? (
+            <div className="w-full aspect-video mb-4">
+              <iframe
+                src={project.videoUrl}
+                title={`${project.title} Video`}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                frameBorder="0"
+              ></iframe>
+            </div>
+          ) : (
+            <div className="w-full aspect-[4/3] overflow-hidden relative group cursor-pointer" onClick={handleVideoThumbnailClick}>
               <img 
                 src={project.imageSrc}
                 alt={project.title}
                 className="w-full h-full object-contain"
               />
+              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <div className="bg-background/80 rounded-full p-4">
+                  <Play size={32} className="text-primary" />
+                </div>
+              </div>
             </div>
-          ) : (
-            <ImageCarousel 
-              images={carouselImages} 
-              title={project.title} 
-              autoPlay={true}
-              interval={6000} // 6 seconds between slides for a user-friendly pace
-            />
           )
+        ) : (
+          <ImageCarousel 
+            images={carouselImages} 
+            title={project.title} 
+            autoPlay={true}
+            interval={6000} // 6 seconds between slides for a user-friendly pace
+          />
         )}
       </div>
       
