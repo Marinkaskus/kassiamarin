@@ -29,21 +29,6 @@ export const previousProjects: Project[] = [
     videoUrl: 'https://player.vimeo.com/video/1059761252',
   },
   {
-    id: 11,
-    title: "Play Date",
-    description: "An exhibition combining film and installation to explore the fluid boundaries between memory, control and play. The work examines how childhood rituals and games evolve into complex power dynamics in adult life—where innocence, desire, and autonomy merge.",
-    norwegianDescription: "Play Date er en utstilling som kombinerer film og installasjon for å utforske de flytende grensene mellom minner, kontroll og lek. Arbeidet undersøker hvordan barndommens ritualer og leker utvikler seg til komplekse maktdynamikker i voksenlivet—hvor uskyld, begjær og autonomi smelter sammen. Gjennom lagdelte visuelle narrativer, sanselige installasjoner og fragmenterte fortellinger inviterer Play Date betrakteren inn i et rom hvor lek både er en trygg havn og en forhandlingsarena. Ekko av godnatthistorier, skjulte frykter og usagte regler skaper en spenning mellom nostalgi og ubehag. Utstillingen utfordrer vår oppfatning av selvbestemmelse og stiller spørsmål ved hvem som egentlig har kontroll—både i lekene vi leker og minnene vi skaper.",
-    year: '2022',
-    location: 'Skylight, KHiO',
-    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/2vofamm386geerey80qin/Uten-navn-2.jpg?rlkey=kw2y0lkfbdcdp8ly3o24s5btb&st=24dv0aan&dl=0',
-    additionalImages: [
-      'https://dl.dropboxusercontent.com/s/fi/57pgme3kvk86cxkq5thhj/cc10.jpg?rlkey=jdl06lbz3fvwk4kchy2mbrfav&st=6wtjh55f&dl=0',
-      'https://dl.dropboxusercontent.com/s/fi/7jdq3ptvpckxpbqrcsfys/cc7.jpg?rlkey=9trcz6yasextffr3l1bufpcjt&st=tbhd34c0&dl=0',
-      'https://dl.dropboxusercontent.com/s/fi/1e74927g9u0jxmq2w4xmw/cc9.jpg?rlkey=2afhjf5i5rm32vhg4f2rgwo0l&st=opwaadp4&dl=0'
-    ],
-    videoUrl: 'https://player.vimeo.com/video/1059750892',
-  },
-  {
     id: 8,
     title: "Children's children",
     description: "An exhibition concerning generational turbulence. Focusing on the changes in a mother daughter relationship trying to find a new way of depending on each other. A meeting in-between time. A moment for communication and conversation. An attempt at understanding and allowing space for differences.",
@@ -54,6 +39,18 @@ export const previousProjects: Project[] = [
     additionalImages: [
       'https://dl.dropboxusercontent.com/s/fi/57pgme3kvk86cxkq5thhj/cc10.jpg?rlkey=jdl06lbz3fvwk4kchy2mbrfav&st=6wtjh55f&dl=0',
       'https://dl.dropboxusercontent.com/s/fi/89s0l10vq7xdpzxbcricb/cc2.jpg?rlkey=aek38t8fjhjofhicsiqbks3b5&st=ep50n65w&dl=0',
+    ],
+    videoUrl: 'https://player.vimeo.com/video/1059750892',
+  },
+  {
+    id: 11,
+    title: "Play Date",
+    description: "An exhibition combining film and installation to explore the fluid boundaries between memory, control and play. The work examines how childhood rituals and games evolve into complex power dynamics in adult life—where innocence, desire, and autonomy merge.",
+    norwegianDescription: "Play Date er en utstilling som kombinerer film og installasjon for å utforske de flytende grensene mellom minner, kontroll og lek. Arbeidet undersøker hvordan barndommens ritualer og leker utvikler seg til komplekse maktdynamikker i voksenlivet—hvor uskyld, begjær og autonomi smelter sammen. Gjennom lagdelte visuelle narrativer, sanselige installasjoner og fragmenterte fortellinger inviterer Play Date betrakteren inn i et rom hvor lek både er en trygg havn og en forhandlingsarena. Ekko av godnatthistorier, skjulte frykter og usagte regler skaper en spenning mellom nostalgi og ubehag. Utstillingen utfordrer vår oppfatning av selvbestemmelse og stiller spørsmål ved hvem som egentlig har kontroll—både i lekene vi leker og minnene vi skaper.",
+    year: '2022',
+    location: 'Skylight, KHiO',
+    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/2vofamm386geerey80qin/Uten-navn-2.jpg?rlkey=kw2y0lkfbdcdp8ly3o24s5btb&st=24dv0aan&dl=0',
+    additionalImages: [
       'https://dl.dropboxusercontent.com/s/fi/7jdq3ptvpckxpbqrcsfys/cc7.jpg?rlkey=9trcz6yasextffr3l1bufpcjt&st=tbhd34c0&dl=0',
       'https://dl.dropboxusercontent.com/s/fi/1e74927g9u0jxmq2w4xmw/cc9.jpg?rlkey=2afhjf5i5rm32vhg4f2rgwo0l&st=opwaadp4&dl=0'
     ],
