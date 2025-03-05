@@ -16,8 +16,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
     ? [project.imageSrc, ...project.additionalImages]
     : [project.imageSrc];
   
-  // Use ImageGallery instead of ImageCarousel for project with ID 8 (Children's children)
-  const useGallery = project.id === 8;
+  // Use VideoDialog directly for project with ID 8 (Children's children)
+  const isChildrenProject = project.id === 8;
   
   return (
     <div 
@@ -25,25 +25,34 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
       style={{ animationDelay: `${index * 150}ms` }}
     >
       <div className="w-full lg:w-1/2">
-        {useGallery ? (
-          <ImageGallery 
-            images={carouselImages.map((src, i) => ({
-              id: i,
-              src,
-              alt: project.title,
-              title: project.title,
-              year: project.year
-            }))} 
-            columns={1}
-            videoUrl={project.videoUrl}
-          />
+        {isChildrenProject && project.videoUrl ? (
+          <div className="w-full aspect-video mb-4">
+            <iframe
+              src={project.videoUrl}
+              title={`${project.title} Video`}
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              frameBorder="0"
+            ></iframe>
+          </div>
         ) : (
-          <ImageCarousel 
-            images={carouselImages} 
-            title={project.title} 
-            autoPlay={true}
-            interval={6000} // 6 seconds between slides for a user-friendly pace
-          />
+          project.id === 8 ? (
+            <div className="w-full aspect-[4/3] overflow-hidden">
+              <img 
+                src={project.imageSrc}
+                alt={project.title}
+                className="w-full h-full object-contain"
+              />
+            </div>
+          ) : (
+            <ImageCarousel 
+              images={carouselImages} 
+              title={project.title} 
+              autoPlay={true}
+              interval={6000} // 6 seconds between slides for a user-friendly pace
+            />
+          )
         )}
       </div>
       
