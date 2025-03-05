@@ -33,9 +33,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
     setShowVideo(false);
   };
 
-  const handleVideoClick = () => {
-    setShowVideo(true);
-    setSelectedImage(null);
+  const toggleVideo = () => {
+    setShowVideo(prev => !prev);
+    if (selectedImage) setSelectedImage(null);
   };
 
   const closeDialog = () => {
@@ -63,11 +63,44 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   return (
     <>
+      <div className="w-full aspect-[4/3] overflow-hidden mb-4 relative">
+        {showVideo && videoUrl ? (
+          <iframe
+            src={videoUrl}
+            title="Exhibition Video"
+            className="w-full h-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            frameBorder="0"
+          ></iframe>
+        ) : (
+          validImages.length > 0 && (
+            <img 
+              src={selectedImage ? selectedImage.src : validImages[0].src} 
+              alt={selectedImage ? selectedImage.alt : validImages[0].alt}
+              className="w-full h-full object-cover"
+            />
+          )
+        )}
+        
+        {videoUrl && (
+          <button
+            onClick={toggleVideo}
+            className="absolute bottom-4 right-4 bg-background/70 text-foreground p-2 rounded-full hover:bg-background/90 transition-colors"
+            aria-label={showVideo ? "Show image" : "Show video"}
+          >
+            <Play size={16} className={showVideo ? "opacity-50" : "opacity-100"} />
+          </button>
+        )}
+      </div>
+
       <div className={`grid ${getGridClass()} gap-6 md:gap-8`}>
         {validImages.map((image, index) => (
           <div 
             key={image.id} 
-            className="group relative overflow-hidden aspect-square cursor-pointer animate-fade-in"
+            className={`group relative overflow-hidden aspect-square cursor-pointer animate-fade-in ${
+              selectedImage?.id === image.id ? 'ring-2 ring-primary' : ''
+            }`}
             style={{ animationDelay: `${index * 100}ms` }}
             onClick={() => handleImageClick(image)}
           >
@@ -87,35 +120,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
             </div>
           </div>
         ))}
-        
-        {videoUrl && (
-          <div 
-            className="group relative overflow-hidden aspect-square cursor-pointer animate-fade-in"
-            style={{ animationDelay: `${validImages.length * 100}ms` }}
-            onClick={handleVideoClick}
-          >
-            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-all duration-300 z-10 flex items-center justify-center">
-              <div className="bg-white/80 rounded-full p-4 transform scale-90 group-hover:scale-100 transition-transform duration-300">
-                <Play size={32} className="text-black" />
-              </div>
-            </div>
-            
-            <img 
-              src={validImages.length > 0 ? validImages[0].src : ''}
-              alt="Video thumbnail"
-              loading="lazy"
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-            
-            <div className="absolute inset-0 p-6 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-              <h3 className="text-lg font-medium text-white drop-shadow-md">Watch Video</h3>
-              <p className="text-sm text-white/90 drop-shadow-md">Exhibition video</p>
-            </div>
-          </div>
-        )}
       </div>
 
-      <Dialog open={!!selectedImage || showVideo} onOpenChange={closeDialog}>
+      <Dialog open={!!selectedImage} onOpenChange={closeDialog}>
         <DialogContent className="max-w-4xl w-[90vw] p-0 bg-background">
           <DialogClose className="absolute right-4 top-4 z-10 rounded-full p-2 bg-background/80 text-foreground hover:bg-accent transition-colors">
             <X size={20} />
@@ -148,19 +155,6 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
                   </p>
                 )}
               </div>
-            </div>
-          )}
-          
-          {showVideo && videoUrl && (
-            <div className="aspect-video w-full">
-              <iframe
-                src={videoUrl}
-                title="Exhibition Video"
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                frameBorder="0"
-              ></iframe>
             </div>
           )}
         </DialogContent>

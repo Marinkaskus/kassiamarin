@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Footprints, ExternalLink, Play } from 'lucide-react';
+import { Footprints, ExternalLink } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
 import { Project } from '@/types/Project';
 import ImageGallery from './ImageGallery';
@@ -76,15 +76,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
             >
               View Project <ExternalLink size={16} className="ml-2" />
             </a>
-          )}
-          
-          {project.videoUrl && !useGallery && (
-            <button 
-              onClick={() => onVideoPlay(project.videoUrl!)}
-              className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"
-            >
-              Watch Video <Play size={16} className="ml-2" />
-            </button>
           )}
         </div>
         
