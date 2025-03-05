@@ -1,4 +1,3 @@
-
 import { Project } from "@/types/Project";
 
 export const previousProjects: Project[] = [
@@ -8,7 +7,7 @@ export const previousProjects: Project[] = [
     description: "An exhibition concerning generational turbulence. Focusing on the changes in a mother daughter relationship trying to find a new way of depending on each other. A meeting in-between time. A moment for communication and conversation. An attempt at understanding and allowing space for differences.",
     year: '2023',
     location: 'Oslo Gallery',
-    imageSrc: 'https://khio.no/system/images/W1siZiIsIjIwMjMvMDgvMjQvb3p4N2E4NHcwX3BsYWthdF8xNy4wMC5wbmciXSxbInAiLCJ0aHVtYiIsIjE1MzZ4MTE1MiJdLFsicCIsImVuY29kZSIsIndlYnAiLCItcXVhbGl0eSA5MCJdXQ/plakat%2017.00.webp',
+    imageSrc: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=80',
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
   },
   {
