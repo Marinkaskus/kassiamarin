@@ -25,7 +25,7 @@ const previousProjects = [
     norwegianDescription: 'Et område dekket av fliser. Gulvet du går på er utsmykket med oppslukende, varierte og skjøre malerier, som flyter inn og ut av hverandre. Maleriene forteller om minner, drømmer og mareritt – alt som foregår i tankenes verden, de søvnløse nettene når det eneste selskapet man har er sin egen fortid og fantasi. Gjennom handlingen av å gå på flisene, forandrer tilskueren verket og blir en del av det.',
     year: '2024',
     location: Oslo kunstforening,
-    imageSrc: '/lovable-uploads/e9b9ccf2-3848-4e6c-b3b8-355ecc19d86a.png',
+    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/fon52yeofhk9l8qw5fujp/2L5A5963.jpg?rlkey=vavbxmfxxu42hm6uc39u84k3l&st=aglaqi5o&dl=0',
     additionalImages: [
       '/lovable-uploads/07247a31-eeb0-4255-8104-4f83cceefd72.png', 
       '/lovable-uploads/c3d9c883-d45d-4f54-a15e-048158033c3d.png'
