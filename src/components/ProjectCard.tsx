@@ -21,12 +21,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   // Special handling for projects with videos
   const isChildrenProject = project.id === 8;
   const isInsomniaProject = project.id === 9;
-  const hasVideoFeature = isChildrenProject || isInsomniaProject;
+  const isTidskapselProject = project.id === 7;
+  const hasVideoFeature = isChildrenProject || isInsomniaProject || isTidskapselProject;
   
   const handleVideoThumbnailClick = () => {
     if (hasVideoFeature && project.videoUrl) {
       setShowVideo(true);
       setVideoError(false); // Reset error state when trying to play
+    }
+  };
+
+  const handlePlayInDialog = () => {
+    if (project.videoUrl) {
+      onVideoPlay(project.videoUrl);
     }
   };
 
@@ -128,6 +135,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
             >
               View Project <ExternalLink size={16} className="ml-2" />
             </a>
+          )}
+          
+          {hasVideoFeature && project.videoUrl && (
+            <button
+              onClick={handlePlayInDialog}
+              className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"
+            >
+              Watch Video <Play size={16} className="ml-2" />
+            </button>
           )}
         </div>
         
