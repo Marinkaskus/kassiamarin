@@ -31,7 +31,7 @@ const previousProjects = [
     additionalImages: [
       'https://dl.dropboxusercontent.com/s/fi/fon52yeofhk9l8qw5fujp/2L5A5963.jpg?rlkey=vavbxmfxxu42hm6uc39u84k3l&st=t8rgx9jv&dl=0',
       'https://dl.dropboxusercontent.com/s/fi/cswbeyjg5e5blime22rwa/2L5A5988.JPG?rlkey=hib4omvi8202oszrst9x5l3wj&st=siunjjsl&dl=0',
-      'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=800&q=80',
+      'https://dl.dropboxusercontent.com/s/fi/11ylxog7ysek28cs2u6oh/2L5A5975.JPG?rlkey=6jocfmdggnxgybkgr6n0w5qvu&st=f8utwh2i&dl=0',
     ],
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
     url: '#',
