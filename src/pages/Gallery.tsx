@@ -6,8 +6,8 @@ import ImageGallery from '@/components/ImageGallery';
 const galleryImages = [
   {
     id: 1,
-    src: 'https://drive.google.com/uc?export=view&id=FILE_ID/1NLfaRTGNiVK0WU7hrILWj8Zr1rvgPAx4/view?usp=drive_link',
-    alt: 'Vibrant orange flowers in close-up',
+    src: 'https://drive.google.com/file/d/1NLfaRTGNiVK0WU7hrILWj8Zr1rvgPAx4/view?usp=drive_link',
+    alt: 'Jeg tenker ikke på dere lengre close-up',
     title: 'Jeg tenker ikke på dere lenger ',
     year: '2024',
     medium: 'Ink on tille',
