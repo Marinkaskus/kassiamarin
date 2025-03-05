@@ -6,7 +6,7 @@ import ImageGallery from '@/components/ImageGallery';
 const galleryImages = [
   {
     id: 1,
-    src: 'https://drive.google.com/uc?id=FILE_ID1Iz-B85UC3Nwugn5nZEOM1rkYrmr2hwwb',
+    src: 'https://drive.google.com/thumbnail?id=FILE_ID1Iz-B85UC3Nwugn5nZEOM1rkYrmr2hwwb',
     alt: 'Jeg tenker ikke på dere lengre close-up',
     title: 'Jeg tenker ikke på dere lenger ',
     year: '2024',
