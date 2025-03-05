@@ -38,7 +38,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
             videoUrl={project.videoUrl}
           />
         ) : (
-          <ImageCarousel images={carouselImages} title={project.title} />
+          <ImageCarousel 
+            images={carouselImages} 
+            title={project.title} 
+            autoPlay={true}
+            interval={6000} // 6 seconds between slides for a user-friendly pace
+          />
         )}
       </div>
       
