@@ -59,7 +59,7 @@ const Contact = () => {
                 <Mail size={20} />
               </div>
               <h3 className="text-lg font-medium">Email</h3>
-              <p className="mt-2 text-muted-foreground">contact@kassiamarin.com</p>
+              <p className="mt-2 text-muted-foreground">kassiamarin486@gmail.com</p>
               <a 
                 href="kassiamarin486@gmail.com" 
                 className="mt-4 text-sm font-medium hover:opacity-70 transition-opacity"
@@ -73,7 +73,7 @@ const Contact = () => {
                 <Phone size={20} />
               </div>
               <h3 className="text-lg font-medium">Phone</h3>
-              <p className="mt-2 text-muted-foreground">+47 kassiamarin486@gmail.com</p>
+              <p className="mt-2 text-muted-foreground">+47 909 66 965</p>
               <a 
                 href="tel:+47123456789" 
                 className="mt-4 text-sm font-medium hover:opacity-70 transition-opacity"
