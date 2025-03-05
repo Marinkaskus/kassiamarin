@@ -1,42 +1,15 @@
-
 import React from 'react';
 import Layout from '@/components/Layout';
 import HeroSection from '@/components/HeroSection';
-import ImageGallery from '@/components/ImageGallery';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-
-const featuredImages = [
-  {
-    id: 1,
-    src: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=80',
-    alt: 'Vibrant orange flowers in close-up',
-    title: 'Nature\'s Palette',
-    year: '2023',
-    medium: 'Oil on canvas',
-    dimensions: '80 × 100 cm',
-  },
-  {
-    id: 2,
-    src: 'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&w=800&q=80',
-    alt: 'Serene river landscape with mountains',
-    title: 'Mountain Stream',
-    year: '2022',
-    medium: 'Acrylic on canvas',
-    dimensions: '60 × 90 cm',
-  },
-  {
-    id: 3,
-    src: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80',
-    alt: 'Pine trees in a forest',
-    title: 'Forest Whispers',
-    year: '2021',
-    medium: 'Mixed media',
-    dimensions: '70 × 100 cm',
-  },
-];
+import { previousProjects } from '@/data/projectsData';
+import ProjectTeaser from '@/components/ProjectTeaser';
 
 const Index = () => {
+  // Get up to 3 projects for the teaser section
+  const featuredProjects = previousProjects.slice(0, 3);
+  
   return (
     <Layout>
       <HeroSection />
@@ -46,18 +19,22 @@ const Index = () => {
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
             <div>
               <span className="text-sm uppercase tracking-widest text-muted-foreground">Featured Works</span>
-              <h2 className="text-3xl md:text-4xl font-medium mt-2">Recent Creations</h2>
+              <h2 className="text-3xl md:text-4xl font-medium mt-2">Recent Projects</h2>
             </div>
             <Link 
-              to="/gallery" 
+              to="/projects" 
               className="group flex items-center text-sm font-medium mt-4 md:mt-0 hover:opacity-70 transition-opacity"
             >
-              View all works 
+              View all projects 
               <ArrowRight size={16} className="ml-2 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
           
-          <ImageGallery images={featuredImages} />
+          <div className="grid md:grid-cols-3 gap-8">
+            {featuredProjects.map((project) => (
+              <ProjectTeaser key={project.id} project={project} />
+            ))}
+          </div>
         </div>
       </section>
       
