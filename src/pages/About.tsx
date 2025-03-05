@@ -110,11 +110,11 @@ const About = () => {
                   Through an intuitive process of layering, mark-making, and material exploration, my pieces invite viewers to step into a space where memories are not simply recalled but reinterpreted. 
                   In doing so, I attempt to give form to that which is often intangible — the fragile nature of memory itself.
                 </p>
+                
+                <p>
                   Each artwork is a meditation on presence and absence, on the balance between remembering and forgetting, and on the ephemeral quality of our personal histories.
                   My practice emphasizes the ongoing dialogue between what we perceive and what we cannot fully grasp. 
                   In a time when our experiences are often mediated through digital screens, I believe in the enduring power of physical artworks to forge authentic connections, to provoke introspection, and to offer a space for reflection on the nature of memory and identity.
-                <p>
-
                 </p>
               </div>
             </div>
