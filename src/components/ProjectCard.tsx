@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Footprints, ExternalLink, Play, VideoOff } from 'lucide-react';
+import { Footprints, ExternalLink, Play, VideoOff, Moon } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
 import { Project } from '@/types/Project';
 import { toast } from '@/components/ui/use-toast';
@@ -18,11 +18,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
     ? [project.imageSrc, ...project.additionalImages]
     : [project.imageSrc];
   
-  // Special handling for project with ID 8 (Children's children)
+  // Special handling for projects with videos
   const isChildrenProject = project.id === 8;
+  const isInsomniaProject = project.id === 9;
+  const hasVideoFeature = isChildrenProject || isInsomniaProject;
   
   const handleVideoThumbnailClick = () => {
-    if (isChildrenProject && project.videoUrl) {
+    if (hasVideoFeature && project.videoUrl) {
       setShowVideo(true);
       setVideoError(false); // Reset error state when trying to play
     }
@@ -43,7 +45,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
       style={{ animationDelay: `${index * 150}ms` }}
     >
       <div className="w-full lg:w-1/2">
-        {isChildrenProject ? (
+        {hasVideoFeature ? (
           showVideo && project.videoUrl ? (
             <div className="w-full aspect-video mb-4 relative">
               {videoError ? (
@@ -133,6 +135,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
           <div className="mt-4 flex items-center text-muted-foreground">
             <Footprints size={16} className="mr-2" />
             <span className="text-sm italic">Interactive installation where viewers become part of the artwork</span>
+          </div>
+        )}
+        
+        {isInsomniaProject && (
+          <div className="mt-4 flex items-center text-muted-foreground">
+            <Moon size={16} className="mr-2" />
+            <span className="text-sm italic">A diary of sleepless nights presented through video and sound</span>
           </div>
         )}
       </div>
