@@ -16,7 +16,7 @@ const About = () => {
                 <div className="relative">
                   <div className="absolute -bottom-6 -right-6 w-3/4 h-3/4 bg-accent -z-10"></div>
                   <img 
-                    src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=800&q=80" 
+                    src="https://dl.dropboxusercontent.com/s/fi/88f2ddqseerh4h98t12i8/20230919_113701.jpg?rlkey=usum14gsmbbwz057jrd83zz90&st=559y6b5o&dl=0" 
                     alt="Kassia Marin in her studio" 
                     className="w-full h-auto object-cover"
                   />
