@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { ExternalLink, Footprints, ChevronLeft, ChevronRight, Play, AlertCircle } from 'lucide-react';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { toast } from '@/components/ui/use-toast';
 import ImageUploadHelper from '@/components/ImageUploadHelper';
 
 interface Project {
@@ -25,10 +26,10 @@ const previousProjects = [
     norwegianDescription: 'Et område dekket av fliser. Gulvet du går på er utsmykket med oppslukende, varierte og skjøre malerier, som flyter inn og ut av hverandre. Maleriene forteller om minner, drømmer og mareritt – alt som foregår i tankenes verden, de søvnløse nettene når det eneste selskapet man har er sin egen fortid og fantasi. Gjennom handlingen av å gå på flisene, forandrer tilskueren verket og blir en del av det.',
     year: '2024',
     location: 'Oslo kunstforening',
-    imageSrc: '/lovable-uploads/13a334b4-a61c-4aa4-9002-81edec60ea2d.png',
+    imageSrc: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=80',
     additionalImages: [
-      'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=80', 
-      'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&w=800&q=80'
+      'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&w=800&q=80', 
+      'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=800&q=80'
     ],
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
     url: '#',
@@ -107,12 +108,16 @@ const ImageCarousel = ({ images, title }: { images: string[], title: string }) =
     setImageErrors(prev => ({...prev, [imageSrc]: true}));
   };
 
+  // Filter out images that failed to load
   const validImages = images.filter(img => !imageErrors[img]);
   
   if (validImages.length === 0) {
     return (
       <div className="relative w-full aspect-[4/3] overflow-hidden bg-muted flex items-center justify-center">
-        <p className="text-muted-foreground">Image not available</p>
+        <div className="flex flex-col items-center text-muted-foreground gap-2">
+          <AlertCircle size={24} />
+          <p>Image not available</p>
+        </div>
       </div>
     );
   }
@@ -167,6 +172,7 @@ const Projects = () => {
   const [videoDialogOpen, setVideoDialogOpen] = useState(false);
   const [currentVideoUrl, setCurrentVideoUrl] = useState("");
   const [showUploadHelper, setShowUploadHelper] = useState(true);
+  const [customProjects, setCustomProjects] = useState<Project[]>([]);
   
   const openVideoDialog = (videoUrl: string) => {
     setCurrentVideoUrl(videoUrl);
@@ -174,8 +180,28 @@ const Projects = () => {
   };
 
   const handleImageUpload = (imagePath: string) => {
-    console.log("New image path:", imagePath);
+    // Create a test project with the uploaded image
+    const newProject = {
+      id: Date.now(), // Use timestamp as unique ID
+      title: "Your New Project",
+      description: "Description of your new project. Click to edit your projects.",
+      year: new Date().getFullYear().toString(),
+      location: "Your Location",
+      imageSrc: imagePath,
+    };
+    
+    setCustomProjects(prev => [...prev, newProject]);
+    toast({
+      title: "Image added successfully!",
+      description: "Your image has been added as a new project.",
+    });
+    
+    // Hide the upload helper after successful upload
+    setShowUploadHelper(false);
   };
+  
+  // Combine custom and previous projects
+  const allProjects = [...customProjects, ...previousProjects];
   
   return (
     <Layout>
@@ -205,7 +231,7 @@ const Projects = () => {
           )}
           
           <div className="space-y-20">
-            {previousProjects.map((project, index) => {
+            {allProjects.map((project, index) => {
               const carouselImages = project.additionalImages 
                 ? [project.imageSrc, ...project.additionalImages]
                 : [project.imageSrc];
