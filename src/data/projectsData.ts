@@ -1,4 +1,3 @@
-
 import { Project } from "@/types/Project";
 
 export const previousProjects: Project[] = [
@@ -10,7 +9,7 @@ export const previousProjects: Project[] = [
     year: '2023',
     location: 'Oslo Gallery',
     imageSrc: 'https://images.unsplash.com/photo-1489278353717-f64c6ee8a4d2?auto=format&fit=crop&w=800&q=80',
-    videoUrl: 'https://player.vimeo.com/video/1059750892',
+    videoUrl: 'https://player.vimeo.com/video/1059761252',
   },
   {
     id: 8,
