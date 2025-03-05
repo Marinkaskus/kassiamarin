@@ -215,13 +215,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
         )}
 
         <Dialog open={!!enlargedImage} onOpenChange={() => setEnlargedImage(null)}>
-          <DialogContent className="max-w-4xl p-0 overflow-hidden bg-black/90">
+          <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 border-0 overflow-hidden bg-transparent shadow-none">
             {enlargedImage && (
               <div className="relative flex items-center justify-center w-full h-full">
                 <img 
                   src={enlargedImage} 
                   alt="Enlarged project image" 
-                  className="max-w-full max-h-[80vh] object-contain p-4"
+                  className="max-w-full max-h-[90vh] object-contain"
                 />
                 
                 {project.additionalImages && project.additionalImages.length > 1 && (
@@ -231,7 +231,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
                         e.stopPropagation();
                         handlePreviousImage();
                       }}
-                      className="absolute left-4 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                      className="absolute left-2 p-3 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/40 transition-colors"
                       aria-label="Previous image"
                     >
                       <ArrowLeft size={24} />
@@ -242,14 +242,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
                         e.stopPropagation();
                         handleNextImage();
                       }}
-                      className="absolute right-4 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                      className="absolute right-2 p-3 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/40 transition-colors"
                       aria-label="Next image"
                     >
                       <ArrowRight size={24} />
                     </button>
                     
-                    <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-                      <div className="bg-black/50 px-3 py-1 rounded-full text-white text-sm">
+                    <div className="absolute bottom-6 left-0 right-0 flex justify-center">
+                      <div className="bg-black/30 backdrop-blur-sm px-4 py-1.5 rounded-full text-white text-sm">
                         {currentImageIndex + 1} / {project.additionalImages.length}
                       </div>
                     </div>
