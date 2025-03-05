@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Footprints, ExternalLink, Play, VideoOff, Moon } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
@@ -18,7 +17,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
     ? [project.imageSrc, ...project.additionalImages]
     : [project.imageSrc];
   
-  // Special handling for projects with videos
   const isChildrenProject = project.id === 8;
   const isInsomniaProject = project.id === 9;
   const isTidskapselProject = project.id === 7;
@@ -28,7 +26,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   const handleVideoThumbnailClick = () => {
     if (hasVideoFeature && project.videoUrl) {
       setShowVideo(true);
-      setVideoError(false); // Reset error state when trying to play
+      setVideoError(false);
     }
   };
 
@@ -101,7 +99,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
             images={carouselImages} 
             title={project.title} 
             autoPlay={true}
-            interval={6000} // 6 seconds between slides for a user-friendly pace
+            interval={6000}
           />
         )}
       </div>
@@ -109,8 +107,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
       <div className="w-full lg:w-1/2">
         <div className="flex items-center">
           <span className="text-sm uppercase tracking-widest text-muted-foreground">{project.year}</span>
-          <span className="mx-3 text-muted-foreground">•</span>
-          <span className="text-sm text-muted-foreground">{project.location}</span>
+          {project.location && (
+            <>
+              <span className="mx-3 text-muted-foreground">•</span>
+              <span className="text-sm text-muted-foreground">{project.location}</span>
+            </>
+          )}
         </div>
         
         <h2 className="text-2xl md:text-3xl font-medium mt-2">{project.title}</h2>
@@ -126,7 +128,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
         )}
         
         <div className="mt-6 flex flex-wrap gap-4">
-          {/* Only display the View Project button if it's not project ID 4 ("Jeg tenker ikke på dere lenger") and has a URL */}
           {project.url && project.id !== 4 && (
             <a 
               href={project.url}

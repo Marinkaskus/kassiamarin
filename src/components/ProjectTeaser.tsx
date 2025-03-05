@@ -32,8 +32,12 @@ const ProjectTeaser: React.FC<ProjectTeaserProps> = ({ project }) => {
       <div>
         <div className="flex items-center mb-2">
           <span className="text-xs uppercase tracking-wider text-muted-foreground">{project.year}</span>
-          <span className="mx-2 text-muted-foreground">•</span>
-          <span className="text-xs text-muted-foreground">{project.location}</span>
+          {project.location && (
+            <>
+              <span className="mx-2 text-muted-foreground">•</span>
+              <span className="text-xs text-muted-foreground">{project.location}</span>
+            </>
+          )}
         </div>
         
         <h3 className="text-lg font-medium mb-2">{project.title}</h3>
