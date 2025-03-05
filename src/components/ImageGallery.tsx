@@ -78,7 +78,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
             <img 
               src={selectedImage ? selectedImage.src : validImages[0].src} 
               alt={selectedImage ? selectedImage.alt : validImages[0].alt}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           )
         )}
