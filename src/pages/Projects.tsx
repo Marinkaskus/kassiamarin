@@ -1,10 +1,8 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { ExternalLink, Footprints, ChevronLeft, ChevronRight, Play, AlertCircle } from 'lucide-react';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { toast } from '@/components/ui/use-toast';
-import ImageUploadHelper from '@/components/ImageUploadHelper';
 
 interface Project {
   id: number;
@@ -172,31 +170,11 @@ const ImageCarousel = ({ images, title }: { images: string[], title: string }) =
 const Projects = () => {
   const [videoDialogOpen, setVideoDialogOpen] = useState(false);
   const [currentVideoUrl, setCurrentVideoUrl] = useState("");
-  const [showUploadHelper, setShowUploadHelper] = useState(true);
   const [customProjects, setCustomProjects] = useState<Project[]>([]);
   
   const openVideoDialog = (videoUrl: string) => {
     setCurrentVideoUrl(videoUrl);
     setVideoDialogOpen(true);
-  };
-
-  const handleImageUpload = (imagePath: string) => {
-    const newProject = {
-      id: Date.now(),
-      title: "Your New Project",
-      description: "Description of your new project. Click to edit your projects.",
-      year: new Date().getFullYear().toString(),
-      location: "Your Location",
-      imageSrc: imagePath,
-    };
-    
-    setCustomProjects(prev => [...prev, newProject]);
-    toast({
-      title: "Image added successfully!",
-      description: "Your image has been added as a new project.",
-    });
-    
-    setShowUploadHelper(false);
   };
   
   const allProjects = [...customProjects, ...previousProjects];
@@ -213,20 +191,6 @@ const Projects = () => {
               from throughout my artistic career.
             </p>
           </div>
-
-          {showUploadHelper && (
-            <div className="mb-16 animate-fade-in">
-              <ImageUploadHelper onImageUpload={handleImageUpload} />
-              <div className="flex justify-center mt-4">
-                <button 
-                  onClick={() => setShowUploadHelper(false)}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Hide this guide
-                </button>
-              </div>
-            </div>
-          )}
           
           <div className="space-y-20">
             {allProjects.map((project, index) => {
