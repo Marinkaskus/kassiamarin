@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Footprints, ExternalLink, Play, VideoOff, Moon } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
@@ -21,7 +22,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   const isInsomniaProject = project.id === 9;
   const isTidskapselProject = project.id === 7;
   const isLivetsTreeProject = project.id === 6;
-  const hasVideoFeature = isChildrenProject || isInsomniaProject || isTidskapselProject || isLivetsTreeProject;
+  const isDagdromProject = project.id === 10;
+  const hasVideoFeature = isChildrenProject || isInsomniaProject || isTidskapselProject || isLivetsTreeProject || isDagdromProject;
   
   const handleVideoThumbnailClick = () => {
     if (hasVideoFeature && project.videoUrl) {
