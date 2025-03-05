@@ -37,7 +37,9 @@ export const previousProjects: Project[] = [
     location: 'White box, KHiO',
     imageSrc: 'https://khio.no/system/images/W1siZiIsIjIwMjMvMDgvMjQvb3p4N2E4NHcwX3BsYWthdF8xNy4wMC5wbmciXSxbInAiLCJ0aHVtYiIsIjE1MzZ4MTE1MiJdLFsicCIsImVuY29kZSIsIndlYnAiLCItcXVhbGl0eSA5MCJdXQ/plakat%2017.00.webp',
     additionalImages: [
-      'https://dl.dropboxusercontent.com/s/fi/57pgme3kvk86cxkq5thhj/cc10.jpg?rlkey=jdl06lbz3fvwk4kchy2mbrfav&st=6wtjh55f&dl=0'
+      'https://dl.dropboxusercontent.com/s/fi/57pgme3kvk86cxkq5thhj/cc10.jpg?rlkey=jdl06lbz3fvwk4kchy2mbrfav&st=6wtjh55f&dl=0',
+      'https://dl.dropboxusercontent.com/s/fi/89s0l10vq7xdpzxbcricb/cc2.jpg?rlkey=aek38t8fjhjofhicsiqbks3b5&st=ep50n65w&dl=0',
+      'https://dl.dropboxusercontent.com/s/fi/7jdq3ptvpckxpbqrcsfys/cc7.jpg?rlkey=9trcz6yasextffr3l1bufpcjt&st=tbhd34c0&dl=0'
     ],
     videoUrl: 'https://player.vimeo.com/video/1059750892',
   },
@@ -54,8 +56,8 @@ export const previousProjects: Project[] = [
   {
     id: 7,
     title: 'Tidskapsel',
-    description: 'A sculpture and video installation. The sculpture is built from concrete blocks from a nearby landfill and mimics a ruin; its form mirrors the sand pit in the background. The work is site-specific and located at Hagtvet in Larvik. I wanted to build the installation in a place being taken over by humans and project a video of various places in the surrounding area where the opposite happens – nature reclaims nature after human intervention.',
-    norwegianDescription: 'Tidskapsel er en skulptur- og videoinstallasjon. Skulpturen er bygd opp av lekablokker fra et deponi i nærheten og etterligner en ruin; formen speiler sandtaket i bakgrunnen av skulpturen. Arbeidet er stedsspesifikt og befinner seg på Hagtvet i Larvik. Jeg ønsket å bygge installasjonen på et sted som blir overtatt av mennesker og projisere en video av ulike steder i nærområdet der det motsatte skjer – naturen gjenerobrer naturen etter menneskelige inngrep. Hva etterlater vi oss? Klarer vi å leve i symbiose eller er det krig?',
+    description: 'A sculpture and video installation. The sculpture is built from concrete blocks from a nearby landfill and mimics a ruin; its form mirrors the sand pit in the background of the sculpture. The work is site-specific. I wanted to build the installation in a place being taken over by humans and project a video of various places in the surrounding area where the opposite happens – nature reclaims nature after human intervention.',
+    norwegianDescription: 'Tidskapsel er en skulptur- og videoinstallasjon. Skulpturen er bygd opp av lekablokker fra et deponi i nærheten og etterligner en ruin; formen speiler sandtaket i bakgrunnen av skulpturen. Arbeidet er stedsspesifikt. Jeg ønsket å bygge installasjonen på et sted som blir overtatt av mennesker og projisere en video av ulike steder i nærområdet der det motsatte skjer – naturen gjenerobrer naturen etter menneskelige inngrep. Hva etterlater vi oss? Klarer vi å leve i symbiose eller er det krig?',
     year: '2020',
     location: '',
     imageSrc: 'https://dl.dropboxusercontent.com/s/fi/xwyetgu2q8q18u58ll6ay/thumb-3.jpg?rlkey=86l0vdpwvpbosf2utyn6ff5um&st=c6z0ofqy&dl=0',
