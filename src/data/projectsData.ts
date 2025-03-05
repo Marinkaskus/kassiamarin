@@ -29,16 +29,6 @@ export const previousProjects: Project[] = [
     videoUrl: 'https://player.vimeo.com/video/1059761252',
   },
   {
-    id: 10,
-    title: "Tidskapsel",
-    description: "A sculpture and video installation. The sculpture is built with concrete blocks from a nearby landfill and mimics a ruin; its form mirrors the sand pit in the background. The work is site-specific and located at Hagtvet in Larvik. I wanted to build the installation in a place being taken over by humans and project a video of various places in the surrounding area where the opposite is happening – nature reclaiming itself after human intervention.",
-    norwegianDescription: "Tidskapsel er en skulptur- og videoinstallasjon. Skulpturen er bygd opp av lekablokker fra et deponi i nærheten og etterligner en ruin; formen speiler sandtaket i bakgrunnen av skulpturen. Arbeidet er stedsspesifikt og befinner seg på Hagtvet i Larvik. Jeg ønsket å bygge installasjonen på et sted som blir overtatt av mennesker og projisere en video av ulike steder i nærområdet der det motsatte skjer – naturen gjenerobrer naturen etter menneskelige inngrep. \n\nHva etterlater vi oss? Klarer vi å leve i symbiose eller er det krig?",
-    year: '2023',
-    location: 'Hagtvet, Larvik',
-    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/b5v8uq9woucs38b0aa5f9/thumb-2.jpg?rlkey=1bho4jusi8tta9308753ntxds&st=d5n97g6j&dl=0',
-    videoUrl: 'https://player.vimeo.com/video/1059750892',
-  },
-  {
     id: 8,
     title: "Children's children",
     description: "An exhibition concerning generational turbulence. Focusing on the changes in a mother daughter relationship trying to find a new way of depending on each other. A meeting in-between time. A moment for communication and conversation. An attempt at understanding and allowing space for differences.",
