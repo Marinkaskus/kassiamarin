@@ -84,38 +84,18 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
       </div>
 
       <Dialog open={!!selectedImage} onOpenChange={closeDialog}>
-        <DialogContent className="max-w-4xl w-[90vw] p-0 bg-background">
+        <DialogContent className="max-w-5xl w-[95vw] p-0 bg-background flex items-center justify-center">
           <DialogClose className="absolute right-4 top-4 z-10 rounded-full p-2 bg-background/80 text-foreground hover:bg-accent transition-colors">
             <X size={20} />
           </DialogClose>
           
           {selectedImage && (
-            <div className="grid md:grid-cols-2 min-h-[60vh]">
-              <div className="bg-black flex items-center justify-center p-4">
-                <img
-                  src={selectedImage.src}
-                  alt={selectedImage.alt}
-                  className="max-h-[70vh] w-auto max-w-full object-contain"
-                />
-              </div>
-              <div className="p-8 flex flex-col justify-center">
-                <h3 className="text-2xl font-medium">{selectedImage.title}</h3>
-                <p className="text-muted-foreground mt-1">{selectedImage.year}</p>
-                
-                {selectedImage.medium && (
-                  <p className="mt-4 text-sm">
-                    <span className="text-muted-foreground">Medium: </span>
-                    {selectedImage.medium}
-                  </p>
-                )}
-                
-                {selectedImage.dimensions && (
-                  <p className="mt-2 text-sm">
-                    <span className="text-muted-foreground">Dimensions: </span>
-                    {selectedImage.dimensions}
-                  </p>
-                )}
-              </div>
+            <div className="min-h-[70vh] max-h-[90vh] w-full flex items-center justify-center p-4">
+              <img
+                src={selectedImage.src}
+                alt={selectedImage.alt}
+                className="max-h-full max-w-full object-contain"
+              />
             </div>
           )}
         </DialogContent>
