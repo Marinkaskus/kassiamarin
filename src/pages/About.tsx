@@ -33,7 +33,7 @@ const About = () => {
                 
                 <p>
                   After completing my formal education in Fine Arts at the Oslo National Academy of the Arts,
-                  I’ve dedicated my career to exploring how our memories and dreams influence our emotional and psychological landscapes. 
+                  I've dedicated my career to exploring how our memories and dreams influence our emotional and psychological landscapes. 
                   My work often intertwines text and imagery, creating a dialogue that bridges personal experience with broader universal themes.
                 </p>
                 
@@ -50,10 +50,10 @@ const About = () => {
                   In my video works, I capture the stillness of the world around me, while inner thoughts and fragmented narratives disrupt that silence.
                 </p>
 
-                 <p>
-                    Ultimately, I seek to explore how our memories shape our understanding of the world and our identities.   
-                    I believe that through art, we can reframe and re-interpret our pasts, creating new ways of seeing and being.   
-                    My hope is that my work invites the viewer to reflect on their own memories and experiences, fostering a deeper connection to their own inner worlds and to the world around them.
+                <p>
+                  Ultimately, I seek to explore how our memories shape our understanding of the world and our identities.   
+                  I believe that through art, we can reframe and re-interpret our pasts, creating new ways of seeing and being.   
+                  My hope is that my work invites the viewer to reflect on their own memories and experiences, fostering a deeper connection to their own inner worlds and to the world around them.
                 </p>
               </div>
             </div>
