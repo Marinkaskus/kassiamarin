@@ -21,7 +21,7 @@ const Projects = () => {
         <div className="container-custom">
           <div className="max-w-2xl mx-auto text-center mb-16 animate-fade-in">
             <span className="text-sm uppercase tracking-widest text-muted-foreground">Portfolio</span>
-            <h1 className="text-4xl md:text-5xl font-medium mt-2">Digital CV</h1>
+            <h1 className="text-4xl md:text-5xl font-medium mt-2">CV</h1>
             <p className="mt-4 text-muted-foreground">
               A curated selection of my past exhibitions, collaborations, and commissioned works 
               from throughout my artistic career.

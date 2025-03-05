@@ -26,7 +26,7 @@ const Index = () => {
               to="/digital-cv" 
               className="group flex items-center text-sm font-medium mt-4 md:mt-0 hover:opacity-70 transition-opacity"
             >
-              View digital CV 
+              View CV 
               <ArrowRight size={16} className="ml-2 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
