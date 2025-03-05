@@ -69,6 +69,7 @@ const Gallery = () => {
           <div className="max-w-2xl mx-auto text-center mb-16 animate-fade-in">
             <span className="text-sm uppercase tracking-widest text-muted-foreground">Artwork</span>
             <h1 className="text-4xl md:text-5xl font-medium mt-2">Gallery</h1>
+             <h1 className="text-4xl md:text-5xl font-Prosjekt mt-2">Gallery</h1>
             <p className="mt-4 text-muted-foreground">
               Explore my collection of works spanning various mediums and themes.
               Each piece represents a unique perspective and emotional landscape.
