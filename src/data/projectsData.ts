@@ -1,3 +1,4 @@
+
 import { Project } from "@/types/Project";
 
 export const previousProjects: Project[] = [
@@ -8,7 +9,7 @@ export const previousProjects: Project[] = [
     norwegianDescription: "A video and sound work depicting insomnia – specifically the physical and real room where sleeplessness takes place, combined with excerpts from a 'night book,' a diary written only on nights when sleep is absent.",
     year: '2023',
     location: 'Oslo Gallery',
-    imageSrc: 'https://images.unsplash.com/photo-1489278353717-f64c6ee8a4d2?auto=format&fit=crop&w=800&q=80',
+    imageSrc: 'https://www.dropbox.com/scl/fi/b5v8uq9woucs38b0aa5f9/thumb-2.jpg?rlkey=1bho4jusi8tta9308753ntxds&st=d5n97g6j&dl=0',
     videoUrl: 'https://player.vimeo.com/video/1059761252',
   },
   {
