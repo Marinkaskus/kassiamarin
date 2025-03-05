@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
-import { X } from 'lucide-react';
+import { X, Play } from 'lucide-react';
 
 interface GalleryImage {
   id: number;
@@ -16,21 +16,31 @@ interface GalleryImage {
 interface ImageGalleryProps {
   images: GalleryImage[];
   columns?: number;
+  videoUrl?: string;
 }
 
 const ImageGallery: React.FC<ImageGalleryProps> = ({ 
   images, 
-  columns = 3 
+  columns = 3,
+  videoUrl
 }) => {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
+  const [showVideo, setShowVideo] = useState(false);
 
   const handleImageClick = (image: GalleryImage) => {
     setSelectedImage(image);
+    setShowVideo(false);
+  };
+
+  const handleVideoClick = () => {
+    setShowVideo(true);
+    setSelectedImage(null);
   };
 
   const closeDialog = () => {
     setSelectedImage(null);
+    setShowVideo(false);
   };
 
   const handleImageError = (imageId: number) => {
@@ -77,9 +87,35 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
             </div>
           </div>
         ))}
+        
+        {videoUrl && (
+          <div 
+            className="group relative overflow-hidden aspect-square cursor-pointer animate-fade-in"
+            style={{ animationDelay: `${validImages.length * 100}ms` }}
+            onClick={handleVideoClick}
+          >
+            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-all duration-300 z-10 flex items-center justify-center">
+              <div className="bg-white/80 rounded-full p-4 transform scale-90 group-hover:scale-100 transition-transform duration-300">
+                <Play size={32} className="text-black" />
+              </div>
+            </div>
+            
+            <img 
+              src={validImages.length > 0 ? validImages[0].src : ''}
+              alt="Video thumbnail"
+              loading="lazy"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            
+            <div className="absolute inset-0 p-6 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+              <h3 className="text-lg font-medium text-white drop-shadow-md">Watch Video</h3>
+              <p className="text-sm text-white/90 drop-shadow-md">Exhibition video</p>
+            </div>
+          </div>
+        )}
       </div>
 
-      <Dialog open={!!selectedImage} onOpenChange={closeDialog}>
+      <Dialog open={!!selectedImage || showVideo} onOpenChange={closeDialog}>
         <DialogContent className="max-w-4xl w-[90vw] p-0 bg-background">
           <DialogClose className="absolute right-4 top-4 z-10 rounded-full p-2 bg-background/80 text-foreground hover:bg-accent transition-colors">
             <X size={20} />
@@ -112,6 +148,19 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
                   </p>
                 )}
               </div>
+            </div>
+          )}
+          
+          {showVideo && videoUrl && (
+            <div className="aspect-video w-full">
+              <iframe
+                src={videoUrl}
+                title="Exhibition Video"
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                frameBorder="0"
+              ></iframe>
             </div>
           )}
         </DialogContent>

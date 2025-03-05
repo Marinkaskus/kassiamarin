@@ -3,6 +3,7 @@ import React from 'react';
 import { Footprints, ExternalLink, Play } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
 import { Project } from '@/types/Project';
+import ImageGallery from './ImageGallery';
 
 interface ProjectCardProps {
   project: Project;
@@ -14,14 +15,31 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   const carouselImages = project.additionalImages 
     ? [project.imageSrc, ...project.additionalImages]
     : [project.imageSrc];
-    
+  
+  // Use ImageGallery instead of ImageCarousel for project with ID 8 (Children's children)
+  const useGallery = project.id === 8;
+  
   return (
     <div 
       className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 lg:gap-16 items-center animate-fade-in`}
       style={{ animationDelay: `${index * 150}ms` }}
     >
       <div className="w-full lg:w-1/2">
-        <ImageCarousel images={carouselImages} title={project.title} />
+        {useGallery ? (
+          <ImageGallery 
+            images={carouselImages.map((src, i) => ({
+              id: i,
+              src,
+              alt: project.title,
+              title: project.title,
+              year: project.year
+            }))} 
+            columns={1}
+            videoUrl={project.videoUrl}
+          />
+        ) : (
+          <ImageCarousel images={carouselImages} title={project.title} />
+        )}
       </div>
       
       <div className="w-full lg:w-1/2">
@@ -55,7 +73,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
             </a>
           )}
           
-          {project.videoUrl && (
+          {project.videoUrl && !useGallery && (
             <button 
               onClick={() => onVideoPlay(project.videoUrl!)}
               className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"

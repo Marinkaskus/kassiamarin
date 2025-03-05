@@ -8,6 +8,7 @@ export const previousProjects: Project[] = [
     year: '2023',
     location: 'Oslo Gallery',
     imageSrc: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=80',
+    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
   },
   {
     id: 4,
