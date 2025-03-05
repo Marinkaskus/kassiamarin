@@ -5,19 +5,15 @@ import { Project } from '@/types/Project';
 import { previousProjects } from '@/data/projectsData';
 import ProjectCard from '@/components/ProjectCard';
 import VideoDialog from '@/components/VideoDialog';
-import { toast } from '@/components/ui/use-toast';
 
 const Projects = () => {
   const [videoDialogOpen, setVideoDialogOpen] = useState(false);
   const [currentVideoUrl, setCurrentVideoUrl] = useState("");
-  const [customProjects, setCustomProjects] = useState<Project[]>([]);
   
   const openVideoDialog = (videoUrl: string) => {
     setCurrentVideoUrl(videoUrl);
     setVideoDialogOpen(true);
   };
-  
-  const allProjects = [...customProjects, ...previousProjects];
   
   return (
     <Layout>
@@ -33,7 +29,7 @@ const Projects = () => {
           </div>
           
           <div className="space-y-20">
-            {allProjects.map((project, index) => (
+            {previousProjects.map((project, index) => (
               <ProjectCard 
                 key={project.id}
                 project={project}
