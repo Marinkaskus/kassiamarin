@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { ExternalLink, Footprints, ChevronLeft, ChevronRight, Play, AlertCircle } from 'lucide-react';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -95,20 +96,29 @@ const ImageCarousel = ({ images, title }: { images: string[], title: string }) =
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
   
+  // Reset currentImageIndex when validImages list changes
+  const validImages = images.filter(img => !imageErrors[img]);
+  
+  useEffect(() => {
+    if (validImages.length > 0 && currentImageIndex >= validImages.length) {
+      setCurrentImageIndex(0);
+    }
+  }, [validImages.length, currentImageIndex]);
+  
   const goToNextImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    if (validImages.length === 0) return;
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % validImages.length);
   };
 
   const goToPrevImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    if (validImages.length === 0) return;
+    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + validImages.length) % validImages.length);
   };
 
   const handleImageError = (imageSrc: string) => {
     console.error(`Failed to load image: ${imageSrc}`);
     setImageErrors(prev => ({...prev, [imageSrc]: true}));
   };
-
-  const validImages = images.filter(img => !imageErrors[img]);
   
   if (validImages.length === 0) {
     return (
@@ -124,10 +134,10 @@ const ImageCarousel = ({ images, title }: { images: string[], title: string }) =
   return (
     <div className="relative w-full aspect-[4/3] overflow-hidden group">
       <img 
-        src={validImages[currentImageIndex % validImages.length]} 
+        src={validImages[currentImageIndex]} 
         alt={`${title} - image ${currentImageIndex + 1}`} 
         className="w-full h-full object-cover transition-opacity duration-300"
-        onError={() => handleImageError(validImages[currentImageIndex % validImages.length])}
+        onError={() => handleImageError(validImages[currentImageIndex])}
       />
       
       {validImages.length > 1 && (
@@ -154,7 +164,7 @@ const ImageCarousel = ({ images, title }: { images: string[], title: string }) =
               <button
                 key={index}
                 className={`w-2 h-2 rounded-full transition-colors ${
-                  index === (currentImageIndex % validImages.length) ? 'bg-primary' : 'bg-background/70'
+                  index === currentImageIndex ? 'bg-primary' : 'bg-background/70'
                 }`}
                 onClick={() => setCurrentImageIndex(index)}
                 aria-label={`Go to image ${index + 1}`}
