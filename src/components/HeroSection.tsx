@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react';
 const HeroSection: React.FC = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-24 pb-16">
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center opacity-10"></div>
+      <div className="absolute inset-0 bg-[url('https://dl.dropboxusercontent.com/s/fi/exqofds6tq0pkqsp2uf0p/2L5A5990.JPG?rlkey=2ujtknbudpg8hsod15zevcipd&st=tjnh5vvh&dl=0')] bg-cover bg-center opacity-10"></div>
       
       <div className="container-custom relative z-10 flex flex-col justify-center items-center text-center">
         <span className="text-sm uppercase tracking-widest animate-fade-in-down">Visual Artist</span>
