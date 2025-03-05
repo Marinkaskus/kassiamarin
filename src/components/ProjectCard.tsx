@@ -22,7 +22,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   const isChildrenProject = project.id === 8;
   const isInsomniaProject = project.id === 9;
   const isTidskapselProject = project.id === 7;
-  const hasVideoFeature = isChildrenProject || isInsomniaProject || isTidskapselProject;
+  const isLivetsTreeProject = project.id === 6;
+  const hasVideoFeature = isChildrenProject || isInsomniaProject || isTidskapselProject || isLivetsTreeProject;
   
   const handleVideoThumbnailClick = () => {
     if (hasVideoFeature && project.videoUrl) {
