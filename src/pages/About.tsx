@@ -101,24 +101,20 @@ const About = () => {
               <h2 className="text-2xl font-medium mb-6">Artist Statement</h2>
               <div className="prose prose-lg max-w-none text-muted-foreground">
                 <p>
-                  In my practice, I seek to create a visual language that explores the liminal spaces 
-                  between representation and abstraction. Drawing inspiration from natural environments 
-                  and personal experiences, my work investigates themes of memory, transition, and 
-                  environmental consciousness.
+                 In my practice, I aim to create a visual language that navigates the intersection between memory, personal experience, and abstraction.
+                  Drawing from the fluidity of my own recollections and the manipulation of time, my work examines themes of uncertainty, transformation, and the complex nature of how we remember.
                 </p>
                 
                 <p>
-                  I am particularly interested in the way light, color, and space can evoke emotional 
-                  responses and create atmospheric narratives. Through an intuitive process of layering, 
-                  mark-making, and material exploration, I aim to create works that invite viewers into 
-                  contemplative spaces where familiar forms reveal themselves slowly through abstraction.
+                  I am deeply interested in how light, texture, and space can evoke emotional responses and narrate the stories of our inner worlds. 
+                  Through an intuitive process of layering, mark-making, and material exploration, my pieces invite viewers to step into a space where memories are not simply recalled but reinterpreted. 
+                  In doing so, I attempt to give form to that which is often intangible — the fragile nature of memory itself.
                 </p>
-                
+                  Each artwork is a meditation on presence and absence, on the balance between remembering and forgetting, and on the ephemeral quality of our personal histories.
+                  My practice emphasizes the ongoing dialogue between what we perceive and what we cannot fully grasp. 
+                  In a time when our experiences are often mediated through digital screens, I believe in the enduring power of physical artworks to forge authentic connections, to provoke introspection, and to offer a space for reflection on the nature of memory and identity.
                 <p>
-                  Each piece becomes a meditation on presence and absence, revealing and concealing, 
-                  permanence and ephemerality. In a world increasingly mediated by digital screens and 
-                  virtual experiences, I believe in the continued relevance and power of material art 
-                  forms to create moments of authentic connection and introspection.
+
                 </p>
               </div>
             </div>
