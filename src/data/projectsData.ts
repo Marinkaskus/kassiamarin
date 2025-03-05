@@ -3,6 +3,16 @@ import { Project } from "@/types/Project";
 
 export const previousProjects: Project[] = [
   {
+    id: 7,
+    title: 'Tidskapsel',
+    description: 'A sculpture and video installation. The sculpture is built from concrete blocks from a nearby landfill and mimics a ruin; its form mirrors the sand pit in the background. The work is site-specific and located at Hagtvet in Larvik. I wanted to build the installation in a place being taken over by humans and project a video of various places in the surrounding area where the opposite happens – nature reclaims nature after human intervention.',
+    norwegianDescription: 'Tidskapsel er en skulptur- og videoinstallasjon. Skulpturen er bygd opp av lekablokker fra et deponi i nærheten og etterligner en ruin; formen speiler sandtaket i bakgrunnen av skulpturen. Arbeidet er stedsspesifikt og befinner seg på Hagtvet i Larvik. Jeg ønsket å bygge installasjonen på et sted som blir overtatt av mennesker og projisere en video av ulike steder i nærområdet der det motsatte skjer – naturen gjenerobrer naturen etter menneskelige inngrep. Hva etterlater vi oss? Klarer vi å leve i symbiose eller er det krig?',
+    year: '2022',
+    location: 'Hagtvet, Larvik',
+    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/fon52yeofhk9l8qw5fujp/2L5A5963.jpg?rlkey=vavbxmfxxu42hm6uc39u84k3l&st=t8rgx9jv&dl=0',
+    videoUrl: 'https://player.vimeo.com/video/1059750892',
+  },
+  {
     id: 4,
     title: 'Jeg tenker ikke på dere lenger',
     description: 'An area covered with tiles. The floor you walk on is decorated with immersive, varied, and fragile paintings that flow in and out of each other. The paintings tell stories of memories, dreams, and nightmares – everything that takes place in the world of thoughts, the sleepless nights when the only company one has is their own past and imagination. Through the act of walking on the tiles, the viewer changes the work and becomes a part of it.',
