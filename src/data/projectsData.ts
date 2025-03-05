@@ -39,7 +39,8 @@ export const previousProjects: Project[] = [
     additionalImages: [
       'https://dl.dropboxusercontent.com/s/fi/57pgme3kvk86cxkq5thhj/cc10.jpg?rlkey=jdl06lbz3fvwk4kchy2mbrfav&st=6wtjh55f&dl=0',
       'https://dl.dropboxusercontent.com/s/fi/89s0l10vq7xdpzxbcricb/cc2.jpg?rlkey=aek38t8fjhjofhicsiqbks3b5&st=ep50n65w&dl=0',
-      'https://dl.dropboxusercontent.com/s/fi/7jdq3ptvpckxpbqrcsfys/cc7.jpg?rlkey=9trcz6yasextffr3l1bufpcjt&st=tbhd34c0&dl=0'
+      'https://dl.dropboxusercontent.com/s/fi/7jdq3ptvpckxpbqrcsfys/cc7.jpg?rlkey=9trcz6yasextffr3l1bufpcjt&st=tbhd34c0&dl=0',
+      'https://dl.dropboxusercontent.com/s/fi/1e74927g9u0jxmq2w4xmw/cc9.jpg?rlkey=2afhjf5i5rm32vhg4f2rgwo0l&st=opwaadp4&dl=0'
     ],
     videoUrl: 'https://player.vimeo.com/video/1059750892',
   },
