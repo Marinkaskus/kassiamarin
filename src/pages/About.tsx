@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Layout from '@/components/Layout';
 
@@ -57,7 +58,7 @@ const About = () => {
               </div>
             </div>
             
-            <div className="mt-20 grid md:grid-cols-2 gap-12 animate-fade-in-up">
+            <div className="mt-20 grid md:grid-cols-1 gap-12 animate-fade-in-up">
               <div>
                 <h2 className="text-2xl font-medium mb-6">Education</h2>
                 <ul className="space-y-4">
@@ -70,27 +71,6 @@ const About = () => {
                     <div className="text-sm text-muted-foreground">2019 - 2021</div>
                     <div className="font-medium">Higher Vocational Education in Visual Arts</div>
                     <div>Einar Granum School of Art, Norway</div>
-                  </li>
-                </ul>
-              </div>
-              
-              <div>
-                <h2 className="text-2xl font-medium mb-6">Awards & Recognition</h2>
-                <ul className="space-y-4">
-                  <li>
-                    <div className="text-sm text-muted-foreground">2022</div>
-                    <div className="font-medium">Nordic Arts Council Grant</div>
-                    <div>For the project "Nature Reimagined"</div>
-                  </li>
-                  <li>
-                    <div className="text-sm text-muted-foreground">2020</div>
-                    <div className="font-medium">Emerging Artist Award</div>
-                    <div>Contemporary Arts Foundation, Stockholm</div>
-                  </li>
-                  <li>
-                    <div className="text-sm text-muted-foreground">2018</div>
-                    <div className="font-medium">Residency Program</div>
-                    <div>International Arts Colony, Copenhagen</div>
                   </li>
                 </ul>
               </div>
