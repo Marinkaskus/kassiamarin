@@ -6,11 +6,11 @@ import ImageGallery from '@/components/ImageGallery';
 const galleryImages = [
   {
     id: 1,
-    src: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=80',
+    src: 'https://drive.google.com/file/d/1VSCFj8-dX5CDfEdQz0p2HR-X5e3YH8sV/view?usp=drive_link',
     alt: 'Vibrant orange flowers in close-up',
-    title: 'Nature\'s Palette',
-    year: '2023',
-    medium: 'Oil on canvas',
+    title: 'Jeg tenker ikke på dere lenger ',
+    year: '2024',
+    medium: 'Ink on tille',
     dimensions: '80 × 100 cm',
   },
   {
