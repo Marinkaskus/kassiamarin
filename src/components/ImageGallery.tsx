@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
-import { X, Play } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface GalleryImage {
   id: number;
@@ -26,21 +26,13 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 }) => {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
-  const [showVideo, setShowVideo] = useState(false);
 
   const handleImageClick = (image: GalleryImage) => {
     setSelectedImage(image);
-    setShowVideo(false);
-  };
-
-  const toggleVideo = () => {
-    setShowVideo(prev => !prev);
-    if (selectedImage) setSelectedImage(null);
   };
 
   const closeDialog = () => {
     setSelectedImage(null);
-    setShowVideo(false);
   };
 
   const handleImageError = (imageId: number) => {
@@ -63,37 +55,6 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   return (
     <>
-      <div className="w-full aspect-[4/3] overflow-hidden mb-4 relative">
-        {showVideo && videoUrl ? (
-          <iframe
-            src={videoUrl}
-            title="Exhibition Video"
-            className="w-full h-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            frameBorder="0"
-          ></iframe>
-        ) : (
-          validImages.length > 0 && (
-            <img 
-              src={selectedImage ? selectedImage.src : validImages[0].src} 
-              alt={selectedImage ? selectedImage.alt : validImages[0].alt}
-              className="w-full h-full object-contain"
-            />
-          )
-        )}
-        
-        {videoUrl && (
-          <button
-            onClick={toggleVideo}
-            className="absolute bottom-4 right-4 bg-background/70 text-foreground p-2 rounded-full hover:bg-background/90 transition-colors"
-            aria-label={showVideo ? "Show image" : "Show video"}
-          >
-            <Play size={16} className={showVideo ? "opacity-50" : "opacity-100"} />
-          </button>
-        )}
-      </div>
-
       <div className={`grid ${getGridClass()} gap-6 md:gap-8`}>
         {validImages.map((image, index) => (
           <div 
