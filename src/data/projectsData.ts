@@ -45,8 +45,8 @@ export const previousProjects: Project[] = [
     norwegianDescription: 'Dagdrøm er en videoinstallasjon som utforsker forholdet mellom identitet, arv og persepsjon. Gjennom fem gipsrammer projiseres parallelle videosekvenser, der bilder og lyd veves sammen for å skape en atmosfære av fjernhet og fragmenterte minner. Videoene spiller i loop, og lydbildet – en blanding av overlappende stemmer, subtile lydeffekter og stillhet – forsterker følelsen av å observere sitt eget liv på avstand. Inspirert av temaer som kjønn, seksualitet, miljø og selvbilde, reflekterer verket over øyeblikk der man blir en passiv betrakter av seg selv, fanget mellom nærhet og distanse, klarhet og diffusjon.',
     year: '2021',
     location: 'Kunsthøgskolen i Oslo',
-    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/qp6h3a25u59dc0ehumdr1/IMG_0783.jpg?rlkey=5ssco64fg6qqo9pzy29l6rpze&st=h5fz1abs&dl=0',
-    videoUrl: 'https://player.vimeo.com/video/503458155',
+    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/hqkpfr0y6533cc6rmv9sh/thumb-8.jpg?rlkey=s07682fewfwb37qoie0m9p2rv&st=wdk474u0&dl=0',
+    videoUrl: 'https://player.vimeo.com/video/480957122',
   },
   {
     id: 7,
