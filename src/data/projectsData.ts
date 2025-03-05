@@ -74,7 +74,7 @@ export const previousProjects: Project[] = [
     description: 'A performative exploration of transformation, power, and bodily autonomy – a physical metamorphosis where the boundary between human and animal, myth and reality, dissolves. In a room spun of hemp, moss, and twigs, a female figure moves through a web of fragility and strength, of captivity and freedom.',
     norwegianDescription: 'Arachne er en performativ utforskning av transformasjon, makt og kroppslig autonomi – en fysisk metamorfose hvor grensen mellom menneske og dyr, myte og virkelighet, oppløses. I et rom spunnet av hamp, mose og kvister, beveger en kvinnelig skikkelse seg gjennom et nett av skjørhet og styrke, av fangenskap og frihet. Gjennom en gradvis dekning av selvlysende maling forvandles kroppen, og en ny form trer frem. Performancen utfordrer blikket som er pålagt kvinnekroppen gjennom kunsthistorien – et blikk som har skapt både idealer og begrensninger. Her er kroppen verken objekt eller metafor, men en kraft i seg selv, rastløs og uforutsigbar. Med myten om Arachne som rammeverk, speiler performancen maktforholdet mellom skaper og dommer, mellom håndverk og hierarki, mellom det som temmes og det som får vokse fritt. Kroppen vever seg inn og ut av seg selv, i en evig forhandling mellom kontroll og kaos, tilblivelse og oppløsning.',
     year: '2018',
-    location: 'Kunsthøgskolen i Oslo',
+    location: 'Einar Granum Kunstfagskole',
     imageSrc: 'https://dl.dropboxusercontent.com/s/fi/qp6h3a25u59dc0ehumdr1/IMG_0783.jpg?rlkey=5ssco64fg6qqo9pzy29l6rpze&st=h5fz1abs&dl=0',
   },
 ];
