@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Mail, Twitter } from 'lucide-react';
+import { Instagram, Mail, Twitter, Linkedin } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -41,10 +41,13 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-medium">Connect</h3>
             <div className="flex space-x-4">
-              <a href="#" aria-label="Instagram" className="text-muted-foreground hover:text-foreground transition-colors">
+              <a href="https://instagram.com/kassiamarin" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-muted-foreground hover:text-foreground transition-colors">
                 <Instagram size={20} />
               </a>
-              <a href="#" aria-label="Twitter" className="text-muted-foreground hover:text-foreground transition-colors">
+              <a href="https://linkedin.com/in/kassiamarin" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Linkedin size={20} />
+              </a>
+              <a href="https://twitter.com/kassiamarin" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="text-muted-foreground hover:text-foreground transition-colors">
                 <Twitter size={20} />
               </a>
               <a href="mailto:contact@kassiamarin.com" aria-label="Email" className="text-muted-foreground hover:text-foreground transition-colors">

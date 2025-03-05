@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { useToast } from '@/hooks/use-toast';
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { Mail, MapPin, Phone, Instagram, Linkedin, ExternalLink } from 'lucide-react';
 
 const Contact = () => {
   const { toast } = useToast();
@@ -98,6 +98,32 @@ const Contact = () => {
                 className="mt-4 text-sm font-medium hover:opacity-70 transition-opacity"
               >
                 View on map
+              </a>
+            </div>
+          </div>
+          
+          <div className="mt-12 text-center animate-fade-in">
+            <h3 className="text-lg font-medium mb-4">Connect with me on Social Media</h3>
+            <div className="flex justify-center space-x-6">
+              <a 
+                href="https://instagram.com/kassiamarin" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors"
+              >
+                <Instagram size={24} />
+                <span>Instagram</span>
+                <ExternalLink size={16} />
+              </a>
+              <a 
+                href="https://linkedin.com/in/kassiamarin" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors"
+              >
+                <Linkedin size={24} />
+                <span>LinkedIn</span>
+                <ExternalLink size={16} />
               </a>
             </div>
           </div>
