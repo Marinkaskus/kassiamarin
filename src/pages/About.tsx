@@ -25,10 +25,10 @@ const About = () => {
               
               <div className="space-y-6 text-muted-foreground animate-fade-in">
                 <p>
-                  I am a contemporary visual artist based in Norway, with a practice spanning painting, 
-                  photography, mixed media, and digital art. My work explores the interplay between 
-                  natural forms and abstract expression, seeking to evoke emotional responses through 
-                  color, texture, and composition.
+                  I am a contemporary visual artist based in Norway, working across painting, mixed media, text, and video art.
+                  My practice delves into the complex nature of memory, identity, and perception. 
+                  I explore how personal histories are shaped by time and how memories, often fragile and elusive, can be transformed and distorted over time. 
+                  Through my work, I examine the constant negotiation between the past and the present, questioning the reliability of memory and its emotional weight.
                 </p>
                 
                 <p>
