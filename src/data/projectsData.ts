@@ -48,4 +48,14 @@ export const previousProjects: Project[] = [
     imageSrc: 'https://dl.dropboxusercontent.com/s/fi/xwyetgu2q8q18u58ll6ay/thumb-3.jpg?rlkey=86l0vdpwvpbosf2utyn6ff5um&st=c6z0ofqy&dl=0',
     videoUrl: 'https://player.vimeo.com/video/485936188',
   },
+  {
+    id: 6,
+    title: 'Livets tre',
+    description: 'A video installation where a video of a breathing female torso is combined with a tree stump that has the same shape as hip joints. In the background, we hear uneven breathing with varying intensity. With this work, I explore the priorities people make regarding technology versus experiencing living nature in the moment. Should it be immortalized or experienced?',
+    norwegianDescription: 'Livets tre er en videoinstallasjon der en video av en pustende, kvinnelig torso kombineres med en stubbe med samme form som et hofteparti. I bakgrunnen hører vi en ujevn pusting med varierende intensitet. Med dette arbeidet utforsker jeg prioriteringer mennesker gjør med tanke på teknologi kontra det å oppleve en levende natur der og da. Skal det foreviges eller oppleves?',
+    year: '2019',
+    location: 'Galleri X, Oslo',
+    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/xwyetgu2q8q18u58ll6ay/thumb-3.jpg?rlkey=86l0vdpwvpbosf2utyn6ff5um&st=c6z0ofqy&dl=0',
+    videoUrl: 'https://player.vimeo.com/video/485936188',
+  },
 ];
