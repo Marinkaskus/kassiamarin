@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
               <a href="https://twitter.com/kassiamarin" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="text-muted-foreground hover:text-foreground transition-colors">
                 <Twitter size={20} />
               </a>
-              <a href="mailto:contact@kassiamarin.com" aria-label="Email" className="text-muted-foreground hover:text-foreground transition-colors">
+              <a href="mailto:kassiamarin486@gmail.com" aria-label="Email" className="text-muted-foreground hover:text-foreground transition-colors">
                 <Mail size={20} />
               </a>
             </div>
