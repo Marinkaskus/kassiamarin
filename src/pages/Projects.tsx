@@ -27,7 +27,7 @@ const previousProjects = [
     location: 'Oslo kunstforening',
     imageSrc: '/lovable-uploads/add91e58-7000-44db-996b-86fc82d9e9c7.png',
     additionalImages: [
-      '/lovable-uploads/f2efb2f2-ce9b-48ab-8be5-a9d35626f1bc.png', 
+      '//lovable-uploads/add91e58-7000-44db-996b-86fc82d9e9c7.png', 
       '/lovable-uploads/13dd4769-1557-4729-999f-639f146f9e82.png'
     ],
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
