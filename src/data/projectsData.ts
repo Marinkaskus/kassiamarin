@@ -1,4 +1,3 @@
-
 import { Project } from "@/types/Project";
 
 export const previousProjects: Project[] = [
@@ -9,7 +8,7 @@ export const previousProjects: Project[] = [
     year: '2023',
     location: 'Oslo Gallery',
     imageSrc: 'https://khio.no/system/images/W1siZiIsIjIwMjMvMDgvMjQvb3p4N2E4NHcwX3BsYWthdF8xNy4wMC5wbmciXSxbInAiLCJ0aHVtYiIsIjE1MzZ4MTE1MiJdLFsicCIsImVuY29kZSIsIndlYnAiLCItcXVhbGl0eSA5MCJdXQ/plakat%2017.00.webp',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    videoUrl: 'https://vimeo.com/1059750892/8f5eef229c?share=copy',
   },
   {
     id: 4,
