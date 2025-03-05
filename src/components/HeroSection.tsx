@@ -15,8 +15,7 @@ const HeroSection: React.FC = () => {
         </h1>
         
         <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl animate-fade-in-up">
-          I'm Kassia Marin, a contemporary artist creating immersive visual experiences 
-          that challenge perceptions and invite contemplation.
+          I'm Kassia Marin, a contemporary artist exploring memory, perception, and the fluidity of recollection through painting, text, and video. My work creates immersive visual experiences that invite contemplation and challenge the boundaries between past and present.
         </p>
         
         <div className="mt-10 flex flex-col sm:flex-row gap-4 items-center animate-fade-in-up">
