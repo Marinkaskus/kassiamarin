@@ -23,10 +23,10 @@ const Index = () => {
               <h2 className="text-3xl md:text-4xl font-medium mt-2">Recent Projects</h2>
             </div>
             <Link 
-              to="/projects" 
+              to="/digital-cv" 
               className="group flex items-center text-sm font-medium mt-4 md:mt-0 hover:opacity-70 transition-opacity"
             >
-              View all projects 
+              View digital CV 
               <ArrowRight size={16} className="ml-2 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
