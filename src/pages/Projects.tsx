@@ -26,10 +26,11 @@ const previousProjects = [
     norwegianDescription: 'Et område dekket av fliser. Gulvet du går på er utsmykket med oppslukende, varierte og skjøre malerier, som flyter inn og ut av hverandre. Maleriene forteller om minner, drømmer og mareritt – alt som foregår i tankenes verden, de søvnløse nettene når det eneste selskapet man har er sin egen fortid og fantasi. Gjennom handlingen av å gå på flisene, forandrer tilskueren verket og blir en del av det.',
     year: '2024',
     location: 'Oslo kunstforening',
-    imageSrc: 'https://storage.googleapis.com/gpt-engineer-file-uploads/XDmtjvK23Va49uZSa12BUDRhgQn1/594a040b-2ac9-46c2-832f-ce65c7bcff84?Expires=1741193746&GoogleAccessId=admin-2%40gpt-engineer-390607.iam.gserviceaccount.com&Signature=HwUcR6RPk%2FTLVxhvE0m60%2B%2FLtYb7874Ph7qKg3%2FqApExfaJzjNofHZvld66YgZsTsZuMkgOY1SknHr1SqDhwrWIxQMe9ws0vBISL3Eq0GAkPqxNMtM1jM%2F6VZNBa6oKutLVKO3edTYTf%2FMGCsvTe%2FjrUY9C%2B2HwhilqCLvyW5iZJ39n%2Fz9eHK8Pq9V3qI6Z%2FsA016t1gL4MaWQH6JAKULSJ3LbmY7qho18CNP8ft7AWvJ8XdBmwvw7%2FezBh8xzJP7hqyryAcDdJh5SlwNQGfWCCmJ1Eb8YLi8zu4KVY0AudDEgnBlkQfrThWzFSin3BJ7wo2wsEYkH6Bsh3iHbIhPg%3D%3D',
+    imageSrc: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=80',
     additionalImages: [
-      'https://storage.googleapis.com/gpt-engineer-file-uploads/XDmtjvK23Va49uZSa12BUDRhgQn1/f2efb2f2-ce9b-48ab-8be5-a9d35626f1bc?Expires=1741193746&GoogleAccessId=admin-2%40gpt-engineer-390607.iam.gserviceaccount.com&Signature=qt6fNYOSS31IcmF3RTwZ4b97YqI0yF3MvCJ0nD9yPNyv%2BlrC650Nl0Gd4wHVTR%2Fw4FFvz4FegBZCpmlbyZ5duERH3xV%2BOp5j%2Fj9cMLIpYSf4UIFUuQ%2FaahS5ljfOj0aZarxSsTmJsXHcjF7rB0GeHzOu1Bp5TisJ15hWP4YHNoLwqCduCAkhFe%2BX1jun%2FPZ0J5VfEsRU5KlBoNQ3i6bPM1M%2FJG%2FnjbWsZbAXEMby7wtR6ZI6lovfFHsJ0LGyZB7CtbywrNQPEy8OE%2BucnwHuETLzWk%2BpF6m%2FeiwxkxBpigKLF8AQuWFm9y91AYN9zbYc4oMGZDhAG0V5lXybSFap5w%3D%3D', 
-      'https://storage.googleapis.com/gpt-engineer-file-uploads/XDmtjvK23Va49uZSa12BUDRhgQn1/13dd4769-1557-4729-999f-639f146f9e82?Expires=1741193746&GoogleAccessId=admin-2%40gpt-engineer-390607.iam.gserviceaccount.com&Signature=e3aivECa4KMqf96mCCIgrct4%2BABeEtLGsgX%2Bi9tj0lf%2FMZbMizh7y0k23d7l%2FJO9y36NRTvm6iH0ER1WYNPZLmFixZzIHqI0gpEYJWOV9y0RfBo%2BeLxfMlgkfogRT7YJAf%2FtYIbbjRcCGl2wJ3oTx96POw0P0MUcyznuj16%2F1cW0wmbgUtFd%2BJKnYcQxnic9Yb9s%2BEmp%2FQFrM3XV1WwVMfcQ1%2Bk9jwzpcrKr40K0TyJHYBegRlhAdpaV2fxRj2jYQ%2FvqDc6lYkUQO4T%2FuSePI5W3zBVrucc7Ex93rq9L28WVAYauyT6o6%2BCvqifWI5BhUAFJ4e6BfWimJwFXkr77AQ%3D%3D'
+      'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&w=800&q=80', 
+      'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=800&q=80'
     ],
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
     url: '#',
@@ -108,7 +109,6 @@ const ImageCarousel = ({ images, title }: { images: string[], title: string }) =
     setImageErrors(prev => ({...prev, [imageSrc]: true}));
   };
 
-  // Filter out images that failed to load
   const validImages = images.filter(img => !imageErrors[img]);
   
   if (validImages.length === 0) {
@@ -180,9 +180,8 @@ const Projects = () => {
   };
 
   const handleImageUpload = (imagePath: string) => {
-    // Create a test project with the uploaded image
     const newProject = {
-      id: Date.now(), // Use timestamp as unique ID
+      id: Date.now(),
       title: "Your New Project",
       description: "Description of your new project. Click to edit your projects.",
       year: new Date().getFullYear().toString(),
@@ -196,11 +195,9 @@ const Projects = () => {
       description: "Your image has been added as a new project.",
     });
     
-    // Hide the upload helper after successful upload
     setShowUploadHelper(false);
   };
   
-  // Combine custom and previous projects
   const allProjects = [...customProjects, ...previousProjects];
   
   return (
