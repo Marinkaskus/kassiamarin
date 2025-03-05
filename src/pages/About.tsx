@@ -63,19 +63,14 @@ const About = () => {
                 <h2 className="text-2xl font-medium mb-6">Education</h2>
                 <ul className="space-y-4">
                   <li>
-                    <div className="text-sm text-muted-foreground">2010 - 2014</div>
-                    <div className="font-medium">Master of Fine Arts</div>
-                    <div>Oslo National Academy of the Arts, Norway</div>
-                  </li>
-                  <li>
-                    <div className="text-sm text-muted-foreground">2006 - 2010</div>
+                    <div className="text-sm text-muted-foreground">2021 - 2024</div>
                     <div className="font-medium">Bachelor of Arts, Visual Studies</div>
                     <div>Bergen Academy of Art and Design, Norway</div>
                   </li>
                   <li>
-                    <div className="text-sm text-muted-foreground">2005 - 2006</div>
-                    <div className="font-medium">Foundation in Art and Design</div>
-                    <div>Oslo School of Visual Arts, Norway</div>
+                    <div className="text-sm text-muted-foreground">2019 - 2021</div>
+                    <div className="font-medium">Higher Vocational Education in Visual Arts</div>
+                    <div>Einar Granum School of Art, Norway</div>
                   </li>
                 </ul>
               </div>
