@@ -71,12 +71,11 @@ const Index = () => {
                 <p>
                   As a contemporary visual artist, I explore themes of memory, transformation, and the fragility of experience.
                   My work blends personal narratives with abstract expression, translating fleeting memories and emotions into tangible forms.Through painting, text, and mixed media, I examine how time shapes our recollections and the tension between presence and absence. By layering materials and incorporating text, I invite viewers to reflect on their own connections to memory and identity.
-                  In a world dominated by digital experiences, I believe in the enduring power of material art to foster introspection and authentic connection.
+                  
                 </p>
-                
+                In a world dominated by digital experiences, I believe in the enduring power of material art to foster introspection and authentic connection.
                 <p>
-                  With a background in both traditional and digital mediums, I create pieces that invite 
-                  viewers to experience familiar scenes through a contemplative lens.
+               
                 </p>
               </div>
               <Link 
