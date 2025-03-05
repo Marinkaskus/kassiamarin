@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
-import { Project } from '@/types/Project';
 import { previousProjects } from '@/data/projectsData';
 import ProjectCard from '@/components/ProjectCard';
 import VideoDialog from '@/components/VideoDialog';
