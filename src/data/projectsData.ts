@@ -76,6 +76,8 @@ export const previousProjects: Project[] = [
     year: '2018',
     location: 'Einar Granum Kunstfagskole',
     imageSrc: 'https://dl.dropboxusercontent.com/s/fi/qp6h3a25u59dc0ehumdr1/IMG_0783.jpg?rlkey=5ssco64fg6qqo9pzy29l6rpze&st=h5fz1abs&dl=0',
+    additionalImages: [
+      'https://dl.dropboxusercontent.com/s/fi/w6zyukyzovekfiwjtsfsq/thumb-5.jpg?rlkey=rfgk415r069ftry3bsfwnlyfo&st=sxgren1d&dl=0'
+    ]
   },
 ];
-
