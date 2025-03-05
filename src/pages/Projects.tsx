@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Layout from '@/components/Layout';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Footprints } from 'lucide-react';
 
 interface Project {
   id: number;
@@ -10,10 +10,26 @@ interface Project {
   year: string;
   location: string;
   imageSrc: string;
+  additionalImages?: string[];
   url?: string;
+  norwegianDescription?: string;
 }
 
 const projects: Project[] = [
+  {
+    id: 4,
+    title: 'Jeg tenker ikke på dere lenger',
+    description: 'An area covered with tiles. The floor you walk on is decorated with immersive, varied, and fragile paintings that flow in and out of each other. The paintings tell stories of memories, dreams, and nightmares – everything that takes place in the world of thoughts, the sleepless nights when the only company one has is their own past and imagination. Through the act of walking on the tiles, the viewer changes the work and becomes a part of it.',
+    norwegianDescription: 'Et område dekket av fliser. Gulvet du går på er utsmykket med oppslukende, varierte og skjøre malerier, som flyter inn og ut av hverandre. Maleriene forteller om minner, drømmer og mareritt – alt som foregår i tankenes verden, de søvnløse nettene når det eneste selskapet man har er sin egen fortid og fantasi. Gjennom handlingen av å gå på flisene, forandrer tilskueren verket og blir en del av det.',
+    year: '2020',
+    location: 'Oslo Kunsthall',
+    imageSrc: 'public/lovable-uploads/e9b9ccf2-3848-4e6c-b3b8-355ecc19d86a.png',
+    additionalImages: [
+      'public/lovable-uploads/07247a31-eeb0-4255-8104-4f83cceefd72.png', 
+      'public/lovable-uploads/c3d9c883-d45d-4f54-a15e-048158033c3d.png'
+    ],
+    url: '#',
+  },
   {
     id: 1,
     title: 'Nature Reimagined',
@@ -84,6 +100,25 @@ const Projects = () => {
                     {project.description}
                   </p>
                   
+                  {project.norwegianDescription && (
+                    <p className="mt-3 text-muted-foreground italic">
+                      {project.norwegianDescription}
+                    </p>
+                  )}
+                  
+                  {project.additionalImages && project.additionalImages.length > 0 && (
+                    <div className="mt-6 grid grid-cols-2 gap-4">
+                      {project.additionalImages.map((img, i) => (
+                        <img 
+                          key={i} 
+                          src={img} 
+                          alt={`${project.title} - additional view ${i+1}`}
+                          className="w-full h-48 object-cover"
+                        />
+                      ))}
+                    </div>
+                  )}
+                  
                   {project.url && (
                     <a 
                       href={project.url}
@@ -93,6 +128,13 @@ const Projects = () => {
                     >
                       View Project <ExternalLink size={16} className="ml-2" />
                     </a>
+                  )}
+                  
+                  {project.id === 4 && (
+                    <div className="mt-4 flex items-center text-muted-foreground">
+                      <Footprints size={16} className="mr-2" />
+                      <span className="text-sm italic">Interactive installation where viewers become part of the artwork</span>
+                    </div>
                   )}
                 </div>
               </div>
