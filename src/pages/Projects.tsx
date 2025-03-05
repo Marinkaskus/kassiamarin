@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import Layout from '@/components/Layout';
-import { ExternalLink, Footprints, History } from 'lucide-react';
+import { ExternalLink, Footprints } from 'lucide-react';
 
 interface Project {
   id: number;
@@ -13,10 +13,10 @@ interface Project {
   additionalImages?: string[];
   url?: string;
   norwegianDescription?: string;
-  isEarlier?: boolean;
 }
 
-const projects: Project[] = [
+// Combined list of all previous projects
+const previousProjects = [
   {
     id: 4,
     title: 'Jeg tenker ikke på dere lenger',
@@ -57,10 +57,6 @@ const projects: Project[] = [
     imageSrc: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80',
     url: '#',
   },
-];
-
-// Adding earlier projects
-const earlierProjects: Project[] = [
   {
     id: 5,
     title: 'Fragments of Memory',
@@ -68,7 +64,6 @@ const earlierProjects: Project[] = [
     year: '2019',
     location: 'Nordic Arts Festival, Copenhagen',
     imageSrc: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=800&q=80',
-    isEarlier: true,
   },
   {
     id: 6,
@@ -78,7 +73,6 @@ const earlierProjects: Project[] = [
     location: 'Modern Art Museum, Gothenburg',
     imageSrc: 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=800&q=80',
     url: '#',
-    isEarlier: true,
   },
   {
     id: 7,
@@ -87,60 +81,28 @@ const earlierProjects: Project[] = [
     year: '2017',
     location: 'Contemporary Arts Space, Oslo',
     imageSrc: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=80',
-    isEarlier: true,
   },
 ];
 
 const Projects = () => {
-  const [showEarlierProjects, setShowEarlierProjects] = useState(false);
-  
-  // Combine all projects
-  const allProjects = [...projects, ...earlierProjects];
-  
-  // Filter projects based on selection
-  const displayedProjects = showEarlierProjects 
-    ? allProjects.filter(project => project.isEarlier) 
-    : projects;
-  
   // Log for debugging
-  console.log("Project images:", projects[0].imageSrc, projects[0].additionalImages);
+  console.log("Project images:", previousProjects.length > 0 ? previousProjects[0].imageSrc : "No projects");
   
   return (
     <Layout>
       <section className="pt-32 pb-20">
         <div className="container-custom">
           <div className="max-w-2xl mx-auto text-center mb-16 animate-fade-in">
-            <span className="text-sm uppercase tracking-widest text-muted-foreground">Exhibitions & Collaborations</span>
-            <h1 className="text-4xl md:text-5xl font-medium mt-2">Projects</h1>
+            <span className="text-sm uppercase tracking-widest text-muted-foreground">Previous Works</span>
+            <h1 className="text-4xl md:text-5xl font-medium mt-2">Previous Projects</h1>
             <p className="mt-4 text-muted-foreground">
-              A curated selection of exhibitions, collaborations, and commissioned works 
+              A curated selection of my past exhibitions, collaborations, and commissioned works 
               from throughout my artistic career.
             </p>
-            
-            {/* Toggle between current and earlier projects */}
-            <div className="flex items-center justify-center mt-8 space-x-4">
-              <button 
-                onClick={() => setShowEarlierProjects(false)}
-                className={`px-4 py-2 rounded-full transition-colors ${!showEarlierProjects 
-                  ? 'bg-primary text-primary-foreground' 
-                  : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}
-              >
-                Current Projects
-              </button>
-              <button 
-                onClick={() => setShowEarlierProjects(true)}
-                className={`px-4 py-2 rounded-full flex items-center transition-colors ${showEarlierProjects 
-                  ? 'bg-primary text-primary-foreground' 
-                  : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}
-              >
-                <History size={16} className="mr-2" />
-                Earlier Projects
-              </button>
-            </div>
           </div>
           
           <div className="space-y-20">
-            {displayedProjects.map((project, index) => {
+            {previousProjects.map((project, index) => {
               console.log(`Rendering project ${project.id} with image: ${project.imageSrc}`);
               return (
                 <div 
@@ -218,13 +180,6 @@ const Projects = () => {
               );
             })}
           </div>
-          
-          {/* Display a message when no projects are available for the selected category */}
-          {displayedProjects.length === 0 && (
-            <div className="text-center py-16">
-              <p className="text-lg text-muted-foreground">No projects to display in this category.</p>
-            </div>
-          )}
         </div>
       </section>
     </Layout>
