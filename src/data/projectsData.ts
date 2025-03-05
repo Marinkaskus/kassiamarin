@@ -7,7 +7,7 @@ export const previousProjects: Project[] = [
     description: "An exhibition concerning generational turbulence. Focusing on the changes in a mother daughter relationship trying to find a new way of depending on each other. A meeting in-between time. A moment for communication and conversation. An attempt at understanding and allowing space for differences.",
     year: '2023',
     location: 'Oslo Gallery',
-    imageSrc: 'https://images.unsplash.com/photo-1581343401100-90383a58085b?auto=format&fit=crop&w=800&q=80',
+    imageSrc: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 4,
