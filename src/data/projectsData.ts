@@ -1,4 +1,3 @@
-
 import { Project } from "@/types/Project";
 
 export const previousProjects: Project[] = [
@@ -78,7 +77,7 @@ export const previousProjects: Project[] = [
     imageSrc: 'https://dl.dropboxusercontent.com/s/fi/iqc0y2gws63kdjnhua0q9/thumb-4.jpg?rlkey=eq9mr7ksou3ca67bi6jyp9pum&st=ey20qstw&dl=0',
     additionalImages: [
       'https://dl.dropboxusercontent.com/s/fi/6kesmg26ztml1l4cog5xn/thumb-9.jpg?rlkey=7qx5lv3mvsirg0hdsxiwa8poe&st=4zyhkjvs&dl=0',
-      'https://dl.dropboxusercontent.com/s/fi/7zaikcueq9j61wholdl44/thumb-6.jpg?rlkey=7g1jf4qtxvdzoqwqwun8onr51&st=ep61jdyy&dl=0'
+      'https://dl.dropboxusercontent.com/s/fi/tnrh7omgx225i268886ep/thumb-11.jpg?rlkey=r3n2qaxgxyc4g0dq8s360cvfo&st=g0neivq1&dl=0'
     ]
   },
 ];
