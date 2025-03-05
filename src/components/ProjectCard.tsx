@@ -1,9 +1,9 @@
 
 import React, { useState } from 'react';
-import { Footprints, ExternalLink, Play } from 'lucide-react';
+import { Footprints, ExternalLink, Play, VideoOff } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
 import { Project } from '@/types/Project';
-import ImageGallery from './ImageGallery';
+import { toast } from '@/components/ui/use-toast';
 
 interface ProjectCardProps {
   project: Project;
@@ -13,6 +13,7 @@ interface ProjectCardProps {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }) => {
   const [showVideo, setShowVideo] = useState(false);
+  const [videoError, setVideoError] = useState(false);
   const carouselImages = project.additionalImages 
     ? [project.imageSrc, ...project.additionalImages]
     : [project.imageSrc];
@@ -23,7 +24,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   const handleVideoThumbnailClick = () => {
     if (isChildrenProject && project.videoUrl) {
       setShowVideo(true);
+      setVideoError(false); // Reset error state when trying to play
     }
+  };
+
+  const handleVideoError = () => {
+    setVideoError(true);
+    toast({
+      title: "Video playback issue",
+      description: "The video couldn't be loaded. Please try again later.",
+      variant: "destructive"
+    });
   };
   
   return (
@@ -34,15 +45,32 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
       <div className="w-full lg:w-1/2">
         {isChildrenProject ? (
           showVideo && project.videoUrl ? (
-            <div className="w-full aspect-video mb-4">
-              <iframe
-                src={project.videoUrl}
-                title={`${project.title} Video`}
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                frameBorder="0"
-              ></iframe>
+            <div className="w-full aspect-video mb-4 relative">
+              {videoError ? (
+                <div className="w-full h-full flex flex-col items-center justify-center bg-muted p-8 text-center">
+                  <VideoOff size={48} className="text-muted-foreground mb-4" />
+                  <p className="text-muted-foreground mb-2">Video playback error</p>
+                  <button 
+                    className="text-sm underline text-primary hover:text-primary/80"
+                    onClick={() => {
+                      setVideoError(false);
+                      setShowVideo(false);
+                    }}
+                  >
+                    Return to thumbnail
+                  </button>
+                </div>
+              ) : (
+                <iframe
+                  src={project.videoUrl}
+                  title={`${project.title} Video`}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  frameBorder="0"
+                  onError={handleVideoError}
+                ></iframe>
+              )}
             </div>
           ) : (
             <div className="w-full aspect-[4/3] overflow-hidden relative group cursor-pointer" onClick={handleVideoThumbnailClick}>
