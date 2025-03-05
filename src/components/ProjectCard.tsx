@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react';
-import { Footprints, ExternalLink, Play, VideoOff, Moon, ZoomIn, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Footprints, ExternalLink, Play, VideoOff, Moon, ZoomIn, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
 import { Project } from '@/types/Project';
 import { toast } from '@/components/ui/use-toast';
@@ -223,6 +224,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
                   alt="Enlarged project image" 
                   className="max-w-full max-h-[90vh] object-contain"
                 />
+                
+                <button 
+                  onClick={() => setEnlargedImage(null)}
+                  className="absolute top-4 right-4 p-3 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/40 transition-colors z-50"
+                  aria-label="Close image"
+                >
+                  <X size={24} />
+                </button>
                 
                 {project.additionalImages && project.additionalImages.length > 1 && (
                   <>
