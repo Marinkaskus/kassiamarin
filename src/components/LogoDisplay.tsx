@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 
 interface LogoDisplayProps {
-  size?: 'small' | 'medium' | 'large' | 'x-large';
+  size?: 'small' | 'medium' | 'large' | 'x-large' | 'medium-large';
   animated?: boolean;
   colorVariant?: 'default' | 'inverted' | 'highlight';
   transparentBg?: boolean;
@@ -20,6 +20,7 @@ const LogoDisplay: React.FC<LogoDisplayProps> = ({
   const sizeClasses = {
     small: 'w-8 h-8',
     medium: 'w-16 h-16',
+    'medium-large': 'w-24 h-24', // New size that's about 1/3 of x-large
     large: 'w-32 h-32',
     'x-large': 'w-80 h-80' // 10x the small size
   };

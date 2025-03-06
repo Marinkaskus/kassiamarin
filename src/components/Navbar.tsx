@@ -54,7 +54,7 @@ const Navbar: React.FC = () => {
           className="flex items-center gap-2 transition-all hover:opacity-80"
           onClick={closeMenu}
         >
-          <LogoDisplay size="x-large" transparentBg={true} />
+          <LogoDisplay size="medium-large" transparentBg={true} />
           <span className="font-serif text-xl md:text-2xl font-semibold">Kassia Marin</span>
         </Link>
 
