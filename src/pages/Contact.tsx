@@ -45,7 +45,7 @@ const Contact = () => {
     <Layout>
       {/* Background Logo */}
       <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.2]">
-        <LogoDisplay size="10x-large" transparentBg={true} />
+        <LogoDisplay size="x-large" transparentBg={true} />
       </div>
       
       <section className="pt-32 pb-20 relative z-10">
