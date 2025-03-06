@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import LogoDisplay from './LogoDisplay';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,10 +51,11 @@ const Navbar: React.FC = () => {
       <div className="container-custom flex items-center justify-between">
         <Link 
           to="/" 
-          className="font-serif text-xl md:text-2xl font-semibold transition-all hover:opacity-80"
+          className="flex items-center gap-2 transition-all hover:opacity-80"
           onClick={closeMenu}
         >
-          Kassia Marin
+          <LogoDisplay size="small" />
+          <span className="font-serif text-xl md:text-2xl font-semibold">Kassia Marin</span>
         </Link>
 
         {/* Desktop Navigation */}

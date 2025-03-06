@@ -12,7 +12,7 @@ const HeroSection: React.FC = () => {
         <span className="text-sm uppercase tracking-widest animate-fade-in-down">Visual Artist</span>
         
         {/* Replace text with logo - enlarged 10x (half of 20x) */}
-        <div className="mt-4 flex justify-center animate-fade-in max-w-4xl mx-auto">
+        <div className="mt-2 flex justify-center animate-fade-in max-w-4xl mx-auto">
           <img 
             src="https://dl.dropboxusercontent.com/s/fi/mouik1soo1yaoflt186dp/Logo.png?rlkey=e1ua3zw7f1i9ikvj24b6fxswl&st=h4na5yc9&dl=0" 
             alt="Kassia Marin Logo" 
@@ -20,11 +20,11 @@ const HeroSection: React.FC = () => {
           />
         </div>
         
-        <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl animate-fade-in-up">
+        <p className="mt-3 text-lg md:text-xl text-muted-foreground max-w-2xl animate-fade-in-up">
           I'm Kassia Marin, a contemporary artist exploring memory, perception, and the fluidity of recollection through painting, text, and video. My work creates immersive visual experiences that invite contemplation and challenge the boundaries between past and present.
         </p>
         
-        <div className="mt-10 flex flex-col sm:flex-row gap-4 items-center animate-fade-in-up">
+        <div className="mt-8 flex flex-col sm:flex-row gap-4 items-center animate-fade-in-up">
           <Link
             to="/gallery"
             className="group px-8 py-3 rounded-full bg-foreground text-background font-medium transition-all hover:bg-foreground/90 flex items-center"
