@@ -14,7 +14,7 @@ const HeroSection: React.FC = () => {
         {/* Replace text with logo */}
         <div className="mt-4 flex justify-center animate-fade-in max-w-4xl mx-auto">
           <img 
-            src="https://dl.dropboxusercontent.com/s/fi/exqofds6tq0pkqsp2uf0p/logo.png?rlkey=2ujtknbudpg8hsod15zevcipd&st=tjnh5vvh&dl=0" 
+            src="https://dl.dropboxusercontent.com/s/fi/mouik1soo1yaoflt186dp/Logo.png?rlkey=e1ua3zw7f1i9ikvj24b6fxswl&st=h4na5yc9&dl=0" 
             alt="Kassia Marin Logo" 
             className="max-w-full h-auto max-h-32"
           />

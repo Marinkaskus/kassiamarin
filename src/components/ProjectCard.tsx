@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Footprints, ExternalLink, Play, VideoOff, Moon, ZoomIn, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
@@ -140,9 +139,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
               />
               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                 <div className="bg-background/80 rounded-full p-4">
-                  {/* Replace Play icon with logo */}
                   <img 
-                    src="https://dl.dropboxusercontent.com/s/fi/exqofds6tq0pkqsp2uf0p/logo.png?rlkey=2ujtknbudpg8hsod15zevcipd&st=tjnh5vvh&dl=0" 
+                    src="https://dl.dropboxusercontent.com/s/fi/mouik1soo1yaoflt186dp/Logo.png?rlkey=e1ua3zw7f1i9ikvj24b6fxswl&st=h4na5yc9&dl=0" 
                     alt="Kassia Marin Logo" 
                     className="w-8 h-8 object-contain"
                   />
@@ -219,7 +217,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
           </div>
         )}
         
-        {/* New section for Children's children project images */}
         {isChildrenProject && project.additionalImages && project.additionalImages.length > 0 && (
           <div className="mt-6">
             <h3 className="text-sm font-medium mb-3">Project Gallery</h3>
