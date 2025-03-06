@@ -27,8 +27,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   const isLivetsTreeProject = project.id === 6;
   const isDagdromProject = project.id === 10;
   const isArachneProject = project.id === 5;
+  const isPlayDateProject = project.id === 11;
+  const isJegTenkerProject = project.id === 4;
   
-  const hasVideoFeature = isChildrenProject || isInsomniaProject || isTidskapselProject || isLivetsTreeProject || isDagdromProject;
+  const hasVideoFeature = isChildrenProject || isInsomniaProject || isTidskapselProject || isLivetsTreeProject || isDagdromProject || isPlayDateProject;
+  const hasScrollableVideo = isJegTenkerProject || isPlayDateProject;
   
   const handleVideoThumbnailClick = () => {
     if (hasVideoFeature && project.videoUrl) {
@@ -176,6 +179,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
             </button>
           )}
         </div>
+        
+        {hasScrollableVideo && (
+          <div className="mt-8 overflow-auto max-h-[400px] border rounded-md p-4">
+            <h3 className="text-sm font-medium mb-4">Video Preview</h3>
+            <div className="aspect-video w-full">
+              <iframe
+                src={project.videoUrl}
+                title={`${project.title} Video Preview`}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                frameBorder="0"
+              ></iframe>
+            </div>
+          </div>
+        )}
         
         {project.id === 4 && (
           <div className="mt-4 flex items-center text-muted-foreground">

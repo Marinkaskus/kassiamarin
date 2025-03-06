@@ -1,4 +1,3 @@
-
 import { Project } from "@/types/Project";
 
 export const previousProjects: Project[] = [
@@ -52,7 +51,7 @@ export const previousProjects: Project[] = [
     year: '2022',
     location: 'Skylight, KHiO',
     imageSrc: 'https://dl.dropboxusercontent.com/s/fi/2vofamm386geerey80qin/Uten-navn-2.jpg?rlkey=kw2y0lkfbdcdp8ly3o24s5btb&st=24dv0aan&dl=0',
-    videoUrl: 'https://player.vimeo.com/video/1059750892',
+    videoUrl: 'https://player.vimeo.com/video/1062991392',
   },
   {
     id: 10,
