@@ -1,3 +1,4 @@
+
 import { Project } from "@/types/Project";
 
 export const previousProjects: Project[] = [
@@ -8,7 +9,7 @@ export const previousProjects: Project[] = [
     norwegianDescription: 'Et område dekket av fliser. Gulvet du går på er utsmykket med oppslukende, varierte og skjøre malerier, som flyter inn og ut av hverandre. Maleriene forteller om minner, drømmer og mareritt – alt som foregår i tankenes verden, de søvnløse nettene når det eneste selskapet man har er sin egen fortid og fantasi. Gjennom handlingen av å gå på flisene, forandrer tilskueren verket og blir en del av det.',
     year: '2024',
     location: 'Oslo kunstforening',
-    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/2jytnvu8o98vgm8rjs5nx/2L5A5997.JPG?rlkey=i3x29ifeoaud9x9t2vdjbza18&st=m5xh57hc&dl=0',
+    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/2jytnvu8o98vgm8rjs5nx/2L5A5997.JPG?rlkey=i3x29ifeoaud9x9t2vdjbza18&st=qwljrf3i&dl=0',
     additionalImages: [
       'https://dl.dropboxusercontent.com/s/fi/fon52yeofhk9l8qw5fujp/2L5A5963.jpg?rlkey=vavbxmfxxu42hm6uc39u84k3l&st=t8rgx9jv&dl=0',
       'https://dl.dropboxusercontent.com/s/fi/cswbeyjg5e5blime22rwa/2L5A5988.JPG?rlkey=hib4omvi8202oszrst9x5l3wj&st=siunjjsl&dl=0',
@@ -94,7 +95,7 @@ export const previousProjects: Project[] = [
     norwegianDescription: 'Arachne er en performativ utforskning av transformasjon, makt og kroppslig autonomi – en fysisk metamorfose hvor grensen mellom menneske og dyr, myte og virkelighet, oppløses. I et rom spunnet av hamp, mose og kvister, beveger en kvinnelig skikkelse seg gjennom et nett av skjørhet og styrke, av fangenskap og frihet. Gjennom en gradvis dekning av selvlysende maling forvandles kroppen, og en ny form trer frem. Performancen utfordrer blikket som er pålagt kvinnekroppen gjennom kunsthistorien – et blikk som har skapt både idealer og begrensninger. Her er kroppen verken objekt eller metafor, men en kraft i seg selv, rastløs og uforutsigbar. Med myten om Arachne som rammeverk, speiler performancen maktforholdet mellom skaper og dommer, mellom håndverk og hierarki, mellom det som temmes og det som får vokse fritt. Kroppen vever seg inn og ut av seg selv, i en evig forhandling mellom kontroll og kaos, tilblivelse og oppløsning.',
     year: '2018',
     location: 'Einar Granum Kunstfagskole',
-    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/iqc0y2gws63kdjnhua0q9/thumb-4.jpg?rlkey=eq9mr7ksou3ca67bi6jyp9pum&st=ey20qstw&dl=0',
+    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/iqc0y2gws63kdjnhua0q9/thumb-4.jpg?rlkey=eq9mr7ksou3ca67bi6jyp9pum&st=ycy7seb3&dl=0',
     additionalImages: [
       'https://dl.dropboxusercontent.com/s/fi/6kesmg26ztml1l4cog5xn/thumb-9.jpg?rlkey=7qx5lv3mvsirg0hdsxiwa8poe&st=4zyhkjvs&dl=0',
       'https://dl.dropboxusercontent.com/s/fi/tnrh7omgx225i268886ep/thumb-11.jpg?rlkey=r3n2qaxgxyc4g0dq8s360cvfo&st=g0neivq1&dl=0'
