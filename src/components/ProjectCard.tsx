@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Footprints, ExternalLink, Play, VideoOff, Moon, ZoomIn, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
@@ -28,7 +29,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   
   const hasVideoFeature = (isChildrenProject || isInsomniaProject || isTidskapselProject || 
                           isLivetsTreeProject || isDagdromProject) && !isPlayDateProject;
-  const hasScrollableVideo = isJegTenkerProject;
+  // Removed hasScrollableVideo variable since we no longer need it
   
   let carouselImages = [project.imageSrc];
   
@@ -200,21 +201,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
           )}
         </div>
         
-        {hasScrollableVideo && (
-          <div className="mt-8 overflow-auto max-h-[400px] border rounded-md p-4">
-            <h3 className="text-sm font-medium mb-4">Video Preview</h3>
-            <div className="aspect-video w-full">
-              <iframe
-                src={project.videoUrl}
-                title={`${project.title} Video Preview`}
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                frameBorder="0"
-              ></iframe>
-            </div>
-          </div>
-        )}
+        {/* Removed hasScrollableVideo condition and its content */}
         
         {project.id === 4 && (
           <div className="mt-4 flex items-center text-muted-foreground">
