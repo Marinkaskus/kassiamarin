@@ -45,7 +45,7 @@ const Index = () => {
             <div>
               <span className="text-sm uppercase tracking-widest text-muted-foreground">About Me</span>
               <h2 className="text-3xl md:text-4xl font-medium mt-2">Kassia Marin</h2>
-              <div className="mt-6 space-y-4 text-muted-foreground">
+              <div className="mt-6 space-y-2 text-muted-foreground">
                 <p>
                   As a contemporary visual artist, I explore themes of memory, transformation, and the fragility of experience.
                   My work blends personal narratives with abstract expression, translating fleeting memories and emotions into tangible forms.Through painting, text, and mixed media, I examine how time shapes our recollections and the tension between presence and absence. By layering materials and incorporating text, I invite viewers to reflect on their own connections to memory and identity.
