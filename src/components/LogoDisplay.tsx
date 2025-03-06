@@ -2,15 +2,17 @@
 import React, { useEffect, useRef } from 'react';
 
 interface LogoDisplayProps {
-  size?: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large' | 'x-large';
   animated?: boolean;
   colorVariant?: 'default' | 'inverted' | 'highlight';
+  transparentBg?: boolean;
 }
 
 const LogoDisplay: React.FC<LogoDisplayProps> = ({ 
   size = 'medium', 
   animated = false,
-  colorVariant = 'default'
+  colorVariant = 'default',
+  transparentBg = false
 }) => {
   const logoRef = useRef<HTMLDivElement>(null);
   
@@ -19,6 +21,7 @@ const LogoDisplay: React.FC<LogoDisplayProps> = ({
     small: 'w-8 h-8',
     medium: 'w-16 h-16',
     large: 'w-32 h-32',
+    'x-large': 'w-80 h-80' // 10x the small size
   };
 
   // Determine color variant classes
@@ -79,12 +82,15 @@ const LogoDisplay: React.FC<LogoDisplayProps> = ({
           className={`${sizeClasses[size]} object-contain`}
         />
         
-        {/* Optional creative overlay effect */}
-        <div className="absolute inset-0 opacity-0 hover:opacity-20 transition-opacity duration-300 bg-gradient-to-tr from-accent to-primary rounded-full"></div>
+        {!transparentBg && (
+          <div className="absolute inset-0 opacity-0 hover:opacity-20 transition-opacity duration-300 bg-gradient-to-tr from-accent to-primary rounded-full"></div>
+        )}
       </div>
       
-      {/* Optional subtle shadow for depth */}
-      <div className="absolute inset-0 -z-10 blur-sm opacity-30 bg-foreground transform scale-90 translate-y-1 rounded-full"></div>
+      {/* Optional subtle shadow for depth - only if not transparent */}
+      {!transparentBg && (
+        <div className="absolute inset-0 -z-10 blur-sm opacity-30 bg-foreground transform scale-90 translate-y-1 rounded-full"></div>
+      )}
     </div>
   );
 };
