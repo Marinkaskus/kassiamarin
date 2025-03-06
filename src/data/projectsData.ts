@@ -1,3 +1,4 @@
+
 import { Project } from "@/types/Project";
 
 export const previousProjects: Project[] = [

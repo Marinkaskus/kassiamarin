@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Footprints, ExternalLink, Play, VideoOff, Moon, ZoomIn, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
@@ -28,7 +29,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   
   const hasVideoFeature = (isChildrenProject || isInsomniaProject || isTidskapselProject || 
                           isLivetsTreeProject || isDagdromProject) && !isPlayDateProject;
-  // Removed hasScrollableVideo variable since we no longer need it
   
   let carouselImages = [project.imageSrc];
   
@@ -190,7 +190,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
             </a>
           )}
           
-          {(hasVideoFeature || isPlayDateProject) && project.videoUrl && (
+          {(project.videoUrl) && (
             <button
               onClick={handlePlayInDialog}
               className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"
@@ -199,6 +199,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
             </button>
           )}
         </div>
+
+        {project.id === 4 && (
+          <div className="mt-4 flex items-center text-muted-foreground">
+            <Footprints size={16} className="mr-2" />
+            <span className="text-sm italic">Interactive installation where viewers become part of the artwork</span>
+          </div>
+        )}
+        
+        {isInsomniaProject && (
+          <div className="mt-4 flex items-center text-muted-foreground">
+            <Moon size={16} className="mr-2" />
+            <span className="text-sm italic">A diary of sleepless nights presented through video and sound</span>
+          </div>
+        )}
 
         {isPlayDateProject && project.additionalImages && project.additionalImages.length > 0 && (
           <div className="mt-8">
