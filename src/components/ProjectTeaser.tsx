@@ -20,7 +20,7 @@ const ProjectTeaser: React.FC<ProjectTeaserProps> = ({ project }) => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
           <div className="absolute bottom-0 w-full p-4">
             <Link 
-              to="/portfolio" 
+              to="/projects" 
               className="text-white text-sm hover:underline flex items-center"
             >
               View Project <ExternalLink size={14} className="ml-1" />
