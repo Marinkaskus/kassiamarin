@@ -10,9 +10,15 @@ const HeroSection: React.FC = () => {
       
       <div className="container-custom relative z-10 flex flex-col justify-center items-center text-center">
         <span className="text-sm uppercase tracking-widest animate-fade-in-down">Visual Artist</span>
-        <h1 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-medium max-w-4xl mx-auto leading-tight md:leading-tight lg:leading-tight animate-fade-in">
-          Exploring the fragile intersections of memory, perception, and time, my work navigates the fluid space between personal history and abstraction.
-        </h1>
+        
+        {/* Replace text with logo */}
+        <div className="mt-4 flex justify-center animate-fade-in max-w-4xl mx-auto">
+          <img 
+            src="https://dl.dropboxusercontent.com/s/fi/exqofds6tq0pkqsp2uf0p/logo.png?rlkey=2ujtknbudpg8hsod15zevcipd&st=tjnh5vvh&dl=0" 
+            alt="Kassia Marin Logo" 
+            className="max-w-full h-auto max-h-32"
+          />
+        </div>
         
         <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl animate-fade-in-up">
           I'm Kassia Marin, a contemporary artist exploring memory, perception, and the fluidity of recollection through painting, text, and video. My work creates immersive visual experiences that invite contemplation and challenge the boundaries between past and present.

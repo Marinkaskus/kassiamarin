@@ -140,7 +140,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
               />
               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                 <div className="bg-background/80 rounded-full p-4">
-                  <Play size={32} className="text-primary" />
+                  {/* Replace Play icon with logo */}
+                  <img 
+                    src="https://dl.dropboxusercontent.com/s/fi/exqofds6tq0pkqsp2uf0p/logo.png?rlkey=2ujtknbudpg8hsod15zevcipd&st=tjnh5vvh&dl=0" 
+                    alt="Kassia Marin Logo" 
+                    className="w-8 h-8 object-contain"
+                  />
                 </div>
               </div>
             </div>
