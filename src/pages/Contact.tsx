@@ -1,7 +1,9 @@
+
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, Phone, Instagram, Linkedin, ExternalLink } from 'lucide-react';
+import LogoDisplay from '@/components/LogoDisplay';
 
 const Contact = () => {
   const { toast } = useToast();
@@ -41,7 +43,12 @@ const Contact = () => {
 
   return (
     <Layout>
-      <section className="pt-32 pb-20">
+      {/* Background Logo */}
+      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.03]">
+        <LogoDisplay size="x-large" transparentBg={true} />
+      </div>
+      
+      <section className="pt-32 pb-20 relative z-10">
         <div className="container-custom">
           <div className="max-w-2xl mx-auto text-center mb-16 animate-fade-in">
             <span className="text-sm uppercase tracking-widest text-muted-foreground">Get in Touch</span>
