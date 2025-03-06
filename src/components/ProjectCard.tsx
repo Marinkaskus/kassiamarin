@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Footprints, ExternalLink, Play, VideoOff, Moon, ZoomIn, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
@@ -216,7 +217,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
           </div>
         )}
         
-        {(isChildrenProject || isPlayDateProject) && project.additionalImages && project.additionalImages.length > 0 && (
+        {isChildrenProject && project.additionalImages && project.additionalImages.length > 0 && (
           <div className="mt-8">
             <h3 className="text-sm font-medium mb-3">Gallery</h3>
             <div className="grid grid-cols-4 gap-2">
