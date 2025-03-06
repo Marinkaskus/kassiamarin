@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Instagram, Mail, Linkedin } from 'lucide-react';
@@ -12,7 +13,7 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-medium">Kassia Marin</h3>
             <p className="text-sm text-muted-foreground max-w-xs">
-              Contemporary artist exploring the intersection of nature, identity, and modern existence.
+              Contemporary artist exploring the intersection of nature, identity, and modern existence through thoughtful visual narratives.
             </p>
           </div>
           
@@ -22,11 +23,8 @@ const Footer: React.FC = () => {
               <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Home
               </Link>
-              <Link to="/gallery" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Gallery
-              </Link>
-              <Link to="/projects" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Projects
+              <Link to="/portfolio" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Portfolio
               </Link>
               <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 About
