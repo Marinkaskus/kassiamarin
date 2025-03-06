@@ -47,13 +47,18 @@ const Navbar: React.FC = () => {
       }`}
     >
       <div className="container-custom flex items-center justify-between">
-        <Link 
-          to="/" 
-          className="font-serif text-xl md:text-2xl font-semibold tracking-tight transition-all hover:opacity-80"
-          onClick={closeMenu}
-        >
-          Kassia Marin
-        </Link>
+        <div className="flex flex-col items-start">
+          <Link 
+            to="/" 
+            className="font-serif text-xl md:text-2xl font-semibold tracking-tight transition-all hover:opacity-80"
+            onClick={closeMenu}
+          >
+            Kassia Marin
+          </Link>
+          <p className="hidden md:block text-xs text-muted-foreground mt-0.5 max-w-xs">
+            Contemporary artist exploring the intersection of nature, identity, and modern existence.
+          </p>
+        </div>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-12">
@@ -89,6 +94,9 @@ const Navbar: React.FC = () => {
         } md:hidden pt-24`}
       >
         <div className="flex flex-col items-center space-y-8 py-8">
+          <p className="text-sm text-muted-foreground mb-4 px-6 text-center">
+            Contemporary artist exploring the intersection of nature, identity, and modern existence.
+          </p>
           {navLinks.map((link) => (
             <Link
               key={link.path}
