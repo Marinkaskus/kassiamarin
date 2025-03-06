@@ -108,7 +108,7 @@ const Contact = () => {
                 rel="noopener noreferrer"
                 className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors"
               >
-                <Linkedin size={50} />
+                <Linkedin size={24} />
                 <span>LinkedIn</span>
                 <ExternalLink size={16} />
               </a>
