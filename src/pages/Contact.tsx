@@ -45,12 +45,12 @@ const Contact = () => {
     <Layout>
       {/* Background Logo */}
       <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.3]">
-        <LogoDisplay size="x-large" transparentBg={true} />
+        <LogoDisplay size="7x-large" transparentBg={true} />
       </div>
       
       <section className="pt-32 pb-20 relative z-10">
         <div className="container-custom">
-          <div className="max-w-7xl mx-auto text-center mb-16 animate-fade-in">
+          <div className="max-w-2xl mx-auto text-center mb-16 animate-fade-in">
             <span className="text-sm uppercase tracking-widest text-muted-foreground">Get in Touch</span>
             <h1 className="text-4xl md:text-5xl font-medium mt-2">Contact</h1>
             <p className="mt-4 text-muted-foreground">
