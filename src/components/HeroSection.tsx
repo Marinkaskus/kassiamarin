@@ -11,12 +11,12 @@ const HeroSection: React.FC = () => {
       <div className="container-custom relative z-10 flex flex-col justify-center items-center text-center">
         <span className="text-sm uppercase tracking-widest animate-fade-in-down">Visual Artist</span>
         
-        {/* Replace text with logo - enlarged 5x */}
+        {/* Replace text with logo - enlarged 20x */}
         <div className="mt-4 flex justify-center animate-fade-in max-w-4xl mx-auto">
           <img 
             src="https://dl.dropboxusercontent.com/s/fi/mouik1soo1yaoflt186dp/Logo.png?rlkey=e1ua3zw7f1i9ikvj24b6fxswl&st=h4na5yc9&dl=0" 
             alt="Kassia Marin Logo" 
-            className="max-w-full h-auto max-h-[160px]"
+            className="max-w-full h-auto max-h-[640px]"
           />
         </div>
         
