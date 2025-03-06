@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Footprints, ExternalLink, Play, VideoOff, Moon, ZoomIn, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
@@ -142,7 +143,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
                   <img 
                     src="https://dl.dropboxusercontent.com/s/fi/mouik1soo1yaoflt186dp/Logo.png?rlkey=e1ua3zw7f1i9ikvj24b6fxswl&st=h4na5yc9&dl=0" 
                     alt="Kassia Marin Logo" 
-                    className="w-8 h-8 object-contain"
+                    className="w-16 h-16 object-contain"
                   />
                 </div>
               </div>
