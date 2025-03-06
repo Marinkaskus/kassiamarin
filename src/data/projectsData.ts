@@ -1,3 +1,4 @@
+
 import { Project } from "@/types/Project";
 
 export const previousProjects: Project[] = [
@@ -14,7 +15,6 @@ export const previousProjects: Project[] = [
       'https://dl.dropboxusercontent.com/s/fi/cswbeyjg5e5blime22rwa/2L5A5988.JPG?rlkey=hib4omvi8202oszrst9x5l3wj&st=siunjjsl&dl=0',
       'https://dl.dropboxusercontent.com/s/fi/11ylxog7ysek28cs2u6oh/2L5A5975.JPG?rlkey=6jocfmdggnxgybkgr6n0w5qvu&st=f8utwh2i&dl=0',
     ],
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
     url: '#',
   },
   {
