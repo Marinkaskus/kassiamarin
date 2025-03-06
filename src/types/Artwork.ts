@@ -7,4 +7,8 @@ export interface Artwork {
   medium: string;
   description?: string;
   imageSrc: string;
+  category?: string;
+  available?: boolean;
+  price?: string;
+  additionalImages?: string[];
 }
