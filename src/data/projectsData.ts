@@ -53,8 +53,9 @@ export const previousProjects: Project[] = [
     imageSrc: 'https://dl.dropboxusercontent.com/s/fi/2vofamm386geerey80qin/Uten-navn-2.jpg?rlkey=kw2y0lkfbdcdp8ly3o24s5btb&st=24dv0aan&dl=0',
     videoUrl: 'https://player.vimeo.com/video/1062991392',
     additionalImages: [
-      'https://dl.dropboxusercontent.com/s/fi/2vofamm386geerey80qin/Uten-navn-2.jpg?rlkey=kw2y0lkfbdcdp8ly3o24s5btb&st=24dv0aan&dl=0',
-      'video:https://player.vimeo.com/video/1062991392'
+      'https://dl.dropboxusercontent.com/s/fi/z0ewy53s6575r6n6qlrkl/20221202_180434.jpg?rlkey=og2k8b1ba7pigoz8izxbampfr&st=ernve4bs&dl=0',
+      'https://dl.dropboxusercontent.com/s/fi/beczdo458h33tclou7plp/IMG_4353.jpg?rlkey=zv9sogwhntza6kbftq4ola891&st=easpfdrd&dl=0',
+      'https://dl.dropboxusercontent.com/s/fi/y5fkjxybtp1msblg06k7t/20221204_155050.jpg?rlkey=1b8xzpxvxm1kg0o18msfuw717&st=hj4ikwa4&dl=0'
     ],
   },
   {

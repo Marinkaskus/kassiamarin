@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Footprints, ExternalLink, Play, VideoOff, Moon, ZoomIn, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
@@ -29,11 +28,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   
   const hasVideoFeature = (isChildrenProject || isInsomniaProject || isTidskapselProject || 
                           isLivetsTreeProject || isDagdromProject) && !isPlayDateProject;
-  // Removed hasScrollableVideo variable since we no longer need it
   
   let carouselImages = [project.imageSrc];
   
-  if (project.additionalImages && project.additionalImages.length > 0) {
+  if (project.additionalImages && project.additionalImages.length > 0 && !isPlayDateProject) {
     carouselImages = project.additionalImages;
   }
   
@@ -201,8 +199,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
           )}
         </div>
         
-        {/* Removed hasScrollableVideo condition and its content */}
-        
         {project.id === 4 && (
           <div className="mt-4 flex items-center text-muted-foreground">
             <Footprints size={16} className="mr-2" />
@@ -217,10 +213,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
           </div>
         )}
         
-        {isChildrenProject && project.additionalImages && project.additionalImages.length > 0 && (
-          <div className="mt-8">
-            <h3 className="text-sm font-medium mb-3">Gallery</h3>
-            <div className="grid grid-cols-4 gap-2">
+        {isPlayDateProject && project.additionalImages && project.additionalImages.length > 0 && (
+          <div className="mt-6">
+            <h3 className="text-sm font-medium mb-3">Project Gallery</h3>
+            <div className="grid grid-cols-3 gap-2">
               {project.additionalImages.map((image, idx) => {
                 if (image.startsWith('video:')) return null;
                 
