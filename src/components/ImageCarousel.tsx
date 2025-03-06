@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, AlertCircle, Pause, Play } from 'lucide-react';
+import { ChevronLeft, ChevronRight, AlertCircle, Pause, Play, Video } from 'lucide-react';
 
 interface ImageCarouselProps {
   images: string[];
@@ -24,6 +24,12 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   // Filter out images with errors
   const validImages = images.filter(img => !imageErrors[img]);
   
+  // Check if current item is a video
+  const isCurrentItemVideo = validImages[currentImageIndex]?.startsWith('video:');
+  const currentVideoUrl = isCurrentItemVideo 
+    ? validImages[currentImageIndex].replace('video:', '') 
+    : '';
+  
   // Reset currentImageIndex when validImages list changes
   useEffect(() => {
     if (validImages.length > 0 && currentImageIndex >= validImages.length) {
@@ -31,17 +37,19 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
     }
     
     // Preload the next image to improve performance
-    if (validImages.length > 1) {
+    if (validImages.length > 1 && !isCurrentItemVideo) {
       const nextIndex = (currentImageIndex + 1) % validImages.length;
-      const img = new Image();
-      img.src = validImages[nextIndex];
+      if (!validImages[nextIndex].startsWith('video:')) {
+        const img = new Image();
+        img.src = validImages[nextIndex];
+      }
     }
-  }, [validImages.length, currentImageIndex]);
+  }, [validImages.length, currentImageIndex, isCurrentItemVideo]);
   
   // Automatic image rotation
   useEffect(() => {
     const startAutoPlay = () => {
-      if (autoPlay && validImages.length > 1 && !isPaused) {
+      if (autoPlay && validImages.length > 1 && !isPaused && !isCurrentItemVideo) {
         autoPlayTimerRef.current = setInterval(() => {
           setCurrentImageIndex(prevIndex => (prevIndex + 1) % validImages.length);
         }, interval);
@@ -59,7 +67,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
     startAutoPlay();
     
     return () => clearAutoPlay();
-  }, [autoPlay, validImages.length, interval, isPaused]);
+  }, [autoPlay, validImages.length, interval, isPaused, isCurrentItemVideo]);
   
   // Pause autoplay when user interacts with carousel
   useEffect(() => {
@@ -117,28 +125,41 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
 
   return (
     <div className="relative w-full aspect-[4/3] overflow-hidden group">
-      {validImages.map((src, index) => (
-        <div 
-          key={src} 
-          className={`absolute inset-0 transition-opacity duration-500 ${
-            index === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
-          }`}
-        >
-          {!imagesLoaded[src] && (
-            <div className="absolute inset-0 bg-muted flex items-center justify-center">
-              <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-            </div>
-          )}
-          <img 
-            src={src} 
-            alt={`${title} - image ${index + 1}`} 
-            className="w-full h-full object-contain" // Changed from object-cover to object-contain
-            loading={index === currentImageIndex ? "eager" : "lazy"}
-            onError={() => handleImageError(src)}
-            onLoad={() => handleImageLoad(src)}
-          />
+      {isCurrentItemVideo ? (
+        <div className="absolute inset-0 z-10">
+          <iframe 
+            src={currentVideoUrl}
+            title={`${title} - video`}
+            className="w-full h-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            frameBorder="0"
+          ></iframe>
         </div>
-      ))}
+      ) : (
+        validImages.map((src, index) => (
+          <div 
+            key={src} 
+            className={`absolute inset-0 transition-opacity duration-500 ${
+              index === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+            }`}
+          >
+            {!imagesLoaded[src] && (
+              <div className="absolute inset-0 bg-muted flex items-center justify-center">
+                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            )}
+            <img 
+              src={src} 
+              alt={`${title} - image ${index + 1}`} 
+              className="w-full h-full object-contain"
+              loading={index === currentImageIndex ? "eager" : "lazy"}
+              onError={() => handleImageError(src)}
+              onLoad={() => handleImageLoad(src)}
+            />
+          </div>
+        ))
+      )}
       
       {validImages.length > 1 && (
         <>
@@ -160,22 +181,24 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
           </div>
           
           <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-20">
-            {validImages.map((_, index) => (
+            {validImages.map((src, index) => (
               <button
                 key={index}
                 className={`w-2 h-2 rounded-full transition-colors ${
                   index === currentImageIndex ? 'bg-primary' : 'bg-background/70'
-                }`}
+                } ${src.startsWith('video:') ? 'flex items-center justify-center' : ''}`}
                 onClick={() => {
                   setCurrentImageIndex(index);
                   setIsPaused(true);
                 }}
-                aria-label={`Go to image ${index + 1}`}
-              />
+                aria-label={`Go to ${src.startsWith('video:') ? 'video' : 'image'} ${index + 1}`}
+              >
+                {src.startsWith('video:') && <div className="absolute w-4 h-4 rounded-full bg-background/40 flex items-center justify-center"><Video size={8} /></div>}
+              </button>
             ))}
           </div>
           
-          {autoPlay && (
+          {autoPlay && !isCurrentItemVideo && (
             <button
               onClick={togglePause}
               className="absolute bottom-4 right-4 bg-background/70 text-foreground p-2 rounded-full hover:bg-background/90 transition-colors opacity-0 group-hover:opacity-100 z-20"

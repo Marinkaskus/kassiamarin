@@ -16,9 +16,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   const [videoError, setVideoError] = useState(false);
   const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const carouselImages = project.additionalImages 
-    ? [project.imageSrc, ...project.additionalImages]
-    : [project.imageSrc];
   
   const isChildrenProject = project.id === 8;
   const isInsomniaProject = project.id === 9;
@@ -29,14 +26,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   const isPlayDateProject = project.id === 11;
   const isJegTenkerProject = project.id === 4;
   
-  const hasVideoFeature = isChildrenProject || isInsomniaProject || isTidskapselProject || isLivetsTreeProject || isDagdromProject || isPlayDateProject;
-  const hasScrollableVideo = isJegTenkerProject || isPlayDateProject;
+  const hasVideoFeature = (isChildrenProject || isInsomniaProject || isTidskapselProject || 
+                          isLivetsTreeProject || isDagdromProject) && !isPlayDateProject;
+  const hasScrollableVideo = isJegTenkerProject;
+  
+  let carouselImages = [project.imageSrc];
+  
+  if (project.additionalImages && project.additionalImages.length > 0) {
+    carouselImages = project.additionalImages;
+  }
   
   const handleVideoThumbnailClick = () => {
     if (hasVideoFeature && project.videoUrl) {
-      if (isPlayDateProject) {
-        return;
-      }
       setShowVideo(true);
       setVideoError(false);
     }
@@ -58,6 +59,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   };
 
   const handleImageClick = (imageSrc: string, idx: number) => {
+    if (imageSrc.startsWith('video:')) return;
+    
     setEnlargedImage(imageSrc);
     setCurrentImageIndex(idx);
   };
@@ -66,16 +69,28 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
     if (!project.additionalImages) return;
     
     const newIndex = (currentImageIndex - 1 + project.additionalImages.length) % project.additionalImages.length;
-    setCurrentImageIndex(newIndex);
-    setEnlargedImage(project.additionalImages[newIndex]);
+    if (project.additionalImages[newIndex].startsWith('video:')) {
+      const prevIndex = (newIndex - 1 + project.additionalImages.length) % project.additionalImages.length;
+      setCurrentImageIndex(prevIndex);
+      setEnlargedImage(project.additionalImages[prevIndex]);
+    } else {
+      setCurrentImageIndex(newIndex);
+      setEnlargedImage(project.additionalImages[newIndex]);
+    }
   };
   
   const handleNextImage = () => {
     if (!project.additionalImages) return;
     
     const newIndex = (currentImageIndex + 1) % project.additionalImages.length;
-    setCurrentImageIndex(newIndex);
-    setEnlargedImage(project.additionalImages[newIndex]);
+    if (project.additionalImages[newIndex].startsWith('video:')) {
+      const nextIndex = (newIndex + 1) % project.additionalImages.length;
+      setCurrentImageIndex(nextIndex);
+      setEnlargedImage(project.additionalImages[nextIndex]);
+    } else {
+      setCurrentImageIndex(newIndex);
+      setEnlargedImage(project.additionalImages[newIndex]);
+    }
   };
   
   return (
@@ -85,7 +100,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
     >
       <div className="w-full lg:w-1/2">
         {hasVideoFeature ? (
-          showVideo && project.videoUrl && !isPlayDateProject ? (
+          showVideo && project.videoUrl ? (
             <div className="w-full aspect-video mb-4 relative">
               {videoError ? (
                 <div className="w-full h-full flex flex-col items-center justify-center bg-muted p-8 text-center">
@@ -123,20 +138,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
                 alt={project.title}
                 className="w-full h-full object-contain"
               />
-              {!isPlayDateProject && (
-                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <div className="bg-background/80 rounded-full p-4">
-                    <Play size={32} className="text-primary" />
-                  </div>
+              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <div className="bg-background/80 rounded-full p-4">
+                  <Play size={32} className="text-primary" />
                 </div>
-              )}
-              {isPlayDateProject && (
-                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <div className="bg-background/80 px-3 py-2 rounded-lg">
-                    <span className="text-sm font-medium">Scroll down to view video</span>
-                  </div>
-                </div>
-              )}
+              </div>
             </div>
           )
         ) : (
@@ -184,7 +190,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
             </a>
           )}
           
-          {hasVideoFeature && project.videoUrl && (
+          {(hasVideoFeature || isPlayDateProject) && project.videoUrl && (
             <button
               onClick={handlePlayInDialog}
               className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"
@@ -194,23 +200,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
           )}
         </div>
         
-        {isPlayDateProject && project.videoUrl && (
-          <div className="mt-8 overflow-auto max-h-[400px] border rounded-md p-4">
-            <h3 className="text-sm font-medium mb-4">Video Preview</h3>
-            <div className="aspect-video w-full">
-              <iframe
-                src={project.videoUrl}
-                title={`${project.title} Video Preview`}
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                frameBorder="0"
-              ></iframe>
-            </div>
-          </div>
-        )}
-        
-        {isJegTenkerProject && (
+        {hasScrollableVideo && (
           <div className="mt-8 overflow-auto max-h-[400px] border rounded-md p-4">
             <h3 className="text-sm font-medium mb-4">Video Preview</h3>
             <div className="aspect-video w-full">
@@ -244,22 +234,26 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
           <div className="mt-8">
             <h3 className="text-sm font-medium mb-3">Gallery</h3>
             <div className="grid grid-cols-4 gap-2">
-              {project.additionalImages.map((image, idx) => (
-                <div 
-                  key={idx} 
-                  className="aspect-square overflow-hidden rounded-md cursor-pointer relative group"
-                  onClick={() => handleImageClick(image, idx)}
-                >
-                  <img 
-                    src={image} 
-                    alt={`${project.title} - additional image ${idx + 1}`}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <ZoomIn size={20} className="text-white" />
+              {project.additionalImages.map((image, idx) => {
+                if (image.startsWith('video:')) return null;
+                
+                return (
+                  <div 
+                    key={idx} 
+                    className="aspect-square overflow-hidden rounded-md cursor-pointer relative group"
+                    onClick={() => handleImageClick(image, idx)}
+                  >
+                    <img 
+                      src={image} 
+                      alt={`${project.title} - additional image ${idx + 1}`}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <ZoomIn size={20} className="text-white" />
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
@@ -308,7 +302,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
                     
                     <div className="absolute bottom-6 left-0 right-0 flex justify-center">
                       <div className="bg-black/30 backdrop-blur-sm px-4 py-1.5 rounded-full text-white text-sm">
-                        {currentImageIndex + 1} / {project.additionalImages.length}
+                        {currentImageIndex + 1} / {project.additionalImages.filter(img => !img.startsWith('video:')).length}
                       </div>
                     </div>
                   </>
