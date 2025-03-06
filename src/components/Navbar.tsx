@@ -43,22 +43,17 @@ const Navbar: React.FC = () => {
   return (
     <nav 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-background/95 backdrop-blur-sm py-3 shadow-sm border-b border-border/50' : 'bg-transparent py-6'
+        scrolled ? 'glass py-3 shadow-sm' : 'bg-transparent py-6'
       }`}
     >
       <div className="container-custom flex items-center justify-between">
-        <div className="flex flex-col items-start">
-          <Link 
-            to="/" 
-            className="font-serif text-xl md:text-2xl font-semibold tracking-tight transition-all hover:opacity-80"
-            onClick={closeMenu}
-          >
-            Kassia Marin
-          </Link>
-          <p className="hidden md:block text-xs text-muted-foreground mt-0.5 max-w-xs">
-            Contemporary artist exploring the intersection of nature, identity, and modern existence.
-          </p>
-        </div>
+        <Link 
+          to="/" 
+          className="font-serif text-xl md:text-2xl font-semibold transition-all hover:opacity-80"
+          onClick={closeMenu}
+        >
+          Kassia Marin
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-12">
@@ -66,10 +61,10 @@ const Navbar: React.FC = () => {
             <Link
               key={link.path}
               to={link.path}
-              className={`text-sm tracking-wide transition-all ${
+              className={`text-sm tracking-wide transition-all hover:opacity-70 ${
                 isActive(link.path) 
-                  ? 'font-medium text-foreground after:content-[""] after:block after:w-full after:h-[2px] after:bg-foreground after:mt-0.5' 
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? 'font-medium opacity-100 border-b border-primary pb-0.5' 
+                  : 'opacity-80'
               }`}
             >
               {link.name}
@@ -89,22 +84,17 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 bg-background/98 backdrop-blur-sm z-40 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-0 bg-background z-40 transform transition-transform duration-300 ease-in-out ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
         } md:hidden pt-24`}
       >
         <div className="flex flex-col items-center space-y-8 py-8">
-          <p className="text-sm text-muted-foreground mb-4 px-6 text-center">
-            Contemporary artist exploring the intersection of nature, identity, and modern existence.
-          </p>
           {navLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}
-              className={`text-xl transition-all font-serif ${
-                isActive(link.path) 
-                  ? 'font-medium text-foreground' 
-                  : 'text-muted-foreground hover:text-foreground'
+              className={`text-xl transition-all ${
+                isActive(link.path) ? 'font-medium' : 'opacity-80'
               }`}
             >
               {link.name}
