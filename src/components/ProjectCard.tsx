@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Footprints, ExternalLink, Play, VideoOff, Moon, ZoomIn, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
@@ -35,6 +34,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   
   const handleVideoThumbnailClick = () => {
     if (hasVideoFeature && project.videoUrl) {
+      if (isPlayDateProject) {
+        return;
+      }
       setShowVideo(true);
       setVideoError(false);
     }
@@ -83,7 +85,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
     >
       <div className="w-full lg:w-1/2">
         {hasVideoFeature ? (
-          showVideo && project.videoUrl ? (
+          showVideo && project.videoUrl && !isPlayDateProject ? (
             <div className="w-full aspect-video mb-4 relative">
               {videoError ? (
                 <div className="w-full h-full flex flex-col items-center justify-center bg-muted p-8 text-center">
@@ -112,17 +114,29 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
               )}
             </div>
           ) : (
-            <div className="w-full aspect-[4/3] overflow-hidden relative group cursor-pointer" onClick={handleVideoThumbnailClick}>
+            <div 
+              className="w-full aspect-[4/3] overflow-hidden relative group cursor-pointer" 
+              onClick={handleVideoThumbnailClick}
+            >
               <img 
                 src={project.imageSrc}
                 alt={project.title}
                 className="w-full h-full object-contain"
               />
-              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <div className="bg-background/80 rounded-full p-4">
-                  <Play size={32} className="text-primary" />
+              {!isPlayDateProject && (
+                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="bg-background/80 rounded-full p-4">
+                    <Play size={32} className="text-primary" />
+                  </div>
                 </div>
-              </div>
+              )}
+              {isPlayDateProject && (
+                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="bg-background/80 px-3 py-2 rounded-lg">
+                    <span className="text-sm font-medium">Scroll down to view video</span>
+                  </div>
+                </div>
+              )}
             </div>
           )
         ) : (
@@ -180,7 +194,23 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
           )}
         </div>
         
-        {hasScrollableVideo && (
+        {isPlayDateProject && project.videoUrl && (
+          <div className="mt-8 overflow-auto max-h-[400px] border rounded-md p-4">
+            <h3 className="text-sm font-medium mb-4">Video Preview</h3>
+            <div className="aspect-video w-full">
+              <iframe
+                src={project.videoUrl}
+                title={`${project.title} Video Preview`}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                frameBorder="0"
+              ></iframe>
+            </div>
+          </div>
+        )}
+        
+        {isJegTenkerProject && (
           <div className="mt-8 overflow-auto max-h-[400px] border rounded-md p-4">
             <h3 className="text-sm font-medium mb-4">Video Preview</h3>
             <div className="aspect-video w-full">
