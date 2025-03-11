@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, ImageOff } from 'lucide-react';
 import { Artwork } from '@/types/Artwork';
 
 interface ArtworkDetailsProps {
@@ -13,6 +13,15 @@ interface ArtworkDetailsProps {
 
 const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ artwork, open, onOpenChange, children }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imageError, setImageError] = useState(false);
+  
+  // Reset state when artwork changes or dialog opens
+  useEffect(() => {
+    if (open && artwork) {
+      setCurrentImageIndex(0);
+      setImageError(false);
+    }
+  }, [artwork, open]);
   
   if (!artwork) return null;
   
@@ -21,21 +30,35 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ artwork, open, onOpenCh
   
   const handleNextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
+    setImageError(false);
   };
   
   const handlePrevImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+    setImageError(false);
+  };
+
+  const handleImageError = () => {
+    setImageError(true);
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="flex flex-col md:flex-row md:max-w-5xl md:h-[80vh] gap-6 p-0 overflow-hidden">
         <div className="relative flex-1 bg-black">
-          <img 
-            src={allImages[currentImageIndex]} 
-            alt={artwork.title} 
-            className="w-full h-full object-contain"
-          />
+          {!imageError ? (
+            <img 
+              src={allImages[currentImageIndex]} 
+              alt={artwork.title} 
+              className="w-full h-full object-contain"
+              onError={handleImageError}
+            />
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center">
+              <ImageOff className="h-16 w-16 text-white/50 mb-4" />
+              <p className="text-white/70">Image could not be loaded</p>
+            </div>
+          )}
           
           {allImages.length > 1 && (
             <>

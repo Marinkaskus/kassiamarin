@@ -1,14 +1,14 @@
 
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
+import React, { useState, useEffect } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Artwork } from '@/types/Artwork';
-import { useToast } from '@/components/ui/use-toast';
-import { X, Save, Upload, FileImage, Link } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { X, Save, Upload, FileImage, Link, AlertCircle } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface ArtworkEditorProps {
@@ -28,7 +28,18 @@ const ArtworkEditor: React.FC<ArtworkEditorProps> = ({
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageUrlInput, setImageUrlInput] = useState('');
   const [imageUploadMethod, setImageUploadMethod] = useState<'upload' | 'url'>('upload');
+  const [imageError, setImageError] = useState(false);
   const { toast } = useToast();
+
+  // Reset state when artwork changes or dialog opens
+  useEffect(() => {
+    if (open) {
+      setFormData({ ...artwork });
+      setImagePreview(null);
+      setImageUrlInput('');
+      setImageError(false);
+    }
+  }, [artwork, open]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -47,6 +58,7 @@ const ArtworkEditor: React.FC<ArtworkEditorProps> = ({
         const result = e.target?.result as string;
         setImagePreview(result);
         setFormData({ ...formData, imageSrc: result });
+        setImageError(false);
       };
       reader.readAsDataURL(file);
     }
@@ -65,14 +77,34 @@ const ArtworkEditor: React.FC<ArtworkEditorProps> = ({
     // Preview the image from URL
     setImagePreview(imageUrlInput);
     setFormData({ ...formData, imageSrc: imageUrlInput });
+    setImageError(false);
     toast({
       title: "Image updated",
       description: "The image preview has been updated from URL",
     });
   };
 
+  const handleImageError = () => {
+    setImageError(true);
+    toast({
+      title: "Image Error",
+      description: "Failed to load image. Please check the URL or try a different image.",
+      variant: "destructive",
+    });
+  };
+
   const handleSubmit = () => {
     try {
+      // Ensure imageSrc is valid and not empty
+      if (!formData.imageSrc || formData.imageSrc.trim() === '') {
+        toast({
+          title: "Error",
+          description: "Image source cannot be empty",
+          variant: "destructive",
+        });
+        return;
+      }
+      
       onSave(formData);
       toast({
         title: "Artwork updated",
@@ -93,16 +125,25 @@ const ArtworkEditor: React.FC<ArtworkEditorProps> = ({
       <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit Artwork</DialogTitle>
+          <DialogDescription>Update artwork details or change the image.</DialogDescription>
         </DialogHeader>
         
         <div className="grid gap-4 py-4">
           <div className="flex flex-col items-center justify-center mb-4">
             <div className="relative w-40 h-40 rounded-md overflow-hidden border mb-2">
-              <img 
-                src={imagePreview || formData.imageSrc} 
-                alt="Preview" 
-                className="w-full h-full object-cover"
-              />
+              {!imageError ? (
+                <img 
+                  src={imagePreview || formData.imageSrc} 
+                  alt="Preview" 
+                  className="w-full h-full object-cover"
+                  onError={handleImageError}
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center bg-muted p-2 text-center">
+                  <AlertCircle className="h-8 w-8 text-destructive mb-2" />
+                  <p className="text-xs text-destructive">Image could not be loaded</p>
+                </div>
+              )}
             </div>
             
             <Tabs 
