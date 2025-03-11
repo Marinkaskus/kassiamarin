@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Footprints, ExternalLink, Play, VideoOff, Moon, ZoomIn, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
@@ -29,6 +28,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   
   const hasVideoFeature = (isChildrenProject || isInsomniaProject || isTidskapselProject || 
                           isLivetsTreeProject || isDagdromProject) && !isPlayDateProject;
+
+  const getVideoInfo = () => {
+    const videoTitle = project.title;
+    const creatorName = "Kassia Marin";
+    const platform = project.videoUrl?.includes('vimeo') ? 'Vimeo' : 'YouTube';
+    
+    return {
+      title: videoTitle,
+      creator: creatorName,
+      platform: platform
+    };
+  };
   
   let carouselImages = [project.imageSrc];
   
@@ -101,7 +112,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
       <div className="w-full lg:w-1/2">
         {hasVideoFeature ? (
           showVideo && project.videoUrl ? (
-            <div className="w-full aspect-video mb-4 relative">
+            <div className="w-full aspect-video mb-4 relative flex flex-col">
               {videoError ? (
                 <div className="w-full h-full flex flex-col items-center justify-center bg-muted p-8 text-center">
                   <VideoOff size={48} className="text-muted-foreground mb-4" />
@@ -117,15 +128,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
                   </button>
                 </div>
               ) : (
-                <iframe
-                  src={project.videoUrl}
-                  title={`${project.title} Video`}
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  frameBorder="0"
-                  onError={handleVideoError}
-                ></iframe>
+                <>
+                  <iframe
+                    src={project.videoUrl}
+                    title={`${project.title} Video`}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    frameBorder="0"
+                    onError={handleVideoError}
+                  ></iframe>
+                  <div className="text-xs text-muted-foreground mt-2 italic text-center">
+                    {`"${getVideoInfo().title}" from ${getVideoInfo().creator} on ${getVideoInfo().platform}`}
+                  </div>
+                </>
               )}
             </div>
           ) : (
