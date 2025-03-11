@@ -27,7 +27,7 @@ const Projects = () => {
       <section className="pt-32 pb-20">
         <div className="container-custom">
           <div className="max-w-2xl mx-auto text-center mb-16 animate-fade-in">
-            <h1 className="text-4xl md:text-5xl font-medium">Portfolio</h1>
+            <h1 className="text-4xl md:text-5xl font-medium text-orange-950">Portfolio</h1>
             <p className="mt-4 text-orange-950">
               A curated selection of my past exhibitions, collaborations, and commissioned works 
               from throughout my artistic career.
