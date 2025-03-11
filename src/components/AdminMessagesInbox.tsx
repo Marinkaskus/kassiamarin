@@ -77,11 +77,27 @@ const AdminMessagesInbox = () => {
   const handleSendReply = () => {
     if (!selectedMessage || !replyText.trim()) return;
     
-    // In a real application, you would send an email here
-    // For now, we'll just simulate success
+    // Prepare email variables
+    const recipientEmail = selectedMessage.email;
+    const emailSubject = `Re: ${selectedMessage.subject}`;
+    const emailBody = `
+Dear ${selectedMessage.name},
+
+${replyText}
+
+Best regards,
+Kassia Marin
+`;
+    
+    // Create a mailto link with the email data
+    const mailtoLink = `mailto:${encodeURIComponent(recipientEmail)}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    
+    // Open the email client
+    window.open(mailtoLink, '_blank');
+    
     toast({
       title: "Reply sent",
-      description: `Your reply to ${selectedMessage.name} has been sent successfully.`,
+      description: `Your reply to ${selectedMessage.name} has been prepared. Please send it from your email client.`,
     });
     
     setReplyText('');
@@ -214,8 +230,8 @@ const AdminMessagesInbox = () => {
                   disabled={!replyText.trim()}
                   className="flex items-center gap-1"
                 >
-                  <ArrowUpRight className="h-4 w-4" />
-                  Send Reply
+                  <Mail className="h-4 w-4" />
+                  Send Email Reply
                 </Button>
               </div>
             </div>
