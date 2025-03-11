@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { artworks } from '@/data/artworkData';
@@ -20,7 +19,6 @@ const Gallery = () => {
   const { currentUser, isAdmin } = useAuth();
   const { toast } = useToast();
 
-  // Restore artwork data from localStorage or use default
   useEffect(() => {
     const savedArtworks = localStorage.getItem('gallery_artworks');
     if (savedArtworks) {
@@ -54,7 +52,6 @@ const Gallery = () => {
     setArtworkData(updatedArtworks);
     setSelectedArtwork(updatedArtwork);
     
-    // Persist changes to localStorage
     localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
     
     toast({
@@ -108,20 +105,9 @@ const Gallery = () => {
         artwork={selectedArtwork}
         open={detailsOpen}
         onOpenChange={setDetailsOpen}
-      >
-        {isAdmin && selectedArtwork && (
-          <Button 
-            onClick={handleEditClick}
-            variant="outline" 
-            size="sm"
-            className="mt-4 flex items-center gap-2"
-          >
-            <Edit className="h-4 w-4" /> Edit Artwork
-          </Button>
-        )}
-      </ArtworkDetails>
+      />
       
-      {selectedArtwork && (
+      {isAdmin && selectedArtwork && (
         <ArtworkEditor
           artwork={selectedArtwork}
           open={editorOpen}
