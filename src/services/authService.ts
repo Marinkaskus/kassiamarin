@@ -1,10 +1,9 @@
-
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, User } from 'firebase/auth';
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDEiImZdpXH5Y6nZjOQxzNWFQAGxd5ZsPw",
+  apiKey: "AIzaSyDVJJ8RKKqo1Q2-BEjRMkPcm0mKUwn96d4",
   authDomain: "kassia-marin-gallery.firebaseapp.com",
   projectId: "kassia-marin-gallery",
   storageBucket: "kassia-marin-gallery.appspot.com",
