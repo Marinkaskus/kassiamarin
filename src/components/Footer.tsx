@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Instagram, Mail, Linkedin, Lock } from 'lucide-react';
+import { Instagram, Mail, Linkedin, Lock, LogOut, ShieldAlert } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { logout } from '@/services/authService';
@@ -88,14 +88,35 @@ const Footer: React.FC = () => {
             <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               Terms of Service
             </a>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={handleAdminAccess}
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 px-2 h-auto"
-            >
-              <Lock className="h-3 w-3" /> Admin
-            </Button>
+            {isAdmin ? (
+              <div className="flex items-center space-x-2">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleLogout}
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 px-2 h-auto"
+                >
+                  <LogOut className="h-3 w-3" /> Logout
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleAdminAccess}
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 px-2 h-auto"
+                >
+                  <ShieldAlert className="h-3 w-3" /> Admin
+                </Button>
+              </div>
+            ) : (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={handleAdminAccess}
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 px-2 h-auto"
+              >
+                <Lock className="h-3 w-3" /> Admin
+              </Button>
+            )}
           </div>
         </div>
       </div>

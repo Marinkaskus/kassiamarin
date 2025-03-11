@@ -5,26 +5,13 @@ import { useAuth } from '@/contexts/AuthContext';
 import Layout from '@/components/Layout';
 import AdminGalleryManager from '@/components/AdminGalleryManager';
 import AdminMessagesInbox from '@/components/AdminMessagesInbox';
-import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useToast } from '@/hooks/use-toast';
-import { LogOut, ImageIcon, MessageSquare, ShieldAlert } from 'lucide-react';
-import { logout } from '@/services/authService';
+import { ImageIcon, MessageSquare, ShieldAlert } from 'lucide-react';
 
 const Admin = () => {
   const { currentUser, isAdmin } = useAuth();
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('gallery');
-
-  const handleLogout = async () => {
-    await logout();
-    toast({
-      title: 'Logged out',
-      description: 'You have been logged out successfully',
-    });
-    navigate('/');
-  };
 
   // Admin dashboard is now directly accessible without login check
   return (
@@ -38,13 +25,6 @@ const Admin = () => {
                 Manage your website content and communications
               </p>
             </div>
-            <Button 
-              variant="outline" 
-              onClick={handleLogout}
-              className="mt-4 md:mt-0 flex items-center gap-2"
-            >
-              <LogOut className="h-4 w-4" /> Logout
-            </Button>
           </div>
 
           <div className="bg-card rounded-lg border shadow-sm p-1 mb-8">

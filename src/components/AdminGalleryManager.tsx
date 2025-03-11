@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { artworks } from '@/data/artworkData';
 import { previousProjects } from '@/data/projectsData';
@@ -7,21 +6,21 @@ import { Project } from '@/types/Project';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Plus, Edit, Trash2, ImageIcon, Video, Check, X } from 'lucide-react';
 import ArtworkEditor from '@/components/ArtworkEditor';
+import ArtworkCreator from '@/components/ArtworkCreator';
 
 const AdminGalleryManager = () => {
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
   const [projectsData, setProjectsData] = useState<Project[]>(previousProjects);
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [editorOpen, setEditorOpen] = useState(false);
+  const [creatorOpen, setCreatorOpen] = useState(false);
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTab, setSelectedTab] = useState('gallery');
 
-  // Load artwork data from localStorage or use default
   useEffect(() => {
     const savedArtworks = localStorage.getItem('gallery_artworks');
     if (savedArtworks) {
@@ -35,7 +34,6 @@ const AdminGalleryManager = () => {
       setArtworkData(artworks);
     }
 
-    // Load projects data
     const savedProjects = localStorage.getItem('portfolio_projects');
     if (savedProjects) {
       try {
@@ -54,7 +52,6 @@ const AdminGalleryManager = () => {
     setArtworkData(updatedArtworks);
     setSelectedArtwork(null);
     
-    // Persist changes to localStorage
     localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
     
     toast({
@@ -63,6 +60,43 @@ const AdminGalleryManager = () => {
     });
     
     setEditorOpen(false);
+  };
+
+  const handleAddNewItem = () => {
+    setCreatorOpen(true);
+  };
+
+  const handleCreateArtwork = (newArtwork: Artwork) => {
+    const updatedArtworks = [...artworkData, newArtwork];
+    setArtworkData(updatedArtworks);
+    
+    localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
+    
+    toast({
+      title: "Artwork added",
+      description: `"${newArtwork.title}" has been added to the gallery`,
+    });
+  };
+
+  const handleCreateProject = (newProject: Artwork) => {
+    const project: Project = {
+      id: newProject.id,
+      title: newProject.title,
+      description: newProject.description || '',
+      year: newProject.year,
+      location: (newProject as any).location || 'Unknown location',
+      imageSrc: newProject.imageSrc
+    };
+    
+    const updatedProjects = [...projectsData, project];
+    setProjectsData(updatedProjects);
+    
+    localStorage.setItem('portfolio_projects', JSON.stringify(updatedProjects));
+    
+    toast({
+      title: "Project added",
+      description: `"${project.title}" has been added to the portfolio`,
+    });
   };
 
   const handleEditArtwork = (artwork: Artwork) => {
@@ -93,7 +127,7 @@ const AdminGalleryManager = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="max-w-xs"
           />
-          <Button size="sm" variant="default">
+          <Button size="sm" variant="default" onClick={handleAddNewItem}>
             <Plus className="h-4 w-4 mr-2" /> Add New
           </Button>
         </div>
@@ -234,6 +268,13 @@ const AdminGalleryManager = () => {
           onSave={handleArtworkUpdate}
         />
       )}
+
+      <ArtworkCreator
+        open={creatorOpen}
+        onOpenChange={setCreatorOpen}
+        onSave={selectedTab === 'gallery' ? handleCreateArtwork : handleCreateProject}
+        type={selectedTab === 'gallery' ? 'artwork' : 'project'}
+      />
     </div>
   );
 };
