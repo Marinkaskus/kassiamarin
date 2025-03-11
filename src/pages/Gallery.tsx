@@ -8,7 +8,7 @@ import ArtworkEditor from '@/components/ArtworkEditor';
 import { Artwork } from '@/types/Artwork';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { LogOut, Edit, Plus } from 'lucide-react';
+import { LogOut, Edit } from 'lucide-react';
 import { logout } from '@/services/authService';
 import { useToast } from '@/hooks/use-toast';
 import ArtworkCreator from '@/components/ArtworkCreator';
@@ -45,10 +45,6 @@ const Gallery = () => {
     if (selectedArtwork) {
       setEditorOpen(true);
     }
-  };
-
-  const handleAddNew = () => {
-    setCreatorOpen(true);
   };
   
   const handleArtworkUpdate = (updatedArtwork: Artwork) => {
