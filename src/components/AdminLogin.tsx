@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { login } from '@/services/authService';
 import { useToast } from '@/hooks/use-toast';
 import { Input } from '@/components/ui/input';
@@ -16,6 +16,21 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const { toast } = useToast();
+
+  // Attempt to fix the Firebase initialization timing issue
+  useEffect(() => {
+    // This helps ensure Firebase is properly initialized before login attempts
+    const checkAuth = async () => {
+      try {
+        const { getAuth } = await import('firebase/auth');
+        console.log("Firebase auth initialized:", !!getAuth());
+      } catch (error) {
+        console.error("Firebase initialization check failed:", error);
+      }
+    };
+    
+    checkAuth();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,6 +134,10 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
           {isLoading ? "Authenticating..." : "Sign In"}
         </Button>
       </form>
+      
+      <div className="mt-4 text-xs text-center text-muted-foreground">
+        <p>This login is for authorized administrators only.</p>
+      </div>
     </div>
   );
 };

@@ -12,14 +12,17 @@ const firebaseConfig = {
   appId: "1:176834256912:web:d0fc3ee81f3d5f47a5c7b4"
 };
 
-// Initialize Firebase - prevent duplicate initialization
+// Initialize Firebase
+// Use existing app if already initialized to prevent duplicate initialization
 let app;
 try {
   app = initializeApp(firebaseConfig);
 } catch (error) {
-  // If already initialized, use the existing app
-  app = initializeApp(firebaseConfig, "secondary");
+  console.warn("Firebase app already exists, using existing instance");
+  const existingApps = (window as any).firebase?.apps || [];
+  app = existingApps.length > 0 ? existingApps[0] : initializeApp(firebaseConfig);
 }
+
 const auth = getAuth(app);
 
 // Maximum failed login attempts before temporary lockout
@@ -61,6 +64,8 @@ export const login = async (email: string, password: string) => {
     loginAttempts.delete(email);
     return { success: true, user: userCredential.user };
   } catch (error: any) {
+    console.error("Login error details:", error);
+    
     // Increment failed attempts
     const attempts = loginAttempts.get(email) || { count: 0, timestamp: Date.now() };
     loginAttempts.set(email, {
@@ -77,6 +82,8 @@ export const login = async (email: string, password: string) => {
       errorMessage = "No user found with this email";
     } else if (error.code === 'auth/too-many-requests') {
       errorMessage = "Too many failed login attempts. Please try again later";
+    } else if (error.code === 'auth/api-key-not-valid.-please-pass-a-valid-api-key.') {
+      errorMessage = "Firebase configuration error. Please contact the administrator.";
     }
     
     console.error("Login error:", error.code, error.message);
