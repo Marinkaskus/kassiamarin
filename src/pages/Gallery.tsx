@@ -8,7 +8,7 @@ import ArtworkEditor from '@/components/ArtworkEditor';
 import { Artwork } from '@/types/Artwork';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { LogOut, Edit, Plus } from 'lucide-react';
+import { LogOut, Edit } from 'lucide-react';
 import { logout } from '@/services/authService';
 import { useToast } from '@/hooks/use-toast';
 import ArtworkCreator from '@/components/ArtworkCreator';
@@ -120,17 +120,6 @@ const Gallery = () => {
             <p className="mt-4 text-muted-foreground">
               A collection of paintings.
             </p>
-            
-            {isAdmin && (
-              <div className="mt-6">
-                <Button 
-                  onClick={() => setCreatorOpen(true)}
-                  className="flex items-center gap-2"
-                >
-                  <Plus className="h-4 w-4" /> Add New Artwork
-                </Button>
-              </div>
-            )}
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -159,7 +148,6 @@ const Gallery = () => {
         artwork={selectedArtwork}
         open={detailsOpen}
         onOpenChange={setDetailsOpen}
-        onEditClick={isAdmin ? handleEditClick : undefined}
       />
       
       {isAdmin && selectedArtwork && (
