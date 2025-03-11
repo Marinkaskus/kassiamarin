@@ -1,6 +1,7 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User } from 'firebase/auth';
-import { onAuthStateChange, getCurrentUser } from '@/services/authService';
+import { onAuthStateChange } from '@/services/authService';
 
 interface AuthContextType {
   currentUser: User | null;
@@ -22,30 +23,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    console.log("AuthContext initializing...");
+    console.log('Initializing auth context...');
     
-    const cleanup = onAuthStateChange((user) => {
-      console.log("Auth state changed:", user?.email);
+    const unsubscribe = onAuthStateChange((user) => {
+      console.log('Auth state changed:', user?.email);
       setCurrentUser(user);
-      
-      const isAdminUser = user?.email === 'kassiamarin486@gmail.com';
-      setIsAdmin(isAdminUser);
-      
-      if (user) {
-        console.log("User authenticated:", user.email, "Admin:", isAdminUser);
-      }
-      
+      setIsAdmin(user?.email === 'kassiamarin486@gmail.com');
       setIsLoading(false);
     });
 
-    return () => cleanup();
+    return () => unsubscribe();
   }, []);
 
-  const value = {
-    currentUser,
-    isAdmin,
-    isLoading
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ currentUser, isAdmin, isLoading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
