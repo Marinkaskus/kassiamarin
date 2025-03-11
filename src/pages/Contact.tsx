@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { useToast } from '@/hooks/use-toast';
@@ -20,13 +19,27 @@ const Contact = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      // Create a mailto link with the form data
+      const emailSubject = `Website Contact: ${formData.subject}`;
+      const emailBody = `
+Name: ${formData.name}
+Email: ${formData.email}
+Subject: ${formData.subject}
+
+Message:
+${formData.message}
+      `;
+      
+      // Encode the email parameters and open the mailto link
+      const mailtoLink = `mailto:kassiamarin486@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+      window.open(mailtoLink, '_blank');
+      
+      // Reset the form
       setFormData({
         name: '',
         email: '',
@@ -35,10 +48,18 @@ const Contact = () => {
       });
       
       toast({
-        title: "Message sent",
-        description: "Thank you for your message. I'll get back to you soon.",
+        title: "Message ready to send",
+        description: "Your email client has been opened with the message. Please send the email to complete.",
       });
-    }, 1500);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error preparing your message. Please try again or contact directly via email.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
