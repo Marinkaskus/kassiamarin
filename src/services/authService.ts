@@ -1,10 +1,9 @@
-
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, User } from 'firebase/auth';
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyA8H4ot2DUOiQmTcN_wQP-E-xI6uFxcxCw",
+  apiKey: "AIzaSyApU-97mpQeRHmxGK-7Gf29xb2GRNPwVsU",
   authDomain: "kassia-marin-gallery.firebaseapp.com",
   projectId: "kassia-marin-gallery",
   storageBucket: "kassia-marin-gallery.appspot.com",
@@ -16,6 +15,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// Maximum failed login attempts before temporary lockout
+const MAX_LOGIN_ATTEMPTS = 5;
+const LOCKOUT_DURATION = 15 * 60 * 1000; // 15 minutes in milliseconds
+
+// Store failed login attempts
+const loginAttempts = new Map<string, { count: number; timestamp: number }>();
+
 // Authentication functions
 export const login = async (email: string, password: string) => {
   try {
@@ -23,10 +29,35 @@ export const login = async (email: string, password: string) => {
     if (email !== 'kassiamarin486@gmail.com') {
       return { success: false, error: "Invalid email address" };
     }
+
+    // Check for too many failed attempts
+    const attempts = loginAttempts.get(email);
+    if (attempts) {
+      const timeElapsed = Date.now() - attempts.timestamp;
+      if (attempts.count >= MAX_LOGIN_ATTEMPTS && timeElapsed < LOCKOUT_DURATION) {
+        const minutesLeft = Math.ceil((LOCKOUT_DURATION - timeElapsed) / 60000);
+        return { 
+          success: false, 
+          error: `Too many failed attempts. Please try again in ${minutesLeft} minutes` 
+        };
+      } else if (timeElapsed >= LOCKOUT_DURATION) {
+        // Reset attempts after lockout period
+        loginAttempts.delete(email);
+      }
+    }
     
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    // Clear failed attempts on successful login
+    loginAttempts.delete(email);
     return { success: true, user: userCredential.user };
   } catch (error: any) {
+    // Increment failed attempts
+    const attempts = loginAttempts.get(email) || { count: 0, timestamp: Date.now() };
+    loginAttempts.set(email, {
+      count: attempts.count + 1,
+      timestamp: Date.now()
+    });
+
     // Provide a more user-friendly error message
     let errorMessage = "Authentication failed";
     
