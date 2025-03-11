@@ -69,22 +69,41 @@ const Gallery = () => {
 
   const handleCreateArtwork = (newArtwork: Artwork) => {
     try {
-      const updatedArtworks = [...artworkData, newArtwork];
-      setArtworkData(updatedArtworks);
-      
-      localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
+      // Check if we already have too many artworks (to prevent storage quota issues)
+      if (artworkData.length > 50) {
+        // Consider removing some older items if we have too many
+        const updatedArtworks = [...artworkData.slice(-49), newArtwork];
+        setArtworkData(updatedArtworks);
+        localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
+      } else {
+        const updatedArtworks = [...artworkData, newArtwork];
+        setArtworkData(updatedArtworks);
+        localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
+      }
       
       toast({
         title: "Artwork added",
-        description: `"${newArtwork.title}" has been added to the gallery`,
+        description: `"${newArtwork.title}" has been added to the gallery`
       });
     } catch (error) {
       console.error("Error adding artwork:", error);
-      toast({
-        title: "Error",
-        description: "Failed to add new artwork. Please try again.",
-        variant: "destructive",
-      });
+      
+      // Handle localStorage quota exceeded error
+      if (error instanceof Error && error.name === "QuotaExceededError") {
+        toast({
+          title: "Storage limit reached",
+          description: "Please remove some existing artworks before adding new ones.",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to add new artwork. Please try again.",
+          variant: "destructive"
+        });
+      }
+      
+      throw error; // Re-throw to let ArtworkCreator handle it
     }
   };
   

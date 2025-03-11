@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,7 +8,8 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Artwork } from '@/types/Artwork';
 import { useToast } from '@/hooks/use-toast';
-import { X, Save, Upload, FileImage, Video } from 'lucide-react';
+import { X, Save, Upload, FileImage, Video, AlertTriangle } from 'lucide-react';
+import { compressImage } from '@/utils/imageUtils';
 
 interface ArtworkCreatorProps {
   open: boolean;
@@ -37,84 +38,85 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
   
   const [formData, setFormData] = useState<Artwork & { location?: string, videoUrl?: string, norwegianDescription?: string }>(initialArtwork);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
   // Reset form when dialog opens
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       setFormData({
         ...initialArtwork,
         id: Date.now() // Ensure a fresh ID each time
       });
       setImagePreview(null);
+      setError(null);
+      setIsSubmitting(false);
     }
   }, [open]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setError(null); // Clear errors when user makes changes
   };
 
   const handleAvailabilityChange = (checked: boolean) => {
     setFormData({ ...formData, available: checked });
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Check file size - limit to 5MB
-      if (file.size > 5 * 1024 * 1024) {
-        toast({
-          title: "File too large",
-          description: "Image must be less than 5MB in size",
-          variant: "destructive",
-        });
-        return;
-      }
-      
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        try {
-          const result = event.target?.result as string;
-          setImagePreview(result);
-          setFormData(prev => ({ ...prev, imageSrc: result }));
-        } catch (error) {
-          console.error("Image processing error:", error);
+      try {
+        // Check file size - limit to 5MB for initial check
+        if (file.size > 5 * 1024 * 1024) {
           toast({
-            title: "Image error",
-            description: "Failed to process the image. Please try another one.",
-            variant: "destructive",
+            title: "File too large",
+            description: "Image must be less than 5MB in size"
           });
+          return;
         }
-      };
-      
-      reader.onerror = () => {
+        
+        const compressedImage = await compressImage(file, 1200, 0.7);
+        setImagePreview(compressedImage);
+        setFormData(prev => ({ ...prev, imageSrc: compressedImage }));
+      } catch (error) {
+        console.error("Image processing error:", error);
         toast({
-          title: "Upload failed",
-          description: "Failed to read the image file. Please try again.",
-          variant: "destructive",
+          title: "Image error",
+          description: "Failed to process the image. Please try another one."
         });
-      };
-      
-      reader.readAsDataURL(file);
+      }
     }
   };
 
-  const handleSubmit = () => {
-    if (!formData.title || !formData.year || !formData.imageSrc) {
-      toast({
-        title: "Missing information",
-        description: "Please fill in all required fields: title, year, and image",
-        variant: "destructive",
-      });
-      return;
+  const validateForm = () => {
+    if (!formData.title) {
+      setError("Title is required");
+      return false;
     }
+    if (!formData.year) {
+      setError("Year is required");
+      return false;
+    }
+    if (formData.imageSrc === initialArtwork.imageSrc) {
+      setError("Please upload an image");
+      return false;
+    }
+    return true;
+  };
 
+  const handleSubmit = async () => {
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
+    
     try {
       onSave(formData);
       toast({
         title: type === 'artwork' ? "Artwork added" : "Project added",
-        description: "Your new item has been added successfully",
+        description: "Your new item has been added successfully"
       });
       onOpenChange(false);
       // Reset form
@@ -122,11 +124,24 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
       setImagePreview(null);
     } catch (error) {
       console.error("Save error:", error);
-      toast({
-        title: "Error",
-        description: "Failed to add new item. Please try again.",
-        variant: "destructive",
-      });
+      
+      if (error instanceof Error && error.name === "QuotaExceededError") {
+        setError("Storage limit reached. Try removing some existing items first.");
+        toast({
+          title: "Storage limit reached",
+          description: "Please remove some existing items before adding new ones.",
+          variant: "destructive"
+        });
+      } else {
+        setError("Failed to save. Please try again.");
+        toast({
+          title: "Error",
+          description: "Failed to add new item. Please try again.",
+          variant: "destructive"
+        });
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -136,6 +151,13 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
         <DialogHeader>
           <DialogTitle>{type === 'artwork' ? 'Add New Artwork' : 'Add New Project'}</DialogTitle>
         </DialogHeader>
+        
+        {error && (
+          <div className="bg-destructive/15 p-3 rounded-md flex items-start gap-2 text-destructive">
+            <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+            <div>{error}</div>
+          </div>
+        )}
         
         <div className="grid gap-4 py-4">
           <div className="flex flex-col items-center justify-center mb-4">
@@ -319,7 +341,11 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
               <X className="h-4 w-4" /> Cancel
             </Button>
           </DialogClose>
-          <Button onClick={handleSubmit} className="flex items-center gap-2">
+          <Button 
+            onClick={handleSubmit} 
+            className="flex items-center gap-2"
+            disabled={isSubmitting}
+          >
             <Save className="h-4 w-4" /> Save
           </Button>
         </div>

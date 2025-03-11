@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { artworks } from '@/data/artworkData';
 import { previousProjects } from '@/data/projectsData';
@@ -9,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import { Plus, Edit, Trash2, ImageIcon, Video, Check, X } from 'lucide-react';
+import { Plus, Edit, Trash2, ImageIcon, Video, Check, X, AlertTriangle } from 'lucide-react';
 import ArtworkEditor from '@/components/ArtworkEditor';
 import ProjectEditor from '@/components/ProjectEditor';
 import ArtworkCreator from '@/components/ArtworkCreator';
@@ -27,6 +26,7 @@ const AdminGalleryManager = () => {
   const [selectedTab, setSelectedTab] = useState('gallery');
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{ id: number, type: 'artwork' | 'project' } | null>(null);
+  const [storageError, setStorageError] = useState<string | null>(null);
 
   useEffect(() => {
     const savedArtworks = localStorage.getItem('gallery_artworks');
@@ -88,41 +88,98 @@ const AdminGalleryManager = () => {
   };
 
   const handleAddNewItem = () => {
+    setStorageError(null);
     setCreatorOpen(true);
   };
 
   const handleCreateArtwork = (newArtwork: Artwork) => {
-    const updatedArtworks = [...artworkData, newArtwork];
-    setArtworkData(updatedArtworks);
-    
-    localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
-    
-    toast({
-      title: "Artwork added",
-      description: `"${newArtwork.title}" has been added to the gallery`,
-    });
+    try {
+      if (artworkData.length > 30) {
+        const updatedArtworks = [...artworkData.slice(-29), newArtwork];
+        setArtworkData(updatedArtworks);
+        localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
+      } else {
+        const updatedArtworks = [...artworkData, newArtwork];
+        setArtworkData(updatedArtworks);
+        localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
+      }
+      
+      toast({
+        title: "Artwork added",
+        description: `"${newArtwork.title}" has been added to the gallery`
+      });
+      
+      setStorageError(null);
+    } catch (error) {
+      console.error("Error adding artwork:", error);
+      
+      if (error instanceof Error && error.name === "QuotaExceededError") {
+        setStorageError("Storage limit reached. Try removing some items before adding new ones.");
+        toast({
+          title: "Storage limit reached",
+          description: "Please remove some existing artworks before adding new ones.",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to add new artwork. Please try again.",
+          variant: "destructive"
+        });
+      }
+      
+      throw error;
+    }
   };
 
   const handleCreateProject = (newArtwork: Artwork) => {
-    const project: Project = {
-      id: newArtwork.id,
-      title: newArtwork.title,
-      description: newArtwork.description || '',
-      year: newArtwork.year,
-      location: (newArtwork as any).location || 'Unknown location',
-      imageSrc: newArtwork.imageSrc,
-      videoUrl: (newArtwork as any).videoUrl || undefined
-    };
-    
-    const updatedProjects = [...projectsData, project];
-    setProjectsData(updatedProjects);
-    
-    localStorage.setItem('portfolio_projects', JSON.stringify(updatedProjects));
-    
-    toast({
-      title: "Project added",
-      description: `"${project.title}" has been added to the portfolio`,
-    });
+    try {
+      const project: Project = {
+        id: newArtwork.id,
+        title: newArtwork.title,
+        description: newArtwork.description || '',
+        year: newArtwork.year,
+        location: (newArtwork as any).location || 'Unknown location',
+        imageSrc: newArtwork.imageSrc,
+        videoUrl: (newArtwork as any).videoUrl || undefined
+      };
+      
+      if (projectsData.length > 30) {
+        const updatedProjects = [...projectsData.slice(-29), project];
+        setProjectsData(updatedProjects);
+        localStorage.setItem('portfolio_projects', JSON.stringify(updatedProjects));
+      } else {
+        const updatedProjects = [...projectsData, project];
+        setProjectsData(updatedProjects);
+        localStorage.setItem('portfolio_projects', JSON.stringify(updatedProjects));
+      }
+      
+      toast({
+        title: "Project added",
+        description: `"${project.title}" has been added to the portfolio`
+      });
+      
+      setStorageError(null);
+    } catch (error) {
+      console.error("Error adding project:", error);
+      
+      if (error instanceof Error && error.name === "QuotaExceededError") {
+        setStorageError("Storage limit reached. Try removing some items before adding new ones.");
+        toast({
+          title: "Storage limit reached",
+          description: "Please remove some existing projects before adding new ones.",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to add new project. Please try again.",
+          variant: "destructive"
+        });
+      }
+      
+      throw error;
+    }
   };
 
   const handleEditArtwork = (artwork: Artwork) => {
@@ -195,6 +252,16 @@ const AdminGalleryManager = () => {
           </Button>
         </div>
       </div>
+
+      {storageError && (
+        <div className="mb-4 bg-destructive/15 p-3 rounded-md flex items-start gap-2 text-destructive">
+          <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="font-medium">Storage limit reached</p>
+            <p className="text-sm">{storageError}</p>
+          </div>
+        </div>
+      )}
 
       <Tabs 
         defaultValue="gallery" 
