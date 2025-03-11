@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { artworks } from '@/data/artworkData';
@@ -7,15 +8,17 @@ import ArtworkEditor from '@/components/ArtworkEditor';
 import { Artwork } from '@/types/Artwork';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { LogOut, Edit } from 'lucide-react';
+import { LogOut, Edit, Image } from 'lucide-react';
 import { logout } from '@/services/authService';
 import { useToast } from '@/hooks/use-toast';
+import { adjustWhiteBalance } from '@/utils/imageProcessing';
 
 const Gallery = () => {
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [editorOpen, setEditorOpen] = useState(false);
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
+  const [isAdjusting, setIsAdjusting] = useState(false);
   const { currentUser, isAdmin } = useAuth();
   const { toast } = useToast();
 
@@ -67,6 +70,53 @@ const Gallery = () => {
       description: "You have been logged out successfully",
     });
   };
+
+  const handleAdjustWhiteBalance = async (artwork: Artwork) => {
+    if (!artwork) return;
+    
+    setIsAdjusting(true);
+    toast({
+      title: "Processing",
+      description: "Adjusting white balance, please wait...",
+    });
+    
+    try {
+      // Convert base64 to File object
+      const response = await fetch(artwork.imageSrc);
+      const blob = await response.blob();
+      const file = new File([blob], `artwork-${artwork.id}.jpg`, { type: 'image/jpeg' });
+      
+      // Process the image
+      const adjustedImageBase64 = await adjustWhiteBalance(file);
+      
+      // Update the artwork
+      const updatedArtwork = { ...artwork, imageSrc: adjustedImageBase64 };
+      
+      // Update in state and localStorage
+      const updatedArtworks = artworkData.map(item => 
+        item.id === artwork.id ? updatedArtwork : item
+      );
+      
+      setArtworkData(updatedArtworks);
+      setSelectedArtwork(updatedArtwork);
+      
+      localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
+      
+      toast({
+        title: "Success",
+        description: "White balance adjusted successfully",
+      });
+    } catch (error) {
+      console.error('Error adjusting white balance:', error);
+      toast({
+        title: "Error",
+        description: "Failed to adjust white balance",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAdjusting(false);
+    }
+  };
   
   return (
     <Layout>
@@ -105,6 +155,29 @@ const Gallery = () => {
         artwork={selectedArtwork}
         open={detailsOpen}
         onOpenChange={setDetailsOpen}
+        footer={isAdmin && selectedArtwork && (
+          <div className="flex justify-end gap-2 mt-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => handleAdjustWhiteBalance(selectedArtwork)}
+              disabled={isAdjusting}
+              className="flex items-center gap-2"
+            >
+              <Image className="h-4 w-4" />
+              {isAdjusting ? 'Adjusting...' : 'Adjust White Balance'}
+            </Button>
+            <Button 
+              variant="default" 
+              size="sm" 
+              onClick={handleEditClick}
+              className="flex items-center gap-2"
+            >
+              <Edit className="h-4 w-4" />
+              Edit Artwork
+            </Button>
+          </div>
+        )}
       />
       
       {isAdmin && selectedArtwork && (
