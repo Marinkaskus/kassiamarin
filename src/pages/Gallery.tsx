@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { useToast } from "@/hooks/use-toast";
 
 const Gallery = () => {
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
@@ -17,27 +18,49 @@ const Gallery = () => {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("All");
   const [editingArtwork, setEditingArtwork] = useState<Artwork | null>(null);
+  const [localArtworks, setLocalArtworks] = useState<Artwork[]>(artworks);
+  const { toast } = useToast();
   
-  const filteredArtworks = getArtworksByCategory(activeCategory);
+  const filteredArtworks = activeCategory === "All" 
+    ? localArtworks 
+    : localArtworks.filter(artwork => artwork.category === activeCategory);
   
   const handleArtworkClick = (artwork: Artwork) => {
-    setSelectedArtwork(artwork);
+    const currentArtwork = localArtworks.find(a => a.id === artwork.id);
+    setSelectedArtwork(currentArtwork || null);
     setDetailsOpen(true);
   };
 
   const handleEdit = (artwork: Artwork) => {
-    setEditingArtwork({ ...artwork });
+    const artworkToEdit = localArtworks.find(a => a.id === artwork.id);
+    setEditingArtwork(artworkToEdit ? { ...artworkToEdit } : { ...artwork });
     setEditDialogOpen(true);
   };
 
   const handleEditSave = () => {
     if (!editingArtwork) return;
     
-    // In a real application, this would update the backend
-    // For now, we'll just close the dialog
-    console.log('Would save these changes:', editingArtwork);
+    // Update the local artworks array
+    const updatedArtworks = localArtworks.map(artwork => 
+      artwork.id === editingArtwork.id ? editingArtwork : artwork
+    );
+    
+    setLocalArtworks(updatedArtworks);
+    
+    // If the artwork being edited is also the selected artwork in the details view,
+    // update that as well
+    if (selectedArtwork && selectedArtwork.id === editingArtwork.id) {
+      setSelectedArtwork(editingArtwork);
+    }
+    
     setEditDialogOpen(false);
     setEditingArtwork(null);
+    
+    // Show a success toast
+    toast({
+      title: "Changes saved",
+      description: "Artwork information has been updated.",
+    });
   };
   
   return (
@@ -76,7 +99,10 @@ const Gallery = () => {
                   className={`animate-fade-in-up [animation-delay:${index * 100}ms]`}
                 />
                 <button
-                  onClick={() => handleEdit(artwork)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEdit(artwork);
+                  }}
                   className="absolute top-2 right-2 p-2 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                   <Edit2 className="h-4 w-4 text-white" />
@@ -128,11 +154,54 @@ const Gallery = () => {
                 />
               </div>
               <div className="grid gap-2">
+                <label htmlFor="medium">Medium</label>
+                <Input
+                  id="medium"
+                  value={editingArtwork.medium}
+                  onChange={(e) => setEditingArtwork({ ...editingArtwork, medium: e.target.value })}
+                />
+              </div>
+              <div className="grid gap-2">
+                <label htmlFor="size">Size</label>
+                <Input
+                  id="size"
+                  value={editingArtwork.size}
+                  onChange={(e) => setEditingArtwork({ ...editingArtwork, size: e.target.value })}
+                />
+              </div>
+              <div className="grid gap-2">
+                <label htmlFor="category">Category</label>
+                <Input
+                  id="category"
+                  value={editingArtwork.category || ''}
+                  onChange={(e) => setEditingArtwork({ ...editingArtwork, category: e.target.value })}
+                />
+              </div>
+              <div className="grid gap-2">
                 <label htmlFor="description">Description</label>
                 <Textarea
                   id="description"
                   value={editingArtwork.description || ''}
                   onChange={(e) => setEditingArtwork({ ...editingArtwork, description: e.target.value })}
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <label htmlFor="available">Available</label>
+                <input
+                  id="available"
+                  type="checkbox"
+                  checked={editingArtwork.available || false}
+                  onChange={(e) => setEditingArtwork({ ...editingArtwork, available: e.target.checked })}
+                  className="ml-2"
+                />
+              </div>
+              <div className="grid gap-2">
+                <label htmlFor="price">Price (optional)</label>
+                <Input
+                  id="price"
+                  value={editingArtwork.price || ''}
+                  onChange={(e) => setEditingArtwork({ ...editingArtwork, price: e.target.value })}
+                  placeholder="e.g. $1,200 or 'Price on request'"
                 />
               </div>
               <Button onClick={handleEditSave}>Save Changes</Button>
