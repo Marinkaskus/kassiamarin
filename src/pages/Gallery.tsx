@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
-import { artworks, artworkCategories, getArtworksByCategory } from '@/data/artworkData';
+import { artworks } from '@/data/artworkData';
 import ArtworkCard from '@/components/ArtworkCard';
 import ArtworkDetails from '@/components/ArtworkDetails';
 import { Artwork } from '@/types/Artwork';
@@ -16,14 +16,9 @@ const Gallery = () => {
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState("All");
   const [editingArtwork, setEditingArtwork] = useState<Artwork | null>(null);
   const [localArtworks, setLocalArtworks] = useState<Artwork[]>(artworks);
   const { toast } = useToast();
-  
-  const filteredArtworks = activeCategory === "All" 
-    ? localArtworks 
-    : localArtworks.filter(artwork => artwork.category === activeCategory);
   
   const handleArtworkClick = (artwork: Artwork) => {
     const currentArtwork = localArtworks.find(a => a.id === artwork.id);
@@ -72,26 +67,10 @@ const Gallery = () => {
             <p className="mt-4 text-muted-foreground">
               A collection of paintings and graphic prints exploring themes of nature, identity, and modern existence.
             </p>
-            
-            <div className="flex flex-wrap justify-center gap-2 mt-8">
-              {artworkCategories.map((category) => (
-                <button
-                  key={category}
-                  className={`px-4 py-1.5 text-sm rounded-full transition-colors ${
-                    activeCategory === category 
-                      ? 'bg-foreground text-background' 
-                      : 'bg-secondary hover:bg-secondary/80'
-                  }`}
-                  onClick={() => setActiveCategory(category)}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {filteredArtworks.map((artwork, index) => (
+            {localArtworks.map((artwork, index) => (
               <div key={artwork.id} className="relative group">
                 <ArtworkCard 
                   artwork={artwork}

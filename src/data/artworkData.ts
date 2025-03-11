@@ -1,13 +1,5 @@
-import { Artwork } from "@/types/Artwork";
 
-// Gallery categories
-export const artworkCategories = [
-  "All",
-  "Paintings",
-  "Mixed Media",
-  "Watercolor",
-  "Prints"
-];
+import { Artwork } from "@/types/Artwork";
 
 export const artworks: Artwork[] = [
   {
@@ -67,14 +59,4 @@ export const artworks: Artwork[] = [
  */
 export const getArtworkById = (id: number): Artwork | undefined => {
   return artworks.find(artwork => artwork.id === id);
-};
-
-/**
- * Helper function to get artworks by category
- * @param category Category name
- * @returns Array of artworks in the specified category
- */
-export const getArtworksByCategory = (category: string): Artwork[] => {
-  if (category === "All") return artworks;
-  return artworks.filter(artwork => artwork.category === category);
 };
