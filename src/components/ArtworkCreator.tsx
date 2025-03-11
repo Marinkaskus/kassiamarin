@@ -39,6 +39,7 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [applyWhiteBalance, setApplyWhiteBalance] = useState(true);
   const { toast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -64,26 +65,31 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
         const originalPreview = event.target?.result as string;
         setImagePreview(originalPreview);
         
-        try {
-          // Now process with white balance adjustment
-          const adjustedImageBase64 = await adjustWhiteBalance(file);
-          setImagePreview(adjustedImageBase64);
-          setFormData({ ...formData, imageSrc: adjustedImageBase64 });
-          
-          toast({
-            title: "Image processed",
-            description: "White balance has been automatically adjusted",
-          });
-        } catch (adjustError) {
-          console.error('Error adjusting white balance:', adjustError);
-          // If white balance fails, at least keep the original image
+        if (applyWhiteBalance) {
+          try {
+            // Only process with white balance adjustment if the option is enabled
+            const adjustedImageBase64 = await adjustWhiteBalance(file);
+            setImagePreview(adjustedImageBase64);
+            setFormData({ ...formData, imageSrc: adjustedImageBase64 });
+            
+            toast({
+              title: "Image processed",
+              description: "White balance has been automatically adjusted",
+            });
+          } catch (adjustError) {
+            console.error('Error adjusting white balance:', adjustError);
+            // If white balance fails, at least keep the original image
+            setFormData({ ...formData, imageSrc: originalPreview });
+            setUploadError("White balance adjustment failed, but image was uploaded");
+            toast({
+              title: "Processing warning",
+              description: "Image uploaded, but automatic white balance failed",
+              variant: "destructive",
+            });
+          }
+        } else {
+          // Use the original image if white balance adjustment is disabled
           setFormData({ ...formData, imageSrc: originalPreview });
-          setUploadError("White balance adjustment failed, but image was uploaded");
-          toast({
-            title: "Processing warning",
-            description: "Image uploaded, but automatic white balance failed",
-            variant: "destructive",
-          });
         }
       };
       
@@ -205,6 +211,22 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
               <Upload className="h-4 w-4 mr-2" /> 
               Choose Image
             </Button>
+          </div>
+          
+          <div className="flex items-center justify-between space-x-2 mb-4 pb-4 border-b">
+            <Label htmlFor="white-balance">
+              <div className="flex flex-col">
+                <span>Apply White Balance</span>
+                <span className="text-sm text-muted-foreground">
+                  Automatically adjust lighting and color balance
+                </span>
+              </div>
+            </Label>
+            <Switch
+              id="white-balance"
+              checked={applyWhiteBalance}
+              onCheckedChange={setApplyWhiteBalance}
+            />
           </div>
           
           <div className="space-y-2">
