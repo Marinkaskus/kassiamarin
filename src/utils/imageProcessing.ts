@@ -146,3 +146,138 @@ export const processGalleryImages = async (artworks: any[]): Promise<any[]> => {
   
   return processedArtworks;
 };
+
+/**
+ * Extracts average RGB values from an image
+ */
+const extractRGBValues = (imageData: ImageData) => {
+  const data = imageData.data;
+  let totalR = 0, totalG = 0, totalB = 0;
+  
+  for (let i = 0; i < data.length; i += 4) {
+    totalR += data[i];
+    totalG += data[i + 1];
+    totalB += data[i + 2];
+  }
+  
+  const pixelCount = data.length / 4;
+  return {
+    avgR: totalR / pixelCount,
+    avgG: totalG / pixelCount,
+    avgB: totalB / pixelCount
+  };
+};
+
+/**
+ * Creates a canvas with the image and returns its context
+ */
+const createImageCanvas = (img: HTMLImageElement): [HTMLCanvasElement, CanvasRenderingContext2D] => {
+  const canvas = document.createElement('canvas');
+  canvas.width = img.width;
+  canvas.height = img.height;
+  
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    throw new Error('Could not get canvas context');
+  }
+  
+  ctx.drawImage(img, 0, 0);
+  return [canvas, ctx];
+};
+
+/**
+ * Loads an image and returns it as a Promise
+ */
+const loadImage = (src: string): Promise<HTMLImageElement> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error('Failed to load image'));
+    
+    if (src.startsWith('http') && !src.includes('data:image')) {
+      img.src = `https://images.weserv.nl/?url=${encodeURIComponent(src)}`;
+    } else {
+      img.src = src;
+    }
+  });
+};
+
+/**
+ * Matches white balance and lighting of target image to reference image
+ */
+export const matchWhiteBalance = async (targetImageSrc: string, referenceImageSrc: string): Promise<string> => {
+  try {
+    // Load both images
+    const [targetImg, referenceImg] = await Promise.all([
+      loadImage(targetImageSrc),
+      loadImage(referenceImageSrc)
+    ]);
+    
+    // Create canvases for both images
+    const [targetCanvas, targetCtx] = createImageCanvas(targetImg);
+    const [referenceCanvas, referenceCtx] = createImageCanvas(referenceImg);
+    
+    // Get image data
+    const targetImageData = targetCtx.getImageData(0, 0, targetCanvas.width, targetCanvas.height);
+    const referenceImageData = referenceCtx.getImageData(0, 0, referenceCanvas.width, referenceCanvas.height);
+    
+    // Extract RGB values
+    const targetRGB = extractRGBValues(targetImageData);
+    const referenceRGB = extractRGBValues(referenceImageData);
+    
+    // Calculate scaling factors
+    const scaleR = referenceRGB.avgR / targetRGB.avgR;
+    const scaleG = referenceRGB.avgG / targetRGB.avgG;
+    const scaleB = referenceRGB.avgB / targetRGB.avgB;
+    
+    // Apply adjustments
+    const data = targetImageData.data;
+    for (let i = 0; i < data.length; i += 4) {
+      // Red
+      data[i] = Math.min(255, Math.max(0, Math.round(data[i] * scaleR)));
+      // Green
+      data[i + 1] = Math.min(255, Math.max(0, Math.round(data[i + 1] * scaleG)));
+      // Blue
+      data[i + 2] = Math.min(255, Math.max(0, Math.round(data[i + 2] * scaleB)));
+      // Alpha remains unchanged
+    }
+    
+    // Put adjusted image data back on canvas
+    targetCtx.putImageData(targetImageData, 0, 0);
+    
+    // Convert to base64
+    return targetCanvas.toDataURL('image/jpeg', 0.9);
+  } catch (error) {
+    console.error('Error matching white balance:', error);
+    throw error;
+  }
+};
+
+/**
+ * Process all images in a gallery to match a reference image
+ */
+export const matchGalleryImages = async (images: { id: number, imageSrc: string }[], referenceImageSrc: string): Promise<{ id: number, imageSrc: string }[]> => {
+  const processedImages = [...images];
+  const failedImages: number[] = [];
+  
+  for (let i = 0; i < processedImages.length; i++) {
+    try {
+      if (processedImages[i].imageSrc !== referenceImageSrc) {
+        processedImages[i].imageSrc = await matchWhiteBalance(
+          processedImages[i].imageSrc,
+          referenceImageSrc
+        );
+      }
+    } catch (error) {
+      console.error(`Failed to process image ${processedImages[i].id}:`, error);
+      failedImages.push(i);
+    }
+  }
+  
+  if (failedImages.length > 0) {
+    console.warn(`Failed to process ${failedImages.length} images`);
+  }
+  
+  return processedImages;
+};

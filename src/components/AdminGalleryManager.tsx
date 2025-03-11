@@ -12,6 +12,9 @@ import { Plus, Edit, Trash2, ImageIcon, Video, Check, X } from 'lucide-react';
 import ArtworkEditor from '@/components/ArtworkEditor';
 import ProjectEditor from '@/components/ProjectEditor';
 import ArtworkCreator from '@/components/ArtworkCreator';
+import { matchGalleryImages } from '@/utils/imageProcessing';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { WandSparkles, Image as ImageIcon } from 'lucide-react';
 
 const AdminGalleryManager = () => {
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
@@ -21,6 +24,9 @@ const AdminGalleryManager = () => {
   const [editorOpen, setEditorOpen] = useState(false);
   const [projectEditorOpen, setProjectEditorOpen] = useState(false);
   const [creatorOpen, setCreatorOpen] = useState(false);
+  const [referenceImageDialogOpen, setReferenceImageDialogOpen] = useState(false);
+  const [selectedReferenceImage, setSelectedReferenceImage] = useState<string | null>(null);
+  const [isMatchingWhiteBalance, setIsMatchingWhiteBalance] = useState(false);
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTab, setSelectedTab] = useState('gallery');
@@ -98,7 +104,7 @@ const AdminGalleryManager = () => {
     
     toast({
       title: "Artwork added",
-      description: `"${newArtwork.title}" has been added to the gallery`,
+      description: `"${newArtwork.title}" has been added to the gallery",
     });
   };
 
@@ -120,7 +126,7 @@ const AdminGalleryManager = () => {
     
     toast({
       title: "Project added",
-      description: `"${project.title}" has been added to the portfolio`,
+      description: `"${project.title}" has been added to the portfolio",
     });
   };
 
@@ -166,6 +172,49 @@ const AdminGalleryManager = () => {
     setDeleteDialogOpen(true);
   };
 
+  const handleMatchWhiteBalance = async () => {
+    if (!selectedReferenceImage) {
+      toast({
+        title: "No reference image",
+        description: "Please select a reference image first",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsMatchingWhiteBalance(true);
+    try {
+      const updatedArtworks = await matchGalleryImages(
+        artworkData.map(art => ({ id: art.id, imageSrc: art.imageSrc })),
+        selectedReferenceImage
+      );
+
+      const newArtworkData = artworkData.map(art => {
+        const updatedArt = updatedArtworks.find(u => u.id === art.id);
+        return updatedArt ? { ...art, imageSrc: updatedArt.imageSrc } : art;
+      });
+
+      setArtworkData(newArtworkData);
+      localStorage.setItem('gallery_artworks', JSON.stringify(newArtworkData));
+
+      toast({
+        title: "White balance matched",
+        description: "All images have been adjusted to match the reference image",
+      });
+    } catch (error) {
+      console.error('Error matching white balance:', error);
+      toast({
+        title: "Error",
+        description: "Failed to match white balance across images",
+        variant: "destructive",
+      });
+    } finally {
+      setIsMatchingWhiteBalance(false);
+      setReferenceImageDialogOpen(false);
+      setSelectedReferenceImage(null);
+    }
+  };
+
   const filteredArtworks = artworkData.filter(artwork => 
     artwork.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     artwork.year.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -189,6 +238,18 @@ const AdminGalleryManager = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="max-w-xs"
           />
+          {selectedTab === 'gallery' && (
+            <Button 
+              size="sm" 
+              variant="outline"
+              onClick={() => setReferenceImageDialogOpen(true)}
+              disabled={isMatchingWhiteBalance}
+              className="flex items-center gap-2"
+            >
+              <WandSparkles className="h-4 w-4" />
+              Match White Balance
+            </Button>
+          )}
           <Button size="sm" variant="default" onClick={handleAddNewItem}>
             <Plus className="h-4 w-4 mr-2" /> Add New
           </Button>
@@ -349,6 +410,66 @@ const AdminGalleryManager = () => {
         onSave={selectedTab === 'gallery' ? handleCreateArtwork : handleCreateProject}
         type={selectedTab === 'gallery' ? 'artwork' : 'project'}
       />
+
+      <Dialog open={referenceImageDialogOpen} onOpenChange={setReferenceImageDialogOpen}>
+        <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Select Reference Image</DialogTitle>
+            <DialogDescription>
+              Choose an image to use as a reference. All other images will be adjusted to match its white balance and lighting.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 py-4">
+            {artworkData.map(artwork => (
+              <div 
+                key={artwork.id} 
+                className={`relative aspect-square cursor-pointer rounded-lg overflow-hidden border-2 transition-all ${
+                  selectedReferenceImage === artwork.imageSrc 
+                    ? 'border-primary ring-2 ring-primary ring-offset-2' 
+                    : 'border-transparent hover:border-primary/50'
+                }`}
+                onClick={() => setSelectedReferenceImage(artwork.imageSrc)}
+              >
+                <img 
+                  src={artwork.imageSrc} 
+                  alt={artwork.title} 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+          
+          <div className="flex justify-end space-x-4">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setReferenceImageDialogOpen(false);
+                setSelectedReferenceImage(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleMatchWhiteBalance}
+              disabled={!selectedReferenceImage || isMatchingWhiteBalance}
+              className="flex items-center gap-2"
+            >
+              {isMatchingWhiteBalance ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <WandSparkles className="h-4 w-4" />
+                  Match White Balance
+                </>
+              )}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
