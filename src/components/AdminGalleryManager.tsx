@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { artworks } from '@/data/artworkData';
 import { previousProjects } from '@/data/projectsData';
@@ -7,19 +8,25 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Plus, Edit, Trash2, ImageIcon, Video, Check, X } from 'lucide-react';
 import ArtworkEditor from '@/components/ArtworkEditor';
+import ProjectEditor from '@/components/ProjectEditor';
 import ArtworkCreator from '@/components/ArtworkCreator';
 
 const AdminGalleryManager = () => {
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
   const [projectsData, setProjectsData] = useState<Project[]>(previousProjects);
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [editorOpen, setEditorOpen] = useState(false);
+  const [projectEditorOpen, setProjectEditorOpen] = useState(false);
   const [creatorOpen, setCreatorOpen] = useState(false);
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTab, setSelectedTab] = useState('gallery');
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<{ id: number, type: 'artwork' | 'project' } | null>(null);
 
   useEffect(() => {
     const savedArtworks = localStorage.getItem('gallery_artworks');
@@ -62,6 +69,24 @@ const AdminGalleryManager = () => {
     setEditorOpen(false);
   };
 
+  const handleProjectUpdate = (updatedProject: Project) => {
+    const updatedProjects = projectsData.map(project => 
+      project.id === updatedProject.id ? updatedProject : project
+    );
+    
+    setProjectsData(updatedProjects);
+    setSelectedProject(null);
+    
+    localStorage.setItem('portfolio_projects', JSON.stringify(updatedProjects));
+    
+    toast({
+      title: "Changes saved",
+      description: `"${updatedProject.title}" has been updated`,
+    });
+    
+    setProjectEditorOpen(false);
+  };
+
   const handleAddNewItem = () => {
     setCreatorOpen(true);
   };
@@ -78,14 +103,15 @@ const AdminGalleryManager = () => {
     });
   };
 
-  const handleCreateProject = (newProject: Artwork) => {
+  const handleCreateProject = (newArtwork: Artwork) => {
     const project: Project = {
-      id: newProject.id,
-      title: newProject.title,
-      description: newProject.description || '',
-      year: newProject.year,
-      location: (newProject as any).location || 'Unknown location',
-      imageSrc: newProject.imageSrc
+      id: newArtwork.id,
+      title: newArtwork.title,
+      description: newArtwork.description || '',
+      year: newArtwork.year,
+      location: (newArtwork as any).location || 'Unknown location',
+      imageSrc: newArtwork.imageSrc,
+      videoUrl: (newArtwork as any).videoUrl || undefined
     };
     
     const updatedProjects = [...projectsData, project];
@@ -102,6 +128,43 @@ const AdminGalleryManager = () => {
   const handleEditArtwork = (artwork: Artwork) => {
     setSelectedArtwork(artwork);
     setEditorOpen(true);
+  };
+
+  const handleEditProject = (project: Project) => {
+    setSelectedProject(project);
+    setProjectEditorOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (!itemToDelete) return;
+    
+    if (itemToDelete.type === 'artwork') {
+      const updatedArtworks = artworkData.filter(item => item.id !== itemToDelete.id);
+      setArtworkData(updatedArtworks);
+      localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
+      
+      toast({
+        title: "Artwork deleted",
+        description: "The artwork has been permanently removed",
+      });
+    } else {
+      const updatedProjects = projectsData.filter(item => item.id !== itemToDelete.id);
+      setProjectsData(updatedProjects);
+      localStorage.setItem('portfolio_projects', JSON.stringify(updatedProjects));
+      
+      toast({
+        title: "Project deleted",
+        description: "The project has been permanently removed",
+      });
+    }
+    
+    setDeleteDialogOpen(false);
+    setItemToDelete(null);
+  };
+
+  const handleDeleteClick = (id: number, type: 'artwork' | 'project') => {
+    setItemToDelete({ id, type });
+    setDeleteDialogOpen(true);
   };
 
   const filteredArtworks = artworkData.filter(artwork => 
@@ -185,6 +248,7 @@ const AdminGalleryManager = () => {
                         variant="ghost" 
                         size="sm" 
                         className="h-8 w-8 p-0 text-destructive"
+                        onClick={() => handleDeleteClick(artwork.id, 'artwork')}
                       >
                         <Trash2 className="h-4 w-4" />
                         <span className="sr-only">Delete</span>
@@ -231,6 +295,7 @@ const AdminGalleryManager = () => {
                         variant="ghost" 
                         size="sm" 
                         className="h-8 w-8 p-0"
+                        onClick={() => handleEditProject(project)}
                       >
                         <Edit className="h-4 w-4" />
                         <span className="sr-only">Edit</span>
@@ -239,6 +304,7 @@ const AdminGalleryManager = () => {
                         variant="ghost" 
                         size="sm" 
                         className="h-8 w-8 p-0 text-destructive"
+                        onClick={() => handleDeleteClick(project.id, 'project')}
                       >
                         <Trash2 className="h-4 w-4" />
                         <span className="sr-only">Delete</span>
@@ -269,12 +335,38 @@ const AdminGalleryManager = () => {
         />
       )}
 
+      {selectedProject && (
+        <ProjectEditor
+          project={selectedProject}
+          open={projectEditorOpen}
+          onOpenChange={setProjectEditorOpen}
+          onSave={handleProjectUpdate}
+        />
+      )}
+
       <ArtworkCreator
         open={creatorOpen}
         onOpenChange={setCreatorOpen}
         onSave={selectedTab === 'gallery' ? handleCreateArtwork : handleCreateProject}
         type={selectedTab === 'gallery' ? 'artwork' : 'project'}
       />
+
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete this {itemToDelete?.type} from your website.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteConfirm} className="bg-red-600 hover:bg-red-700">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

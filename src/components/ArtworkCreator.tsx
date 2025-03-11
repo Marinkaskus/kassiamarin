@@ -8,7 +8,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Artwork } from '@/types/Artwork';
 import { useToast } from '@/hooks/use-toast';
-import { X, Save, Upload, FileImage } from 'lucide-react';
+import { X, Save, Upload, FileImage, Video } from 'lucide-react';
 
 interface ArtworkCreatorProps {
   open: boolean;
@@ -35,7 +35,7 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
     available: true
   };
   
-  const [formData, setFormData] = useState<Artwork>(initialArtwork);
+  const [formData, setFormData] = useState<Artwork & { location?: string, videoUrl?: string }>(initialArtwork);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { toast } = useToast();
 
@@ -195,7 +195,7 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
                 <Input
                   id="price"
                   name="price"
-                  value={formData.price || ""}
+                  value={(formData as any).price || ""}
                   onChange={handleChange}
                   placeholder="e.g. $1,200"
                 />
@@ -213,16 +213,37 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
           )}
           
           {type === 'project' && (
-            <div className="space-y-2">
-              <Label htmlFor="location">Location</Label>
-              <Input
-                id="location"
-                name="location"
-                value={(formData as any).location || ""}
-                onChange={handleChange}
-                placeholder="e.g. Oslo, Norway"
-              />
-            </div>
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="location">Location</Label>
+                <Input
+                  id="location"
+                  name="location"
+                  value={formData.location || ""}
+                  onChange={handleChange}
+                  placeholder="e.g. Oslo, Norway"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="videoUrl">
+                  <div className="flex items-center gap-2">
+                    <Video className="h-4 w-4" />
+                    <span>Video URL (Vimeo, YouTube, etc.)</span>
+                  </div>
+                </Label>
+                <Input
+                  id="videoUrl"
+                  name="videoUrl"
+                  value={formData.videoUrl || ""}
+                  onChange={handleChange}
+                  placeholder="e.g. https://player.vimeo.com/video/123456789"
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  Paste a video embed URL from Vimeo or YouTube
+                </p>
+              </div>
+            </>
           )}
           
           <div className="space-y-2">
@@ -236,6 +257,20 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
               rows={3}
             />
           </div>
+          
+          {type === 'project' && (
+            <div className="space-y-2">
+              <Label htmlFor="norwegianDescription">Description (Norwegian)</Label>
+              <Textarea
+                id="norwegianDescription"
+                name="norwegianDescription"
+                value={(formData as any).norwegianDescription || ""}
+                onChange={handleChange}
+                placeholder="Norwegian description (optional)"
+                rows={3}
+              />
+            </div>
+          )}
         </div>
         
         <div className="flex justify-end space-x-4">

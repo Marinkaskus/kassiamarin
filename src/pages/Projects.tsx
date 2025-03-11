@@ -1,13 +1,26 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { previousProjects } from '@/data/projectsData';
 import ProjectCard from '@/components/ProjectCard';
 import VideoDialog from '@/components/VideoDialog';
+import { Project } from '@/types/Project';
 
 const Projects = () => {
   const [videoDialogOpen, setVideoDialogOpen] = useState(false);
   const [currentVideoUrl, setCurrentVideoUrl] = useState("");
+  const [projectsData, setProjectsData] = useState<Project[]>(previousProjects);
+  
+  useEffect(() => {
+    const savedProjects = localStorage.getItem('portfolio_projects');
+    if (savedProjects) {
+      try {
+        setProjectsData(JSON.parse(savedProjects));
+      } catch (e) {
+        console.error('Error parsing saved projects:', e);
+      }
+    }
+  }, []);
   
   const openVideoDialog = (videoUrl: string) => {
     setCurrentVideoUrl(videoUrl);
@@ -27,7 +40,7 @@ const Projects = () => {
           </div>
           
           <div className="space-y-20">
-            {previousProjects.map((project, index) => (
+            {projectsData.map((project, index) => (
               <ProjectCard 
                 key={project.id}
                 project={project}
