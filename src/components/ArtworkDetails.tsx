@@ -1,17 +1,25 @@
 
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Edit } from 'lucide-react';
 import { Artwork } from '@/types/Artwork';
+import { Button } from '@/components/ui/button';
 
 interface ArtworkDetailsProps {
   artwork: Artwork | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onEditClick?: () => void;
   children?: React.ReactNode;
 }
 
-const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ artwork, open, onOpenChange, children }) => {
+const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ 
+  artwork, 
+  open, 
+  onOpenChange, 
+  onEditClick,
+  children 
+}) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   if (!artwork) return null;
@@ -109,6 +117,16 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ artwork, open, onOpenCh
                 <h4 className="text-sm uppercase text-muted-foreground mb-1">Price</h4>
                 <p>{artwork.price}</p>
               </div>
+            )}
+            
+            {onEditClick && (
+              <Button 
+                onClick={onEditClick} 
+                variant="outline" 
+                className="w-full flex items-center justify-center gap-2 mt-4"
+              >
+                <Edit className="h-4 w-4" /> Edit Artwork
+              </Button>
             )}
             
             {children}
