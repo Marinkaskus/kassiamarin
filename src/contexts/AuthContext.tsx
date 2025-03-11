@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User } from 'firebase/auth';
 import { onAuthStateChange, getCurrentUser } from '@/services/authService';
@@ -25,32 +24,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     console.log("AuthContext initializing...");
     
-    // Check if there's already a logged-in user
-    const initialUser = getCurrentUser();
-    if (initialUser) {
-      setCurrentUser(initialUser);
-      const isAdminUser = initialUser.email === 'kassiamarin486@gmail.com';
-      setIsAdmin(isAdminUser);
-      console.log("Initial user found:", initialUser.email, "Admin:", isAdminUser);
-    }
-    
-    const unsubscribe = onAuthStateChange((user) => {
+    const cleanup = onAuthStateChange((user) => {
       console.log("Auth state changed:", user?.email);
       setCurrentUser(user);
       
-      // Admin check - only this email is considered an admin
-      const isAdminUser = !!user && user.email === 'kassiamarin486@gmail.com';
+      const isAdminUser = user?.email === 'kassiamarin486@gmail.com';
       setIsAdmin(isAdminUser);
       
       if (user) {
-        console.log("User authenticated:", user.email);
-        console.log("Admin status:", isAdminUser);
+        console.log("User authenticated:", user.email, "Admin:", isAdminUser);
       }
       
       setIsLoading(false);
     });
 
-    return unsubscribe;
+    return () => cleanup();
   }, []);
 
   const value = {

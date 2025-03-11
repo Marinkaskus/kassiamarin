@@ -1,10 +1,9 @@
-
-import { initializeApp } from 'firebase/app';
+import { initializeApp, getApps } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, User } from 'firebase/auth';
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDpKWeeJ-dS0OCSL9J-TGhT8-0OsmYrM94",
+  apiKey: "AIzaSyAdG9HnBXYa-u8Wx_hzYsL04x5PPuPO6pY",
   authDomain: "kassia-marin-gallery.firebaseapp.com",
   projectId: "kassia-marin-gallery",
   storageBucket: "kassia-marin-gallery.appspot.com",
@@ -13,14 +12,12 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-// Use existing app if already initialized to prevent duplicate initialization
 let app;
-try {
+const apps = getApps();
+if (apps.length === 0) {
   app = initializeApp(firebaseConfig);
-} catch (error) {
-  console.warn("Firebase app already exists, using existing instance");
-  const existingApps = (window as any).firebase?.apps || [];
-  app = existingApps.length > 0 ? existingApps[0] : initializeApp(firebaseConfig);
+} else {
+  app = apps[0];
 }
 
 const auth = getAuth(app);
