@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { artworks } from '@/data/artworkData';
@@ -7,14 +8,16 @@ import ArtworkEditor from '@/components/ArtworkEditor';
 import { Artwork } from '@/types/Artwork';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { LogOut, Edit } from 'lucide-react';
+import { LogOut, Edit, Plus } from 'lucide-react';
 import { logout } from '@/services/authService';
 import { useToast } from '@/hooks/use-toast';
+import ArtworkCreator from '@/components/ArtworkCreator';
 
 const Gallery = () => {
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [editorOpen, setEditorOpen] = useState(false);
+  const [creatorOpen, setCreatorOpen] = useState(false);
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
   const { currentUser, isAdmin } = useAuth();
   const { toast } = useToast();
@@ -43,6 +46,10 @@ const Gallery = () => {
       setEditorOpen(true);
     }
   };
+
+  const handleAddNew = () => {
+    setCreatorOpen(true);
+  };
   
   const handleArtworkUpdate = (updatedArtwork: Artwork) => {
     const updatedArtworks = artworkData.map(artwork => 
@@ -58,6 +65,27 @@ const Gallery = () => {
       title: "Changes saved",
       description: "Your changes have been saved permanently",
     });
+  };
+
+  const handleCreateArtwork = (newArtwork: Artwork) => {
+    try {
+      const updatedArtworks = [...artworkData, newArtwork];
+      setArtworkData(updatedArtworks);
+      
+      localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
+      
+      toast({
+        title: "Artwork added",
+        description: `"${newArtwork.title}" has been added to the gallery`,
+      });
+    } catch (error) {
+      console.error("Error adding artwork:", error);
+      toast({
+        title: "Error",
+        description: "Failed to add new artwork. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
   
   const handleLogout = async () => {
@@ -77,6 +105,15 @@ const Gallery = () => {
             <p className="mt-4 text-muted-foreground">
               A collection of paintings.
             </p>
+            
+            {isAdmin && (
+              <Button 
+                onClick={handleAddNew}
+                className="mt-6 flex items-center gap-2 mx-auto"
+              >
+                <Plus className="h-4 w-4" /> Add New Artwork
+              </Button>
+            )}
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -113,6 +150,15 @@ const Gallery = () => {
           open={editorOpen}
           onOpenChange={setEditorOpen}
           onSave={handleArtworkUpdate}
+        />
+      )}
+
+      {isAdmin && (
+        <ArtworkCreator
+          open={creatorOpen}
+          onOpenChange={setCreatorOpen}
+          onSave={handleCreateArtwork}
+          type="artwork"
         />
       )}
     </Layout>

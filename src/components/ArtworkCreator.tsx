@@ -35,9 +35,20 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
     available: true
   };
   
-  const [formData, setFormData] = useState<Artwork & { location?: string, videoUrl?: string }>(initialArtwork);
+  const [formData, setFormData] = useState<Artwork & { location?: string, videoUrl?: string, norwegianDescription?: string }>(initialArtwork);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { toast } = useToast();
+
+  // Reset form when dialog opens
+  React.useEffect(() => {
+    if (open) {
+      setFormData({
+        ...initialArtwork,
+        id: Date.now() // Ensure a fresh ID each time
+      });
+      setImagePreview(null);
+    }
+  }, [open]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -51,12 +62,40 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // Check file size - limit to 5MB
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: "File too large",
+          description: "Image must be less than 5MB in size",
+          variant: "destructive",
+        });
+        return;
+      }
+      
       const reader = new FileReader();
-      reader.onload = (e) => {
-        const result = e.target?.result as string;
-        setImagePreview(result);
-        setFormData({ ...formData, imageSrc: result });
+      reader.onload = (event) => {
+        try {
+          const result = event.target?.result as string;
+          setImagePreview(result);
+          setFormData(prev => ({ ...prev, imageSrc: result }));
+        } catch (error) {
+          console.error("Image processing error:", error);
+          toast({
+            title: "Image error",
+            description: "Failed to process the image. Please try another one.",
+            variant: "destructive",
+          });
+        }
       };
+      
+      reader.onerror = () => {
+        toast({
+          title: "Upload failed",
+          description: "Failed to read the image file. Please try again.",
+          variant: "destructive",
+        });
+      };
+      
       reader.readAsDataURL(file);
     }
   };
@@ -82,9 +121,10 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
       setFormData(initialArtwork);
       setImagePreview(null);
     } catch (error) {
+      console.error("Save error:", error);
       toast({
         title: "Error",
-        description: "Failed to add new item",
+        description: "Failed to add new item. Please try again.",
         variant: "destructive",
       });
     }
@@ -264,7 +304,7 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
               <Textarea
                 id="norwegianDescription"
                 name="norwegianDescription"
-                value={(formData as any).norwegianDescription || ""}
+                value={formData.norwegianDescription || ""}
                 onChange={handleChange}
                 placeholder="Norwegian description (optional)"
                 rows={3}
