@@ -98,7 +98,7 @@ const AdminGalleryManager = () => {
     
     toast({
       title: "Artwork added",
-      description: `"${newArtwork.title}" has been added to the gallery`,
+      description: `"${newArtwork.title}" has been added to the gallery`
     });
   };
 
@@ -120,7 +120,7 @@ const AdminGalleryManager = () => {
     
     toast({
       title: "Project added",
-      description: `"${project.title}" has been added to the portfolio`,
+      description: `"${project.title}" has been added to the portfolio`
     });
   };
 
