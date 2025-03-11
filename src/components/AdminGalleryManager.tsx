@@ -8,8 +8,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import { Plus, Edit, Trash2, Video, Check, X } from 'lucide-react';
-import { Image as ImageIcon, WandSparkles } from 'lucide-react';
+import { Plus, Edit, Trash2, Video, Check, X, WandSparkles, Image } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 import ArtworkEditor from '@/components/ArtworkEditor';
 import ProjectEditor from '@/components/ProjectEditor';
 import ArtworkCreator from '@/components/ArtworkCreator';
@@ -27,11 +28,13 @@ const AdminGalleryManager = () => {
   const [referenceImageDialogOpen, setReferenceImageDialogOpen] = useState(false);
   const [selectedReferenceImage, setSelectedReferenceImage] = useState<string | null>(null);
   const [isMatchingWhiteBalance, setIsMatchingWhiteBalance] = useState(false);
+  const [autoUpdateGallery, setAutoUpdateGallery] = useState(true);
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTab, setSelectedTab] = useState('gallery');
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{ id: number, type: 'artwork' | 'project' } | null>(null);
+  const [storageErrorDialogOpen, setStorageErrorDialogOpen] = useState(false);
 
   useEffect(() => {
     const savedArtworks = localStorage.getItem('gallery_artworks');
@@ -104,7 +107,7 @@ const AdminGalleryManager = () => {
     
     toast({
       title: "Artwork added",
-      description: `"${newArtwork.title}" has been added to the gallery`
+      description: `"${newArtwork.title}" has been added to the gallery"
     });
   };
 
@@ -126,7 +129,7 @@ const AdminGalleryManager = () => {
     
     toast({
       title: "Project added",
-      description: `"${project.title}" has been added to the portfolio`
+      description: `"${project.title}" has been added to the portfolio"
     });
   };
 
@@ -184,23 +187,30 @@ const AdminGalleryManager = () => {
 
     setIsMatchingWhiteBalance(true);
     try {
-      const updatedArtworks = await matchGalleryImages(
+      const result = await matchGalleryImages(
         artworkData.map(art => ({ id: art.id, imageSrc: art.imageSrc })),
-        selectedReferenceImage
+        selectedReferenceImage,
+        autoUpdateGallery
       );
 
       const newArtworkData = artworkData.map(art => {
-        const updatedArt = updatedArtworks.find(u => u.id === art.id);
+        const updatedArt = result.processedImages.find(u => u.id === art.id);
         return updatedArt ? { ...art, imageSrc: updatedArt.imageSrc } : art;
       });
 
       setArtworkData(newArtworkData);
-      localStorage.setItem('gallery_artworks', JSON.stringify(newArtworkData));
-
-      toast({
-        title: "White balance matched",
-        description: "All images have been adjusted to match the reference image"
-      });
+      
+      try {
+        localStorage.setItem('gallery_artworks', JSON.stringify(newArtworkData));
+        
+        toast({
+          title: "White balance matched",
+          description: "All images have been adjusted to match the reference image"
+        });
+      } catch (storageError) {
+        console.error('Storage error:', storageError);
+        setStorageErrorDialogOpen(true);
+      }
     } catch (error) {
       console.error('Error matching white balance:', error);
       toast({
@@ -322,7 +332,7 @@ const AdminGalleryManager = () => {
           
           {filteredArtworks.length === 0 && (
             <div className="text-center py-12">
-              <ImageIcon className="h-12 w-12 mx-auto text-muted-foreground opacity-20" />
+              <Image className="h-12 w-12 mx-auto text-muted-foreground opacity-20" />
               <h3 className="mt-4 text-lg font-medium">No artworks found</h3>
               <p className="text-muted-foreground">Try a different search term or add a new artwork.</p>
             </div>
@@ -378,7 +388,7 @@ const AdminGalleryManager = () => {
           
           {filteredProjects.length === 0 && (
             <div className="text-center py-12">
-              <ImageIcon className="h-12 w-12 mx-auto text-muted-foreground opacity-20" />
+              <Image className="h-12 w-12 mx-auto text-muted-foreground opacity-20" />
               <h3 className="mt-4 text-lg font-medium">No projects found</h3>
               <p className="text-muted-foreground">Try a different search term or add a new project.</p>
             </div>
@@ -440,6 +450,17 @@ const AdminGalleryManager = () => {
             ))}
           </div>
           
+          <div className="flex items-center space-x-2 py-4">
+            <Switch
+              id="auto-update"
+              checked={autoUpdateGallery}
+              onCheckedChange={setAutoUpdateGallery}
+            />
+            <Label htmlFor="auto-update">
+              Automatically update gallery page with new images
+            </Label>
+          </div>
+          
           <div className="flex justify-end space-x-4">
             <Button
               variant="outline"
@@ -470,6 +491,24 @@ const AdminGalleryManager = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+      <AlertDialog open={storageErrorDialogOpen} onOpenChange={setStorageErrorDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Storage Limit Exceeded</AlertDialogTitle>
+            <AlertDialogDescription>
+              The browser's storage limit has been reached. The images have been processed and are displayed in the UI, but they couldn't be saved permanently.
+              <br /><br />
+              Try reducing the number of images or their quality.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction>
+              I understand
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>

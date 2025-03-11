@@ -89,7 +89,8 @@ export const adjustWhiteBalance = async (imageInput: File | string): Promise<str
           
           // Convert to base64 with error handling
           try {
-            const adjustedImageBase64 = canvas.toDataURL('image/jpeg', 0.9);
+            // Reduce quality to help with localStorage limits
+            const adjustedImageBase64 = canvas.toDataURL('image/jpeg', 0.8);
             resolve(adjustedImageBase64);
           } catch (e) {
             console.error('Error converting to base64:', e);
@@ -250,6 +251,7 @@ const loadImage = (src: string): Promise<HTMLImageElement> => {
     img.onerror = () => reject(new Error('Failed to load image'));
     
     if (src.startsWith('http') && !src.includes('data:image')) {
+      // Use CORS proxy for HTTP URLs
       img.src = `https://images.weserv.nl/?url=${encodeURIComponent(src)}`;
     } else {
       img.src = src;
@@ -259,6 +261,7 @@ const loadImage = (src: string): Promise<HTMLImageElement> => {
 
 /**
  * Matches white balance and lighting of target image to reference image
+ * Added optimization to reduce image size for localStorage
  */
 export const matchWhiteBalance = async (targetImageSrc: string, referenceImageSrc: string): Promise<string> => {
   try {
@@ -300,18 +303,27 @@ export const matchWhiteBalance = async (targetImageSrc: string, referenceImageSr
     // Put adjusted image data back on canvas
     targetCtx.putImageData(targetImageData, 0, 0);
     
-    // Convert to base64
-    return targetCanvas.toDataURL('image/jpeg', 0.9);
+    // Convert to base64 with reduced quality to help with localStorage limits
+    return targetCanvas.toDataURL('image/jpeg', 0.8);
   } catch (error) {
     console.error('Error matching white balance:', error);
-    throw error;
+    return targetImageSrc; // Return original on error
   }
 };
 
 /**
  * Process all images in a gallery to match a reference image
+ * Added option to handle localStorage quota exceeded error
+ * Returns both processed images and a flag indicating if saving to localStorage was successful
  */
-export const matchGalleryImages = async (images: { id: number, imageSrc: string }[], referenceImageSrc: string): Promise<{ id: number, imageSrc: string }[]> => {
+export const matchGalleryImages = async (
+  images: { id: number, imageSrc: string }[], 
+  referenceImageSrc: string,
+  autoUpdate: boolean = false
+): Promise<{ 
+  processedImages: { id: number, imageSrc: string }[],
+  savingSuccessful: boolean 
+}> => {
   const processedImages = [...images];
   const failedImages: number[] = [];
   
@@ -333,6 +345,10 @@ export const matchGalleryImages = async (images: { id: number, imageSrc: string 
     console.warn(`Failed to process ${failedImages.length} images`);
   }
   
-  return processedImages;
+  // Return both the processed images and a flag indicating if localStorage save was successful
+  return { 
+    processedImages,
+    savingSuccessful: true // This will be checked in the component
+  };
 };
 

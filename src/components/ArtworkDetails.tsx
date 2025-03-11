@@ -21,7 +21,8 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
   artwork, 
   open, 
   onOpenChange,
-  footer
+  footer,
+  onAdjustWhiteBalance
 }) => {
   const { isAdmin } = useAuth();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -39,6 +40,40 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
     return images;
   };
   
+  const handleWhiteBalanceAdjust = async () => {
+    if (!artwork) return;
+    
+    if (onAdjustWhiteBalance) {
+      onAdjustWhiteBalance(artwork);
+      return;
+    }
+    
+    setIsProcessing(true);
+    toast({
+      title: "Processing",
+      description: "Adjusting white balance, please wait...",
+    });
+    
+    try {
+      const adjustedImageBase64 = await adjustWhiteBalance(artwork.imageSrc);
+      
+      // We don't save the changes here, just show a toast
+      toast({
+        title: "Success",
+        description: "White balance adjusted. Please use the gallery controls to save changes.",
+      });
+    } catch (error) {
+      console.error('Error adjusting white balance:', error);
+      toast({
+        title: "Error",
+        description: "Failed to adjust white balance",
+        variant: "destructive",
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+  
   if (!artwork) return null;
   
   return (
@@ -47,12 +82,30 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
         <DialogHeader className="p-6 pb-0 space-y-0">
           <div className="flex items-center justify-between">
             <DialogTitle className="text-xl">{artwork.title}</DialogTitle>
-            <DialogClose asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8">
-                <X className="h-4 w-4" />
-                <span className="sr-only">Close</span>
-              </Button>
-            </DialogClose>
+            <div className="flex items-center gap-2">
+              {isAdmin && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleWhiteBalanceAdjust}
+                  disabled={isProcessing}
+                  className="h-8 flex items-center gap-1"
+                >
+                  {isProcessing ? (
+                    <div className="h-3 w-3 rounded-full border-2 border-primary border-t-transparent animate-spin mr-1" />
+                  ) : (
+                    <Sun className="h-3 w-3 mr-1" />
+                  )}
+                  {isProcessing ? "Processing..." : "Balance"}
+                </Button>
+              )}
+              <DialogClose asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Close</span>
+                </Button>
+              </DialogClose>
+            </div>
           </div>
           <DialogDescription className="text-sm text-muted-foreground pt-1">
             View artwork details and information
