@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -57,7 +56,6 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
       return;
     }
     
-    // Preview the image from URL
     setImagePreview(imageUrlInput);
     setFormData({ ...formData, imageSrc: imageUrlInput });
     toast({
@@ -88,6 +86,7 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
       <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit Project</DialogTitle>
+          <DialogDescription>Make changes to your project here.</DialogDescription>
         </DialogHeader>
         
         <div className="grid gap-4 py-4">
