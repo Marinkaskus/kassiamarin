@@ -75,21 +75,16 @@ const About = () => {
               <h2 className="text-2xl font-medium mb-6">Artist Statement</h2>
               <div className="prose prose-lg max-w-none text-muted-foreground">
                 <p>
-                 In my practice, I aim to create a visual language that navigates the intersection between memory, personal experience, and abstraction.
-                  Drawing from the fluidity of my own recollections and the manipulation of time, my work examines themes of uncertainty, transformation, and the complex nature of how we remember.
+                 I work with memory, time, and how we process our past. My art, which includes painting, writing, and video, explores how memories change over time and how we make sense of them. 
+                 I use light, texture, and space to reflect the way we remember and forget.
                 </p>
                 
                 <p>
-                  I am deeply interested in how light, texture, and space can evoke emotional responses and narrate the stories of our inner worlds. 
-                  Through an intuitive process of layering, mark-making, and material exploration, my pieces invite viewers to step into a space where memories are not simply recalled but reinterpreted. 
-                  In doing so, I attempt to give form to that which is often intangible — the fragile nature of memory itself.
+                 Through my work, I try to understand myself and others, showing the fragile nature of memory and how it shapes who we are. 
+                 In a world where we often feel disconnected or alienated, I believe art is a space where we can confront and share these emotions, allowing us to experience something together.
                 </p>
                 
-                <p>
-                  Each artwork is a meditation on presence and absence, on the balance between remembering and forgetting, and on the ephemeral quality of our personal histories.
-                  My practice emphasizes the ongoing dialogue between what we perceive and what we cannot fully grasp. 
-                  In a time when our experiences are often mediated through digital screens, I believe in the enduring power of physical artworks to forge authentic connections, to provoke introspection, and to offer a space for reflection on the nature of memory and identity.
-                </p>
+              
               </div>
             </div>
           </div>
