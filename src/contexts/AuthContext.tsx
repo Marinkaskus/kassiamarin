@@ -19,33 +19,26 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isAdmin, setIsAdmin] = useState<boolean>(true); // Always set to true to bypass admin check
+  const [isLoading, setIsLoading] = useState<boolean>(false); // Set initial loading to false
 
   useEffect(() => {
-    console.log('Initializing auth context...');
+    console.log('Initializing auth context with bypass...');
     
+    // Still listen for auth changes but don't enforce them
     const unsubscribe = onAuthStateChange((user) => {
       console.log('Auth state changed:', user?.email);
       setCurrentUser(user);
-      setIsAdmin(user?.email === 'kassiamarin486@gmail.com');
+      setIsAdmin(true); // Always admin regardless of auth state
       setIsLoading(false);
     });
 
-    // Handle initial loading state timeout
-    const timeoutId = setTimeout(() => {
-      if (isLoading) {
-        console.log('Auth state timeout - forcing load complete');
-        setIsLoading(false);
-      }
-    }, 5000);
-
     return () => {
       unsubscribe();
-      clearTimeout(timeoutId);
     };
   }, []);
 
+  // Provide context with admin access by default
   return (
     <AuthContext.Provider value={{ currentUser, isAdmin, isLoading }}>
       {children}

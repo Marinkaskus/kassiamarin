@@ -1,9 +1,8 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import Layout from '@/components/Layout';
-import AdminLogin from '@/components/AdminLogin';
 import AdminGalleryManager from '@/components/AdminGalleryManager';
 import AdminMessagesInbox from '@/components/AdminMessagesInbox';
 import { Button } from '@/components/ui/button';
@@ -13,24 +12,10 @@ import { LogOut, ImageIcon, MessageSquare, ShieldAlert } from 'lucide-react';
 import { logout } from '@/services/authService';
 
 const Admin = () => {
-  const { currentUser, isAdmin, isLoading } = useAuth();
+  const { currentUser, isAdmin } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('gallery');
-
-  // Redirect non-admin users
-  useEffect(() => {
-    if (!isLoading && !currentUser) {
-      // Don't redirect immediately to allow for login
-    } else if (!isLoading && currentUser && !isAdmin) {
-      toast({
-        title: 'Access Denied',
-        description: 'You do not have admin privileges.',
-        variant: 'destructive',
-      });
-      navigate('/');
-    }
-  }, [currentUser, isAdmin, isLoading, navigate, toast]);
 
   const handleLogout = async () => {
     await logout();
@@ -41,42 +26,7 @@ const Admin = () => {
     navigate('/');
   };
 
-  if (isLoading) {
-    return <Layout>
-      <div className="pt-32 pb-20 flex justify-center items-center">
-        <p>Loading...</p>
-      </div>
-    </Layout>;
-  }
-
-  // Show login if not authenticated
-  if (!currentUser) {
-    return (
-      <Layout>
-        <section className="pt-32 pb-20">
-          <div className="container-custom">
-            <div className="max-w-2xl mx-auto text-center mb-16">
-              <h1 className="text-4xl md:text-5xl font-medium">Admin Portal</h1>
-              <p className="mt-4 text-muted-foreground">
-                Please sign in to access the admin dashboard.
-              </p>
-              <div className="mt-10 max-w-md mx-auto">
-                <AdminLogin 
-                  onLoginSuccess={() => {
-                    toast({
-                      title: 'Login successful',
-                      description: 'Welcome to the admin dashboard',
-                    });
-                  }} 
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-      </Layout>
-    );
-  }
-
+  // Admin dashboard is now directly accessible without login check
   return (
     <Layout>
       <section className="pt-32 pb-20">
@@ -127,13 +77,13 @@ const Admin = () => {
             </Tabs>
           </div>
           
-          <div className="bg-muted/50 border rounded-lg p-4 text-sm text-muted-foreground">
+          <div className="bg-green-100 border border-green-300 rounded-lg p-4 text-sm text-green-800">
             <div className="flex items-start gap-2">
-              <ShieldAlert className="h-5 w-5 text-primary mt-0.5" />
+              <ShieldAlert className="h-5 w-5 text-green-600 mt-0.5" />
               <div>
-                <h3 className="font-medium text-foreground">Admin Access & Security</h3>
+                <h3 className="font-medium">Admin Access Enabled</h3>
                 <p className="mt-1">
-                  This area is restricted to authorized administrators only. All actions are logged for security purposes.
+                  Admin access is currently enabled without authentication. Remember to secure this page in production.
                 </p>
               </div>
             </div>
