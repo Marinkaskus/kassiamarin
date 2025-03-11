@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Project } from '@/types/Project';
 import { useToast } from '@/hooks/use-toast';
-import { X, Save } from 'lucide-react';
+import { X, Save, Upload, FileImage, Video } from 'lucide-react';
 
 interface ProjectEditorProps {
   project: Project;
@@ -23,11 +23,25 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
   onSave
 }) => {
   const [formData, setFormData] = useState<Project>({ ...project });
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        setImagePreview(result);
+        setFormData({ ...formData, imageSrc: result });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = () => {
@@ -55,6 +69,39 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
         </DialogHeader>
         
         <div className="grid gap-4 py-4">
+          <div className="flex flex-col items-center justify-center mb-4">
+            <div className="relative w-full h-48 rounded-md overflow-hidden border mb-2">
+              <img 
+                src={imagePreview || formData.imageSrc} 
+                alt="Preview" 
+                className="w-full h-full object-cover"
+              />
+              <Label 
+                htmlFor="project-image-upload" 
+                className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 hover:opacity-100 transition-opacity cursor-pointer text-white"
+              >
+                <FileImage className="h-8 w-8 mb-2" />
+                <span className="text-xs">Upload Image</span>
+              </Label>
+            </div>
+            <Input
+              id="project-image-upload"
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+            />
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="mt-2"
+              onClick={() => document.getElementById('project-image-upload')?.click()}
+            >
+              <Upload className="h-4 w-4 mr-2" /> 
+              Change Image
+            </Button>
+          </div>
+          
           <div className="space-y-2">
             <Label htmlFor="title">Title</Label>
             <Input
@@ -113,7 +160,10 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="videoUrl">Video URL (Vimeo, YouTube, etc.)</Label>
+            <Label htmlFor="videoUrl" className="flex items-center gap-2">
+              <Video className="h-4 w-4" />
+              <span>Video URL (Vimeo, YouTube, etc.)</span>
+            </Label>
             <Input
               id="videoUrl"
               name="videoUrl"
@@ -121,6 +171,9 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
               onChange={handleChange}
               placeholder="e.g. https://player.vimeo.com/video/123456789"
             />
+            <p className="text-xs text-muted-foreground mt-1">
+              Paste a video embed URL from Vimeo or YouTube
+            </p>
           </div>
         </div>
         

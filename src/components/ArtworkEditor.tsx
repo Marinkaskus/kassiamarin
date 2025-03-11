@@ -8,7 +8,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Artwork } from '@/types/Artwork';
 import { useToast } from '@/components/ui/use-toast';
-import { X, Save } from 'lucide-react';
+import { X, Save, Upload, FileImage } from 'lucide-react';
 
 interface ArtworkEditorProps {
   artwork: Artwork;
@@ -24,6 +24,7 @@ const ArtworkEditor: React.FC<ArtworkEditorProps> = ({
   onSave
 }) => {
   const [formData, setFormData] = useState<Artwork>({ ...artwork });
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -33,6 +34,19 @@ const ArtworkEditor: React.FC<ArtworkEditorProps> = ({
 
   const handleAvailabilityChange = (checked: boolean) => {
     setFormData({ ...formData, available: checked });
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        setImagePreview(result);
+        setFormData({ ...formData, imageSrc: result });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = () => {
@@ -60,6 +74,39 @@ const ArtworkEditor: React.FC<ArtworkEditorProps> = ({
         </DialogHeader>
         
         <div className="grid gap-4 py-4">
+          <div className="flex flex-col items-center justify-center mb-4">
+            <div className="relative w-40 h-40 rounded-md overflow-hidden border mb-2">
+              <img 
+                src={imagePreview || formData.imageSrc} 
+                alt="Preview" 
+                className="w-full h-full object-cover"
+              />
+              <Label 
+                htmlFor="artwork-image-upload" 
+                className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 hover:opacity-100 transition-opacity cursor-pointer text-white"
+              >
+                <FileImage className="h-8 w-8 mb-2" />
+                <span className="text-xs">Upload Image</span>
+              </Label>
+            </div>
+            <Input
+              id="artwork-image-upload"
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+            />
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="mt-2"
+              onClick={() => document.getElementById('artwork-image-upload')?.click()}
+            >
+              <Upload className="h-4 w-4 mr-2" /> 
+              Change Image
+            </Button>
+          </div>
+          
           <div className="space-y-2">
             <Label htmlFor="title">Title</Label>
             <Input
