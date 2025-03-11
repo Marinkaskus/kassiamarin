@@ -22,7 +22,7 @@ const Gallery = () => {
           <div className="max-w-2xl mx-auto text-center mb-16 animate-fade-in">
             <h1 className="text-4xl md:text-5xl font-medium">Gallery</h1>
             <p className="mt-4 text-muted-foreground">
-              A collection of paintings and graphic prints exploring themes of nature, identity, and modern existence.
+              A collection of paintings.
             </p>
           </div>
           
