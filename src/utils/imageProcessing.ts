@@ -78,20 +78,27 @@ export const adjustWhiteBalance = async (imageInput: File | string): Promise<str
       reject(new Error('Failed to load image'));
     };
     
-    // Handle different input types
-    if (typeof imageInput === 'string') {
-      // For external URLs, we need to create a proxy or use a CORS-enabled image service
-      if (imageInput.startsWith('http') && !imageInput.includes('data:image')) {
-        // Convert external URLs to a CORS-friendly format or use a proxy if possible
-        // For demonstration, we'll use an image proxy service
-        img.src = `https://images.weserv.nl/?url=${encodeURIComponent(imageInput)}`;
+    // Handle different input types with improved error handling
+    try {
+      if (typeof imageInput === 'string') {
+        // For external URLs, we need to create a proxy or use a CORS-enabled image service
+        if (imageInput.startsWith('http') && !imageInput.includes('data:image')) {
+          // Convert external URLs to a CORS-friendly format or use a proxy if possible
+          img.src = `https://images.weserv.nl/?url=${encodeURIComponent(imageInput)}`;
+        } else {
+          // It's a base64 or data URL string, use directly
+          img.src = imageInput;
+        }
+      } else if (imageInput instanceof File) {
+        // It's a File object, create an object URL
+        const fileURL = URL.createObjectURL(imageInput);
+        img.src = fileURL;
       } else {
-        // It's a base64 or data URL string, use directly
-        img.src = imageInput;
+        reject(new Error('Invalid image input type'));
       }
-    } else {
-      // It's a File object, create an object URL
-      img.src = URL.createObjectURL(imageInput);
+    } catch (error) {
+      console.error('Error setting image source:', error);
+      reject(new Error('Failed to process image input'));
     }
   });
 };

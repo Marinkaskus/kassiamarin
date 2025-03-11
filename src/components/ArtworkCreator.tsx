@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -8,7 +7,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Artwork } from '@/types/Artwork';
 import { useToast } from '@/hooks/use-toast';
-import { X, Save, Upload, FileImage, Video } from 'lucide-react';
+import { X, Save, Upload, FileImage, Video, AlertCircle } from 'lucide-react';
 import { adjustWhiteBalance } from '../utils/imageProcessing';
 
 interface ArtworkCreatorProps {
@@ -39,6 +38,7 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
   const [formData, setFormData] = useState<Artwork & { location?: string, videoUrl?: string }>(initialArtwork);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -52,33 +52,66 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setIsProcessing(true);
-      try {
-        const adjustedImageBase64 = await adjustWhiteBalance(file);
+    if (!file) return;
+    
+    setIsProcessing(true);
+    setUploadError(null);
+    
+    try {
+      // First set a preview of the original file
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const originalPreview = event.target?.result as string;
+        setImagePreview(originalPreview);
         
-        setImagePreview(adjustedImageBase64);
-        setFormData({ ...formData, imageSrc: adjustedImageBase64 });
-        
+        try {
+          // Now process with white balance adjustment
+          const adjustedImageBase64 = await adjustWhiteBalance(file);
+          setImagePreview(adjustedImageBase64);
+          setFormData({ ...formData, imageSrc: adjustedImageBase64 });
+          
+          toast({
+            title: "Image processed",
+            description: "White balance has been automatically adjusted",
+          });
+        } catch (adjustError) {
+          console.error('Error adjusting white balance:', adjustError);
+          // If white balance fails, at least keep the original image
+          setFormData({ ...formData, imageSrc: originalPreview });
+          setUploadError("White balance adjustment failed, but image was uploaded");
+          toast({
+            title: "Processing warning",
+            description: "Image uploaded, but automatic white balance failed",
+            variant: "destructive",
+          });
+        }
+      };
+      
+      reader.onerror = () => {
+        setUploadError("Failed to read file");
         toast({
-          title: "Image processed",
-          description: "White balance has been automatically adjusted",
-        });
-      } catch (error) {
-        console.error('Error processing image:', error);
-        toast({
-          title: "Error",
-          description: "Failed to process image",
+          title: "Upload error",
+          description: "Failed to read the image file",
           variant: "destructive",
         });
-      } finally {
-        setIsProcessing(false);
-      }
+      };
+      
+      reader.readAsDataURL(file);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      setUploadError("Failed to upload image");
+      toast({
+        title: "Error",
+        description: "Failed to upload image",
+        variant: "destructive",
+      });
+    } finally {
+      setIsProcessing(false);
     }
   };
 
   const handleSubmit = () => {
-    if (!formData.title || !formData.year || !formData.imageSrc) {
+    if (!formData.title || !formData.year || formData.imageSrc === initialArtwork.imageSrc) {
       toast({
         title: "Missing information",
         description: "Please fill in all required fields: title, year, and image",
@@ -96,6 +129,7 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
       onOpenChange(false);
       setFormData(initialArtwork);
       setImagePreview(null);
+      setUploadError(null);
     } catch (error) {
       toast({
         title: "Error",
@@ -105,8 +139,15 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
     }
   };
 
+  const resetForm = () => {
+    setFormData(initialArtwork);
+    setImagePreview(null);
+    setUploadError(null);
+    onOpenChange(false);
+  };
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={resetForm}>
       <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{type === 'artwork' ? 'Add New Artwork' : 'Add New Project'}</DialogTitle>
@@ -138,6 +179,14 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
                 <span className="text-xs">Upload Image</span>
               </Label>
             </div>
+            
+            {uploadError && (
+              <div className="flex items-center gap-2 text-amber-600 text-sm mt-1 mb-2">
+                <AlertCircle className="h-4 w-4" />
+                <span>{uploadError}</span>
+              </div>
+            )}
+            
             <Input
               id="image-upload"
               type="file"
