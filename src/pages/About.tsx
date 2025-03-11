@@ -25,35 +25,30 @@ const About = () => {
               
               <div className="space-y-6 text-muted-foreground animate-fade-in">
                 <p>
-                  I am a contemporary visual artist based in Norway, working across painting, mixed media, text, and video art. 
-                  My practice delves into the complex nature of memory, identity, and perception. 
-                  I explore how personal histories are shaped by time and how memories, often fragile and elusive, can be transformed and distorted over time. 
-                  Through my work, I examine the constant negotiation between the past and the present, questioning the reliability of memory and its emotional weight.
+                Kassia Marin is a contemporary visual artist based in Norway, working across painting, mixed media, text, and video. 
+                Her practice explores the intricate nature of memory, identity, and perception, investigating how personal histories are shaped by time. 
+                Through her work, she examines the delicate and often distorted transformation of memories, probing the tension between past and present, and questioning their emotional weight.
                 </p>
                 
                 <p>
-                  After completing my formal education in Fine Arts at the Oslo National Academy of the Arts,
-                  I've dedicated my career to exploring how our memories and dreams influence our emotional and psychological landscapes. 
-                  My work often intertwines text and imagery, creating a dialogue that bridges personal experience with broader universal themes.
+                With a formal education in Fine Arts from the Oslo National Academy of the Arts, Kassia has dedicated her career to exploring how memories and dreams influence our emotional and psychological landscapes. 
+                Her work often intertwines text and imagery, creating a dialogue between personal experience and broader, universal themes.
                 </p>
                 
                 <p>
-                  The core of my artistic process involves both introspection and external observation. 
-                  I immerse myself in moments of stillness, such as sleepless nights, where memories, dreams, and fragmented thoughts resurface. 
-                  These moments provide me with material for my work, which often manifests through layered paintings and video installations. I use these mediums to evoke emotional responses, 
-                  capturing the instability of memory and the fluidity of time.
+                Kassia’s process is driven by both introspection and external observation, drawing inspiration from moments of stillness—such as sleepless nights—where memories, dreams, and fragmented thoughts resurface. 
+                These moments become material for her layered paintings and video installations, evoking the instability of memory and the fluidity of time.
                 </p>
                 
                 <p>
-                  A key aspect of my practice is incorporating text into my work, a method I use to manifest thoughts and memories that might otherwise fade.   
-                  I see the act of writing as a way to translate ephemeral experiences into something concrete, bridging the gap between thought and reality.   
-                  In my video works, I capture the stillness of the world around me, while inner thoughts and fragmented narratives disrupt that silence.
+                Text plays a central role in her practice, used to capture fleeting thoughts and memories that might otherwise disappear. 
+                Writing becomes a way to make the ephemeral tangible, bridging the gap between thought and reality. 
+                In her video works, the stillness of the world is disrupted by inner narratives, creating a contrast that reflects the complexity of human experience.
                 </p>
 
                 <p>
-                  Ultimately, I seek to explore how our memories shape our understanding of the world and our identities.   
-                  I believe that through art, we can reframe and re-interpret our pasts, creating new ways of seeing and being.   
-                  My hope is that my work invites the viewer to reflect on their own memories and experiences, fostering a deeper connection to their own inner worlds and to the world around them.
+                Through her art, Kassia seeks to explore how memories shape our understanding of self and the world.
+                Her hope is that her work invites viewers to reflect on their own memories and experiences, fostering a deeper connection to both their inner worlds and the world around them.
                 </p>
               </div>
             </div>
