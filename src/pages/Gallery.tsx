@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { artworks } from '@/data/artworkData';
 import ArtworkCard from '@/components/ArtworkCard';
@@ -8,7 +7,7 @@ import ArtworkEditor from '@/components/ArtworkEditor';
 import { Artwork } from '@/types/Artwork';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { LogOut, Sun } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import { logout } from '@/services/authService';
 import { useToast } from '@/hooks/use-toast';
 import { adjustWhiteBalance } from '@/utils/imageProcessing';
@@ -21,32 +20,8 @@ const Gallery = () => {
   const [isAdjusting, setIsAdjusting] = useState(false);
   const { currentUser, isAdmin } = useAuth();
   const { toast } = useToast();
-  const storageListener = useRef<any>(null);
 
-  // Initial load of artwork data
   useEffect(() => {
-    loadArtworkData();
-    
-    // Setup localStorage change listener
-    storageListener.current = () => {
-      // Check if we're on the gallery page before refreshing
-      if (window.location.pathname.includes('/gallery')) {
-        loadArtworkData();
-      }
-    };
-    
-    // Listen for storage events (when another tab updates localStorage)
-    window.addEventListener('storage', storageListener.current);
-    
-    return () => {
-      // Clean up event listener
-      if (storageListener.current) {
-        window.removeEventListener('storage', storageListener.current);
-      }
-    };
-  }, []);
-  
-  const loadArtworkData = () => {
     const savedArtworks = localStorage.getItem('gallery_artworks');
     if (savedArtworks) {
       try {
@@ -58,7 +33,7 @@ const Gallery = () => {
     } else {
       setArtworkData(artworks);
     }
-  };
+  }, []);
   
   const handleArtworkClick = (artwork: Artwork) => {
     setSelectedArtwork(artwork);
@@ -119,21 +94,12 @@ const Gallery = () => {
       setArtworkData(updatedArtworks);
       setSelectedArtwork(updatedArtwork);
       
-      try {
-        localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
-        
-        toast({
-          title: "Success",
-          description: "White balance adjusted successfully",
-        });
-      } catch (storageError) {
-        console.error('Storage limit exceeded:', storageError);
-        toast({
-          title: "Warning",
-          description: "Image processed but couldn't be saved permanently due to storage limits",
-          variant: "destructive",
-        });
-      }
+      localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
+      
+      toast({
+        title: "Success",
+        description: "White balance adjusted successfully",
+      });
     } catch (error) {
       console.error('Error adjusting white balance:', error);
       toast({

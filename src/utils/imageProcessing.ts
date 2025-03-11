@@ -11,15 +11,9 @@ export const adjustWhiteBalance = async (imageInput: File | string): Promise<str
     
     img.onload = () => {
       try {
-        // Validate image dimensions
-        if (img.width === 0 || img.height === 0) {
-          reject(new Error('Invalid image dimensions'));
-          return;
-        }
-
         // Create canvas and get context
         const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const ctx = canvas.getContext('2d');
         if (!ctx) {
           reject(new Error('Could not get canvas context'));
           return;
@@ -29,117 +23,73 @@ export const adjustWhiteBalance = async (imageInput: File | string): Promise<str
         canvas.width = img.width;
         canvas.height = img.height;
         
-        // Clear canvas before drawing
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
         // Draw image on canvas
         ctx.drawImage(img, 0, 0);
         
-        try {
-          // Get image data - this can fail with CORS
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const data = imageData.data;
-          
-          // Calculate average RGB values
-          let totalR = 0, totalG = 0, totalB = 0;
-          let pixelCount = 0;
-          
-          for (let i = 0; i < data.length; i += 4) {
-            // Only count non-transparent pixels
-            if (data[i + 3] > 0) {
-              totalR += data[i];
-              totalG += data[i + 1];
-              totalB += data[i + 2];
-              pixelCount++;
-            }
-          }
-          
-          // Check if we have valid pixels
-          if (pixelCount === 0) {
-            console.warn('No valid pixels found in image');
-            resolve(img.src); // Return original image if no valid pixels
-            return;
-          }
-          
-          const avgR = totalR / pixelCount;
-          const avgG = totalG / pixelCount;
-          const avgB = totalB / pixelCount;
-          
-          // Calculate scaling factors with bounds checking
-          const avgGray = (avgR + avgG + avgB) / 3;
-          const scaleR = avgGray / (avgR || 1); // Prevent division by zero
-          const scaleG = avgGray / (avgG || 1);
-          const scaleB = avgGray / (avgB || 1);
-          
-          // Apply white balance correction
-          for (let i = 0; i < data.length; i += 4) {
-            if (data[i + 3] > 0) { // Only process non-transparent pixels
-              // Red
-              data[i] = Math.min(255, Math.max(0, Math.round(data[i] * scaleR)));
-              // Green
-              data[i + 1] = Math.min(255, Math.max(0, Math.round(data[i + 1] * scaleG)));
-              // Blue
-              data[i + 2] = Math.min(255, Math.max(0, Math.round(data[i + 2] * scaleB)));
-              // Alpha remains unchanged
-            }
-          }
-          
-          // Put adjusted image data back on canvas
-          ctx.putImageData(imageData, 0, 0);
-          
-          // Convert to base64 with error handling
-          try {
-            // Reduce quality to help with localStorage limits
-            const adjustedImageBase64 = canvas.toDataURL('image/jpeg', 0.8);
-            resolve(adjustedImageBase64);
-          } catch (e) {
-            console.error('Error converting to base64:', e);
-            resolve(img.src); // Fallback to original image
-          }
-          
-        } catch (e) {
-          console.error('Error processing image data:', e);
-          resolve(img.src); // Fallback to original image
+        // Get image data
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        
+        // Calculate average RGB values
+        let totalR = 0, totalG = 0, totalB = 0;
+        for (let i = 0; i < data.length; i += 4) {
+          totalR += data[i];
+          totalG += data[i + 1];
+          totalB += data[i + 2];
         }
         
+        const pixelCount = data.length / 4;
+        const avgR = totalR / pixelCount;
+        const avgG = totalG / pixelCount;
+        const avgB = totalB / pixelCount;
+        
+        // Calculate scaling factors
+        const avgGray = (avgR + avgG + avgB) / 3;
+        const scaleR = avgGray / avgR;
+        const scaleG = avgGray / avgG;
+        const scaleB = avgGray / avgB;
+        
+        // Apply white balance correction
+        for (let i = 0; i < data.length; i += 4) {
+          // Red
+          data[i] = Math.min(255, Math.max(0, Math.round(data[i] * scaleR)));
+          // Green
+          data[i + 1] = Math.min(255, Math.max(0, Math.round(data[i + 1] * scaleG)));
+          // Blue
+          data[i + 2] = Math.min(255, Math.max(0, Math.round(data[i + 2] * scaleB)));
+          // Alpha remains unchanged
+        }
+        
+        // Put adjusted image data back on canvas
+        ctx.putImageData(imageData, 0, 0);
+        
+        // Convert to base64
+        const adjustedImageBase64 = canvas.toDataURL('image/jpeg', 0.9);
+        resolve(adjustedImageBase64);
       } catch (error) {
         console.error('Error processing image:', error);
-        resolve(img.src); // Fallback to original image on error
+        reject(error);
       }
     };
     
     img.onerror = (e) => {
       console.error('Failed to load image:', e);
-      // Fix: Convert to string if it's a File
-      if (imageInput instanceof File) {
-        resolve(''); // Return empty string for File on error
-      } else {
-        resolve(imageInput as string); // Return original string input on error
-      }
+      reject(new Error('Failed to load image'));
     };
     
     // Handle different input types with improved error handling
     try {
       if (typeof imageInput === 'string') {
-        if (!imageInput) {
-          reject(new Error('Empty image input'));
-          return;
-        }
-        
-        // Handle different URL types
-        if (imageInput.startsWith('http')) {
-          // For external URLs, use a CORS proxy
-          img.src = `https://images.weserv.nl/?url=${encodeURIComponent(imageInput)}&n=-1`;
-        } else if (imageInput.startsWith('data:image/')) {
-          // It's a valid data URL
-          img.src = imageInput;
+        // For external URLs, we need to create a proxy or use a CORS-enabled image service
+        if (imageInput.startsWith('http') && !imageInput.includes('data:image')) {
+          // Convert external URLs to a CORS-friendly format or use a proxy if possible
+          img.src = `https://images.weserv.nl/?url=${encodeURIComponent(imageInput)}`;
         } else {
-          console.warn('Invalid image URL format:', imageInput);
-          resolve(imageInput); // Return original on invalid format
-          return;
+          // It's a base64 or data URL string, use directly
+          img.src = imageInput;
         }
       } else if (imageInput instanceof File) {
-        // Create object URL for File objects
+        // It's a File object, create an object URL
         const fileURL = URL.createObjectURL(imageInput);
         img.src = fileURL;
       } else {
@@ -147,12 +97,7 @@ export const adjustWhiteBalance = async (imageInput: File | string): Promise<str
       }
     } catch (error) {
       console.error('Error setting image source:', error);
-      // Fix: Convert to string if it's a File
-      if (imageInput instanceof File) {
-        resolve(''); // Return empty string for File on error
-      } else {
-        resolve(imageInput as string); // Return original string input on error
-      }
+      reject(new Error('Failed to process image input'));
     }
   });
 };
@@ -201,154 +146,3 @@ export const processGalleryImages = async (artworks: any[]): Promise<any[]> => {
   
   return processedArtworks;
 };
-
-/**
- * Extracts average RGB values from an image
- */
-const extractRGBValues = (imageData: ImageData) => {
-  const data = imageData.data;
-  let totalR = 0, totalG = 0, totalB = 0;
-  
-  for (let i = 0; i < data.length; i += 4) {
-    totalR += data[i];
-    totalG += data[i + 1];
-    totalB += data[i + 2];
-  }
-  
-  const pixelCount = data.length / 4;
-  return {
-    avgR: totalR / pixelCount,
-    avgG: totalG / pixelCount,
-    avgB: totalB / pixelCount
-  };
-};
-
-/**
- * Creates a canvas with the image and returns its context
- */
-const createImageCanvas = (img: HTMLImageElement): [HTMLCanvasElement, CanvasRenderingContext2D] => {
-  const canvas = document.createElement('canvas');
-  canvas.width = img.width;
-  canvas.height = img.height;
-  
-  const ctx = canvas.getContext('2d');
-  if (!ctx) {
-    throw new Error('Could not get canvas context');
-  }
-  
-  ctx.drawImage(img, 0, 0);
-  return [canvas, ctx];
-};
-
-/**
- * Loads an image and returns it as a Promise
- */
-const loadImage = (src: string): Promise<HTMLImageElement> => {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error('Failed to load image'));
-    
-    if (src.startsWith('http') && !src.includes('data:image')) {
-      // Use CORS proxy for HTTP URLs
-      img.src = `https://images.weserv.nl/?url=${encodeURIComponent(src)}`;
-    } else {
-      img.src = src;
-    }
-  });
-};
-
-/**
- * Matches white balance and lighting of target image to reference image
- * Added optimization to reduce image size for localStorage
- */
-export const matchWhiteBalance = async (targetImageSrc: string, referenceImageSrc: string): Promise<string> => {
-  try {
-    // Load both images
-    const [targetImg, referenceImg] = await Promise.all([
-      loadImage(targetImageSrc),
-      loadImage(referenceImageSrc)
-    ]);
-    
-    // Create canvases for both images
-    const [targetCanvas, targetCtx] = createImageCanvas(targetImg);
-    const [referenceCanvas, referenceCtx] = createImageCanvas(referenceImg);
-    
-    // Get image data
-    const targetImageData = targetCtx.getImageData(0, 0, targetCanvas.width, targetCanvas.height);
-    const referenceImageData = referenceCtx.getImageData(0, 0, referenceCanvas.width, referenceCanvas.height);
-    
-    // Extract RGB values
-    const targetRGB = extractRGBValues(targetImageData);
-    const referenceRGB = extractRGBValues(referenceImageData);
-    
-    // Calculate scaling factors
-    const scaleR = referenceRGB.avgR / targetRGB.avgR;
-    const scaleG = referenceRGB.avgG / targetRGB.avgG;
-    const scaleB = referenceRGB.avgB / targetRGB.avgB;
-    
-    // Apply adjustments
-    const data = targetImageData.data;
-    for (let i = 0; i < data.length; i += 4) {
-      // Red
-      data[i] = Math.min(255, Math.max(0, Math.round(data[i] * scaleR)));
-      // Green
-      data[i + 1] = Math.min(255, Math.max(0, Math.round(data[i + 1] * scaleG)));
-      // Blue
-      data[i + 2] = Math.min(255, Math.max(0, Math.round(data[i + 2] * scaleB)));
-      // Alpha remains unchanged
-    }
-    
-    // Put adjusted image data back on canvas
-    targetCtx.putImageData(targetImageData, 0, 0);
-    
-    // Convert to base64 with reduced quality to help with localStorage limits
-    return targetCanvas.toDataURL('image/jpeg', 0.8);
-  } catch (error) {
-    console.error('Error matching white balance:', error);
-    return targetImageSrc; // Return original on error
-  }
-};
-
-/**
- * Process all images in a gallery to match a reference image
- * Added option to handle localStorage quota exceeded error
- * Returns both processed images and a flag indicating if saving to localStorage was successful
- */
-export const matchGalleryImages = async (
-  images: { id: number, imageSrc: string }[], 
-  referenceImageSrc: string,
-  autoUpdate: boolean = false
-): Promise<{ 
-  processedImages: { id: number, imageSrc: string }[],
-  savingSuccessful: boolean 
-}> => {
-  const processedImages = [...images];
-  const failedImages: number[] = [];
-  
-  for (let i = 0; i < processedImages.length; i++) {
-    try {
-      if (processedImages[i].imageSrc !== referenceImageSrc) {
-        processedImages[i].imageSrc = await matchWhiteBalance(
-          processedImages[i].imageSrc,
-          referenceImageSrc
-        );
-      }
-    } catch (error) {
-      console.error(`Failed to process image ${processedImages[i].id}:`, error);
-      failedImages.push(i);
-    }
-  }
-  
-  if (failedImages.length > 0) {
-    console.warn(`Failed to process ${failedImages.length} images`);
-  }
-  
-  // Return both the processed images and a flag indicating if localStorage save was successful
-  return { 
-    processedImages,
-    savingSuccessful: true // This will be checked in the component
-  };
-};
-
