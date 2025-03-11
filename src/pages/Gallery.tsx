@@ -148,7 +148,18 @@ const Gallery = () => {
         artwork={selectedArtwork}
         open={detailsOpen}
         onOpenChange={setDetailsOpen}
-      />
+      >
+        {isAdmin && selectedArtwork && (
+          <Button 
+            variant="outline" 
+            className="mt-6 w-full" 
+            onClick={handleEditClick}
+          >
+            <Edit className="h-4 w-4 mr-2" />
+            Edit Artwork
+          </Button>
+        )}
+      </ArtworkDetails>
       
       {isAdmin && selectedArtwork && (
         <ArtworkEditor
