@@ -19,7 +19,7 @@ const Gallery = () => {
     <Layout>
       <section className="pt-32 pb-20">
         <div className="container-custom">
-          <div className="max-w-2xl mx-auto text-center mb-16 animate-fade-in">
+          <div className="max-w-2xl mx-auto text-center mb-16 animate-scale-in">
             <h1 className="text-4xl md:text-5xl font-medium">Gallery</h1>
             <p className="mt-4 text-muted-foreground">
               A collection of paintings.
@@ -28,11 +28,19 @@ const Gallery = () => {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {artworks.map((artwork, index) => (
-              <div key={artwork.id} className="relative">
+              <div 
+                key={artwork.id} 
+                className="relative transition-all duration-300 hover:-translate-y-1"
+                style={{ 
+                  opacity: 0,
+                  animation: `scaleIn 0.6s ease-out forwards`,
+                  animationDelay: `${index * 100}ms`
+                }}
+              >
                 <ArtworkCard 
                   artwork={artwork}
                   onClick={handleArtworkClick}
-                  className={`animate-fade-in-up [animation-delay:${index * 100}ms]`}
+                  className="transition-transform duration-300"
                 />
               </div>
             ))}
