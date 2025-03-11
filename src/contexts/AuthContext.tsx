@@ -25,8 +25,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const unsubscribe = onAuthStateChange((user) => {
       setCurrentUser(user);
-      // Check if the user has admin rights (you can add more checks if needed)
-      setIsAdmin(!!user && user.email === 'kassiamarin486@gmail.com');
+      // Admin check - only this email is considered an admin
+      const isAdminUser = !!user && user.email === 'kassiamarin486@gmail.com';
+      setIsAdmin(isAdminUser);
+      
+      if (user) {
+        console.log("User authenticated:", user.email);
+        console.log("Admin status:", isAdminUser);
+      }
+      
       setIsLoading(false);
     });
 

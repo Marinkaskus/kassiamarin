@@ -4,14 +4,14 @@ import { login } from '@/services/authService';
 import { useToast } from '@/hooks/use-toast';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Lock } from 'lucide-react';
+import { Lock, Mail, KeyRound } from 'lucide-react';
 
 interface AdminLoginProps {
   onLoginSuccess?: () => void;
 }
 
 const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('kassiamarin486@gmail.com');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -26,7 +26,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
       if (result.success) {
         toast({
           title: "Login successful",
-          description: "You are now logged in as admin",
+          description: "Welcome to the admin dashboard",
         });
         if (onLoginSuccess) onLoginSuccess();
       } else {
@@ -42,6 +42,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
         description: "An unexpected error occurred",
         variant: "destructive",
       });
+      console.error("Login error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -61,8 +62,8 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <label htmlFor="email" className="text-sm font-medium">
-            Email
+          <label htmlFor="email" className="text-sm font-medium flex items-center gap-2">
+            <Mail className="h-4 w-4" /> Email
           </label>
           <Input
             id="email"
@@ -70,14 +71,15 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            placeholder="admin@example.com"
+            placeholder="kassiamarin486@gmail.com"
             className="w-full"
+            readOnly
           />
         </div>
         
         <div className="space-y-2">
-          <label htmlFor="password" className="text-sm font-medium">
-            Password
+          <label htmlFor="password" className="text-sm font-medium flex items-center gap-2">
+            <KeyRound className="h-4 w-4" /> Password
           </label>
           <Input
             id="password"
@@ -85,8 +87,9 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            placeholder="••••••••"
+            placeholder="Enter your password"
             className="w-full"
+            autoFocus
           />
         </div>
         
@@ -95,7 +98,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
           className="w-full"
           disabled={isLoading}
         >
-          {isLoading ? "Logging in..." : "Sign In"}
+          {isLoading ? "Authenticating..." : "Sign In"}
         </Button>
       </form>
     </div>

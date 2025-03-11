@@ -19,10 +19,27 @@ const auth = getAuth(app);
 // Authentication functions
 export const login = async (email: string, password: string) => {
   try {
+    // Validate the admin credentials
+    if (email !== 'kassiamarin486@gmail.com') {
+      return { success: false, error: "Invalid email address" };
+    }
+    
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     return { success: true, user: userCredential.user };
   } catch (error: any) {
-    return { success: false, error: error.message };
+    // Provide a more user-friendly error message
+    let errorMessage = "Authentication failed";
+    
+    if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password') {
+      errorMessage = "Invalid email or password";
+    } else if (error.code === 'auth/user-not-found') {
+      errorMessage = "No user found with this email";
+    } else if (error.code === 'auth/too-many-requests') {
+      errorMessage = "Too many failed login attempts. Please try again later";
+    }
+    
+    console.error("Login error:", error.code, error.message);
+    return { success: false, error: errorMessage };
   }
 };
 
