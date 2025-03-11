@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { artworks } from '@/data/artworkData';
 import { previousProjects } from '@/data/projectsData';
@@ -9,13 +8,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import { Plus, Edit, Trash2, ImageIcon, Video, Check, X } from 'lucide-react';
+import { Plus, Edit, Trash2, Video, Check, X } from 'lucide-react';
+import { Image as ImageIcon, WandSparkles } from 'lucide-react';
 import ArtworkEditor from '@/components/ArtworkEditor';
 import ProjectEditor from '@/components/ProjectEditor';
 import ArtworkCreator from '@/components/ArtworkCreator';
 import { matchGalleryImages } from '@/utils/imageProcessing';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { WandSparkles, Image as ImageIcon } from 'lucide-react';
 
 const AdminGalleryManager = () => {
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
