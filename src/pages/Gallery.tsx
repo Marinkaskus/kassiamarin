@@ -11,9 +11,8 @@ const Gallery = () => {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
 
-  // Load artworks from the source of truth
+  // Load artworks from the data file
   useEffect(() => {
-    // Use the hardcoded artworks data
     setArtworkData(artworks);
   }, []);
   
