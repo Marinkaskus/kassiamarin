@@ -11,7 +11,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { LogOut, Edit, Lock } from 'lucide-react';
 import { logout } from '@/services/authService';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 const Gallery = () => {
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
@@ -159,11 +159,22 @@ const Gallery = () => {
         />
       )}
       
-      <AdminLogin 
-        open={loginModalOpen}
-        onOpenChange={setLoginModalOpen}
-        onLoginSuccess={() => setLoginModalOpen(false)}
-      />
+      {loginModalOpen && (
+        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+          <div className="w-full max-w-md">
+            <AdminLogin 
+              onLoginSuccess={() => setLoginModalOpen(false)}
+            />
+            <Button 
+              variant="ghost" 
+              className="absolute top-6 right-6 text-white" 
+              onClick={() => setLoginModalOpen(false)}
+            >
+              Close
+            </Button>
+          </div>
+        </div>
+      )}
     </Layout>
   );
 };

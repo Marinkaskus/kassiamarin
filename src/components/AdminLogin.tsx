@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { login } from '@/services/authService';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Lock } from 'lucide-react';
