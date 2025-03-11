@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { artworks } from '@/data/artworkData';
 import { previousProjects } from '@/data/projectsData';
@@ -104,7 +105,7 @@ const AdminGalleryManager = () => {
     
     toast({
       title: "Artwork added",
-      description: `"${newArtwork.title}" has been added to the gallery"
+      description: `"${newArtwork.title}" has been added to the gallery`
     });
   };
 
@@ -177,7 +178,7 @@ const AdminGalleryManager = () => {
       toast({
         title: "No reference image",
         description: "Please select a reference image first",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
@@ -199,14 +200,14 @@ const AdminGalleryManager = () => {
 
       toast({
         title: "White balance matched",
-        description: "All images have been adjusted to match the reference image",
+        description: "All images have been adjusted to match the reference image"
       });
     } catch (error) {
       console.error('Error matching white balance:', error);
       toast({
         title: "Error",
         description: "Failed to match white balance across images",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsMatchingWhiteBalance(false);
