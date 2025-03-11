@@ -1,10 +1,26 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Mail, Linkedin } from 'lucide-react';
+import { Instagram, Mail, Linkedin, Lock } from 'lucide-react';
+import AdminLogin from './AdminLogin';
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/contexts/AuthContext';
+import { logout } from '@/services/authService';
+import { useToast } from '@/hooks/use-toast';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const { currentUser, isAdmin } = useAuth();
+  const { toast } = useToast();
+  
+  const handleLogout = async () => {
+    await logout();
+    toast({
+      title: "Logged out",
+      description: "You have been logged out successfully",
+    });
+  };
 
   return (
     <footer className="py-12 border-t border-border">
@@ -58,16 +74,52 @@ const Footer: React.FC = () => {
           <p className="text-xs text-muted-foreground">
             © {currentYear} Kassia Marin. All rights reserved.
           </p>
-          <div className="flex space-x-6">
+          <div className="flex space-x-6 items-center">
             <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               Privacy Policy
             </a>
             <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               Terms of Service
             </a>
+            {isAdmin ? (
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={handleLogout}
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 px-2 h-auto"
+              >
+                <Lock className="h-3 w-3" /> Logout
+              </Button>
+            ) : (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setLoginModalOpen(true)}
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 px-2 h-auto"
+              >
+                <Lock className="h-3 w-3" /> Admin
+              </Button>
+            )}
           </div>
         </div>
       </div>
+      
+      {loginModalOpen && (
+        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+          <div className="w-full max-w-md">
+            <AdminLogin 
+              onLoginSuccess={() => setLoginModalOpen(false)}
+            />
+            <Button 
+              variant="ghost" 
+              className="absolute top-6 right-6 text-white" 
+              onClick={() => setLoginModalOpen(false)}
+            >
+              Close
+            </Button>
+          </div>
+        </div>
+      )}
     </footer>
   );
 };

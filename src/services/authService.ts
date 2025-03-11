@@ -1,9 +1,10 @@
+
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, User } from 'firebase/auth';
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyApU-97mpQeRHmxGK-7Gf29xb2GRNPwVsU",
+  apiKey: "AIzaSyDpKWeeJ-dS0OCSL9J-TGhT8-0OsmYrM94",
   authDomain: "kassia-marin-gallery.firebaseapp.com",
   projectId: "kassia-marin-gallery",
   storageBucket: "kassia-marin-gallery.appspot.com",
@@ -11,8 +12,14 @@ const firebaseConfig = {
   appId: "1:176834256912:web:d0fc3ee81f3d5f47a5c7b4"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase - prevent duplicate initialization
+let app;
+try {
+  app = initializeApp(firebaseConfig);
+} catch (error) {
+  // If already initialized, use the existing app
+  app = initializeApp(firebaseConfig, "secondary");
+}
 const auth = getAuth(app);
 
 // Maximum failed login attempts before temporary lockout
@@ -46,7 +53,10 @@ export const login = async (email: string, password: string) => {
       }
     }
     
+    console.log("Attempting Firebase login with email:", email);
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log("Login successful:", userCredential.user.email);
+    
     // Clear failed attempts on successful login
     loginAttempts.delete(email);
     return { success: true, user: userCredential.user };

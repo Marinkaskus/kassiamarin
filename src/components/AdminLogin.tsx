@@ -90,6 +90,9 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
             className="w-full"
             readOnly
           />
+          <p className="text-xs text-muted-foreground">
+            Email is preset to admin account
+          </p>
         </div>
         
         <div className="space-y-2">

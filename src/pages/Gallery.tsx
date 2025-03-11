@@ -5,11 +5,10 @@ import { artworks } from '@/data/artworkData';
 import ArtworkCard from '@/components/ArtworkCard';
 import ArtworkDetails from '@/components/ArtworkDetails';
 import ArtworkEditor from '@/components/ArtworkEditor';
-import AdminLogin from '@/components/AdminLogin';
 import { Artwork } from '@/types/Artwork';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { LogOut, Edit, Lock } from 'lucide-react';
+import { LogOut, Edit } from 'lucide-react';
 import { logout } from '@/services/authService';
 import { useToast } from '@/hooks/use-toast';
 
@@ -18,7 +17,6 @@ const Gallery = () => {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [editorOpen, setEditorOpen] = useState(false);
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
-  const [loginModalOpen, setLoginModalOpen] = useState(false);
   const { currentUser, isAdmin } = useAuth();
   const { toast } = useToast();
 
@@ -83,7 +81,7 @@ const Gallery = () => {
               A collection of paintings.
             </p>
             
-            {isAdmin ? (
+            {isAdmin && (
               <div className="mt-6 flex justify-center space-x-4">
                 <Button 
                   variant="outline" 
@@ -96,17 +94,6 @@ const Gallery = () => {
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                   Admin Mode
                 </span>
-              </div>
-            ) : (
-              <div className="mt-6">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={() => setLoginModalOpen(true)}
-                  className="flex items-center gap-2 text-muted-foreground"
-                >
-                  <Lock className="h-3 w-3" /> Admin
-                </Button>
               </div>
             )}
           </div>
@@ -157,23 +144,6 @@ const Gallery = () => {
           onOpenChange={setEditorOpen}
           onSave={handleArtworkUpdate}
         />
-      )}
-      
-      {loginModalOpen && (
-        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-md">
-            <AdminLogin 
-              onLoginSuccess={() => setLoginModalOpen(false)}
-            />
-            <Button 
-              variant="ghost" 
-              className="absolute top-6 right-6 text-white" 
-              onClick={() => setLoginModalOpen(false)}
-            >
-              Close
-            </Button>
-          </div>
-        </div>
       )}
     </Layout>
   );
