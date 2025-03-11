@@ -2,6 +2,7 @@
 import React from 'react';
 import { Artwork } from '@/types/Artwork';
 import { cn } from '@/lib/utils';
+import { ImageOff } from 'lucide-react';
 
 interface ArtworkCardProps {
   artwork: Artwork;
@@ -10,6 +11,13 @@ interface ArtworkCardProps {
 }
 
 const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }) => {
+  const [imageError, setImageError] = React.useState(false);
+
+  const handleImageError = () => {
+    console.error(`Failed to load image for artwork: ${artwork.title}`);
+    setImageError(true);
+  };
+
   return (
     <div 
       className={cn(
@@ -18,13 +26,20 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
       )}
       onClick={() => onClick(artwork)}
     >
-      <div className="w-full">
-        <img
-          src={artwork.imageSrc}
-          alt={artwork.title}
-          className="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
-        />
+      <div className="w-full aspect-square bg-muted">
+        {!imageError ? (
+          <img
+            src={artwork.imageSrc}
+            alt={artwork.title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+            onError={handleImageError}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-muted">
+            <ImageOff className="h-8 w-8 text-muted-foreground" />
+          </div>
+        )}
       </div>
       <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
         <h3 className="text-lg font-medium text-white">{artwork.title}</h3>

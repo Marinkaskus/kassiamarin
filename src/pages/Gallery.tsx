@@ -8,7 +8,7 @@ import ArtworkEditor from '@/components/ArtworkEditor';
 import { Artwork } from '@/types/Artwork';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { LogOut, Edit } from 'lucide-react';
+import { LogOut, Edit, Plus } from 'lucide-react';
 import { logout } from '@/services/authService';
 import { useToast } from '@/hooks/use-toast';
 import ArtworkCreator from '@/components/ArtworkCreator';
@@ -22,6 +22,7 @@ const Gallery = () => {
   const { currentUser, isAdmin } = useAuth();
   const { toast } = useToast();
 
+  // Load artworks from the source of truth
   useEffect(() => {
     const savedArtworks = localStorage.getItem('gallery_artworks');
     if (savedArtworks) {
@@ -32,6 +33,7 @@ const Gallery = () => {
         setArtworkData(artworks);
       }
     } else {
+      // Use the hardcoded artworks if no saved data
       setArtworkData(artworks);
     }
   }, []);
@@ -110,6 +112,10 @@ const Gallery = () => {
       description: "You have been logged out successfully",
     });
   };
+
+  const handleAddNewClick = () => {
+    setCreatorOpen(true);
+  };
   
   return (
     <Layout>
@@ -120,6 +126,15 @@ const Gallery = () => {
             <p className="mt-4 text-muted-foreground">
               A collection of paintings.
             </p>
+            {isAdmin && (
+              <Button 
+                onClick={handleAddNewClick} 
+                className="mt-4 flex items-center"
+                size="sm"
+              >
+                <Plus className="mr-2 h-4 w-4" /> Add New Artwork
+              </Button>
+            )}
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -141,6 +156,12 @@ const Gallery = () => {
               </div>
             ))}
           </div>
+          
+          {artworkData.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">No artworks found.</p>
+            </div>
+          )}
         </div>
       </section>
       
