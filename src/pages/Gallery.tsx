@@ -124,15 +124,6 @@ const Gallery = () => {
             <p className="mt-4 text-muted-foreground">
               A collection of paintings.
             </p>
-            
-            {isAdmin && (
-              <Button 
-                onClick={handleAddNew}
-                className="mt-6 flex items-center gap-2 mx-auto"
-              >
-                <Plus className="h-4 w-4" /> Add New Artwork
-              </Button>
-            )}
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
