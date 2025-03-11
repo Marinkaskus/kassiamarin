@@ -32,7 +32,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setIsLoading(false);
     });
 
-    return () => unsubscribe();
+    // Handle initial loading state timeout
+    const timeoutId = setTimeout(() => {
+      if (isLoading) {
+        console.log('Auth state timeout - forcing load complete');
+        setIsLoading(false);
+      }
+    }, 5000);
+
+    return () => {
+      unsubscribe();
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   return (

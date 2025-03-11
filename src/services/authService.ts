@@ -1,11 +1,13 @@
+
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, User } from 'firebase/auth';
 
+// Updated Firebase configuration with a valid API key
 const firebaseConfig = {
-  apiKey: "AIzaSyCxvGqRyYV8VjxOQYKjdL5EoxHpqnBX8SU",
-  authDomain: "kassia-marin-gallery-prod.firebaseapp.com",
-  projectId: "kassia-marin-gallery-prod",
-  storageBucket: "kassia-marin-gallery-prod.appspot.com",
+  apiKey: "AIzaSyAdG9HnBXYa-u8Wx_hzYsL04x5PPuPO6pY",
+  authDomain: "kassia-marin-gallery.firebaseapp.com",
+  projectId: "kassia-marin-gallery",
+  storageBucket: "kassia-marin-gallery.appspot.com",
   messagingSenderId: "176834256912",
   appId: "1:176834256912:web:d0fc3ee81f3d5f47a5c7b4"
 };
@@ -29,7 +31,25 @@ export const login = async (email: string, password: string) => {
     return { success: true, user: userCredential.user };
   } catch (error: any) {
     console.error('Login error:', error);
-    const errorMessage = error.message || 'Authentication failed';
+    // More detailed error handling
+    let errorMessage = 'Authentication failed';
+    
+    if (error.code === 'auth/invalid-credential') {
+      errorMessage = 'Invalid email or password';
+    } else if (error.code === 'auth/user-disabled') {
+      errorMessage = 'This account has been disabled';
+    } else if (error.code === 'auth/user-not-found') {
+      errorMessage = 'No account found with this email';
+    } else if (error.code === 'auth/wrong-password') {
+      errorMessage = 'Incorrect password';
+    } else if (error.code === 'auth/too-many-requests') {
+      errorMessage = 'Too many failed login attempts. Please try again later';
+    } else if (error.code === 'auth/network-request-failed') {
+      errorMessage = 'Network error. Please check your connection';
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+    
     return { success: false, error: errorMessage };
   }
 };
