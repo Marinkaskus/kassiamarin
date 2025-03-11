@@ -13,16 +13,16 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
   return (
     <div 
       className={cn(
-        "group relative cursor-pointer overflow-hidden rounded-md transition-all duration-300 hover:shadow-md",
+        "group relative cursor-pointer overflow-hidden rounded-md transition-all duration-300 hover:shadow-md w-full",
         className
       )}
       onClick={() => onClick(artwork)}
     >
-      <div className="aspect-[3/4] w-full overflow-hidden">
+      <div className="w-full">
         <img
           src={artwork.imageSrc}
           alt={artwork.title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
         />
       </div>
