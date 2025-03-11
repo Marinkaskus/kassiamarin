@@ -6,8 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Project } from '@/types/Project';
 import { useToast } from '@/hooks/use-toast';
-import { X, Save, Upload, FileImage, Video, Sun } from 'lucide-react';
-import { adjustWhiteBalance } from '../utils/imageProcessing';
+import { X, Save, Upload, FileImage, Video } from 'lucide-react';
 
 interface ProjectEditorProps {
   project: Project;
@@ -24,7 +23,6 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
 }) => {
   const [formData, setFormData] = useState<Project>({ ...project });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [isProcessing, setIsProcessing] = useState(false);
   const { toast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -32,27 +30,16 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      try {
-        const adjustedImageBase64 = await adjustWhiteBalance(file);
-        
-        setImagePreview(adjustedImageBase64);
-        setFormData({ ...formData, imageSrc: adjustedImageBase64 });
-        
-        toast({
-          title: "Image processed",
-          description: "White balance has been automatically adjusted",
-        });
-      } catch (error) {
-        console.error('Error processing image:', error);
-        toast({
-          title: "Error",
-          description: "Failed to process image",
-          variant: "destructive",
-        });
-      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        setImagePreview(result);
+        setFormData({ ...formData, imageSrc: result });
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -70,37 +57,6 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
         description: "Failed to update project",
         variant: "destructive",
       });
-    }
-  };
-
-  const handleAdjustWhiteBalance = async () => {
-    if (!formData.imageSrc) return;
-    
-    setIsProcessing(true);
-    toast({
-      title: "Processing",
-      description: "Adjusting white balance, please wait...",
-    });
-    
-    try {
-      const adjustedImageBase64 = await adjustWhiteBalance(formData.imageSrc);
-      
-      setImagePreview(adjustedImageBase64);
-      setFormData({ ...formData, imageSrc: adjustedImageBase64 });
-      
-      toast({
-        title: "Success",
-        description: "White balance adjusted successfully",
-      });
-    } catch (error) {
-      console.error('Error adjusting white balance:', error);
-      toast({
-        title: "Error",
-        description: "Failed to adjust white balance",
-        variant: "destructive",
-      });
-    } finally {
-      setIsProcessing(false);
     }
   };
 
@@ -134,27 +90,15 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
               onChange={handleImageUpload}
               className="hidden"
             />
-            <div className="flex gap-2 mt-2">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => document.getElementById('project-image-upload')?.click()}
-                className="flex items-center gap-2"
-              >
-                <Upload className="h-4 w-4" /> 
-                Change Image
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={handleAdjustWhiteBalance}
-                disabled={isProcessing || !formData.imageSrc}
-                className="flex items-center gap-2"
-              >
-                <Sun className="h-4 w-4" /> 
-                {isProcessing ? 'Adjusting...' : 'Adjust White Balance'}
-              </Button>
-            </div>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => document.getElementById('project-image-upload')?.click()}
+              className="flex items-center gap-2"
+            >
+              <Upload className="h-4 w-4" /> 
+              Change Image
+            </Button>
           </div>
           
           <div className="space-y-2">

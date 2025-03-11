@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { artworks } from '@/data/artworkData';
 import { previousProjects } from '@/data/projectsData';
@@ -9,11 +8,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import { Plus, Edit, Trash2, ImageIcon, Video, Check, X, Sun } from 'lucide-react';
+import { Plus, Edit, Trash2, ImageIcon, Video, Check, X } from 'lucide-react';
 import ArtworkEditor from '@/components/ArtworkEditor';
 import ProjectEditor from '@/components/ProjectEditor';
 import ArtworkCreator from '@/components/ArtworkCreator';
-import { processGalleryImages, adjustWhiteBalance } from '@/utils/imageProcessing';
 
 const AdminGalleryManager = () => {
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
@@ -28,8 +26,6 @@ const AdminGalleryManager = () => {
   const [selectedTab, setSelectedTab] = useState('gallery');
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{ id: number, type: 'artwork' | 'project' } | null>(null);
-  const [isProcessingGallery, setIsProcessingGallery] = useState(false);
-  const [confirmProcessDialogOpen, setConfirmProcessDialogOpen] = useState(false);
 
   useEffect(() => {
     const savedArtworks = localStorage.getItem('gallery_artworks');
@@ -170,40 +166,6 @@ const AdminGalleryManager = () => {
     setDeleteDialogOpen(true);
   };
 
-  const handleProcessGallery = async () => {
-    setConfirmProcessDialogOpen(false);
-    setIsProcessingGallery(true);
-    
-    toast({
-      title: "Processing gallery",
-      description: "Adjusting all images, this may take a moment...",
-    });
-    
-    try {
-      // Process all artworks
-      const processedArtworks = await processGalleryImages(artworkData);
-      
-      // Update state and localStorage
-      setArtworkData(processedArtworks);
-      localStorage.setItem('gallery_artworks', JSON.stringify(processedArtworks));
-      
-      toast({
-        title: "Gallery processed",
-        description: `Successfully processed ${processedArtworks.length} images`,
-      });
-    } catch (error) {
-      console.error('Error processing gallery:', error);
-      
-      toast({
-        title: "Processing error",
-        description: "Some images could not be processed. Check the console for details.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsProcessingGallery(false);
-    }
-  };
-
   const filteredArtworks = artworkData.filter(artwork => 
     artwork.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     artwork.year.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -227,19 +189,6 @@ const AdminGalleryManager = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="max-w-xs"
           />
-          {selectedTab === 'gallery' && (
-            <Button 
-              size="sm" 
-              variant="outline" 
-              className="flex items-center gap-1"
-              onClick={() => setConfirmProcessDialogOpen(true)}
-              disabled={isProcessingGallery}
-            >
-              <Sun className="h-4 w-4" />
-              <span className="hidden sm:inline">Master Edit</span>
-              <span className="sm:hidden">Edit All</span>
-            </Button>
-          )}
           <Button size="sm" variant="default" onClick={handleAddNewItem}>
             <Plus className="h-4 w-4 mr-2" /> Add New
           </Button>
@@ -413,30 +362,6 @@ const AdminGalleryManager = () => {
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={handleDeleteConfirm} className="bg-red-600 hover:bg-red-700">
               Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
-      {/* Confirmation dialog for processing all gallery images */}
-      <AlertDialog open={confirmProcessDialogOpen} onOpenChange={setConfirmProcessDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Process All Gallery Images</AlertDialogTitle>
-            <AlertDialogDescription>
-              This will adjust white balance and lighting for all images in your gallery. 
-              This process may take some time depending on the number of images. 
-              Would you like to proceed?
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={handleProcessGallery} 
-              className="bg-primary hover:bg-primary/90"
-              disabled={isProcessingGallery}
-            >
-              {isProcessingGallery ? "Processing..." : "Process All Images"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

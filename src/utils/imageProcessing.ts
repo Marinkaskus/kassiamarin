@@ -1,4 +1,3 @@
-
 /**
  * Adjusts white balance of an image using a simple gray world assumption algorithm
  * Can accept either a File object or a base64/data URL string

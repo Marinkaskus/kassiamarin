@@ -7,8 +7,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Artwork } from '@/types/Artwork';
 import { useToast } from '@/components/ui/use-toast';
-import { X, Save, Upload, FileImage, Sun } from 'lucide-react';
-import { adjustWhiteBalance } from '@/utils/imageProcessing';
+import { X, Save, Upload, FileImage } from 'lucide-react';
 
 interface ArtworkEditorProps {
   artwork: Artwork;
@@ -25,7 +24,6 @@ const ArtworkEditor: React.FC<ArtworkEditorProps> = ({
 }) => {
   const [formData, setFormData] = useState<Artwork>({ ...artwork });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [isProcessing, setIsProcessing] = useState(false);
   const { toast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -47,37 +45,6 @@ const ArtworkEditor: React.FC<ArtworkEditorProps> = ({
         setFormData({ ...formData, imageSrc: result });
       };
       reader.readAsDataURL(file);
-    }
-  };
-
-  const handleAdjustWhiteBalance = async () => {
-    if (!formData.imageSrc) return;
-    
-    setIsProcessing(true);
-    toast({
-      title: "Processing",
-      description: "Adjusting white balance, please wait...",
-    });
-    
-    try {
-      const adjustedImageBase64 = await adjustWhiteBalance(formData.imageSrc);
-      
-      setImagePreview(adjustedImageBase64);
-      setFormData({ ...formData, imageSrc: adjustedImageBase64 });
-      
-      toast({
-        title: "Success",
-        description: "White balance adjusted successfully",
-      });
-    } catch (error) {
-      console.error('Error adjusting white balance:', error);
-      toast({
-        title: "Error",
-        description: "Failed to adjust white balance",
-        variant: "destructive",
-      });
-    } finally {
-      setIsProcessing(false);
     }
   };
 
@@ -128,27 +95,15 @@ const ArtworkEditor: React.FC<ArtworkEditorProps> = ({
               onChange={handleImageUpload}
               className="hidden"
             />
-            <div className="flex gap-2 mt-2">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="flex items-center gap-2"
-                onClick={() => document.getElementById('artwork-image-upload')?.click()}
-              >
-                <Upload className="h-4 w-4" /> 
-                Change Image
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={handleAdjustWhiteBalance}
-                disabled={isProcessing || !formData.imageSrc}
-                className="flex items-center gap-2"
-              >
-                <Sun className="h-4 w-4" /> 
-                {isProcessing ? 'Adjusting...' : 'Adjust White Balance'}
-              </Button>
-            </div>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="flex items-center gap-2"
+              onClick={() => document.getElementById('artwork-image-upload')?.click()}
+            >
+              <Upload className="h-4 w-4" /> 
+              Change Image
+            </Button>
           </div>
           
           <div className="space-y-2">
