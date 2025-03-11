@@ -109,7 +109,12 @@ export const adjustWhiteBalance = async (imageInput: File | string): Promise<str
     
     img.onerror = (e) => {
       console.error('Failed to load image:', e);
-      resolve(imageInput); // Return original input on error
+      // Fix: Convert to string if it's a File
+      if (imageInput instanceof File) {
+        resolve(''); // Return empty string for File on error
+      } else {
+        resolve(imageInput as string); // Return original string input on error
+      }
     };
     
     // Handle different input types with improved error handling
@@ -141,7 +146,12 @@ export const adjustWhiteBalance = async (imageInput: File | string): Promise<str
       }
     } catch (error) {
       console.error('Error setting image source:', error);
-      resolve(imageInput); // Return original input on error
+      // Fix: Convert to string if it's a File
+      if (imageInput instanceof File) {
+        resolve(''); // Return empty string for File on error
+      } else {
+        resolve(imageInput as string); // Return original string input on error
+      }
     }
   });
 };
@@ -325,3 +335,4 @@ export const matchGalleryImages = async (images: { id: number, imageSrc: string 
   
   return processedImages;
 };
+
