@@ -8,8 +8,9 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Artwork } from '@/types/Artwork';
 import { useToast } from '@/hooks/use-toast';
-import { X, Save, Upload, FileImage, Video, AlertTriangle } from 'lucide-react';
+import { X, Save, Upload, FileImage, Video, AlertTriangle, Link } from 'lucide-react';
 import { compressImage } from '@/utils/imageUtils';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface ArtworkCreatorProps {
   open: boolean;
@@ -40,6 +41,8 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [imageUrlInput, setImageUrlInput] = useState('');
+  const [imageUploadMethod, setImageUploadMethod] = useState<'upload' | 'url'>('upload');
   const { toast } = useToast();
 
   // Reset form when dialog opens
@@ -52,6 +55,8 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
       setImagePreview(null);
       setError(null);
       setIsSubmitting(false);
+      setImageUrlInput('');
+      setImageUploadMethod('upload');
     }
   }, [open]);
 
@@ -90,6 +95,26 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
       }
     }
   };
+  
+  const handleImageUrlSubmit = () => {
+    if (!imageUrlInput) {
+      toast({
+        title: "Error",
+        description: "Please enter an image URL",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Update the image preview and form data with the provided URL
+    setImagePreview(imageUrlInput);
+    setFormData(prev => ({ ...prev, imageSrc: imageUrlInput }));
+    
+    toast({
+      title: "Image URL set",
+      description: "The image has been set from the provided URL"
+    });
+  };
 
   const validateForm = () => {
     if (!formData.title) {
@@ -101,7 +126,7 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
       return false;
     }
     if (formData.imageSrc === initialArtwork.imageSrc) {
-      setError("Please upload an image");
+      setError("Please provide an image (upload or URL)");
       return false;
     }
     return true;
@@ -167,30 +192,65 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
                 alt="Preview" 
                 className="w-full h-full object-cover"
               />
-              <Label 
-                htmlFor="image-upload" 
-                className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 hover:opacity-100 transition-opacity cursor-pointer text-white"
-              >
-                <FileImage className="h-8 w-8 mb-2" />
-                <span className="text-xs">Upload Image</span>
-              </Label>
             </div>
-            <Input
-              id="image-upload"
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="hidden"
-            />
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="mt-2"
-              onClick={() => document.getElementById('image-upload')?.click()}
+            
+            <Tabs 
+              defaultValue="upload" 
+              value={imageUploadMethod}
+              onValueChange={(value) => setImageUploadMethod(value as 'upload' | 'url')}
+              className="w-full mt-2"
             >
-              <Upload className="h-4 w-4 mr-2" /> 
-              Choose Image
-            </Button>
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="upload" className="flex items-center gap-1">
+                  <FileImage className="h-3 w-3" />
+                  <span>Upload</span>
+                </TabsTrigger>
+                <TabsTrigger value="url" className="flex items-center gap-1">
+                  <Link className="h-3 w-3" />
+                  <span>Image URL</span>
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="upload" className="mt-2">
+                <Input
+                  id="image-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full"
+                  onClick={() => document.getElementById('image-upload')?.click()}
+                >
+                  <Upload className="h-4 w-4 mr-2" /> 
+                  Choose Image File
+                </Button>
+              </TabsContent>
+              
+              <TabsContent value="url" className="space-y-2 mt-2">
+                <div className="flex space-x-2">
+                  <Input
+                    type="url"
+                    placeholder="Paste image URL here"
+                    value={imageUrlInput}
+                    onChange={(e) => setImageUrlInput(e.target.value)}
+                  />
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={handleImageUrlSubmit}
+                  >
+                    Apply
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Enter a direct link to an image (must end with .jpg, .png, etc.)
+                </p>
+              </TabsContent>
+            </Tabs>
           </div>
           
           <div className="space-y-2">
