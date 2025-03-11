@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Project } from '@/types/Project';
 import { useToast } from '@/hooks/use-toast';
-import { X, Save, Upload, FileImage, Video } from 'lucide-react';
+import { X, Save, Upload, FileImage, Video, Sun } from 'lucide-react';
 import { adjustWhiteBalance } from '../utils/imageProcessing';
 
 interface ProjectEditorProps {
@@ -24,6 +24,7 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
 }) => {
   const [formData, setFormData] = useState<Project>({ ...project });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
   const { toast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -72,6 +73,41 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
     }
   };
 
+  const handleAdjustWhiteBalance = async () => {
+    if (!formData.imageSrc) return;
+    
+    setIsProcessing(true);
+    toast({
+      title: "Processing",
+      description: "Adjusting white balance, please wait...",
+    });
+    
+    try {
+      const response = await fetch(formData.imageSrc);
+      const blob = await response.blob();
+      const file = new File([blob], `project-${formData.id}.jpg`, { type: 'image/jpeg' });
+      
+      const adjustedImageBase64 = await adjustWhiteBalance(file);
+      
+      setImagePreview(adjustedImageBase64);
+      setFormData({ ...formData, imageSrc: adjustedImageBase64 });
+      
+      toast({
+        title: "Success",
+        description: "White balance adjusted successfully",
+      });
+    } catch (error) {
+      console.error('Error adjusting white balance:', error);
+      toast({
+        title: "Error",
+        description: "Failed to adjust white balance",
+        variant: "destructive",
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto">
@@ -102,15 +138,27 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
               onChange={handleImageUpload}
               className="hidden"
             />
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="mt-2"
-              onClick={() => document.getElementById('project-image-upload')?.click()}
-            >
-              <Upload className="h-4 w-4 mr-2" /> 
-              Change Image
-            </Button>
+            <div className="flex gap-2 mt-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => document.getElementById('project-image-upload')?.click()}
+                className="flex items-center gap-2"
+              >
+                <Upload className="h-4 w-4" /> 
+                Change Image
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleAdjustWhiteBalance}
+                disabled={isProcessing || !formData.imageSrc}
+                className="flex items-center gap-2"
+              >
+                <Sun className="h-4 w-4" /> 
+                {isProcessing ? 'Adjusting...' : 'Adjust White Balance'}
+              </Button>
+            </div>
           </div>
           
           <div className="space-y-2">
@@ -204,4 +252,3 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
 };
 
 export default ProjectEditor;
-

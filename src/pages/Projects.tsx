@@ -94,6 +94,7 @@ const Projects = () => {
               from throughout my artistic career.
             </p>
             
+            {/* Only show Add New Project button for admin users */}
             {isAdmin && (
               <Button 
                 onClick={handleAddNew}
@@ -113,6 +114,7 @@ const Projects = () => {
                   onVideoPlay={openVideoDialog}
                 />
                 
+                {/* Only show Edit button for admin users */}
                 {isAdmin && (
                   <Button 
                     onClick={() => handleEditProject(project)}
