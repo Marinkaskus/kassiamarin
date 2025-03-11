@@ -11,9 +11,15 @@ export const adjustWhiteBalance = async (imageInput: File | string): Promise<str
     
     img.onload = () => {
       try {
+        // Validate image dimensions
+        if (img.width === 0 || img.height === 0) {
+          reject(new Error('Invalid image dimensions'));
+          return;
+        }
+
         // Create canvas and get context
         const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
         if (!ctx) {
           reject(new Error('Could not get canvas context'));
           return;
@@ -23,73 +29,111 @@ export const adjustWhiteBalance = async (imageInput: File | string): Promise<str
         canvas.width = img.width;
         canvas.height = img.height;
         
+        // Clear canvas before drawing
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
         // Draw image on canvas
         ctx.drawImage(img, 0, 0);
         
-        // Get image data
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-        
-        // Calculate average RGB values
-        let totalR = 0, totalG = 0, totalB = 0;
-        for (let i = 0; i < data.length; i += 4) {
-          totalR += data[i];
-          totalG += data[i + 1];
-          totalB += data[i + 2];
+        try {
+          // Get image data - this can fail with CORS
+          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const data = imageData.data;
+          
+          // Calculate average RGB values
+          let totalR = 0, totalG = 0, totalB = 0;
+          let pixelCount = 0;
+          
+          for (let i = 0; i < data.length; i += 4) {
+            // Only count non-transparent pixels
+            if (data[i + 3] > 0) {
+              totalR += data[i];
+              totalG += data[i + 1];
+              totalB += data[i + 2];
+              pixelCount++;
+            }
+          }
+          
+          // Check if we have valid pixels
+          if (pixelCount === 0) {
+            console.warn('No valid pixels found in image');
+            resolve(img.src); // Return original image if no valid pixels
+            return;
+          }
+          
+          const avgR = totalR / pixelCount;
+          const avgG = totalG / pixelCount;
+          const avgB = totalB / pixelCount;
+          
+          // Calculate scaling factors with bounds checking
+          const avgGray = (avgR + avgG + avgB) / 3;
+          const scaleR = avgGray / (avgR || 1); // Prevent division by zero
+          const scaleG = avgGray / (avgG || 1);
+          const scaleB = avgGray / (avgB || 1);
+          
+          // Apply white balance correction
+          for (let i = 0; i < data.length; i += 4) {
+            if (data[i + 3] > 0) { // Only process non-transparent pixels
+              // Red
+              data[i] = Math.min(255, Math.max(0, Math.round(data[i] * scaleR)));
+              // Green
+              data[i + 1] = Math.min(255, Math.max(0, Math.round(data[i + 1] * scaleG)));
+              // Blue
+              data[i + 2] = Math.min(255, Math.max(0, Math.round(data[i + 2] * scaleB)));
+              // Alpha remains unchanged
+            }
+          }
+          
+          // Put adjusted image data back on canvas
+          ctx.putImageData(imageData, 0, 0);
+          
+          // Convert to base64 with error handling
+          try {
+            const adjustedImageBase64 = canvas.toDataURL('image/jpeg', 0.9);
+            resolve(adjustedImageBase64);
+          } catch (e) {
+            console.error('Error converting to base64:', e);
+            resolve(img.src); // Fallback to original image
+          }
+          
+        } catch (e) {
+          console.error('Error processing image data:', e);
+          resolve(img.src); // Fallback to original image
         }
         
-        const pixelCount = data.length / 4;
-        const avgR = totalR / pixelCount;
-        const avgG = totalG / pixelCount;
-        const avgB = totalB / pixelCount;
-        
-        // Calculate scaling factors
-        const avgGray = (avgR + avgG + avgB) / 3;
-        const scaleR = avgGray / avgR;
-        const scaleG = avgGray / avgG;
-        const scaleB = avgGray / avgB;
-        
-        // Apply white balance correction
-        for (let i = 0; i < data.length; i += 4) {
-          // Red
-          data[i] = Math.min(255, Math.max(0, Math.round(data[i] * scaleR)));
-          // Green
-          data[i + 1] = Math.min(255, Math.max(0, Math.round(data[i + 1] * scaleG)));
-          // Blue
-          data[i + 2] = Math.min(255, Math.max(0, Math.round(data[i + 2] * scaleB)));
-          // Alpha remains unchanged
-        }
-        
-        // Put adjusted image data back on canvas
-        ctx.putImageData(imageData, 0, 0);
-        
-        // Convert to base64
-        const adjustedImageBase64 = canvas.toDataURL('image/jpeg', 0.9);
-        resolve(adjustedImageBase64);
       } catch (error) {
         console.error('Error processing image:', error);
-        reject(error);
+        resolve(img.src); // Fallback to original image on error
       }
     };
     
     img.onerror = (e) => {
       console.error('Failed to load image:', e);
-      reject(new Error('Failed to load image'));
+      resolve(imageInput); // Return original input on error
     };
     
     // Handle different input types with improved error handling
     try {
       if (typeof imageInput === 'string') {
-        // For external URLs, we need to create a proxy or use a CORS-enabled image service
-        if (imageInput.startsWith('http') && !imageInput.includes('data:image')) {
-          // Convert external URLs to a CORS-friendly format or use a proxy if possible
-          img.src = `https://images.weserv.nl/?url=${encodeURIComponent(imageInput)}`;
-        } else {
-          // It's a base64 or data URL string, use directly
+        if (!imageInput) {
+          reject(new Error('Empty image input'));
+          return;
+        }
+        
+        // Handle different URL types
+        if (imageInput.startsWith('http')) {
+          // For external URLs, use a CORS proxy
+          img.src = `https://images.weserv.nl/?url=${encodeURIComponent(imageInput)}&n=-1`;
+        } else if (imageInput.startsWith('data:image/')) {
+          // It's a valid data URL
           img.src = imageInput;
+        } else {
+          console.warn('Invalid image URL format:', imageInput);
+          resolve(imageInput); // Return original on invalid format
+          return;
         }
       } else if (imageInput instanceof File) {
-        // It's a File object, create an object URL
+        // Create object URL for File objects
         const fileURL = URL.createObjectURL(imageInput);
         img.src = fileURL;
       } else {
@@ -97,7 +141,7 @@ export const adjustWhiteBalance = async (imageInput: File | string): Promise<str
       }
     } catch (error) {
       console.error('Error setting image source:', error);
-      reject(new Error('Failed to process image input'));
+      resolve(imageInput); // Return original input on error
     }
   });
 };
