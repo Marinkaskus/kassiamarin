@@ -7,6 +7,10 @@ import './index.css'
 const renderApp = () => {
   const rootElement = document.getElementById("root");
   if (rootElement) {
+    // Clear any existing content to prevent flashes
+    while (rootElement.firstChild) {
+      rootElement.removeChild(rootElement.firstChild);
+    }
     createRoot(rootElement).render(<App />);
   }
 };

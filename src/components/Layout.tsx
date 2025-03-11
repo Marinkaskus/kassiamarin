@@ -12,15 +12,25 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
+  const [showContent, setShowContent] = useState(false);
   
-  // Simulate loading - in real app this might connect to data loading states
+  // Improved loading logic with smoother transitions
   useEffect(() => {
+    // Start loading sequence
     setIsLoading(true);
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500); // Show loading for 1.5 seconds
+    setShowContent(false);
     
-    return () => clearTimeout(timer);
+    // Show loading screen for consistent duration
+    const loadingTimer = setTimeout(() => {
+      setIsLoading(false);
+      
+      // Slight delay before showing content for a more seamless transition
+      setTimeout(() => {
+        setShowContent(true);
+      }, 100);
+    }, 1500);
+    
+    return () => clearTimeout(loadingTimer);
   }, [location.pathname]);
 
   // Scroll to top on route change
@@ -32,7 +42,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="flex flex-col min-h-screen">
       <LoadingScreen isLoading={isLoading} />
       
-      <div className={`transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+      <div 
+        className={`transition-opacity duration-500 ${
+          showContent ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{ visibility: showContent ? 'visible' : 'hidden' }}
+      >
         <Navbar />
         <main className="flex-grow">
           {children}
