@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -98,10 +99,10 @@ const ArtworkEditor: React.FC<ArtworkEditorProps> = ({
             <Button 
               variant="outline" 
               size="sm" 
-              className="flex items-center gap-2"
+              className="mt-2"
               onClick={() => document.getElementById('artwork-image-upload')?.click()}
             >
-              <Upload className="h-4 w-4" /> 
+              <Upload className="h-4 w-4 mr-2" /> 
               Change Image
             </Button>
           </div>

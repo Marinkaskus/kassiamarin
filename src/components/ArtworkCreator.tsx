@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -7,8 +8,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Artwork } from '@/types/Artwork';
 import { useToast } from '@/hooks/use-toast';
-import { X, Save, Upload, FileImage, Video, AlertCircle } from 'lucide-react';
-import { adjustWhiteBalance } from '../utils/imageProcessing';
+import { X, Save, Upload, FileImage, Video } from 'lucide-react';
 
 interface ArtworkCreatorProps {
   open: boolean;
@@ -37,9 +37,6 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
   
   const [formData, setFormData] = useState<Artwork & { location?: string, videoUrl?: string }>(initialArtwork);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [uploadError, setUploadError] = useState<string | null>(null);
-  const [applyWhiteBalance, setApplyWhiteBalance] = useState(true);
   const { toast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -51,73 +48,21 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
     setFormData({ ...formData, available: checked });
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
-    
-    setIsProcessing(true);
-    setUploadError(null);
-    
-    try {
-      // First set a preview of the original file
+    if (file) {
       const reader = new FileReader();
-      reader.onload = async (event) => {
-        const originalPreview = event.target?.result as string;
-        setImagePreview(originalPreview);
-        
-        if (applyWhiteBalance) {
-          try {
-            // Only process with white balance adjustment if the option is enabled
-            const adjustedImageBase64 = await adjustWhiteBalance(file);
-            setImagePreview(adjustedImageBase64);
-            setFormData({ ...formData, imageSrc: adjustedImageBase64 });
-            
-            toast({
-              title: "Image processed",
-              description: "White balance has been automatically adjusted",
-            });
-          } catch (adjustError) {
-            console.error('Error adjusting white balance:', adjustError);
-            // If white balance fails, at least keep the original image
-            setFormData({ ...formData, imageSrc: originalPreview });
-            setUploadError("White balance adjustment failed, but image was uploaded");
-            toast({
-              title: "Processing warning",
-              description: "Image uploaded, but automatic white balance failed",
-              variant: "destructive",
-            });
-          }
-        } else {
-          // Use the original image if white balance adjustment is disabled
-          setFormData({ ...formData, imageSrc: originalPreview });
-        }
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        setImagePreview(result);
+        setFormData({ ...formData, imageSrc: result });
       };
-      
-      reader.onerror = () => {
-        setUploadError("Failed to read file");
-        toast({
-          title: "Upload error",
-          description: "Failed to read the image file",
-          variant: "destructive",
-        });
-      };
-      
       reader.readAsDataURL(file);
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      setUploadError("Failed to upload image");
-      toast({
-        title: "Error",
-        description: "Failed to upload image",
-        variant: "destructive",
-      });
-    } finally {
-      setIsProcessing(false);
     }
   };
 
   const handleSubmit = () => {
-    if (!formData.title || !formData.year || formData.imageSrc === initialArtwork.imageSrc) {
+    if (!formData.title || !formData.year || !formData.imageSrc) {
       toast({
         title: "Missing information",
         description: "Please fill in all required fields: title, year, and image",
@@ -133,9 +78,9 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
         description: "Your new item has been added successfully",
       });
       onOpenChange(false);
+      // Reset form
       setFormData(initialArtwork);
       setImagePreview(null);
-      setUploadError(null);
     } catch (error) {
       toast({
         title: "Error",
@@ -145,38 +90,21 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
     }
   };
 
-  const resetForm = () => {
-    setFormData(initialArtwork);
-    setImagePreview(null);
-    setUploadError(null);
-    onOpenChange(false);
-  };
-
   return (
-    <Dialog open={open} onOpenChange={resetForm}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{type === 'artwork' ? 'Add New Artwork' : 'Add New Project'}</DialogTitle>
-          <DialogDescription>
-            Fill in the details below to add a new {type === 'artwork' ? 'artwork' : 'project'}.
-            Images will automatically have their white balance adjusted.
-          </DialogDescription>
         </DialogHeader>
         
         <div className="grid gap-4 py-4">
           <div className="flex flex-col items-center justify-center mb-4">
             <div className="relative w-40 h-40 rounded-md overflow-hidden border mb-2">
-              {isProcessing ? (
-                <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                </div>
-              ) : (
-                <img 
-                  src={imagePreview || formData.imageSrc} 
-                  alt="Preview" 
-                  className="w-full h-full object-cover"
-                />
-              )}
+              <img 
+                src={imagePreview || formData.imageSrc} 
+                alt="Preview" 
+                className="w-full h-full object-cover"
+              />
               <Label 
                 htmlFor="image-upload" 
                 className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 hover:opacity-100 transition-opacity cursor-pointer text-white"
@@ -185,48 +113,22 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
                 <span className="text-xs">Upload Image</span>
               </Label>
             </div>
-            
-            {uploadError && (
-              <div className="flex items-center gap-2 text-amber-600 text-sm mt-1 mb-2">
-                <AlertCircle className="h-4 w-4" />
-                <span>{uploadError}</span>
-              </div>
-            )}
-            
             <Input
               id="image-upload"
               type="file"
               accept="image/*"
               onChange={handleImageUpload}
               className="hidden"
-              disabled={isProcessing}
             />
             <Button 
               variant="outline" 
               size="sm" 
               className="mt-2"
               onClick={() => document.getElementById('image-upload')?.click()}
-              disabled={isProcessing}
             >
               <Upload className="h-4 w-4 mr-2" /> 
               Choose Image
             </Button>
-          </div>
-          
-          <div className="flex items-center justify-between space-x-2 mb-4 pb-4 border-b">
-            <Label htmlFor="white-balance">
-              <div className="flex flex-col">
-                <span>Apply White Balance</span>
-                <span className="text-sm text-muted-foreground">
-                  Automatically adjust lighting and color balance
-                </span>
-              </div>
-            </Label>
-            <Switch
-              id="white-balance"
-              checked={applyWhiteBalance}
-              onCheckedChange={setApplyWhiteBalance}
-            />
           </div>
           
           <div className="space-y-2">
@@ -377,7 +279,7 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
               <X className="h-4 w-4" /> Cancel
             </Button>
           </DialogClose>
-          <Button onClick={handleSubmit} className="flex items-center gap-2" disabled={isProcessing}>
+          <Button onClick={handleSubmit} className="flex items-center gap-2">
             <Save className="h-4 w-4" /> Save
           </Button>
         </div>

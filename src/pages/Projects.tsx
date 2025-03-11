@@ -7,6 +7,8 @@ import VideoDialog from '@/components/VideoDialog';
 import ProjectEditor from '@/components/ProjectEditor';
 import { Project } from '@/types/Project';
 import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
+import { Plus, Edit } from 'lucide-react';
 import ArtworkCreator from '@/components/ArtworkCreator';
 import { useToast } from '@/hooks/use-toast';
 
@@ -36,6 +38,15 @@ const Projects = () => {
     setVideoDialogOpen(true);
   };
 
+  const handleEditProject = (project: Project) => {
+    setSelectedProject(project);
+    setEditorOpen(true);
+  };
+  
+  const handleAddNew = () => {
+    setCreatorOpen(true);
+  };
+  
   const handleProjectUpdate = (updatedProject: Project) => {
     const updatedProjects = projectsData.map(project => 
       project.id === updatedProject.id ? updatedProject : project
@@ -82,6 +93,15 @@ const Projects = () => {
               A curated selection of my past exhibitions, collaborations, and commissioned works 
               from throughout my artistic career.
             </p>
+            
+            {isAdmin && (
+              <Button 
+                onClick={handleAddNew}
+                className="mt-6 flex items-center gap-2 mx-auto"
+              >
+                <Plus className="h-4 w-4" /> Add New Project
+              </Button>
+            )}
           </div>
           
           <div className="space-y-20">
@@ -92,6 +112,17 @@ const Projects = () => {
                   index={index}
                   onVideoPlay={openVideoDialog}
                 />
+                
+                {isAdmin && (
+                  <Button 
+                    onClick={() => handleEditProject(project)}
+                    variant="outline" 
+                    size="sm"
+                    className="absolute top-4 right-4 bg-white/80 hover:bg-white flex items-center gap-1 z-10"
+                  >
+                    <Edit className="h-3.5 w-3.5" /> Edit
+                  </Button>
+                )}
               </div>
             ))}
           </div>

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -93,10 +94,10 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
             <Button 
               variant="outline" 
               size="sm" 
+              className="mt-2"
               onClick={() => document.getElementById('project-image-upload')?.click()}
-              className="flex items-center gap-2"
             >
-              <Upload className="h-4 w-4" /> 
+              <Upload className="h-4 w-4 mr-2" /> 
               Change Image
             </Button>
           </div>

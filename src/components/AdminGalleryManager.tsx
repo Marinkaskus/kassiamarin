@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { artworks } from '@/data/artworkData';
 import { previousProjects } from '@/data/projectsData';
@@ -98,7 +99,7 @@ const AdminGalleryManager = () => {
     
     toast({
       title: "Artwork added",
-      description: `"${newArtwork.title}" has been added to the gallery`
+      description: `"${newArtwork.title}" has been added to the gallery`,
     });
   };
 
@@ -120,7 +121,7 @@ const AdminGalleryManager = () => {
     
     toast({
       title: "Project added",
-      description: `"${project.title}" has been added to the portfolio`
+      description: `"${project.title}" has been added to the portfolio`,
     });
   };
 
@@ -182,7 +183,7 @@ const AdminGalleryManager = () => {
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h2 className="text-xl font-semibold">Content Management</h2>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex gap-2">
           <Input 
             placeholder="Search..." 
             value={searchTerm}

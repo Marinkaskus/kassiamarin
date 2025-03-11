@@ -7,17 +7,15 @@ import ArtworkEditor from '@/components/ArtworkEditor';
 import { Artwork } from '@/types/Artwork';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { LogOut } from 'lucide-react';
+import { LogOut, Edit } from 'lucide-react';
 import { logout } from '@/services/authService';
 import { useToast } from '@/hooks/use-toast';
-import { adjustWhiteBalance } from '@/utils/imageProcessing';
 
 const Gallery = () => {
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [editorOpen, setEditorOpen] = useState(false);
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
-  const [isAdjusting, setIsAdjusting] = useState(false);
   const { currentUser, isAdmin } = useAuth();
   const { toast } = useToast();
 
@@ -68,48 +66,6 @@ const Gallery = () => {
       title: "Logged out",
       description: "You have been logged out successfully",
     });
-  };
-
-  const handleAdjustWhiteBalance = async (artwork: Artwork) => {
-    if (!artwork) return;
-    
-    setIsAdjusting(true);
-    toast({
-      title: "Processing",
-      description: "Adjusting white balance, please wait...",
-    });
-    
-    try {
-      // Pass the base64/data URL string directly instead of fetching
-      const adjustedImageBase64 = await adjustWhiteBalance(artwork.imageSrc);
-      
-      // Update the artwork
-      const updatedArtwork = { ...artwork, imageSrc: adjustedImageBase64 };
-      
-      // Update in state and localStorage
-      const updatedArtworks = artworkData.map(item => 
-        item.id === artwork.id ? updatedArtwork : item
-      );
-      
-      setArtworkData(updatedArtworks);
-      setSelectedArtwork(updatedArtwork);
-      
-      localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
-      
-      toast({
-        title: "Success",
-        description: "White balance adjusted successfully",
-      });
-    } catch (error) {
-      console.error('Error adjusting white balance:', error);
-      toast({
-        title: "Error",
-        description: "Failed to adjust white balance",
-        variant: "destructive",
-      });
-    } finally {
-      setIsAdjusting(false);
-    }
   };
   
   return (
