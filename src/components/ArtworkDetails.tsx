@@ -2,23 +2,28 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { X } from 'lucide-react';
+import { X, Image } from 'lucide-react';
 import { Artwork } from '@/types/Artwork';
 import ImageCarousel from '@/components/ImageCarousel';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface ArtworkDetailsProps {
   artwork: Artwork | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  footer?: React.ReactNode;
+  footer?: React.ReactNode;  // Keep this prop for custom footer content
+  onAdjustWhiteBalance?: (artwork: Artwork) => void;
 }
 
 const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ 
   artwork, 
   open, 
   onOpenChange,
-  footer 
+  footer,
+  onAdjustWhiteBalance
 }) => {
+  const { isAdmin } = useAuth();  // Add useAuth hook to check admin status
+  
   // Create an array of images for the carousel
   const getImageArray = () => {
     if (!artwork) return [];
@@ -79,6 +84,22 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
             </div>
           )}
           
+          {/* Only show admin controls if user is admin */}
+          {isAdmin && onAdjustWhiteBalance && (
+            <div className="flex justify-end gap-2 mt-4">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => onAdjustWhiteBalance(artwork)}
+                className="flex items-center gap-2"
+              >
+                <Image className="h-4 w-4" />
+                Adjust White Balance
+              </Button>
+            </div>
+          )}
+          
+          {/* Render custom footer content if provided */}
           {footer}
         </div>
       </DialogContent>
