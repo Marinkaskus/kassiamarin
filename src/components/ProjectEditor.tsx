@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -8,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Project } from '@/types/Project';
 import { useToast } from '@/hooks/use-toast';
 import { X, Save, Upload, FileImage, Video } from 'lucide-react';
+import { adjustWhiteBalance } from '../utils/imageProcessing';
 
 interface ProjectEditorProps {
   project: Project;
@@ -31,16 +31,27 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const result = e.target?.result as string;
-        setImagePreview(result);
-        setFormData({ ...formData, imageSrc: result });
-      };
-      reader.readAsDataURL(file);
+      try {
+        const adjustedImageBase64 = await adjustWhiteBalance(file);
+        
+        setImagePreview(adjustedImageBase64);
+        setFormData({ ...formData, imageSrc: adjustedImageBase64 });
+        
+        toast({
+          title: "Image processed",
+          description: "White balance has been automatically adjusted",
+        });
+      } catch (error) {
+        console.error('Error processing image:', error);
+        toast({
+          title: "Error",
+          description: "Failed to process image",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -193,3 +204,4 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
 };
 
 export default ProjectEditor;
+
