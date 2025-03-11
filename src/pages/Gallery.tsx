@@ -1,18 +1,76 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { artworks } from '@/data/artworkData';
 import ArtworkCard from '@/components/ArtworkCard';
 import ArtworkDetails from '@/components/ArtworkDetails';
+import ArtworkEditor from '@/components/ArtworkEditor';
+import AdminLogin from '@/components/AdminLogin';
 import { Artwork } from '@/types/Artwork';
+import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
+import { LogOut, Edit, Lock } from 'lucide-react';
+import { logout } from '@/services/authService';
+import { useToast } from '@/components/ui/use-toast';
 
 const Gallery = () => {
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [editorOpen, setEditorOpen] = useState(false);
+  const [artworkData, setArtworkData] = useState<Artwork[]>([]);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const { currentUser, isAdmin } = useAuth();
+  const { toast } = useToast();
+
+  // Restore artwork data from localStorage or use default
+  useEffect(() => {
+    const savedArtworks = localStorage.getItem('gallery_artworks');
+    if (savedArtworks) {
+      try {
+        setArtworkData(JSON.parse(savedArtworks));
+      } catch (e) {
+        console.error('Error parsing saved artworks:', e);
+        setArtworkData(artworks);
+      }
+    } else {
+      setArtworkData(artworks);
+    }
+  }, []);
   
   const handleArtworkClick = (artwork: Artwork) => {
     setSelectedArtwork(artwork);
     setDetailsOpen(true);
+  };
+  
+  const handleEditClick = () => {
+    if (selectedArtwork) {
+      setEditorOpen(true);
+    }
+  };
+  
+  const handleArtworkUpdate = (updatedArtwork: Artwork) => {
+    const updatedArtworks = artworkData.map(artwork => 
+      artwork.id === updatedArtwork.id ? updatedArtwork : artwork
+    );
+    
+    setArtworkData(updatedArtworks);
+    setSelectedArtwork(updatedArtwork);
+    
+    // Persist changes to localStorage
+    localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
+    
+    toast({
+      title: "Changes saved",
+      description: "Your changes have been saved permanently",
+    });
+  };
+  
+  const handleLogout = async () => {
+    await logout();
+    toast({
+      title: "Logged out",
+      description: "You have been logged out successfully",
+    });
   };
   
   return (
@@ -24,10 +82,37 @@ const Gallery = () => {
             <p className="mt-4 text-muted-foreground">
               A collection of paintings.
             </p>
+            
+            {isAdmin ? (
+              <div className="mt-6 flex justify-center space-x-4">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={handleLogout}
+                  className="flex items-center gap-2"
+                >
+                  <LogOut className="h-4 w-4" /> Logout
+                </Button>
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  Admin Mode
+                </span>
+              </div>
+            ) : (
+              <div className="mt-6">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setLoginModalOpen(true)}
+                  className="flex items-center gap-2 text-muted-foreground"
+                >
+                  <Lock className="h-3 w-3" /> Admin
+                </Button>
+              </div>
+            )}
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {artworks.map((artwork, index) => (
+            {artworkData.map((artwork, index) => (
               <div 
                 key={artwork.id} 
                 className="relative transition-all duration-300 hover:-translate-y-1"
@@ -52,6 +137,32 @@ const Gallery = () => {
         artwork={selectedArtwork}
         open={detailsOpen}
         onOpenChange={setDetailsOpen}
+      >
+        {isAdmin && selectedArtwork && (
+          <Button 
+            onClick={handleEditClick}
+            variant="outline" 
+            size="sm"
+            className="mt-4 flex items-center gap-2"
+          >
+            <Edit className="h-4 w-4" /> Edit Artwork
+          </Button>
+        )}
+      </ArtworkDetails>
+      
+      {selectedArtwork && (
+        <ArtworkEditor
+          artwork={selectedArtwork}
+          open={editorOpen}
+          onOpenChange={setEditorOpen}
+          onSave={handleArtworkUpdate}
+        />
+      )}
+      
+      <AdminLogin 
+        open={loginModalOpen}
+        onOpenChange={setLoginModalOpen}
+        onLoginSuccess={() => setLoginModalOpen(false)}
       />
     </Layout>
   );

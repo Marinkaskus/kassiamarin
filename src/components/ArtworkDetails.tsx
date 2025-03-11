@@ -8,9 +8,10 @@ interface ArtworkDetailsProps {
   artwork: Artwork | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  children?: React.ReactNode;
 }
 
-const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ artwork, open, onOpenChange }) => {
+const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ artwork, open, onOpenChange, children }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   if (!artwork) return null;
@@ -109,6 +110,8 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ artwork, open, onOpenCh
                 <p>{artwork.price}</p>
               </div>
             )}
+            
+            {children}
           </div>
         </div>
       </DialogContent>
