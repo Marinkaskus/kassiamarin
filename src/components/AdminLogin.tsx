@@ -14,14 +14,20 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('kassiamarin486@gmail.com');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setErrorMessage('');
+
+    console.log("Attempting login with:", email);
 
     try {
       const result = await login(email, password);
+      
+      console.log("Login result:", result);
       
       if (result.success) {
         toast({
@@ -30,19 +36,22 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
         });
         if (onLoginSuccess) onLoginSuccess();
       } else {
+        setErrorMessage(result.error || "Login failed");
         toast({
           title: "Login failed",
           description: result.error,
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch (error: any) {
+      console.error("Login error:", error);
+      const message = error.message || "An unexpected error occurred";
+      setErrorMessage(message);
       toast({
         title: "Login error",
-        description: "An unexpected error occurred",
+        description: message,
         variant: "destructive",
       });
-      console.error("Login error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -59,6 +68,12 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
           Please sign in to access admin features
         </p>
       </div>
+      
+      {errorMessage && (
+        <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-md text-destructive text-sm">
+          {errorMessage}
+        </div>
+      )}
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
