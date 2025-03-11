@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { artworks } from '@/data/artworkData';
@@ -81,13 +80,8 @@ const Gallery = () => {
     });
     
     try {
-      // Convert base64 to File object
-      const response = await fetch(artwork.imageSrc);
-      const blob = await response.blob();
-      const file = new File([blob], `artwork-${artwork.id}.jpg`, { type: 'image/jpeg' });
-      
-      // Process the image
-      const adjustedImageBase64 = await adjustWhiteBalance(file);
+      // Pass the base64/data URL string directly instead of fetching
+      const adjustedImageBase64 = await adjustWhiteBalance(artwork.imageSrc);
       
       // Update the artwork
       const updatedArtwork = { ...artwork, imageSrc: adjustedImageBase64 };

@@ -60,11 +60,7 @@ const ArtworkEditor: React.FC<ArtworkEditorProps> = ({
     });
     
     try {
-      const response = await fetch(formData.imageSrc);
-      const blob = await response.blob();
-      const file = new File([blob], `artwork-${formData.id}.jpg`, { type: 'image/jpeg' });
-      
-      const adjustedImageBase64 = await adjustWhiteBalance(file);
+      const adjustedImageBase64 = await adjustWhiteBalance(formData.imageSrc);
       
       setImagePreview(adjustedImageBase64);
       setFormData({ ...formData, imageSrc: adjustedImageBase64 });

@@ -1,9 +1,12 @@
+
 /**
  * Adjusts white balance of an image using a simple gray world assumption algorithm
+ * Can accept either a File object or a base64/data URL string
  */
-export const adjustWhiteBalance = async (imageFile: File): Promise<string> => {
+export const adjustWhiteBalance = async (imageInput: File | string): Promise<string> => {
   return new Promise((resolve, reject) => {
     const img = new Image();
+    
     img.onload = () => {
       try {
         // Create canvas and get context
@@ -62,11 +65,23 @@ export const adjustWhiteBalance = async (imageFile: File): Promise<string> => {
         const adjustedImageBase64 = canvas.toDataURL('image/jpeg', 0.9);
         resolve(adjustedImageBase64);
       } catch (error) {
+        console.error('Error processing image:', error);
         reject(error);
       }
     };
     
-    img.onerror = () => reject(new Error('Failed to load image'));
-    img.src = URL.createObjectURL(imageFile);
+    img.onerror = (e) => {
+      console.error('Failed to load image:', e);
+      reject(new Error('Failed to load image'));
+    };
+    
+    // Handle different input types
+    if (typeof imageInput === 'string') {
+      // It's a base64 or data URL string, use directly
+      img.src = imageInput;
+    } else {
+      // It's a File object, create an object URL
+      img.src = URL.createObjectURL(imageInput);
+    }
   });
 };

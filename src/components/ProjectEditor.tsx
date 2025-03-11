@@ -83,11 +83,7 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({
     });
     
     try {
-      const response = await fetch(formData.imageSrc);
-      const blob = await response.blob();
-      const file = new File([blob], `project-${formData.id}.jpg`, { type: 'image/jpeg' });
-      
-      const adjustedImageBase64 = await adjustWhiteBalance(file);
+      const adjustedImageBase64 = await adjustWhiteBalance(formData.imageSrc);
       
       setImagePreview(adjustedImageBase64);
       setFormData({ ...formData, imageSrc: adjustedImageBase64 });

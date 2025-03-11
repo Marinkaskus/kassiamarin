@@ -1,11 +1,13 @@
 
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { X } from 'lucide-react';
+import { X, Sun } from 'lucide-react';
 import { Artwork } from '@/types/Artwork';
 import ImageCarousel from '@/components/ImageCarousel';
 import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
+import { adjustWhiteBalance } from '@/utils/imageProcessing';
 
 interface ArtworkDetailsProps {
   artwork: Artwork | null;
@@ -19,10 +21,11 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
   artwork, 
   open, 
   onOpenChange,
-  footer,
-  onAdjustWhiteBalance
+  footer
 }) => {
   const { isAdmin } = useAuth();
+  const [isProcessing, setIsProcessing] = useState(false);
+  const { toast } = useToast();
   
   // Create an array of images for the carousel
   const getImageArray = () => {
