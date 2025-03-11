@@ -7,6 +7,9 @@ export const adjustWhiteBalance = async (imageInput: File | string): Promise<str
   return new Promise((resolve, reject) => {
     const img = new Image();
     
+    // Add crossOrigin attribute to avoid tainted canvas issues
+    img.crossOrigin = "anonymous";
+    
     img.onload = () => {
       try {
         // Create canvas and get context
@@ -77,11 +80,63 @@ export const adjustWhiteBalance = async (imageInput: File | string): Promise<str
     
     // Handle different input types
     if (typeof imageInput === 'string') {
-      // It's a base64 or data URL string, use directly
-      img.src = imageInput;
+      // For external URLs, we need to create a proxy or use a CORS-enabled image service
+      if (imageInput.startsWith('http') && !imageInput.includes('data:image')) {
+        // Convert external URLs to a CORS-friendly format or use a proxy if possible
+        // For demonstration, we'll use an image proxy service
+        img.src = `https://images.weserv.nl/?url=${encodeURIComponent(imageInput)}`;
+      } else {
+        // It's a base64 or data URL string, use directly
+        img.src = imageInput;
+      }
     } else {
       // It's a File object, create an object URL
       img.src = URL.createObjectURL(imageInput);
     }
   });
+};
+
+/**
+ * Process all images in a gallery collection for uniform appearance
+ * @param artworks Array of artwork objects
+ * @returns Promise with array of processed artworks
+ */
+export const processGalleryImages = async (artworks: any[]): Promise<any[]> => {
+  const processedArtworks = [...artworks];
+  const failedImages: number[] = [];
+  
+  for (let i = 0; i < processedArtworks.length; i++) {
+    try {
+      // Only process if it's a valid image URL
+      if (processedArtworks[i].imageSrc) {
+        processedArtworks[i].imageSrc = await adjustWhiteBalance(processedArtworks[i].imageSrc);
+        
+        // Process additional images if they exist
+        if (processedArtworks[i].additionalImages && Array.isArray(processedArtworks[i].additionalImages)) {
+          const processedAdditionalImages = [];
+          
+          for (const additionalImg of processedArtworks[i].additionalImages) {
+            try {
+              const processedImg = await adjustWhiteBalance(additionalImg);
+              processedAdditionalImages.push(processedImg);
+            } catch (error) {
+              console.error(`Failed to process additional image for artwork ${processedArtworks[i].id}:`, error);
+              processedAdditionalImages.push(additionalImg); // Keep original if processing fails
+            }
+          }
+          
+          processedArtworks[i].additionalImages = processedAdditionalImages;
+        }
+      }
+    } catch (error) {
+      console.error(`Failed to process image for artwork ${processedArtworks[i].id}:`, error);
+      failedImages.push(i);
+    }
+  }
+  
+  if (failedImages.length > 0) {
+    console.warn(`Failed to process ${failedImages.length} images.`);
+  }
+  
+  return processedArtworks;
 };

@@ -54,6 +54,9 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
               </Button>
             </DialogClose>
           </div>
+          <DialogDescription className="text-sm text-muted-foreground pt-1">
+            View artwork details and information
+          </DialogDescription>
         </DialogHeader>
         
         <div className="p-6 pt-2">

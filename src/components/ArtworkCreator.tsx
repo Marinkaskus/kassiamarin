@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -37,6 +38,7 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
   
   const [formData, setFormData] = useState<Artwork & { location?: string, videoUrl?: string }>(initialArtwork);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
   const { toast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -51,6 +53,7 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setIsProcessing(true);
       try {
         const adjustedImageBase64 = await adjustWhiteBalance(file);
         
@@ -68,6 +71,8 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
           description: "Failed to process image",
           variant: "destructive",
         });
+      } finally {
+        setIsProcessing(false);
       }
     }
   };
@@ -105,16 +110,26 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
       <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{type === 'artwork' ? 'Add New Artwork' : 'Add New Project'}</DialogTitle>
+          <DialogDescription>
+            Fill in the details below to add a new {type === 'artwork' ? 'artwork' : 'project'}.
+            Images will automatically have their white balance adjusted.
+          </DialogDescription>
         </DialogHeader>
         
         <div className="grid gap-4 py-4">
           <div className="flex flex-col items-center justify-center mb-4">
             <div className="relative w-40 h-40 rounded-md overflow-hidden border mb-2">
-              <img 
-                src={imagePreview || formData.imageSrc} 
-                alt="Preview" 
-                className="w-full h-full object-cover"
-              />
+              {isProcessing ? (
+                <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                </div>
+              ) : (
+                <img 
+                  src={imagePreview || formData.imageSrc} 
+                  alt="Preview" 
+                  className="w-full h-full object-cover"
+                />
+              )}
               <Label 
                 htmlFor="image-upload" 
                 className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 hover:opacity-100 transition-opacity cursor-pointer text-white"
@@ -129,12 +144,14 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
               accept="image/*"
               onChange={handleImageUpload}
               className="hidden"
+              disabled={isProcessing}
             />
             <Button 
               variant="outline" 
               size="sm" 
               className="mt-2"
               onClick={() => document.getElementById('image-upload')?.click()}
+              disabled={isProcessing}
             >
               <Upload className="h-4 w-4 mr-2" /> 
               Choose Image
@@ -289,7 +306,7 @@ const ArtworkCreator: React.FC<ArtworkCreatorProps> = ({
               <X className="h-4 w-4" /> Cancel
             </Button>
           </DialogClose>
-          <Button onClick={handleSubmit} className="flex items-center gap-2">
+          <Button onClick={handleSubmit} className="flex items-center gap-2" disabled={isProcessing}>
             <Save className="h-4 w-4" /> Save
           </Button>
         </div>
