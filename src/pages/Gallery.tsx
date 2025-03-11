@@ -8,7 +8,7 @@ import ArtworkEditor from '@/components/ArtworkEditor';
 import { Artwork } from '@/types/Artwork';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { LogOut, Edit, Image } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import { logout } from '@/services/authService';
 import { useToast } from '@/hooks/use-toast';
 import { adjustWhiteBalance } from '@/utils/imageProcessing';
@@ -155,29 +155,6 @@ const Gallery = () => {
         artwork={selectedArtwork}
         open={detailsOpen}
         onOpenChange={setDetailsOpen}
-        footer={isAdmin && selectedArtwork && (
-          <div className="flex justify-end gap-2 mt-4">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => handleAdjustWhiteBalance(selectedArtwork)}
-              disabled={isAdjusting}
-              className="flex items-center gap-2"
-            >
-              <Image className="h-4 w-4" />
-              {isAdjusting ? 'Adjusting...' : 'Adjust White Balance'}
-            </Button>
-            <Button 
-              variant="default" 
-              size="sm" 
-              onClick={handleEditClick}
-              className="flex items-center gap-2"
-            >
-              <Edit className="h-4 w-4" />
-              Edit Artwork
-            </Button>
-          </div>
-        )}
       />
       
       {isAdmin && selectedArtwork && (
