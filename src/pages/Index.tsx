@@ -37,11 +37,12 @@ const Index = () => {
               <span className="text-sm uppercase tracking-widest text-muted-foreground">About Me</span>
               <h2 className="text-3xl md:text-4xl font-medium mt-2">Kassia Marin</h2>
               <div className="mt-4 space-y-2 text-muted-foreground">
-                <p>Kassia Marin is a contemporary visual artist based in Oslo. Her practice involves painting, video, and mixed media, often incorporating text. Her work explores themes of memory, transformation, and the fragility of experience, focusing on how personal narratives and emotions are expressed through tangible forms. Kassia examines the passage of time and the tension between presence and absence, reflecting on how memories shape identity. In a world increasingly dominated by digital media, she believes in the enduring power of material art to foster introspection and genuine connection.</p>
-                In a world dominated by digital experiences, I believe in the enduring power of material art to foster introspection and authentic connection.
                 <p>
+                Kassia Marin is a contemporary visual artist based in Oslo. 
+                Her practice involves painting, video, and mixed media, often incorporating text. 
+                Her work explores themes of memory, transformation, and the fragility of experience, focusing on how personal narratives and emotions are expressed through tangible forms. 
+                Kassia examines the passage of time and the tension between presence and absence, reflecting on how memories shape identity. In a world increasingly dominated by digital media, she believes in the enduring power of material art to foster introspection and genuine connection.</p>
                
-                </p>
               </div>
               <Link to="/about" className="inline-block mt-8 px-6 py-2 border border-foreground rounded-full hover:bg-foreground/5 transition-colors">
                 Read More
