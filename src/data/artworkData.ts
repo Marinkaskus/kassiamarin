@@ -1,4 +1,3 @@
-
 import { Artwork } from "@/types/Artwork";
 
 export const artworks: Artwork[] = [
@@ -46,6 +45,42 @@ export const artworks: Artwork[] = [
     medium: "Mixed media",
     description: "A study in light and translucency.",
     imageSrc: "https://dl.dropboxusercontent.com/s/fi/fs8agttnl5bahrma0fxcl/Perle01.jpg?rlkey=wjvfjdsr9nuvd93jwccz0e5k2&st=rzzub6f6&dl=0",
+    category: "Mixed Media",
+    available: true,
+    additionalImages: []
+  },
+  {
+    id: 5,
+    title: "Stol Series",
+    year: "2024",
+    size: "50 × 70 cm",
+    medium: "Mixed media",
+    description: "A contemporary exploration of form and structure.",
+    imageSrc: "https://dl.dropboxusercontent.com/s/vwswa20wjsjivkei3b7sb/Stol01.jpg?rlkey=fthwuyjj9wungozcfwj9w7ens&st=pusa401h&dl=0",
+    category: "Mixed Media",
+    available: true,
+    additionalImages: []
+  },
+  {
+    id: 6,
+    title: "Strøm Series",
+    year: "2024",
+    size: "60 × 80 cm",
+    medium: "Mixed media",
+    description: "An abstract interpretation of energy and flow.",
+    imageSrc: "https://dl.dropboxusercontent.com/s/fi/a10i6tuebol83l6nuu2ym/Str-m01.jpg?rlkey=j4tulwf7hvpbzb33hemh0ftmt&st=sqm4i38i&dl=0",
+    category: "Mixed Media",
+    available: true,
+    additionalImages: []
+  },
+  {
+    id: 7,
+    title: "T-banen Series",
+    year: "2024",
+    size: "55 × 75 cm",
+    medium: "Mixed media",
+    description: "Urban rhythms captured in abstract form.",
+    imageSrc: "https://dl.dropboxusercontent.com/s/fi/xop4mpjsgjw454l8znkjl/Tbanen01.jpg?rlkey=xrk14txbac3ilg25atge7xfnt&st=5q6p6432&dl=0",
     category: "Mixed Media",
     available: true,
     additionalImages: []
