@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '@/components/Layout';
 import HeroSection from '@/components/HeroSection';
@@ -30,7 +29,7 @@ const Index = () => {
     <Layout>
       <HeroSection />
       
-      {/* Gallery Section - Added before the Projects section */}
+      {/* Gallery Section - Reduced grid size */}
       <section className="py-20">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
@@ -44,8 +43,8 @@ const Index = () => {
             </Link>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {featuredArtworks.map((artwork, index) => (
+          <div className="grid md:grid-cols-3 gap-8">
+            {featuredArtworks.slice(0, 3).map((artwork, index) => (
               <div 
                 key={artwork.id} 
                 className="relative transition-all duration-300 hover:-translate-y-1"
