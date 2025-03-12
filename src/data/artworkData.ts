@@ -44,7 +44,7 @@ export const artworks: Artwork[] = [
     year: "2024",
     size: "30 × 60 cm",
     medium: "Mixed media on tile",
-    imageSrc: "https://dl.dropboxusercontent.com/s/fi/fs8agttnl5bahrma0fxcl/Perle01.jpg?rlkey=wjvfjdsr9nuvd93jwccz0e5k2&st=rzzub6f6&dl=0",
+    imageSrc: "https://dl.dropboxusercontent.com/s/fi/abaep6vlccql9n2f5bqox/IMG_4731.JPG?rlkey=lm7w3wdcfbwpcm4prcf8sf7za&st=gxl0qtx7&dl=0",
     category: "Mixed Media",
     available: true,
     price: "8th said 500 kr",
