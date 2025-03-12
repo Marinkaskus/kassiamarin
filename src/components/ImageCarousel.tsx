@@ -20,6 +20,10 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   const [imagesLoaded, setImagesLoaded] = useState<Record<string, boolean>>({});
   const [isPaused, setIsPaused] = useState(false);
   const autoPlayTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+  const touchEndY = useRef<number | null>(null);
   
   // Filter out images with errors
   const validImages = images.filter(img => !imageErrors[img]);
@@ -112,6 +116,40 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
     setIsPaused(prev => !prev);
   };
   
+  // Touch event handlers for swipe navigation
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+  
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+    touchEndY.current = e.touches[0].clientY;
+  };
+  
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current || !touchStartY.current || !touchEndY.current) return;
+    
+    const xDiff = touchStartX.current - touchEndX.current;
+    const yDiff = touchStartY.current - touchEndY.current;
+    
+    // Only register horizontal swipes if they're more horizontal than vertical
+    if (Math.abs(xDiff) > Math.abs(yDiff) && Math.abs(xDiff) > 50) {
+      if (xDiff > 0) {
+        // Swiped left -> show next
+        goToNextImage();
+      } else {
+        // Swiped right -> show previous
+        goToPrevImage();
+      }
+    }
+    
+    touchStartX.current = null;
+    touchEndX.current = null;
+    touchStartY.current = null;
+    touchEndY.current = null;
+  };
+  
   if (validImages.length === 0) {
     return (
       <div className="relative w-full aspect-[4/3] overflow-hidden bg-muted flex items-center justify-center">
@@ -124,7 +162,12 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   }
 
   return (
-    <div className="relative w-full aspect-[4/3] overflow-hidden group">
+    <div 
+      className="relative w-full aspect-[4/3] overflow-hidden group touch-manipulation"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       {isCurrentItemVideo ? (
         <div className="absolute inset-0 z-10">
           <iframe 
@@ -163,28 +206,28 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
       
       {validImages.length > 1 && (
         <>
-          <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+          <div className="absolute inset-0 flex items-center justify-between px-2 sm:px-4 opacity-0 group-hover:opacity-100 transition-opacity z-20">
             <button 
-              className="bg-background/70 text-foreground p-2 rounded-full hover:bg-background/90 transition-colors"
+              className="bg-background/70 text-foreground p-1.5 sm:p-2 rounded-full hover:bg-background/90 transition-colors"
               onClick={goToPrevImage}
               aria-label="Previous image"
             >
-              <ChevronLeft size={20} />
+              <ChevronLeft size={16} className="sm:size-20" />
             </button>
             <button 
-              className="bg-background/70 text-foreground p-2 rounded-full hover:bg-background/90 transition-colors"
+              className="bg-background/70 text-foreground p-1.5 sm:p-2 rounded-full hover:bg-background/90 transition-colors"
               onClick={goToNextImage}
               aria-label="Next image"
             >
-              <ChevronRight size={20} />
+              <ChevronRight size={16} className="sm:size-20" />
             </button>
           </div>
           
-          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-20">
+          <div className="absolute bottom-2 sm:bottom-4 left-0 right-0 flex justify-center gap-1 sm:gap-2 z-20">
             {validImages.map((src, index) => (
               <button
                 key={index}
-                className={`w-2 h-2 rounded-full transition-colors ${
+                className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-colors ${
                   index === currentImageIndex ? 'bg-primary' : 'bg-background/70'
                 } ${src.startsWith('video:') ? 'flex items-center justify-center' : ''}`}
                 onClick={() => {
@@ -193,7 +236,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
                 }}
                 aria-label={`Go to ${src.startsWith('video:') ? 'video' : 'image'} ${index + 1}`}
               >
-                {src.startsWith('video:') && <div className="absolute w-4 h-4 rounded-full bg-background/40 flex items-center justify-center"><Video size={8} /></div>}
+                {src.startsWith('video:') && <div className="absolute w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-background/40 flex items-center justify-center"><Video size={6} className="sm:size-8" /></div>}
               </button>
             ))}
           </div>
@@ -201,10 +244,10 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
           {autoPlay && !isCurrentItemVideo && (
             <button
               onClick={togglePause}
-              className="absolute bottom-4 right-4 bg-background/70 text-foreground p-2 rounded-full hover:bg-background/90 transition-colors opacity-0 group-hover:opacity-100 z-20"
+              className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 bg-background/70 text-foreground p-1.5 sm:p-2 rounded-full hover:bg-background/90 transition-colors opacity-0 group-hover:opacity-100 z-20"
               aria-label={isPaused ? "Play slideshow" : "Pause slideshow"}
             >
-              {isPaused ? <Play size={16} /> : <Pause size={16} />}
+              {isPaused ? <Play size={12} className="sm:size-16" /> : <Pause size={12} className="sm:size-16" />}
             </button>
           )}
         </>

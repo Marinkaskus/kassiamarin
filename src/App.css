@@ -1,8 +1,14 @@
+
 #root {
-  max-width: 1280px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0;
   text-align: center;
+}
+
+body {
+  overscroll-behavior: none; /* Prevents bounce effect on mobile */
+  touch-action: manipulation; /* Improves touch response */
 }
 
 .logo {
@@ -40,3 +46,12 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .container-custom {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
