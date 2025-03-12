@@ -6,12 +6,19 @@ import { Artwork } from '@/types/Artwork';
 
 interface ArtworkDetailsProps {
   artwork: Artwork | null;
+  allArtworks?: Artwork[]; // Added to allow navigation between artworks
   open: boolean;
   onOpenChange: (open: boolean) => void;
   children?: React.ReactNode;
 }
 
-const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ artwork, open, onOpenChange, children }) => {
+const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ 
+  artwork, 
+  allArtworks = [], 
+  open, 
+  onOpenChange, 
+  children 
+}) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
   
@@ -40,6 +47,33 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ artwork, open, onOpenCh
 
   const handleImageError = () => {
     setImageError(true);
+  };
+
+  // Find current artwork index in the allArtworks array
+  const currentArtworkIndex = allArtworks.findIndex(art => art.id === artwork.id);
+  
+  // Navigate to next artwork
+  const goToNextArtwork = () => {
+    if (allArtworks.length <= 1 || currentArtworkIndex === -1) return;
+    const nextIndex = (currentArtworkIndex + 1) % allArtworks.length;
+    onOpenChange(false);
+    // Small timeout to allow dialog to close before reopening with new artwork
+    setTimeout(() => {
+      onOpenChange(true);
+    }, 50);
+    return allArtworks[nextIndex];
+  };
+  
+  // Navigate to previous artwork
+  const goToPrevArtwork = () => {
+    if (allArtworks.length <= 1 || currentArtworkIndex === -1) return;
+    const prevIndex = (currentArtworkIndex - 1 + allArtworks.length) % allArtworks.length;
+    onOpenChange(false);
+    // Small timeout to allow dialog to close before reopening with new artwork
+    setTimeout(() => {
+      onOpenChange(true);
+    }, 50);
+    return allArtworks[prevIndex];
   };
 
   return (
@@ -84,6 +118,37 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ artwork, open, onOpenCh
                 </div>
               </div>
             </>
+          )}
+          
+          {/* Add navigation buttons between artworks if we have multiple artworks */}
+          {allArtworks.length > 1 && currentArtworkIndex !== -1 && (
+            <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between pointer-events-none px-2">
+              <button 
+                onClick={() => {
+                  const prevArtwork = goToPrevArtwork();
+                  if (prevArtwork) {
+                    // Logic to handle artwork change will be in parent component
+                  }
+                }}
+                className="h-12 w-12 rounded-full bg-foreground/5 border border-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/10 pointer-events-auto transform -translate-x-12"
+                aria-label="Previous artwork"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              
+              <button 
+                onClick={() => {
+                  const nextArtwork = goToNextArtwork();
+                  if (nextArtwork) {
+                    // Logic to handle artwork change will be in parent component
+                  }
+                }}
+                className="h-12 w-12 rounded-full bg-foreground/5 border border-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/10 pointer-events-auto transform translate-x-12"
+                aria-label="Next artwork"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            </div>
           )}
           
           <DialogClose className="absolute top-4 right-4 h-8 w-8 rounded-full bg-foreground/10 p-1.5 text-foreground hover:bg-foreground/20">

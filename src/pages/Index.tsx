@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Layout from '@/components/Layout';
 import HeroSection from '@/components/HeroSection';
@@ -5,11 +6,65 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { previousProjects } from '@/data/projectsData';
 import ProjectTeaser from '@/components/ProjectTeaser';
+import { artworks } from '@/data/artworkData';
+import ArtworkCard from '@/components/ArtworkCard';
+import ArtworkDetails from '@/components/ArtworkDetails';
+
 const Index = () => {
   // Get up to 3 projects for the teaser section
   const featuredProjects = previousProjects.slice(0, 3);
-  return <Layout>
+  
+  // Get up to 4 artworks for the gallery teaser
+  const featuredArtworks = artworks.slice(0, 4);
+  
+  // State for artwork preview
+  const [selectedArtwork, setSelectedArtwork] = React.useState(null);
+  const [detailsOpen, setDetailsOpen] = React.useState(false);
+  
+  const handleArtworkClick = (artwork) => {
+    setSelectedArtwork(artwork);
+    setDetailsOpen(true);
+  };
+
+  return (
+    <Layout>
       <HeroSection />
+      
+      {/* Gallery Section - Added before the Projects section */}
+      <section className="py-20">
+        <div className="container-custom">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+            <div>
+              <span className="text-sm uppercase tracking-widest text-muted-foreground">Featured Artworks</span>
+              <h2 className="text-3xl md:text-4xl font-medium mt-2">Gallery</h2>
+            </div>
+            <Link to="/gallery" className="group flex items-center text-sm font-medium mt-4 md:mt-0 hover:opacity-70 transition-opacity">
+              Explore Gallery 
+              <ArrowRight size={16} className="ml-2 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {featuredArtworks.map((artwork, index) => (
+              <div 
+                key={artwork.id} 
+                className="relative transition-all duration-300 hover:-translate-y-1"
+                style={{ 
+                  opacity: 0,
+                  animation: `scaleIn 0.6s ease-out forwards`,
+                  animationDelay: `${index * 100}ms`
+                }}
+              >
+                <ArtworkCard 
+                  artwork={artwork}
+                  onClick={handleArtworkClick}
+                  className="transition-transform duration-300 h-full"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       
       <section className="py-20 bg-secondary">
         <div className="container-custom">
@@ -68,6 +123,16 @@ const Index = () => {
           </Link>
         </div>
       </section>
-    </Layout>;
+      
+      {/* Artwork details dialog for previewing gallery items */}
+      <ArtworkDetails 
+        artwork={selectedArtwork}
+        allArtworks={featuredArtworks}
+        open={detailsOpen}
+        onOpenChange={setDetailsOpen}
+      />
+    </Layout>
+  );
 };
+
 export default Index;

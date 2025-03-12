@@ -62,6 +62,7 @@ const Gallery = () => {
       
       <ArtworkDetails 
         artwork={selectedArtwork}
+        allArtworks={artworkData} // Pass all artworks for navigation
         open={detailsOpen}
         onOpenChange={setDetailsOpen}
       />
