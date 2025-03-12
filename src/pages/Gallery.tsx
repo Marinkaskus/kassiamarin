@@ -21,6 +21,12 @@ const Gallery = () => {
     setDetailsOpen(true);
   };
   
+  const handleDetailsOpenChange = (open: boolean) => {
+    setDetailsOpen(open);
+    // Don't reset selectedArtwork when closing dialog
+    // This allows us to maintain the selected artwork when reopening
+  };
+  
   return (
     <Layout>
       <section className="pt-32 pb-20">
@@ -62,9 +68,9 @@ const Gallery = () => {
       
       <ArtworkDetails 
         artwork={selectedArtwork}
-        allArtworks={artworkData} // Pass all artworks for navigation
+        allArtworks={artworkData}
         open={detailsOpen}
-        onOpenChange={setDetailsOpen}
+        onOpenChange={handleDetailsOpenChange}
       />
     </Layout>
   );

@@ -47,7 +47,7 @@ export const artworks: Artwork[] = [
     imageSrc: "https://dl.dropboxusercontent.com/s/fi/abaep6vlccql9n2f5bqox/IMG_4731.JPG?rlkey=lm7w3wdcfbwpcm4prcf8sf7za&st=uwtzhr9l&dl=0",
     category: "Mixed Media",
     available: true,
-    price: "8th said 500 kr",
+    price: "8500 kr",
     additionalImages: []
   },
   {
@@ -59,7 +59,7 @@ export const artworks: Artwork[] = [
     imageSrc: "https://dl.dropboxusercontent.com/s/fi/ga3quntiameqo0x2swe3u/IMG_4842.JPG?rlkey=p4g8gkdc6n60aumdh7l6fs736&st=6wn13oli&dl=0",
     category: "Mixed Media",
     available: true,
-    price: "8th 500 kr",
+    price: "8500 kr",
     additionalImages: []
   },
   {
@@ -124,7 +124,7 @@ export const artworks: Artwork[] = [
 ];
 
 /**
- * Helper function8th to get artwork by ID
+ * Helper function to get artwork by ID
  * @param id Artwork ID
  * @returns Artwork object or undefined if not found
  */

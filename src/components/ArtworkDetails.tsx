@@ -21,19 +21,21 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
+  const [currentArtwork, setCurrentArtwork] = useState<Artwork | null>(null);
   
   // Reset state when artwork changes or dialog opens
   useEffect(() => {
     if (open && artwork) {
       setCurrentImageIndex(0);
       setImageError(false);
+      setCurrentArtwork(artwork);
     }
   }, [artwork, open]);
   
-  if (!artwork) return null;
+  if (!currentArtwork) return null;
   
   // Combine main image with additional images
-  const allImages = [artwork.imageSrc, ...(artwork.additionalImages || [])];
+  const allImages = [currentArtwork.imageSrc, ...(currentArtwork.additionalImages || [])];
   
   const handleNextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
@@ -50,30 +52,24 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
   };
 
   // Find current artwork index in the allArtworks array
-  const currentArtworkIndex = allArtworks.findIndex(art => art.id === artwork.id);
+  const currentArtworkIndex = allArtworks.findIndex(art => art.id === currentArtwork.id);
   
   // Navigate to next artwork
   const goToNextArtwork = () => {
     if (allArtworks.length <= 1 || currentArtworkIndex === -1) return;
     const nextIndex = (currentArtworkIndex + 1) % allArtworks.length;
-    onOpenChange(false);
-    // Small timeout to allow dialog to close before reopening with new artwork
-    setTimeout(() => {
-      onOpenChange(true);
-    }, 50);
-    return allArtworks[nextIndex];
+    setCurrentArtwork(allArtworks[nextIndex]);
+    setCurrentImageIndex(0);
+    setImageError(false);
   };
   
   // Navigate to previous artwork
   const goToPrevArtwork = () => {
     if (allArtworks.length <= 1 || currentArtworkIndex === -1) return;
     const prevIndex = (currentArtworkIndex - 1 + allArtworks.length) % allArtworks.length;
-    onOpenChange(false);
-    // Small timeout to allow dialog to close before reopening with new artwork
-    setTimeout(() => {
-      onOpenChange(true);
-    }, 50);
-    return allArtworks[prevIndex];
+    setCurrentArtwork(allArtworks[prevIndex]);
+    setCurrentImageIndex(0);
+    setImageError(false);
   };
 
   return (
@@ -83,7 +79,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
           {!imageError ? (
             <img 
               src={allImages[currentImageIndex]} 
-              alt={artwork.title} 
+              alt={currentArtwork.title} 
               className="w-full h-full object-contain"
               onError={handleImageError}
             />
@@ -122,28 +118,18 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
           
           {/* Add navigation buttons between artworks if we have multiple artworks */}
           {allArtworks.length > 1 && currentArtworkIndex !== -1 && (
-            <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between pointer-events-none px-2">
+            <div className="absolute bottom-1/2 -translate-y-1/2 w-full flex justify-between px-4">
               <button 
-                onClick={() => {
-                  const prevArtwork = goToPrevArtwork();
-                  if (prevArtwork) {
-                    // Logic to handle artwork change will be in parent component
-                  }
-                }}
-                className="h-12 w-12 rounded-full bg-foreground/5 border border-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/10 pointer-events-auto transform -translate-x-12"
+                onClick={goToPrevArtwork}
+                className="h-12 w-12 rounded-full bg-foreground/10 border border-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/20 transform -translate-x-6"
                 aria-label="Previous artwork"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
               
               <button 
-                onClick={() => {
-                  const nextArtwork = goToNextArtwork();
-                  if (nextArtwork) {
-                    // Logic to handle artwork change will be in parent component
-                  }
-                }}
-                className="h-12 w-12 rounded-full bg-foreground/5 border border-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/10 pointer-events-auto transform translate-x-12"
+                onClick={goToNextArtwork}
+                className="h-12 w-12 rounded-full bg-foreground/10 border border-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/20 transform translate-x-6"
                 aria-label="Next artwork"
               >
                 <ChevronRight className="h-6 w-6" />
@@ -159,43 +145,43 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
         
         <div className="flex-none md:w-1/3 p-6 overflow-y-auto">
           <DialogHeader className="mb-6">
-            <DialogTitle className="text-2xl md:text-3xl">{artwork.title}</DialogTitle>
+            <DialogTitle className="text-2xl md:text-3xl">{currentArtwork.title}</DialogTitle>
             <DialogDescription className="text-base font-medium text-foreground/80">
-              {artwork.year}
+              {currentArtwork.year}
             </DialogDescription>
           </DialogHeader>
           
           <div className="space-y-6">
             <div>
               <h4 className="text-sm uppercase text-muted-foreground mb-1">Size</h4>
-              <p>{artwork.size}</p>
+              <p>{currentArtwork.size}</p>
             </div>
             
             <div>
               <h4 className="text-sm uppercase text-muted-foreground mb-1">Medium</h4>
-              <p>{artwork.medium}</p>
+              <p>{currentArtwork.medium}</p>
             </div>
             
-            {artwork.description && (
+            {currentArtwork.description && (
               <div>
                 <h4 className="text-sm uppercase text-muted-foreground mb-1">Description</h4>
-                <p className="text-foreground/80">{artwork.description}</p>
+                <p className="text-foreground/80">{currentArtwork.description}</p>
               </div>
             )}
             
-            {artwork.available !== undefined && (
+            {currentArtwork.available !== undefined && (
               <div>
                 <h4 className="text-sm uppercase text-muted-foreground mb-1">Availability</h4>
-                <p className={artwork.available ? "text-green-600" : "text-amber-600"}>
-                  {artwork.available ? "Available" : "Not Available"}
+                <p className={currentArtwork.available ? "text-green-600" : "text-amber-600"}>
+                  {currentArtwork.available ? "Available" : "Not Available"}
                 </p>
               </div>
             )}
             
-            {artwork.price && (
+            {currentArtwork.price && (
               <div>
                 <h4 className="text-sm uppercase text-muted-foreground mb-1">Price</h4>
-                <p>{artwork.price}</p>
+                <p>{currentArtwork.price}</p>
               </div>
             )}
             
