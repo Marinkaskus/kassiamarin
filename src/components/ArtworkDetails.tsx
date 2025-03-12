@@ -48,6 +48,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
   };
 
   const handleImageError = () => {
+    console.log(`Using fallback in details view for: ${currentArtwork.title}`);
     setImageError(true);
   };
 
@@ -72,22 +73,28 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
     setImageError(false);
   };
 
+  // Use a placeholder image when the original image fails to load
+  const displayImage = imageError 
+    ? 'https://images.unsplash.com/photo-1518770660439-4636190af475' // Fallback image
+    : allImages[currentImageIndex];
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="flex flex-col md:flex-row md:max-w-5xl md:h-[80vh] gap-6 p-0 overflow-hidden bg-background">
         <div className="relative flex-1 bg-white p-6">
-          {!imageError ? (
+          {imageError ? (
+            <div className="w-full h-full flex flex-col items-center justify-center">
+              <ImageOff className="h-16 w-16 text-muted-foreground mb-4" />
+              <p className="text-muted-foreground">Image could not be loaded</p>
+              <p className="text-sm text-muted-foreground mt-2">{currentArtwork.title}</p>
+            </div>
+          ) : (
             <img 
-              src={allImages[currentImageIndex]} 
+              src={displayImage} 
               alt={currentArtwork.title} 
               className="w-full h-full object-contain"
               onError={handleImageError}
             />
-          ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center">
-              <ImageOff className="h-16 w-16 text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">Image could not be loaded</p>
-            </div>
           )}
           
           {allImages.length > 1 && (

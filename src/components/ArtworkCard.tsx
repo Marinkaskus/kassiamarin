@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Artwork } from '@/types/Artwork';
 import { cn } from '@/lib/utils';
 import { ImageOff } from 'lucide-react';
@@ -11,12 +11,17 @@ interface ArtworkCardProps {
 }
 
 const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }) => {
-  const [imageError, setImageError] = React.useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const handleImageError = () => {
-    console.error(`Failed to load image for artwork: ${artwork.title}`);
+    console.log(`Using fallback for artwork: ${artwork.title}`);
     setImageError(true);
   };
+
+  // Use a placeholder image when the original image fails to load
+  const imageSrc = imageError 
+    ? 'https://images.unsplash.com/photo-1518770660439-4636190af475' // Fallback image
+    : artwork.imageSrc;
 
   return (
     <div 
@@ -27,18 +32,19 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
       onClick={() => onClick(artwork)}
     >
       <div className="w-full bg-white p-3 rounded-md">
-        {!imageError ? (
+        {imageError ? (
+          <div className="w-full aspect-square flex flex-col items-center justify-center bg-muted">
+            <ImageOff className="h-8 w-8 text-muted-foreground mb-2" />
+            <p className="text-xs text-muted-foreground">{artwork.title}</p>
+          </div>
+        ) : (
           <img
-            src={artwork.imageSrc}
+            src={imageSrc}
             alt={artwork.title}
             className="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
             onError={handleImageError}
           />
-        ) : (
-          <div className="w-full aspect-square flex items-center justify-center bg-muted">
-            <ImageOff className="h-8 w-8 text-muted-foreground" />
-          </div>
         )}
       </div>
       <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
