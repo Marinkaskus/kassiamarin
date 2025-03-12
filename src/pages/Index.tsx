@@ -8,25 +8,21 @@ import ProjectTeaser from '@/components/ProjectTeaser';
 import { artworks } from '@/data/artworkData';
 import ArtworkCard from '@/components/ArtworkCard';
 import ArtworkDetails from '@/components/ArtworkDetails';
-
 const Index = () => {
   // Get up to 3 projects for the teaser section
   const featuredProjects = previousProjects.slice(0, 3);
-  
+
   // Get up to 4 artworks for the gallery teaser
   const featuredArtworks = artworks.slice(0, 4);
-  
+
   // State for artwork preview
   const [selectedArtwork, setSelectedArtwork] = React.useState(null);
   const [detailsOpen, setDetailsOpen] = React.useState(false);
-  
-  const handleArtworkClick = (artwork) => {
+  const handleArtworkClick = artwork => {
     setSelectedArtwork(artwork);
     setDetailsOpen(true);
   };
-
-  return (
-    <Layout>
+  return <Layout>
       <HeroSection />
       
       {/* Gallery Section - Reduced grid size */}
@@ -44,23 +40,13 @@ const Index = () => {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            {featuredArtworks.slice(0, 3).map((artwork, index) => (
-              <div 
-                key={artwork.id} 
-                className="relative transition-all duration-300 hover:-translate-y-1"
-                style={{ 
-                  opacity: 0,
-                  animation: `scaleIn 0.6s ease-out forwards`,
-                  animationDelay: `${index * 100}ms`
-                }}
-              >
-                <ArtworkCard 
-                  artwork={artwork}
-                  onClick={handleArtworkClick}
-                  className="transition-transform duration-300 h-full"
-                />
-              </div>
-            ))}
+            {featuredArtworks.slice(0, 3).map((artwork, index) => <div key={artwork.id} className="relative transition-all duration-300 hover:-translate-y-1" style={{
+            opacity: 0,
+            animation: `scaleIn 0.6s ease-out forwards`,
+            animationDelay: `${index * 100}ms`
+          }}>
+                <ArtworkCard artwork={artwork} onClick={handleArtworkClick} className="transition-transform duration-300 h-full" />
+              </div>)}
           </div>
         </div>
       </section>
@@ -110,7 +96,7 @@ const Index = () => {
         </div>
       </section>
       
-      <section className="py-20 bg-foreground text-background">
+      <section className="py-20 text-background bg-red-950">
         <div className="container-custom text-center">
           <h2 className="text-3xl md:text-4xl font-medium">Interested in collaborating?</h2>
           <p className="mt-4 max-w-2xl mx-auto text-background/80">
@@ -124,14 +110,7 @@ const Index = () => {
       </section>
       
       {/* Artwork details dialog for previewing gallery items */}
-      <ArtworkDetails 
-        artwork={selectedArtwork}
-        allArtworks={featuredArtworks}
-        open={detailsOpen}
-        onOpenChange={setDetailsOpen}
-      />
-    </Layout>
-  );
+      <ArtworkDetails artwork={selectedArtwork} allArtworks={featuredArtworks} open={detailsOpen} onOpenChange={setDetailsOpen} />
+    </Layout>;
 };
-
 export default Index;
