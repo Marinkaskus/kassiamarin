@@ -15,12 +15,12 @@ export const artworks: Artwork[] = [
     additionalImages: []
   },
   {
-    id: 2,
-    title: "Dream Sequence",
+    id: 5,
+    title: "Bryllupsstolen",
     year: "2024",
     size: "30 × 60 cm",
     medium: "Mixed media on tile",
-    imageSrc: "https://dl.dropboxusercontent.com/s/fi/gf6as5359k84qmvblpe4e/IMG_4815.JPG?rlkey=orx84rucxceji4x6hcj391g7j&st=0dd9t40e&dl=0",
+    imageSrc: "https://dl.dropboxusercontent.com/s/fi/ga3quntiameqo0x2swe3u/IMG_4842.JPG?rlkey=p4g8gkdc6n60aumdh7l6fs736&st=6wn13oli&dl=0",
     category: "Mixed Media",
     available: true,
     price: "8500 kr",
@@ -51,12 +51,12 @@ export const artworks: Artwork[] = [
     additionalImages: []
   },
   {
-    id: 5,
-    title: "Bryllupsstolen",
+    id: 2,
+    title: "Dream Sequence",
     year: "2024",
     size: "30 × 60 cm",
     medium: "Mixed media on tile",
-    imageSrc: "https://dl.dropboxusercontent.com/s/fi/ga3quntiameqo0x2swe3u/IMG_4842.JPG?rlkey=p4g8gkdc6n60aumdh7l6fs736&st=6wn13oli&dl=0",
+    imageSrc: "https://dl.dropboxusercontent.com/s/fi/gf6as5359k84qmvblpe4e/IMG_4815.JPG?rlkey=orx84rucxceji4x6hcj391g7j&st=0dd9t40e&dl=0",
     category: "Mixed Media",
     available: true,
     price: "8500 kr",
