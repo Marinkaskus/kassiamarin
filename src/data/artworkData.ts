@@ -8,7 +8,7 @@ export const artworks: Artwork[] = [
     year: "2024",
     size: "30 × 60 cm",
     medium: "Mixed media on tile",
-    imageSrc: "https://dl.dropboxusercontent.com/s/fi/2yftr8rql3x3zc7231ew3/IMG_4867.JPG?rlkey=fgutaemxriyqhq736s3mowea4&st=wy8eptao&dl=0",
+    imageSrc: "https://dl.dropboxusercontent.com/s/fi/abaep6vlccql9n2f5bqox/IMG_4731.JPG?rlkey=lm7w3wdcfbwpcm4prcf8sf7za&st=uwtzhr9l&dl=0",
     category: "Mixed Media",
     available: true,
     price: "8500 kr",
