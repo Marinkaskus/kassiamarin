@@ -32,7 +32,7 @@ const Gallery = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
             {artworkData.map((artwork, index) => (
               <div 
                 key={artwork.id} 
@@ -46,7 +46,7 @@ const Gallery = () => {
                 <ArtworkCard 
                   artwork={artwork}
                   onClick={handleArtworkClick}
-                  className="transition-transform duration-300"
+                  className="transition-transform duration-300 h-full"
                 />
               </div>
             ))}

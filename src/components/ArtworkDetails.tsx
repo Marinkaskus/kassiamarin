@@ -44,8 +44,8 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ artwork, open, onOpenCh
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="flex flex-col md:flex-row md:max-w-5xl md:h-[80vh] gap-6 p-0 overflow-hidden">
-        <div className="relative flex-1 bg-black">
+      <DialogContent className="flex flex-col md:flex-row md:max-w-5xl md:h-[80vh] gap-6 p-0 overflow-hidden bg-background">
+        <div className="relative flex-1 bg-white p-6">
           {!imageError ? (
             <img 
               src={allImages[currentImageIndex]} 
@@ -55,8 +55,8 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ artwork, open, onOpenCh
             />
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center">
-              <ImageOff className="h-16 w-16 text-white/50 mb-4" />
-              <p className="text-white/70">Image could not be loaded</p>
+              <ImageOff className="h-16 w-16 text-muted-foreground mb-4" />
+              <p className="text-muted-foreground">Image could not be loaded</p>
             </div>
           )}
           
@@ -64,7 +64,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ artwork, open, onOpenCh
             <>
               <button 
                 onClick={handlePrevImage}
-                className="absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/40 flex items-center justify-center text-white hover:bg-black/60"
+                className="absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/20"
                 aria-label="Previous image"
               >
                 <ChevronLeft className="h-6 w-6" />
@@ -72,21 +72,21 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({ artwork, open, onOpenCh
               
               <button 
                 onClick={handleNextImage}
-                className="absolute right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/40 flex items-center justify-center text-white hover:bg-black/60"
+                className="absolute right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/20"
                 aria-label="Next image"
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
               
               <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-                <div className="bg-black/50 text-white px-2 py-1 rounded-full text-xs">
+                <div className="bg-foreground/10 text-foreground px-2 py-1 rounded-full text-xs">
                   {currentImageIndex + 1} / {allImages.length}
                 </div>
               </div>
             </>
           )}
           
-          <DialogClose className="absolute top-4 right-4 h-8 w-8 rounded-full bg-black/40 p-1.5 text-white hover:bg-black/60">
+          <DialogClose className="absolute top-4 right-4 h-8 w-8 rounded-full bg-foreground/10 p-1.5 text-foreground hover:bg-foreground/20">
             <X className="h-full w-full" />
             <span className="sr-only">Close</span>
           </DialogClose>

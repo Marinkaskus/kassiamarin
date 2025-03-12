@@ -26,17 +26,17 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
       )}
       onClick={() => onClick(artwork)}
     >
-      <div className="w-full aspect-square bg-muted">
+      <div className="w-full bg-white p-3 rounded-md">
         {!imageError ? (
           <img
             src={artwork.imageSrc}
             alt={artwork.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
             onError={handleImageError}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-muted">
+          <div className="w-full aspect-square flex items-center justify-center bg-muted">
             <ImageOff className="h-8 w-8 text-muted-foreground" />
           </div>
         )}
