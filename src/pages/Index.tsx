@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Layout from '@/components/Layout';
 import HeroSection from '@/components/HeroSection';
@@ -8,6 +9,7 @@ import ProjectTeaser from '@/components/ProjectTeaser';
 import { artworks } from '@/data/artworkData';
 import ArtworkCard from '@/components/ArtworkCard';
 import ArtworkDetails from '@/components/ArtworkDetails';
+
 const Index = () => {
   // Get up to 3 projects for the teaser section
   const featuredProjects = previousProjects.slice(0, 3);
@@ -18,14 +20,17 @@ const Index = () => {
   // State for artwork preview
   const [selectedArtwork, setSelectedArtwork] = React.useState(null);
   const [detailsOpen, setDetailsOpen] = React.useState(false);
+  
   const handleArtworkClick = artwork => {
     setSelectedArtwork(artwork);
     setDetailsOpen(true);
   };
-  return <Layout>
+  
+  return (
+    <Layout>
       <HeroSection />
       
-      {/* Gallery Section - Reduced grid size */}
+      {/* Gallery Section */}
       <section className="py-20">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
@@ -40,17 +45,28 @@ const Index = () => {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            {featuredArtworks.slice(0, 3).map((artwork, index) => <div key={artwork.id} className="relative transition-all duration-300 hover:-translate-y-1" style={{
-            opacity: 0,
-            animation: `scaleIn 0.6s ease-out forwards`,
-            animationDelay: `${index * 100}ms`
-          }}>
-                <ArtworkCard artwork={artwork} onClick={handleArtworkClick} className="transition-transform duration-300 h-full" />
-              </div>)}
+            {featuredArtworks.slice(0, 3).map((artwork, index) => (
+              <div 
+                key={artwork.id} 
+                className="relative transition-all duration-300 hover:-translate-y-1" 
+                style={{
+                  opacity: 0,
+                  animation: `scaleIn 0.6s ease-out forwards`,
+                  animationDelay: `${index * 100}ms`
+                }}
+              >
+                <ArtworkCard 
+                  artwork={artwork} 
+                  onClick={handleArtworkClick} 
+                  className="transition-transform duration-300 h-full" 
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>
       
+      {/* Projects Section */}
       <section className="py-20 bg-secondary">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
@@ -65,11 +81,14 @@ const Index = () => {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            {featuredProjects.map(project => <ProjectTeaser key={project.id} project={project} />)}
+            {featuredProjects.map(project => (
+              <ProjectTeaser key={project.id} project={project} />
+            ))}
           </div>
         </div>
       </section>
       
+      {/* About Section */}
       <section className="py-20">
         <div className="container-custom">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -82,7 +101,6 @@ const Index = () => {
                 Her practice involves painting, video, and mixed media, often incorporating text. 
                 Her work explores themes of memory, transformation, and the fragility of experience, focusing on how personal narratives and emotions are expressed through tangible forms. 
                 Kassia examines the passage of time and the tension between presence and absence, reflecting on how memories shape identity. In a world increasingly dominated by digital media, she believes in the enduring power of material art to foster introspection and genuine connection.</p>
-               
               </div>
               <Link to="/about" className="inline-block mt-8 px-6 py-2 border border-foreground rounded-full hover:bg-foreground/5 transition-colors">
                 Read More
@@ -96,6 +114,7 @@ const Index = () => {
         </div>
       </section>
       
+      {/* Contact Section */}
       <section className="py-20 text-background bg-red-950">
         <div className="container-custom text-center">
           <h2 className="text-3xl md:text-4xl font-medium">Interested in collaborating?</h2>
@@ -109,8 +128,15 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Artwork details dialog for previewing gallery items */}
-      <ArtworkDetails artwork={selectedArtwork} allArtworks={featuredArtworks} open={detailsOpen} onOpenChange={setDetailsOpen} />
-    </Layout>;
+      {/* Artwork details dialog */}
+      <ArtworkDetails 
+        artwork={selectedArtwork} 
+        allArtworks={featuredArtworks} 
+        open={detailsOpen} 
+        onOpenChange={setDetailsOpen} 
+      />
+    </Layout>
+  );
 };
+
 export default Index;
