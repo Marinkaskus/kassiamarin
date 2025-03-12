@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { useToast } from '@/hooks/use-toast';
-import { Mail, Phone, Instagram, Linkedin, ExternalLink } from 'lucide-react';
+import { Mail, Instagram, Linkedin, ExternalLink } from 'lucide-react';
 import LogoDisplay from '@/components/LogoDisplay';
 
 const Contact = () => {
@@ -24,7 +24,6 @@ const Contact = () => {
     setIsSubmitting(true);
     
     try {
-      // Create a mailto link with the form data
       const emailSubject = `Website Contact: ${formData.subject}`;
       const emailBody = `
 Name: ${formData.name}
@@ -35,11 +34,9 @@ Message:
 ${formData.message}
       `;
       
-      // Encode the email parameters and open the mailto link
       const mailtoLink = `mailto:kassiamarin486@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
       window.open(mailtoLink, '_blank');
       
-      // Reset the form
       setFormData({
         name: '',
         email: '',
@@ -64,7 +61,6 @@ ${formData.message}
 
   return (
     <Layout>
-      {/* Background Logo */}
       <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0 opacity-[0.2]">
         <LogoDisplay size="x-large" transparentBg={true} />
       </div>
@@ -80,7 +76,7 @@ ${formData.message}
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-12 animate-fade-in-up">
+          <div className="grid md:grid-cols-1 gap-12 animate-fade-in-up">
             <div className="bg-secondary p-8 rounded-lg text-center flex flex-col items-center">
               <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center mb-4">
                 <Mail size={20} />
@@ -92,20 +88,6 @@ ${formData.message}
                 className="mt-4 text-sm font-medium hover:opacity-70 transition-opacity"
               >
                 Send an email
-              </a>
-            </div>
-            
-            <div className="bg-secondary p-8 rounded-lg text-center flex flex-col items-center">
-              <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center mb-4">
-                <Phone size={20} />
-              </div>
-              <h3 className="text-lg font-medium">Phone</h3>
-              <p className="mt-2 text-muted-foreground">+47 909 66 965</p>
-              <a 
-                href="tel:+47909 66 965" 
-                className="mt-4 text-sm font-medium hover:opacity-70 transition-opacity"
-              >
-                Call me
               </a>
             </div>
           </div>
