@@ -29,7 +29,7 @@ export const artworks: Artwork[] = [
   {
     id: 3,
     title: "Mulvarp",
-    year: "2024",
+    year: "2025",
     size: "30 × 60 cm",
     medium: "Mixed media on tile",
     imageSrc: "https://dl.dropboxusercontent.com/s/fi/8vrfmg97ir1nos7huhfsu/IMG_4756.JPG?rlkey=myyxwl4pedll8yxw4lvx5pgpx&st=khr3h1yk&dl=0",
@@ -41,7 +41,7 @@ export const artworks: Artwork[] = [
   {
     id: 4,
     title: "Perlen",
-    year: "2024",
+    year: "2025",
     size: "30 × 60 cm",
     medium: "Mixed media on tile",
     imageSrc: "https://dl.dropboxusercontent.com/s/fi/abaep6vlccql9n2f5bqox/IMG_4731.JPG?rlkey=lm7w3wdcfbwpcm4prcf8sf7za&st=uwtzhr9l&dl=0",
@@ -77,7 +77,7 @@ export const artworks: Artwork[] = [
   {
     id: 7,
     title: "T-banen",
-    year: "2024",
+    year: "2025",
     size: "30 × 60 cm",
     medium: "Mixed media",
     imageSrc: "https://dl.dropboxusercontent.com/s/fi/60cpoedslwwb1u3h4i7rr/IMG_4742.JPG?rlkey=eut76w8rqgfz8i8l1piusqyou&st=5d72yiov&dl=0",
