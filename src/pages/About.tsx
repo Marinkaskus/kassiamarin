@@ -1,10 +1,16 @@
-
 import React from 'react';
 import Layout from '@/components/Layout';
+import { Helmet } from 'react-helmet-async';
 
 const About = () => {
   return (
     <Layout>
+      <Helmet>
+        <title>About Kassia Marin - Norwegian Contemporary Artist</title>
+        <meta name="description" content="Learn about Kassia Marin, a contemporary visual artist from Norway, her education, artistic practice, and philosophy on memory and identity in art." />
+        <meta name="keywords" content="Kassia Marin, Norwegian artist, contemporary art, Oslo National Academy of the Arts, visual artist, Oslo artist" />
+      </Helmet>
+      
       <section className="pt-32 pb-20">
         <div className="container-custom">
           <div className="max-w-5xl mx-auto">
@@ -25,13 +31,13 @@ const About = () => {
               
               <div className="space-y-6 text-muted-foreground animate-fade-in">
                 <p>
-                Kassia Marin is a contemporary visual artist based in Norway, working across painting, mixed media, text, and video. 
+                <strong>Kassia Marin</strong> is a contemporary visual artist based in Norway, working across painting, mixed media, text, and video. 
                 Her practice explores the intricate nature of memory, identity, and perception, investigating how personal histories are shaped by time. 
                 Through her work, she examines the delicate and often distorted transformation of memories, probing the tension between past and present, and questioning their emotional weight.
                 </p>
                 
                 <p>
-                With a formal education in Fine Arts from the Oslo National Academy of the Arts, Kassia has dedicated her career to exploring how memories and dreams influence our emotional and psychological landscapes. 
+                With a formal education in Fine Arts from the <strong>Oslo National Academy of the Arts</strong>, Kassia has dedicated her career to exploring how memories and dreams influence our emotional and psychological landscapes. 
                 Her work often intertwines text and imagery, creating a dialogue between personal experience and broader, universal themes.
                 </p>
                 
@@ -84,7 +90,6 @@ const About = () => {
                  In a world where we often feel disconnected or alienated, I believe art is a space where we can confront and share these emotions, allowing us to experience something together.
                 </p>
                 
-              
               </div>
             </div>
           </div>

@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
 import { artworks } from '@/data/artworkData';
 import ArtworkCard from '@/components/ArtworkCard';
@@ -29,12 +30,19 @@ const Gallery = () => {
   
   return (
     <Layout>
+      <Helmet>
+        <title>Art Gallery - Kassia Marin | Paintings and Artworks</title>
+        <meta name="description" content="Browse Kassia Marin's gallery of paintings and artworks. Contemporary art pieces exploring memory, identity, and perception by Norwegian artist Kassia Marin." />
+        <meta name="keywords" content="Kassia Marin art, paintings, contemporary art gallery, Norwegian art, Oslo artist" />
+        <link rel="canonical" href="https://kassiamarin.studio/gallery" />
+      </Helmet>
+      
       <section className="pt-20 sm:pt-24 md:pt-32 pb-16 md:pb-20">
         <div className="container-custom">
           <div className="max-w-2xl mx-auto text-center mb-10 md:mb-16 animate-scale-in">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-medium">Gallery</h1>
             <p className="mt-3 md:mt-4 text-muted-foreground">
-              A collection of paintings.
+              A collection of paintings and artworks by Kassia Marin.
             </p>
           </div>
           

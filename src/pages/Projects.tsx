@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
 import { previousProjects } from '@/data/projectsData';
 import ProjectCard from '@/components/ProjectCard';
@@ -30,6 +31,13 @@ const Projects = () => {
   
   return (
     <Layout>
+      <Helmet>
+        <title>Portfolio - Kassia Marin | Exhibitions and Projects</title>
+        <meta name="description" content="Explore Kassia Marin's portfolio of exhibitions, installations, and art projects from her career as a contemporary visual artist based in Oslo, Norway." />
+        <meta name="keywords" content="Kassia Marin portfolio, art exhibitions, contemporary art projects, Norwegian artist exhibitions" />
+        <link rel="canonical" href="https://kassiamarin.studio/portfolio" />
+      </Helmet>
+      
       <section className="pt-32 pb-20">
         <div className="container-custom">
           <div className="max-w-2xl mx-auto text-center mb-16 animate-fade-in">

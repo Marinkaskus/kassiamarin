@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
 import HeroSection from '@/components/HeroSection';
 import { Link } from 'react-router-dom';
@@ -28,6 +29,13 @@ const Index = () => {
   
   return (
     <Layout>
+      <Helmet>
+        <title>Kassia Marin - Contemporary Visual Artist Based in Oslo</title>
+        <meta name="description" content="Kassia Marin is a Norwegian contemporary visual artist working with painting, text, and video to explore memory and identity. Browse her portfolio and gallery." />
+        <meta name="keywords" content="Kassia Marin, Norwegian artist, contemporary art, Oslo artist, painting, visual art" />
+        <link rel="canonical" href="https://kassiamarin.studio/" />
+      </Helmet>
+      
       <HeroSection />
       
       {/* Gallery Section */}
@@ -97,7 +105,7 @@ const Index = () => {
               <h2 className="text-3xl md:text-4xl font-medium mt-2">Kassia Marin</h2>
               <div className="mt-4 space-y-2 text-muted-foreground">
                 <p>
-                Kassia Marin is a contemporary visual artist based in Oslo. 
+                <strong>Kassia Marin</strong> is a contemporary visual artist based in Oslo. 
                 Her practice involves painting, video, and mixed media, often incorporating text. 
                 Her work explores themes of memory, transformation, and the fragility of experience, focusing on how personal narratives and emotions are expressed through tangible forms. 
                 Kassia examines the passage of time and the tension between presence and absence, reflecting on how memories shape identity. In a world increasingly dominated by digital media, she believes in the enduring power of material art to foster introspection and genuine connection.</p>
