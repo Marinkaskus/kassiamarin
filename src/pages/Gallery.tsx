@@ -41,20 +41,19 @@ const Gallery = () => {
         <meta property="og:url" content="https://kassiamarin.studio/gallery" />
       </Helmet>
       
-      <section className="pt-20 sm:pt-24 md:pt-32 pb-16 md:pb-20">
+      <section className="pt-20 sm:pt-24 md:pt-32 pb-16 md:pb-24 bg-background">
         <div className="container-custom">
-          <div className="max-w-2xl mx-auto text-center mb-10 md:mb-16 animate-scale-in">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-medium">Gallery</h1>
+          <div className="max-w-2xl mx-auto text-center mb-12 md:mb-16 animate-scale-in">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-medium font-gotu">Gallery</h1>
             <p className="mt-3 md:mt-4 text-muted-foreground">
               A collection of paintings and mixed media artworks by Kassia Marin.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10">
             {artworkData.map((artwork, index) => (
               <div 
                 key={artwork.id} 
-                className="relative transition-all duration-300 hover:-translate-y-1"
                 style={{ 
                   opacity: 0,
                   animation: `scaleIn 0.6s ease-out forwards`,
@@ -64,7 +63,7 @@ const Gallery = () => {
                 <ArtworkCard 
                   artwork={artwork}
                   onClick={handleArtworkClick}
-                  className="transition-transform duration-300 h-full"
+                  className="h-full"
                 />
               </div>
             ))}

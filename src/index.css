@@ -96,4 +96,9 @@
       left: 100%;
     }
   }
+  
+  /* Gallery specific styles */
+  .artwork-info {
+    @apply font-sans text-sm leading-relaxed text-muted-foreground;
+  }
 }

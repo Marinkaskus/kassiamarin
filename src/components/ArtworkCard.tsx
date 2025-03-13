@@ -29,32 +29,39 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
   return (
     <div 
       className={cn(
-        "group relative cursor-pointer overflow-hidden rounded-md transition-all duration-300 hover:shadow-md w-full touch-manipulation",
+        "group relative cursor-pointer overflow-hidden rounded-md bg-white transition-all duration-300 hover:shadow-md w-full",
         className
       )}
       onClick={() => onClick(artwork)}
       role="button"
       aria-label={`View details of artwork: ${artwork.title}`}
     >
-      <div className="w-full bg-white p-2 sm:p-3 rounded-md">
+      <div className="w-full overflow-hidden">
         {imageError ? (
           <div className="w-full aspect-square flex flex-col items-center justify-center bg-muted">
-            <ImageOff className="h-6 w-6 sm:h-8 sm:w-8 text-muted-foreground mb-1 sm:mb-2" />
+            <ImageOff className="h-8 w-8 text-muted-foreground mb-2" />
             <p className="text-xs text-muted-foreground">{artwork.title}</p>
           </div>
         ) : (
-          <img
-            src={imageSrc}
-            alt={altText}
-            className="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-105 aspect-square"
-            loading="lazy"
-            onError={handleImageError}
-          />
+          <div className="aspect-square overflow-hidden">
+            <img
+              src={imageSrc}
+              alt={altText}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+              onError={handleImageError}
+            />
+          </div>
         )}
       </div>
-      <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 to-transparent p-3 sm:p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-        <h3 className="text-base sm:text-lg font-medium text-white">{artwork.title}</h3>
-        <p className="text-xs sm:text-sm text-white/80">{artwork.year} | {artwork.medium}</p>
+      
+      <div className="p-4 text-left">
+        <h3 className="text-base font-medium font-sans">{artwork.title}</h3>
+        <div className="mt-1 space-y-1 text-sm text-muted-foreground">
+          <p>{artwork.size}</p>
+          <p>{artwork.year}</p>
+          <p>{artwork.medium}</p>
+        </div>
       </div>
     </div>
   );
