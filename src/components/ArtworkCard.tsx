@@ -43,11 +43,11 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
             <p className="text-xs text-muted-foreground">{artwork.title}</p>
           </div>
         ) : (
-          <div className="aspect-square overflow-hidden">
+          <div className="aspect-square overflow-hidden flex items-center justify-center bg-secondary/30">
             <img
               src={imageSrc}
               alt={altText}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className="max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
               onError={handleImageError}
             />
