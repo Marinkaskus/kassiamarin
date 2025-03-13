@@ -11,7 +11,6 @@ export const artworks: Artwork[] = [
     imageSrc: "https://dl.dropboxusercontent.com/s/fi/6ogoow1um6arrysl7tnd2/Blekksprut_2024.jpg?rlkey=boc74c4y6p1vu9m47ifpyi1nr&st=rigge91a&dl=0",
     category: "Mixed Media",
     available: true,
-    price: "8500 kr",
     additionalImages: [],
     alt: "Blekksprut - mixed media artwork by Kassia Marin featuring octopus-inspired forms on tile"
   },
@@ -24,7 +23,6 @@ export const artworks: Artwork[] = [
     imageSrc: "https://dl.dropboxusercontent.com/s/fi/ga3quntiameqo0x2swe3u/IMG_4842.JPG?rlkey=p4g8gkdc6n60aumdh7l6fs736&st=6wn13oli&dl=0",
     category: "Mixed Media",
     available: true,
-    price: "8500 kr",
     additionalImages: [],
     alt: "Bryllupsstolen - mixed media artwork by Kassia Marin with wedding chair motif on tile"
   },
@@ -37,7 +35,6 @@ export const artworks: Artwork[] = [
     imageSrc: "https://dl.dropboxusercontent.com/s/fi/8vrfmg97ir1nos7huhfsu/IMG_4756.JPG?rlkey=myyxwl4pedll8yxw4lvx5pgpx&st=khr3h1yk&dl=0",
     category: "Mixed Media",
     available: true,
-    price: "8500 kr",
     additionalImages: [],
     alt: "Mulvarp - contemporary mixed media artwork by Kassia Marin with mole-inspired elements on tile"
   },
@@ -50,7 +47,6 @@ export const artworks: Artwork[] = [
     imageSrc: "https://dl.dropboxusercontent.com/s/fi/abaep6vlccql9n2f5bqox/IMG_4731.JPG?rlkey=lm7w3wdcfbwpcm4prcf8sf7za&st=uwtzhr9l&dl=0",
     category: "Mixed Media",
     available: true,
-    price: "8500 kr",
     additionalImages: [],
     alt: "Perlen - mixed media artwork by Kassia Marin featuring pearl-like elements on tile"
   },
@@ -63,7 +59,6 @@ export const artworks: Artwork[] = [
     imageSrc: "https://dl.dropboxusercontent.com/s/fi/gf6as5359k84qmvblpe4e/IMG_4815.JPG?rlkey=orx84rucxceji4x6hcj391g7j&st=0dd9t40e&dl=0",
     category: "Mixed Media",
     available: true,
-    price: "8500 kr",
     additionalImages: [],
     alt: "Dream Sequence - abstract mixed media artwork by Kassia Marin exploring dreamlike themes on tile"
   },
@@ -76,7 +71,6 @@ export const artworks: Artwork[] = [
     imageSrc: "https://dl.dropboxusercontent.com/s/fi/aayffts5nuwnkdov1b2c0/IMG_4878.JPG?rlkey=u9zaotwctok4acwuf4hmd2dml&st=0qyipsso&dl=0",
     category: "Mixed Media",
     available: true,
-    price: "8500 kr",
     additionalImages: [],
     alt: "Untitled abstract mixed media artwork by Norwegian artist Kassia Marin"
   },
@@ -89,7 +83,6 @@ export const artworks: Artwork[] = [
     imageSrc: "https://dl.dropboxusercontent.com/s/fi/60cpoedslwwb1u3h4i7rr/IMG_4742.JPG?rlkey=eut76w8rqgfz8i8l1piusqyou&st=5d72yiov&dl=0",
     category: "Mixed Media",
     available: true,
-    price: "8500 kr",
     additionalImages: [],
     alt: "T-banen - mixed media artwork by Kassia Marin inspired by Oslo metro system"
   },
@@ -102,7 +95,6 @@ export const artworks: Artwork[] = [
     imageSrc: "https://dl.dropboxusercontent.com/s/fi/hxwh5dd32xjxazzt08n1y/IMG_4849.JPG?rlkey=2bf7jxjngcre57akxgdxp5f80&st=ez2bv1xl&dl=0",
     category: "Mixed Media",
     available: true,
-    price: "8500 kr",
     additionalImages: [],
     alt: "Myggstikk - textured mixed media artwork by Kassia Marin with mosquito bite theme"
   },
@@ -115,7 +107,6 @@ export const artworks: Artwork[] = [
     imageSrc: "https://dl.dropboxusercontent.com/s/fi/grk2wwj3cz001o9isx86x/IMG_4913.JPG?rlkey=pxecnipmb91qnppce9dezb6oy&st=iifyjkf3&dl=0",
     category: "Mixed Media",
     available: true,
-    price: "8500 kr",
     additionalImages: [],
     alt: "Vulcan - vibrant mixed media artwork by Kassia Marin with volcanic-inspired elements"
   },{
@@ -127,7 +118,6 @@ export const artworks: Artwork[] = [
     imageSrc: "https://dl.dropboxusercontent.com/s/fi/or47jdo16nn775swl3yqw/IMG_4888.JPG?rlkey=qh39lbg61cb8x1jr5r2gex3c5&st=xmvvh62x&dl=0",
     category: "Mixed Media",
     available: true,
-    price: "8500 kr",
     additionalImages: [],
     alt: "Taxi - urban-inspired mixed media artwork by Kassia Marin featuring taxi themes"
   },
