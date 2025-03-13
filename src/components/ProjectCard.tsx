@@ -1,9 +1,12 @@
+
 import React, { useState } from 'react';
-import { Footprints, ExternalLink, Play, VideoOff, Moon, ZoomIn, ArrowLeft, ArrowRight, X } from 'lucide-react';
+import { Footprints, ExternalLink, Play, VideoOff, Moon, ZoomIn, ArrowLeft, ArrowRight, X, ChevronDown } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
 import { Project } from '@/types/Project';
 import { toast } from '@/components/ui/use-toast';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Button } from "@/components/ui/button";
 
 interface ProjectCardProps {
   project: Project;
@@ -16,6 +19,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   const [videoError, setVideoError] = useState(false);
   const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
   
   const isChildrenProject = project.id === 8;
   const isInsomniaProject = project.id === 9;
@@ -106,10 +110,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
   
   return (
     <div 
-      className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 lg:gap-16 items-center animate-fade-in`}
+      className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 lg:gap-16 items-start animate-fade-in`}
       style={{ animationDelay: `${index * 150}ms` }}
     >
-      <div className="w-full lg:w-1/2">
+      <div className="w-full lg:w-3/5">
         {hasVideoFeature ? (
           showVideo && project.videoUrl ? (
             <div className="w-full aspect-video mb-4 relative flex flex-col">
@@ -173,95 +177,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
             interval={6000}
           />
         )}
-      </div>
-      
-      <div className="w-full lg:w-1/2">
-        <div className="flex items-center">
-          <span className="text-sm uppercase tracking-widest text-muted-foreground">{project.year}</span>
-          {project.location && (
-            <>
-              <span className="mx-3 text-muted-foreground">•</span>
-              <span className="text-sm text-muted-foreground">{project.location}</span>
-            </>
-          )}
-        </div>
         
-        <h2 className="text-2xl md:text-3xl font-medium mt-2">{project.title}</h2>
-        
-        <p className="mt-4 text-muted-foreground">
-          {project.description}
-        </p>
-        
-        {project.norwegianDescription && (
-          <p className="mt-3 text-muted-foreground italic">
-            {project.norwegianDescription}
-          </p>
-        )}
-        
-        <div className="mt-6 flex flex-wrap gap-4">
-          {project.url && project.id !== 4 && (
-            <a 
-              href={project.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"
-            >
-              View Project <ExternalLink size={16} className="ml-2" />
-            </a>
-          )}
-          
-          {(hasVideoFeature || isPlayDateProject) && project.videoUrl && (
-            <button
-              onClick={handlePlayInDialog}
-              className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"
-            >
-              Watch Video <Play size={16} className="ml-2" />
-            </button>
-          )}
-        </div>
-        
-        {project.id === 4 && (
-          <div className="mt-4 flex items-center text-muted-foreground">
-            <Footprints size={16} className="mr-2" />
-            <span className="text-sm italic">Interactive installation where viewers become part of the artwork</span>
-          </div>
-        )}
-        
-        {isInsomniaProject && (
-          <div className="mt-4 flex items-center text-muted-foreground">
-            <Moon size={16} className="mr-2" />
-            <span className="text-sm italic">A diary of sleepless nights presented through video and sound</span>
-          </div>
-        )}
-        
-        {isChildrenProject && project.additionalImages && project.additionalImages.length > 0 && (
+        {(isChildrenProject || isPlayDateProject) && project.additionalImages && project.additionalImages.length > 0 && (
           <div className="mt-6">
-            <h3 className="text-sm font-medium mb-3">Project Gallery</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-              {project.additionalImages.map((image, idx) => (
-                <div 
-                  key={idx} 
-                  className="aspect-square overflow-hidden rounded-md cursor-pointer relative group"
-                  onClick={() => handleImageClick(image, idx)}
-                >
-                  <img 
-                    src={image} 
-                    alt={`${project.title} - additional image ${idx + 1}`}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <ZoomIn size={20} className="text-white" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-        
-        {isPlayDateProject && project.additionalImages && project.additionalImages.length > 0 && (
-          <div className="mt-6">
-            <h3 className="text-sm font-medium mb-3">Project Gallery</h3>
-            <div className="grid grid-cols-3 gap-2">
               {project.additionalImages.map((image, idx) => {
                 if (image.startsWith('video:')) return null;
                 
@@ -285,6 +204,92 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onVideoPlay }
             </div>
           </div>
         )}
+      </div>
+      
+      <div className="w-full lg:w-2/5">
+        <div className="flex items-center">
+          <span className="text-sm uppercase tracking-widest text-muted-foreground">{project.year}</span>
+          {project.location && (
+            <>
+              <span className="mx-3 text-muted-foreground">•</span>
+              <span className="text-sm text-muted-foreground">{project.location}</span>
+            </>
+          )}
+        </div>
+        
+        <h2 className="text-2xl md:text-3xl font-medium mt-2">{project.title}</h2>
+        
+        <Collapsible
+          open={isOpen}
+          onOpenChange={setIsOpen}
+          className="mt-4"
+        >
+          <div className="flex flex-col space-y-4">
+            <CollapsibleTrigger asChild>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-fit flex justify-between items-center group"
+                aria-label={isOpen ? "Hide details" : "Read more"}
+              >
+                {isOpen ? "Hide details" : "Read more"}
+                <ChevronDown 
+                  className={`ml-2 h-4 w-4 transition-transform duration-200 ${
+                    isOpen ? "transform rotate-180" : ""
+                  }`} 
+                />
+              </Button>
+            </CollapsibleTrigger>
+            
+            <div className="flex flex-wrap gap-4">
+              {project.url && project.id !== 4 && (
+                <a 
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"
+                >
+                  View Project <ExternalLink size={16} className="ml-2" />
+                </a>
+              )}
+              
+              {(hasVideoFeature || isPlayDateProject) && project.videoUrl && (
+                <button
+                  onClick={handlePlayInDialog}
+                  className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"
+                >
+                  Watch Video <Play size={16} className="ml-2" />
+                </button>
+              )}
+            </div>
+          </div>
+          
+          <CollapsibleContent className="mt-4 space-y-4">
+            <p className="text-muted-foreground">
+              {project.description}
+            </p>
+            
+            {project.norwegianDescription && (
+              <p className="text-muted-foreground italic">
+                {project.norwegianDescription}
+              </p>
+            )}
+            
+            {project.id === 4 && (
+              <div className="mt-2 flex items-center text-muted-foreground">
+                <Footprints size={16} className="mr-2" />
+                <span className="text-sm italic">Interactive installation where viewers become part of the artwork</span>
+              </div>
+            )}
+            
+            {isInsomniaProject && (
+              <div className="mt-2 flex items-center text-muted-foreground">
+                <Moon size={16} className="mr-2" />
+                <span className="text-sm italic">A diary of sleepless nights presented through video and sound</span>
+              </div>
+            )}
+          </CollapsibleContent>
+        </Collapsible>
 
         <Dialog open={!!enlargedImage} onOpenChange={() => setEnlargedImage(null)}>
           <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 border-0 overflow-hidden bg-transparent shadow-none">

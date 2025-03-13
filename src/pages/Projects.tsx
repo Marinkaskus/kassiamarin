@@ -42,17 +42,16 @@ const Projects = () => {
         <meta property="og:url" content="https://kassiamarin.studio/portfolio" />
       </Helmet>
       
-      <section className="pt-32 pb-20">
+      <section className="pt-28 pb-20">
         <div className="container-custom">
-          <div className="max-w-2xl mx-auto text-center mb-16 animate-fade-in">
+          <div className="max-w-3xl mx-auto text-center mb-14 animate-fade-in">
             <h1 className="text-4xl md:text-5xl font-medium">Portfolio</h1>
             <p className="mt-4 text-muted-foreground">
-              A curated selection of my past exhibitions, collaborations, and commissioned works 
-              from throughout my artistic career.
+              A visual journey through exhibitions, collaborations, and commissioned works
             </p>
           </div>
           
-          <div className="space-y-20">
+          <div className="space-y-24">
             {projectsData.map((project, index) => (
               <div key={project.id} className="relative">
                 <ProjectCard 
