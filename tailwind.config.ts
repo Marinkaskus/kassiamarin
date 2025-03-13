@@ -22,6 +22,7 @@ export default {
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],
 				serif: ['Playfair Display', 'serif'],
+				gotu: ['Gotu', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',

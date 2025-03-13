@@ -55,7 +55,7 @@ const Navbar: React.FC = () => {
           onClick={closeMenu}
         >
           <LogoDisplay size="medium-large" transparentBg={true} />
-          <span className="font-sans text-xl md:text-2xl font-medium">Kassia Marin</span>
+          <span className="font-gotu text-xl md:text-2xl font-medium">Kassia Marin</span>
         </Link>
 
         {/* Desktop Navigation */}
