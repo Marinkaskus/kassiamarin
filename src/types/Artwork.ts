@@ -11,4 +11,5 @@ export interface Artwork {
   available?: boolean;
   price?: string;
   additionalImages?: string[];
+  alt?: string;  // Added alt property for image accessibility
 }
