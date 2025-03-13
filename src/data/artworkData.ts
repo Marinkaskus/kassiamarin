@@ -12,7 +12,8 @@ export const artworks: Artwork[] = [
     category: "Mixed Media",
     available: true,
     price: "8500 kr",
-    additionalImages: []
+    additionalImages: [],
+    alt: "Blekksprut - mixed media artwork by Kassia Marin featuring octopus-inspired forms on tile"
   },
   {
     id: 5,
@@ -24,7 +25,8 @@ export const artworks: Artwork[] = [
     category: "Mixed Media",
     available: true,
     price: "8500 kr",
-    additionalImages: []
+    additionalImages: [],
+    alt: "Bryllupsstolen - mixed media artwork by Kassia Marin with wedding chair motif on tile"
   },
   {
     id: 3,
@@ -36,7 +38,8 @@ export const artworks: Artwork[] = [
     category: "Mixed Media",
     available: true,
     price: "8500 kr",
-    additionalImages: []
+    additionalImages: [],
+    alt: "Mulvarp - contemporary mixed media artwork by Kassia Marin with mole-inspired elements on tile"
   },
   {
     id: 4,
@@ -48,7 +51,8 @@ export const artworks: Artwork[] = [
     category: "Mixed Media",
     available: true,
     price: "8500 kr",
-    additionalImages: []
+    additionalImages: [],
+    alt: "Perlen - mixed media artwork by Kassia Marin featuring pearl-like elements on tile"
   },
   {
     id: 2,
@@ -60,7 +64,8 @@ export const artworks: Artwork[] = [
     category: "Mixed Media",
     available: true,
     price: "8500 kr",
-    additionalImages: []
+    additionalImages: [],
+    alt: "Dream Sequence - abstract mixed media artwork by Kassia Marin exploring dreamlike themes on tile"
   },
   {
     id: 6,
@@ -72,7 +77,8 @@ export const artworks: Artwork[] = [
     category: "Mixed Media",
     available: true,
     price: "8500 kr",
-    additionalImages: []
+    additionalImages: [],
+    alt: "Untitled abstract mixed media artwork by Norwegian artist Kassia Marin"
   },
   {
     id: 7,
@@ -84,7 +90,8 @@ export const artworks: Artwork[] = [
     category: "Mixed Media",
     available: true,
     price: "8500 kr",
-    additionalImages: []
+    additionalImages: [],
+    alt: "T-banen - mixed media artwork by Kassia Marin inspired by Oslo metro system"
   },
   {
     id: 8,
@@ -96,7 +103,8 @@ export const artworks: Artwork[] = [
     category: "Mixed Media",
     available: true,
     price: "8500 kr",
-    additionalImages: []
+    additionalImages: [],
+    alt: "Myggstikk - textured mixed media artwork by Kassia Marin with mosquito bite theme"
   },
   {
     id: 9,
@@ -108,7 +116,8 @@ export const artworks: Artwork[] = [
     category: "Mixed Media",
     available: true,
     price: "8500 kr",
-    additionalImages: []
+    additionalImages: [],
+    alt: "Vulcan - vibrant mixed media artwork by Kassia Marin with volcanic-inspired elements"
   },{
     id: 10,
     title: "Taxi",
@@ -119,7 +128,8 @@ export const artworks: Artwork[] = [
     category: "Mixed Media",
     available: true,
     price: "8500 kr",
-    additionalImages: []
+    additionalImages: [],
+    alt: "Taxi - urban-inspired mixed media artwork by Kassia Marin featuring taxi themes"
   },
 ];
 

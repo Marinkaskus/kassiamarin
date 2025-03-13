@@ -31,10 +31,14 @@ const Gallery = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Art Gallery - Kassia Marin | Paintings and Artworks</title>
-        <meta name="description" content="Browse Kassia Marin's gallery of paintings and artworks. Contemporary art pieces exploring memory, identity, and perception by Norwegian artist Kassia Marin." />
-        <meta name="keywords" content="Kassia Marin art, paintings, contemporary art gallery, Norwegian art, Oslo artist" />
+        <title>Art Gallery - Kassia Marin | Paintings and Mixed Media Works</title>
+        <meta name="description" content="Browse Kassia Marin's gallery of paintings and mixed media artworks. Contemporary art pieces exploring memory, identity, and perception by Norwegian artist Kassia Marin." />
+        <meta name="keywords" content="Kassia Marin art, paintings, contemporary art gallery, Norwegian art, Oslo artist, mixed media art, Kassia Marin gallery" />
         <link rel="canonical" href="https://kassiamarin.studio/gallery" />
+        <meta property="og:title" content="Art Gallery - Kassia Marin | Contemporary Artworks" />
+        <meta property="og:description" content="Browse Kassia Marin's gallery of paintings and mixed media artworks exploring memory and identity." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://kassiamarin.studio/gallery" />
       </Helmet>
       
       <section className="pt-20 sm:pt-24 md:pt-32 pb-16 md:pb-20">
@@ -42,7 +46,7 @@ const Gallery = () => {
           <div className="max-w-2xl mx-auto text-center mb-10 md:mb-16 animate-scale-in">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-medium">Gallery</h1>
             <p className="mt-3 md:mt-4 text-muted-foreground">
-              A collection of paintings and artworks by Kassia Marin.
+              A collection of paintings and mixed media artworks by Kassia Marin.
             </p>
           </div>
           

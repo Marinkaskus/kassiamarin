@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Layout from '@/components/Layout';
 import { Helmet } from 'react-helmet-async';
@@ -9,6 +10,11 @@ const About = () => {
         <title>About Kassia Marin - Norwegian Contemporary Artist</title>
         <meta name="description" content="Learn about Kassia Marin, a contemporary visual artist from Norway, her education, artistic practice, and philosophy on memory and identity in art." />
         <meta name="keywords" content="Kassia Marin, Norwegian artist, contemporary art, Oslo National Academy of the Arts, visual artist, Oslo artist" />
+        <link rel="canonical" href="https://kassiamarin.studio/about" />
+        <meta property="og:title" content="About Kassia Marin - Norwegian Contemporary Artist" />
+        <meta property="og:description" content="Learn about Kassia Marin, a contemporary visual artist from Norway, exploring memory and identity in her work." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://kassiamarin.studio/about" />
       </Helmet>
       
       <section className="pt-32 pb-20">

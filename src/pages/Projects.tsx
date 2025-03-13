@@ -32,10 +32,14 @@ const Projects = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Portfolio - Kassia Marin | Exhibitions and Projects</title>
+        <title>Portfolio - Kassia Marin | Exhibitions and Art Projects</title>
         <meta name="description" content="Explore Kassia Marin's portfolio of exhibitions, installations, and art projects from her career as a contemporary visual artist based in Oslo, Norway." />
-        <meta name="keywords" content="Kassia Marin portfolio, art exhibitions, contemporary art projects, Norwegian artist exhibitions" />
+        <meta name="keywords" content="Kassia Marin portfolio, Kassia Marin projects, art exhibitions, contemporary art projects, Norwegian artist exhibitions" />
         <link rel="canonical" href="https://kassiamarin.studio/portfolio" />
+        <meta property="og:title" content="Portfolio - Kassia Marin | Exhibitions and Art Projects" />
+        <meta property="og:description" content="Explore Kassia Marin's portfolio of exhibitions, installations and art projects from Oslo, Norway." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://kassiamarin.studio/portfolio" />
       </Helmet>
       
       <section className="pt-32 pb-20">

@@ -22,6 +22,9 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
   const imageSrc = imageError 
     ? 'https://images.unsplash.com/photo-1518770660439-4636190af475' // Fallback image
     : artwork.imageSrc;
+    
+  // Use the alt text if available, otherwise create a descriptive one
+  const altText = artwork.alt || `${artwork.title} - ${artwork.medium} artwork by Kassia Marin (${artwork.year})`;
 
   return (
     <div 
@@ -30,6 +33,8 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
         className
       )}
       onClick={() => onClick(artwork)}
+      role="button"
+      aria-label={`View details of artwork: ${artwork.title}`}
     >
       <div className="w-full bg-white p-2 sm:p-3 rounded-md">
         {imageError ? (
@@ -40,7 +45,7 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
         ) : (
           <img
             src={imageSrc}
-            alt={artwork.title}
+            alt={altText}
             className="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-105 aspect-square"
             loading="lazy"
             onError={handleImageError}
@@ -49,7 +54,7 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
       </div>
       <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 to-transparent p-3 sm:p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
         <h3 className="text-base sm:text-lg font-medium text-white">{artwork.title}</h3>
-        <p className="text-xs sm:text-sm text-white/80">{artwork.year}</p>
+        <p className="text-xs sm:text-sm text-white/80">{artwork.year} | {artwork.medium}</p>
       </div>
     </div>
   );
