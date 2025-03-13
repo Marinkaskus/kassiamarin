@@ -111,7 +111,7 @@ export const artworks: Artwork[] = [
     alt: "Vulcan - vibrant mixed media artwork by Kassia Marin with volcanic-inspired elements"
   },{
     id: 10,
-    title: "Kan jeg sove på pansere ditt?",
+    title: "Kan jeg sove på panseret ditt?",
     year: "2025",
     size: "30 × 60 cm",
     medium: "Mixed media on tile",
