@@ -8,7 +8,7 @@ export const artworks: Artwork[] = [
     year: "2024",
     size: "30 × 60 cm",
     medium: "Mixed media on tile",
-    imageSrc: "https://dl.dropboxusercontent.com/s/fi/6ogoow1um6arrysl7tnd2/Blekksprut_2024.jpg?rlkey=boc74c4y6p1vu9m47ifpyi1nr&st=rigge91a&dl=0",
+    imageSrc: "https://dl.dropboxusercontent.com/s/fi/9h2affspkd8jt085h633h/Blekksprut_2024_ramme.jpg?rlkey=mgbo0s3pqzivvy7dwke4f0k7a&st=zlyecp6v&dl=0",
     category: "Mixed Media",
     available: true,
     additionalImages: [],
