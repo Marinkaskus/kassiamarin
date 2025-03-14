@@ -66,21 +66,6 @@ const CV = () => {
                   <li>
                     <div className="text-sm text-muted-foreground">2022</div>
                     <div className="font-medium">Samspill mellom kropp og objekt <span className="font-normal">(Curator)</span></div>
-                    <a href="https://kassiamarin.studio" target="_blank" class="https://www.bodobiennale.no/en/bodoe-biennale-2022/interaction-between-body-object-bodoe-cultural-school-kassia-r-marin">
-    Visit My Website
-</a>
-
-<style>
-    .custom-link {
-        color: #000; /* Black text */
-        text-decoration: none; /* Removes underline */
-        font-weight: bold;
-    }
-    .custom-link:hover {
-        color: #ff6600; /* Changes color on hover */
-    }
-</style>
-
                     <div>Bodø Biennale, Bodø, Norway</div>
                   </li>
                   <li>
