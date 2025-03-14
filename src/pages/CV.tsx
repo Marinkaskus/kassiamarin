@@ -127,13 +127,7 @@ const CV = () => {
                 <ul className="space-y-4">
                   <li>
                     <div className="text-sm text-muted-foreground">2024</div>
-                    <div className="font-medium">
-                      Host
-                   
-                        <ExternalLink size={16} className="mr-1" />
-                        <span className="text-sm">Oslo Open</span>
-                      </a>
-                    </div>
+                    <div className="font-medium">Host</div>
                     <div>Oslo Open, Oslo, Norway</div>
                   </li>
                   <li>
