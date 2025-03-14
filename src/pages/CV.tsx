@@ -172,12 +172,7 @@ const CV = () => {
                     <div className="text-sm text-muted-foreground">2018</div>
                     <div className="font-medium">Workshop Instructor</div>
                     <div>Art Workshop, Stormen Kunst, Bodø, Norway</div>
-                  </li>
-                  <li>
-                    <div className="text-sm text-muted-foreground">2018</div>
-                    <div className="font-medium">Workshop</div>
-                    <div>European Capital of Culture, Bodø, Norway</div>
-                    <a 
+                       <a 
                       href="https://www.bodobiennale.no/bodoe-biennale-2018/program/kunstverksted-for-barn-festivalutstillingen-paa-stormen-kunst" 
                       target="_blank" 
                       rel="noopener noreferrer"
@@ -186,6 +181,11 @@ const CV = () => {
                       <ExternalLink size={16} className="mr-1" />
                       <span className="text-sm">View Project</span>
                     </a>
+                  </li>
+                  <li>
+                    <div className="text-sm text-muted-foreground">2018</div>
+                    <div className="font-medium">Workshop</div>
+                    <div>European Capital of Culture, Bodø, Norway</div>
                   </li>
                   <li>
                     <div className="text-sm text-muted-foreground">2016 - 2018</div>
