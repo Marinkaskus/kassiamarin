@@ -66,6 +66,7 @@ const CV = () => {
                   <li>
                     <div className="text-sm text-muted-foreground">2022</div>
                     <div className="font-medium">Samspill mellom kropp og objekt <span className="font-normal">(Curator)</span></div>
+                    <div> https://www.bodobiennale.no/en/bodoe-biennale-2022/interaction-between-body-object-bodoe-cultural-school-kassia-r-marin</div>
                     <div>Bodø Biennale, Bodø, Norway</div>
                   </li>
                   <li>
