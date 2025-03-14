@@ -3,6 +3,7 @@ import React from 'react';
 import Layout from '../components/Layout';
 import { Helmet } from 'react-helmet-async';
 import { Separator } from '@/components/ui/separator';
+import { ExternalLink } from 'lucide-react';
 
 const CV = () => {
   return (
@@ -65,7 +66,18 @@ const CV = () => {
                   </li>
                   <li>
                     <div className="text-sm text-muted-foreground">2022</div>
-                    <div className="font-medium">Samspill mellom kropp og objekt <span className="font-normal">(Curator)</span></div>
+                    <div className="font-medium">
+                      Samspill mellom kropp og objekt <span className="font-normal">(Curator)</span>
+                      <a 
+                        href="https://www.bodobiennale.no/en/bodoe-biennale-2022/interaction-between-body-object-bodoe-cultural-school-kassia-r-marin" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center ml-2 text-primary hover:text-primary/80 transition-colors"
+                      >
+                        <ExternalLink size={16} className="mr-1" />
+                        <span className="text-sm">View Project</span>
+                      </a>
+                    </div>
                     <div>Bodø Biennale, Bodø, Norway</div>
                   </li>
                   <li>
@@ -80,7 +92,18 @@ const CV = () => {
                   </li>
                   <li>
                     <div className="text-sm text-muted-foreground">2021</div>
-                    <div className="font-medium">Malstrøm <span className="font-normal">(Solo Exhibition)</span></div>
+                    <div className="font-medium">
+                      Malstrøm <span className="font-normal">(Solo Exhibition)</span>
+                      <a 
+                        href="https://example.com/malstrom" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center ml-2 text-primary hover:text-primary/80 transition-colors"
+                      >
+                        <ExternalLink size={16} className="mr-1" />
+                        <span className="text-sm">View Project</span>
+                      </a>
+                    </div>
                     <div>Galleri Vekta, Oslo, Norway</div>
                   </li>
                   <li>
@@ -104,7 +127,18 @@ const CV = () => {
                 <ul className="space-y-4">
                   <li>
                     <div className="text-sm text-muted-foreground">2024</div>
-                    <div className="font-medium">Host</div>
+                    <div className="font-medium">
+                      Host
+                      <a 
+                        href="https://osloopen.no" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center ml-2 text-primary hover:text-primary/80 transition-colors"
+                      >
+                        <ExternalLink size={16} className="mr-1" />
+                        <span className="text-sm">Oslo Open</span>
+                      </a>
+                    </div>
                     <div>Oslo Open, Oslo, Norway</div>
                   </li>
                   <li>
