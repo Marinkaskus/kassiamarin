@@ -51,12 +51,34 @@ const CV = () => {
                 <ul className="space-y-4">
                   <li>
                     <div className="text-sm text-muted-foreground">2024</div>
-                    <div className="font-medium">Free Education for Some <span className="font-normal">(Group Exhibition)</span></div>
+                    <div className="font-medium">
+                      Free Education for Some <span className="font-normal">(Group Exhibition)</span>
+                      <a 
+                        href="https://oslokunstforening.no/en/free-education-for-some/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center ml-2 text-primary hover:text-primary/80 transition-colors"
+                      >
+                        <ExternalLink size={16} className="mr-1" />
+                        <span className="text-sm">View Exhibition</span>
+                      </a>
+                    </div>
                     <div>Oslo Kunstforening, Oslo, Norway</div>
                   </li>
                   <li>
                     <div className="text-sm text-muted-foreground">2023</div>
-                    <div className="font-medium">Children's Children <span className="font-normal">(Solo Exhibition)</span></div>
+                    <div className="font-medium">
+                      Children's Children <span className="font-normal">(Solo Exhibition)</span>
+                      <a 
+                        href="https://khio.no/events/1746" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center ml-2 text-primary hover:text-primary/80 transition-colors"
+                      >
+                        <ExternalLink size={16} className="mr-1" />
+                        <span className="text-sm">View Exhibition</span>
+                      </a>
+                    </div>
                     <div>White Box, KhiO, Oslo, Norway</div>
                   </li>
                   <li>
@@ -82,7 +104,18 @@ const CV = () => {
                   </li>
                   <li>
                     <div className="text-sm text-muted-foreground">2022</div>
-                    <div className="font-medium">Performance Night <span className="font-normal">(Group Exhibition)</span></div>
+                    <div className="font-medium">
+                      Performance Night <span className="font-normal">(Group Exhibition)</span>
+                      <a 
+                        href="https://kunstnerneshus.no/program/arrangementer/performance-nights" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center ml-2 text-primary hover:text-primary/80 transition-colors"
+                      >
+                        <ExternalLink size={16} className="mr-1" />
+                        <span className="text-sm">View Event</span>
+                      </a>
+                    </div>
                     <div>Kunstnernes Hus, Oslo, Norway</div>
                   </li>
                   <li>
