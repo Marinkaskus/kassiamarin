@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import Layout from '../components/Layout';
 import { Helmet } from 'react-helmet-async';
@@ -196,6 +197,19 @@ const CV = () => {
                     <div className="text-sm text-muted-foreground">2018</div>
                     <div className="font-medium">Youth Representative</div>
                     <div>Expert Panel at UKM, Bodø/Nordland, Norway</div>
+                  </li>
+                  <li>
+                    <div className="text-sm text-muted-foreground">2017</div>
+                    <div className="font-medium">Medvirkende</div>
+                    <div>Expert NPU-Konferansen 2017: Ungt Publikum</div> <a 
+                      href="https://norskpublikumsutvikling.no/konferanse/npu-konferansen-2017-ungt-publikum" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center ml-2 text-primary hover:text-primary/80 transition-colors"
+                    >
+                      <ExternalLink size={16} className="mr-1" />
+                      <span className="text-sm">View Project</span>
+                    </a>
                   </li>
                 </ul>
               </div>
