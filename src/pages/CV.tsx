@@ -54,7 +54,7 @@ const CV = () => {
                     <div className="font-medium">
                       Free Education for Some <span className="font-normal">(Group Exhibition)</span>
                       <a 
-                        href="https://oslokunstforening.no/en/free-education-for-some/" 
+                        href="https://www.oslokunstforening.no/eventer/utstillings%C3%A5pning-kunstakademiets-avgangsutstilling-ba-2024" 
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="inline-flex items-center ml-2 text-primary hover:text-primary/80 transition-colors"
