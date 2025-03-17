@@ -78,7 +78,7 @@ const LogoDisplay: React.FC<LogoDisplayProps> = ({
     >
       <div className="relative">
         <img 
-          src="https://dl.dropboxusercontent.com/s/fi/krej12x27ebbb8l3gz8ge/Logo.png?rlkey=urhuzu49nv5e7bj7af4sjojj3&st=tzuqab1e&dl=0" 
+          src="/lovable-uploads/824ccf0a-639d-4a60-a427-5e5c4686f385.png" 
           alt="Kassia Marin Logo"
           className={`${sizeClasses[size]} object-contain`}
         />

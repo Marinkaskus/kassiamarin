@@ -38,6 +38,7 @@ const Index = () => {
         <meta property="og:description" content="Explore the contemporary artwork of Kassia Marin, Norwegian visual artist working with painting, text, and video." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://kassiamarin.studio/" />
+        <meta property="og:image" content="/lovable-uploads/824ccf0a-639d-4a60-a427-5e5c4686f385.png" />
       </Helmet>
       
       <HeroSection />
