@@ -8,19 +8,19 @@ export const artworks: Artwork[] = [
     year: "2024",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
-    imageSrc: "/images/artwork/Blekksprut_2024_ramme.jpg",
+    imageSrc: "/lovable-uploads/87f960bd-2b05-4267-a2f8-a0e03f468113.png",
     category: "Mixed Media",
     available: true,
     additionalImages: [],
     alt: "Blekksprut - mixed media artwork by Kassia Marin featuring octopus-inspired forms on tile"
   },
   {
-    id: 5,
+    id: 2,
     title: "Bryllupsstolen",
     year: "2024",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
-    imageSrc: "/images/artwork/Bryllupsstolen_2025_ramme.jpg",
+    imageSrc: "/lovable-uploads/5b09e1ec-f5ea-4d76-a157-0e06c79cdc2d.png",
     category: "Mixed Media",
     available: true,
     additionalImages: [],
@@ -32,11 +32,11 @@ export const artworks: Artwork[] = [
     year: "2025",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
-    imageSrc: "/images/artwork/Mulvarp_2025_ramme.jpg",
+    imageSrc: "/lovable-uploads/6ad71666-c4c5-4fb9-b88f-78e3a8fbec67.png",
     category: "Mixed Media",
     available: true,
     additionalImages: [],
-    alt: "Mulvarp - contemporary mixed media artwork by Kassia Marin with mole-inspired elements on tile"
+    alt: "Tapt i gresset - contemporary mixed media artwork by Kassia Marin with abstract forms on tile"
   },
   {
     id: 4,
@@ -44,23 +44,23 @@ export const artworks: Artwork[] = [
     year: "2025",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
-    imageSrc: "/images/artwork/Perlen_2025_ramme.jpg",
+    imageSrc: "/lovable-uploads/223e8770-bb1d-4b57-a1ab-87674a9ff856.png",
     category: "Mixed Media",
     available: true,
     additionalImages: [],
-    alt: "Perlen - mixed media artwork by Kassia Marin featuring pearl-like elements on tile"
+    alt: "På grensen av overflaten - mixed media artwork by Kassia Marin with blue water-inspired elements"
   },
   {
-    id: 2,
+    id: 5,
     title: "Dream Sequence",
     year: "2024",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
-    imageSrc: "/images/artwork/Drommer_2025_ramme.jpg",
+    imageSrc: "/lovable-uploads/04f9fa7b-1c69-4339-b387-7fb359953c64.png",
     category: "Mixed Media",
     available: true,
     additionalImages: [],
-    alt: "Dream Sequence - abstract mixed media artwork by Kassia Marin exploring dreamlike themes on tile"
+    alt: "Dream Sequence - abstract mixed media artwork by Kassia Marin featuring portrait and window elements"
   },
   {
     id: 6,
@@ -68,11 +68,11 @@ export const artworks: Artwork[] = [
     year: "2024",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
-    imageSrc: "/images/artwork/Untitled_2025_ramme-2.jpg",
+    imageSrc: "/lovable-uploads/c4fab030-0eb7-49ee-9735-9d722de013e2.png",
     category: "Mixed Media",
     available: true,
     additionalImages: [],
-    alt: "Untitled abstract mixed media artwork by Norwegian artist Kassia Marin"
+    alt: "Untitled abstract mixed media artwork by Norwegian artist Kassia Marin featuring red and blue floral forms"
   },
   {
     id: 7,
@@ -80,11 +80,11 @@ export const artworks: Artwork[] = [
     year: "2025",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
-    imageSrc: "/images/artwork/T-banen_2025_ramme.jpg",
+    imageSrc: "/lovable-uploads/b440404c-d22c-4228-b72d-613f0d67dbeb.png",
     category: "Mixed Media",
     available: true,
     additionalImages: [],
-    alt: "T-banen - mixed media artwork by Kassia Marin inspired by Oslo metro system"
+    alt: "T-banen - mixed media artwork by Kassia Marin inspired by Oslo metro system featuring urban scenes"
   },
   {
     id: 8,
@@ -92,11 +92,11 @@ export const artworks: Artwork[] = [
     year: "2024",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
-    imageSrc: "/images/artwork/Mygg_2025_ramme.jpg",
+    imageSrc: "/lovable-uploads/deae348f-fc92-40e5-8bd5-6c546b74f155.png",
     category: "Mixed Media",
     available: true,
     additionalImages: [],
-    alt: "Myggstikk - textured mixed media artwork by Kassia Marin with mosquito bite theme"
+    alt: "Hva hvis vi begge blir stukke? - textured mixed media artwork by Kassia Marin with portrait elements"
   },
   {
     id: 9,
@@ -104,22 +104,23 @@ export const artworks: Artwork[] = [
     year: "2024",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
-    imageSrc: "/images/artwork/Vulcan_2025_ramme.jpg",
+    imageSrc: "/lovable-uploads/2cbe1798-fbb2-49f9-8f45-1af14ebcd25d.png",
     category: "Mixed Media",
     available: true,
     additionalImages: [],
-    alt: "Vulcan - vibrant mixed media artwork by Kassia Marin with volcanic-inspired elements"
-  },{
+    alt: "Vulcan - abstract grid-based mixed media artwork by Kassia Marin with blue and red elements"
+  },
+  {
     id: 10,
     title: "Kan jeg sove på panseret ditt?",
     year: "2025",
     size: "30 × 60 cm",
     medium: "Mixed media on tile",
-    imageSrc: "/images/artwork/Kan-jeg-sove-p-pansere-ditt-_2025_ramme_kassiamarin.jpg",
+    imageSrc: "/lovable-uploads/eb961aa0-b928-4d46-a8ad-08bcbd13f05d.png",
     category: "Ink and aquarelle on tile",
     available: true,
     additionalImages: [],
-    alt: "Taxi - urban-inspired mixed media artwork by Kassia Marin featuring taxi themes"
+    alt: "Kan jeg sove på panseret ditt? - mixed media artwork by Kassia Marin featuring taxi and text elements"
   },
 ];
 

@@ -27,12 +27,23 @@ const ArtworkManager: React.FC<ArtworkManagerProps> = ({
     setArtworkData(updatedArtworks);
     setSelectedArtwork(null);
     
-    localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
-    
-    toast({
-      title: "Changes saved",
-      description: `"${updatedArtwork.title}" has been updated`,
-    });
+    try {
+      localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
+      
+      toast({
+        title: "Changes saved",
+        description: `"${updatedArtwork.title}" has been updated`,
+      });
+    } catch (error) {
+      console.error("Error saving to localStorage:", error);
+      setStorageError("Failed to save changes. Local storage might be full.");
+      
+      toast({
+        title: "Error saving changes",
+        description: "There was an error saving your changes. Try removing some items first.",
+        variant: "destructive"
+      });
+    }
     
     setEditorOpen(false);
   };
