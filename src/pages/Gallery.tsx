@@ -11,28 +11,10 @@ const Gallery = () => {
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  // Load artworks from local storage or fallback to data file
+  // Load artworks from the data file
   useEffect(() => {
-    const loadArtworks = () => {
-      setIsLoading(true);
-      try {
-        const savedArtworks = localStorage.getItem('gallery_artworks');
-        if (savedArtworks) {
-          setArtworkData(JSON.parse(savedArtworks));
-        } else {
-          setArtworkData(artworks);
-        }
-      } catch (error) {
-        console.error("Error loading artworks:", error);
-        setArtworkData(artworks);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadArtworks();
+    setArtworkData(artworks);
   }, []);
   
   const handleArtworkClick = (artwork: Artwork) => {
@@ -87,15 +69,9 @@ const Gallery = () => {
             ))}
           </div>
           
-          {artworkData.length === 0 && !isLoading && (
+          {artworkData.length === 0 && (
             <div className="text-center py-12">
               <p className="text-muted-foreground">No artworks found.</p>
-            </div>
-          )}
-          
-          {isLoading && (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">Loading gallery...</p>
             </div>
           )}
         </div>
