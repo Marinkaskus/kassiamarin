@@ -39,6 +39,7 @@ const Gallery = () => {
         <meta property="og:description" content="Browse Kassia Marin's gallery of paintings and mixed media artworks exploring memory and identity." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://kassiamarin.studio/gallery" />
+        <meta property="og:image" content="/lovable-uploads/adcd076a-9326-426d-a0fa-d3b5ec6bb70f.png" />
       </Helmet>
       
       <section className="pt-20 sm:pt-24 md:pt-32 pb-16 md:pb-24 bg-background">

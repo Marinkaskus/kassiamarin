@@ -15,6 +15,7 @@ const About = () => {
         <meta property="og:description" content="Learn about Kassia Marin, a contemporary visual artist from Norway, exploring memory and identity in her work." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://kassiamarin.studio/about" />
+        <meta property="og:image" content="/lovable-uploads/adcd076a-9326-426d-a0fa-d3b5ec6bb70f.png" />
       </Helmet>
       
       <section className="pt-32 pb-20 md:pt-36">
