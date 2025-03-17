@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { artworks } from '@/data/artworkData';
 import { previousProjects } from '@/data/projectsData';
@@ -7,11 +8,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import { Plus, Edit, Trash2, ImageIcon, Video, Check, X, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Plus, RefreshCw } from 'lucide-react';
 import ArtworkEditor from '@/components/ArtworkEditor';
 import ProjectEditor from '@/components/ProjectEditor';
 import ArtworkCreator from '@/components/ArtworkCreator';
+import GalleryTabContent from '@/components/admin/GalleryTabContent';
+import ProjectsTabContent from '@/components/admin/ProjectsTabContent';
+import StorageErrorMessage from '@/components/admin/StorageErrorMessage';
+import DeleteConfirmationDialog from '@/components/admin/DeleteConfirmationDialog';
 
 const AdminGalleryManager = () => {
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
@@ -265,15 +269,7 @@ const AdminGalleryManager = () => {
         </div>
       </div>
 
-      {storageError && (
-        <div className="mb-4 bg-destructive/15 p-3 rounded-md flex items-start gap-2 text-destructive">
-          <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />
-          <div>
-            <p className="font-medium">Storage limit reached</p>
-            <p className="text-sm">{storageError}</p>
-          </div>
-        </div>
-      )}
+      <StorageErrorMessage message={storageError} />
 
       <Tabs 
         defaultValue="gallery" 
@@ -287,121 +283,19 @@ const AdminGalleryManager = () => {
         </TabsList>
         
         <TabsContent value="gallery">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredArtworks.map(artwork => (
-              <div key={artwork.id} className="group relative border rounded-md overflow-hidden bg-card">
-                <div className="aspect-square overflow-hidden">
-                  <img 
-                    src={artwork.imageSrc} 
-                    alt={artwork.title} 
-                    className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-3">
-                  <h3 className="font-medium truncate">{artwork.title}</h3>
-                  <p className="text-sm text-muted-foreground">{artwork.year} • {artwork.medium}</p>
-                  
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="flex items-center">
-                      {artwork.available ? (
-                        <span className="text-xs flex items-center text-green-600">
-                          <Check className="h-3 w-3 mr-1" /> Available
-                        </span>
-                      ) : (
-                        <span className="text-xs flex items-center text-red-600">
-                          <X className="h-3 w-3 mr-1" /> Not Available
-                        </span>
-                      )}
-                    </span>
-                    <div className="flex gap-1">
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="h-8 w-8 p-0"
-                        onClick={() => handleEditArtwork(artwork)}
-                      >
-                        <Edit className="h-4 w-4" />
-                        <span className="sr-only">Edit</span>
-                      </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="h-8 w-8 p-0 text-destructive"
-                        onClick={() => handleDeleteClick(artwork.id, 'artwork')}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                        <span className="sr-only">Delete</span>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          {filteredArtworks.length === 0 && (
-            <div className="text-center py-12">
-              <ImageIcon className="h-12 w-12 mx-auto text-muted-foreground opacity-20" />
-              <h3 className="mt-4 text-lg font-medium">No artworks found</h3>
-              <p className="text-muted-foreground">Try a different search term or add a new artwork.</p>
-            </div>
-          )}
+          <GalleryTabContent 
+            artworks={filteredArtworks} 
+            onEditArtwork={handleEditArtwork} 
+            onDeleteItem={handleDeleteClick} 
+          />
         </TabsContent>
         
         <TabsContent value="projects">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {filteredProjects.map(project => (
-              <div key={project.id} className="group relative border rounded-md overflow-hidden bg-card">
-                <div className="aspect-video overflow-hidden relative">
-                  <img 
-                    src={project.imageSrc} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                  />
-                  {project.videoUrl && (
-                    <div className="absolute top-2 right-2 bg-black/70 text-white p-1 rounded-md">
-                      <Video className="h-4 w-4" />
-                    </div>
-                  )}
-                </div>
-                <div className="p-3">
-                  <h3 className="font-medium">{project.title}</h3>
-                  <p className="text-sm text-muted-foreground">{project.year} • {project.location}</p>
-                  
-                  <div className="flex justify-end items-center mt-2">
-                    <div className="flex gap-1">
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="h-8 w-8 p-0"
-                        onClick={() => handleEditProject(project)}
-                      >
-                        <Edit className="h-4 w-4" />
-                        <span className="sr-only">Edit</span>
-                      </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="h-8 w-8 p-0 text-destructive"
-                        onClick={() => handleDeleteClick(project.id, 'project')}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                        <span className="sr-only">Delete</span>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          {filteredProjects.length === 0 && (
-            <div className="text-center py-12">
-              <ImageIcon className="h-12 w-12 mx-auto text-muted-foreground opacity-20" />
-              <h3 className="mt-4 text-lg font-medium">No projects found</h3>
-              <p className="text-muted-foreground">Try a different search term or add a new project.</p>
-            </div>
-          )}
+          <ProjectsTabContent 
+            projects={filteredProjects} 
+            onEditProject={handleEditProject} 
+            onDeleteItem={handleDeleteClick} 
+          />
         </TabsContent>
       </Tabs>
 
@@ -430,22 +324,12 @@ const AdminGalleryManager = () => {
         type={selectedTab === 'gallery' ? 'artwork' : 'project'}
       />
 
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete this {itemToDelete?.type} from your website.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteConfirm} className="bg-red-600 hover:bg-red-700">
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <DeleteConfirmationDialog 
+        open={deleteDialogOpen} 
+        onOpenChange={setDeleteDialogOpen} 
+        itemType={itemToDelete?.type || null}
+        onConfirm={handleDeleteConfirm}
+      />
     </div>
   );
 };
