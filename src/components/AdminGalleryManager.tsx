@@ -5,23 +5,19 @@ import { previousProjects } from '@/data/projectsData';
 import { Artwork } from '@/types/Artwork';
 import { Project } from '@/types/Project';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, RefreshCw } from 'lucide-react';
-import ArtworkEditor from '@/components/ArtworkEditor';
-import ProjectEditor from '@/components/ProjectEditor';
-import ArtworkCreator from '@/components/ArtworkCreator';
 import GalleryTabContent from '@/components/admin/GalleryTabContent';
 import ProjectsTabContent from '@/components/admin/ProjectsTabContent';
 import StorageErrorMessage from '@/components/admin/StorageErrorMessage';
 import DeleteConfirmationDialog from '@/components/admin/DeleteConfirmationDialog';
+import GallerySearchBar from '@/components/admin/GallerySearchBar';
+import ArtworkManager from '@/components/admin/ArtworkManager';
+import ProjectManager from '@/components/admin/ProjectManager';
+import ItemCreator from '@/components/admin/ItemCreator';
 
 const AdminGalleryManager = () => {
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
   const [projectsData, setProjectsData] = useState<Project[]>(previousProjects);
-  const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [editorOpen, setEditorOpen] = useState(false);
   const [projectEditorOpen, setProjectEditorOpen] = useState(false);
   const [creatorOpen, setCreatorOpen] = useState(false);
@@ -59,145 +55,9 @@ const AdminGalleryManager = () => {
     }
   };
 
-  const handleArtworkUpdate = (updatedArtwork: Artwork) => {
-    const updatedArtworks = artworkData.map(artwork => 
-      artwork.id === updatedArtwork.id ? updatedArtwork : artwork
-    );
-    
-    setArtworkData(updatedArtworks);
-    setSelectedArtwork(null);
-    
-    localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
-    
-    toast({
-      title: "Changes saved",
-      description: `"${updatedArtwork.title}" has been updated`,
-    });
-    
-    setEditorOpen(false);
-  };
-
-  const handleProjectUpdate = (updatedProject: Project) => {
-    const updatedProjects = projectsData.map(project => 
-      project.id === updatedProject.id ? updatedProject : project
-    );
-    
-    setProjectsData(updatedProjects);
-    setSelectedProject(null);
-    
-    localStorage.setItem('portfolio_projects', JSON.stringify(updatedProjects));
-    
-    toast({
-      title: "Changes saved",
-      description: `"${updatedProject.title}" has been updated`,
-    });
-    
-    setProjectEditorOpen(false);
-  };
-
   const handleAddNewItem = () => {
     setStorageError(null);
     setCreatorOpen(true);
-  };
-
-  const handleCreateArtwork = (newArtwork: Artwork) => {
-    try {
-      if (artworkData.length > 30) {
-        const updatedArtworks = [...artworkData.slice(-29), newArtwork];
-        setArtworkData(updatedArtworks);
-        localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
-      } else {
-        const updatedArtworks = [...artworkData, newArtwork];
-        setArtworkData(updatedArtworks);
-        localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
-      }
-      
-      toast({
-        title: "Artwork added",
-        description: `"${newArtwork.title}" has been added to the gallery`
-      });
-      
-      setStorageError(null);
-    } catch (error) {
-      console.error("Error adding artwork:", error);
-      
-      if (error instanceof Error && error.name === "QuotaExceededError") {
-        setStorageError("Storage limit reached. Try removing some items before adding new ones.");
-        toast({
-          title: "Storage limit reached",
-          description: "Please remove some existing artworks before adding new ones.",
-          variant: "destructive"
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to add new artwork. Please try again.",
-          variant: "destructive"
-        });
-      }
-      
-      throw error;
-    }
-  };
-
-  const handleCreateProject = (newArtwork: Artwork) => {
-    try {
-      const project: Project = {
-        id: newArtwork.id,
-        title: newArtwork.title,
-        description: newArtwork.description || '',
-        year: newArtwork.year,
-        location: (newArtwork as any).location || 'Unknown location',
-        imageSrc: newArtwork.imageSrc,
-        videoUrl: (newArtwork as any).videoUrl || undefined
-      };
-      
-      if (projectsData.length > 30) {
-        const updatedProjects = [...projectsData.slice(-29), project];
-        setProjectsData(updatedProjects);
-        localStorage.setItem('portfolio_projects', JSON.stringify(updatedProjects));
-      } else {
-        const updatedProjects = [...projectsData, project];
-        setProjectsData(updatedProjects);
-        localStorage.setItem('portfolio_projects', JSON.stringify(updatedProjects));
-      }
-      
-      toast({
-        title: "Project added",
-        description: `"${project.title}" has been added to the portfolio`
-      });
-      
-      setStorageError(null);
-    } catch (error) {
-      console.error("Error adding project:", error);
-      
-      if (error instanceof Error && error.name === "QuotaExceededError") {
-        setStorageError("Storage limit reached. Try removing some items before adding new ones.");
-        toast({
-          title: "Storage limit reached",
-          description: "Please remove some existing projects before adding new ones.",
-          variant: "destructive"
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to add new project. Please try again.",
-          variant: "destructive"
-        });
-      }
-      
-      throw error;
-    }
-  };
-
-  const handleEditArtwork = (artwork: Artwork) => {
-    setSelectedArtwork(artwork);
-    setEditorOpen(true);
-  };
-
-  const handleEditProject = (project: Project) => {
-    setSelectedProject(project);
-    setProjectEditorOpen(true);
   };
 
   const handleDeleteConfirm = () => {
@@ -244,30 +104,22 @@ const AdminGalleryManager = () => {
     project.location.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleEditArtwork = (artwork: Artwork) => {
+    // This is now handled in the ArtworkManager component
+  };
+
+  const handleEditProject = (project: Project) => {
+    // This is now handled in the ProjectManager component
+  };
+
   return (
     <div>
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <h2 className="text-xl font-semibold">Content Management</h2>
-        <div className="flex gap-2">
-          <Button 
-            size="sm" 
-            variant="outline" 
-            onClick={loadGalleryData}
-            className="h-10"
-          >
-            <RefreshCw className="h-4 w-4 mr-2" /> Refresh
-          </Button>
-          <Input 
-            placeholder="Search..." 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="max-w-xs"
-          />
-          <Button size="sm" variant="default" onClick={handleAddNewItem}>
-            <Plus className="h-4 w-4 mr-2" /> Add New
-          </Button>
-        </div>
-      </div>
+      <GallerySearchBar 
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        onRefresh={loadGalleryData}
+        onAddNew={handleAddNewItem}
+      />
 
       <StorageErrorMessage message={storageError} />
 
@@ -299,29 +151,27 @@ const AdminGalleryManager = () => {
         </TabsContent>
       </Tabs>
 
-      {selectedArtwork && (
-        <ArtworkEditor
-          artwork={selectedArtwork}
-          open={editorOpen}
-          onOpenChange={setEditorOpen}
-          onSave={handleArtworkUpdate}
-        />
-      )}
+      <ArtworkManager 
+        artworkData={artworkData}
+        setArtworkData={setArtworkData}
+        setStorageError={setStorageError}
+      />
 
-      {selectedProject && (
-        <ProjectEditor
-          project={selectedProject}
-          open={projectEditorOpen}
-          onOpenChange={setProjectEditorOpen}
-          onSave={handleProjectUpdate}
-        />
-      )}
+      <ProjectManager
+        projectsData={projectsData}
+        setProjectsData={setProjectsData}
+        setStorageError={setStorageError}
+      />
 
-      <ArtworkCreator
-        open={creatorOpen}
-        onOpenChange={setCreatorOpen}
-        onSave={selectedTab === 'gallery' ? handleCreateArtwork : handleCreateProject}
-        type={selectedTab === 'gallery' ? 'artwork' : 'project'}
+      <ItemCreator 
+        creatorOpen={creatorOpen}
+        setCreatorOpen={setCreatorOpen}
+        selectedTab={selectedTab}
+        artworkData={artworkData}
+        setArtworkData={setArtworkData}
+        projectsData={projectsData}
+        setProjectsData={setProjectsData}
+        setStorageError={setStorageError}
       />
 
       <DeleteConfirmationDialog 
