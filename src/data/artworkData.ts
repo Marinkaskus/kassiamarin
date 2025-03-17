@@ -15,7 +15,7 @@ export const artworks: Artwork[] = [
     alt: "Blekksprut - mixed media artwork by Kassia Marin featuring octopus-inspired forms on tile"
   },
   {
-    id: 5,
+    id: 2,
     title: "Bryllupsstolen",
     year: "2024",
     size: "30 × 60 cm",
@@ -51,7 +51,7 @@ export const artworks: Artwork[] = [
     alt: "Perlen - mixed media artwork by Kassia Marin featuring pearl-like elements on tile"
   },
   {
-    id: 2,
+    id: 5,
     title: "Dream Sequence",
     year: "2024",
     size: "30 × 60 cm",
@@ -120,6 +120,41 @@ export const artworks: Artwork[] = [
     available: true,
     additionalImages: [],
     alt: "Taxi - urban-inspired mixed media artwork by Kassia Marin featuring taxi themes"
+  },
+  {
+    id: 11,
+    title: "Du er ikke en sol",
+    year: "2025",
+    size: "60 × 61 cm",
+    medium: "Mixed media on tile",
+    imageSrc: "https://dl.dropboxusercontent.com/s/fi/6dkawj1xdx6tylklk3pip/Sol.jpg?rlkey=ct0yo2tmxwnl3yg7pdesvcl83&st=6u4kbyv0&dl=0",
+    category: "Ink and aquarelle on tile",
+    available: true,
+    additionalImages: [],
+    alt: "Du er ikke en sol - urban-inspired mixed media artwork by Kassia Marin featuring Du er ikke en sol themes"
+  },
+  {
+    id: 12,
+    title: "svin",
+    year: "2025",
+    size: "30 × 60 cm",
+    medium: "Mixed media on tile",
+    imageSrc: "https://dl.dropboxusercontent.com/s/fi/i4ikobli7gsxbhzslj0j2/Gris.jpg?rlkey=jfk2ta4628swbhybiwaqjw1qz&st=vc5t8fmv&dl=0",
+    category: "Ink and aquarelle on tile",
+    available: true,
+    additionalImages: [],
+    alt: "svin - urban-inspired mixed media artwork by Kassia Marin featuring svin themes"
+  },{
+    id: 13,
+    title: "Nunta de flori",
+    year: "2025",
+    size: "30 × 60 cm",
+    medium: "Mixed media on tile",
+    imageSrc: "https://dl.dropboxusercontent.com/s/fi/wcl5l5gwpu0166nf73m8q/Blomster.jpg?rlkey=f6kpmjgl34yx8ocgh1g8yiszc&st=dm8odepw&dl=0",
+    category: "Ink and aquarelle on tile",
+    available: true,
+    additionalImages: [],
+    alt: "Nunta de flori - urban-inspired mixed media artwork by Kassia Marin featuring flower themes"
   },
 ];
 
