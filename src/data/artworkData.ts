@@ -4,7 +4,7 @@ import { Artwork } from "@/types/Artwork";
 export const artworks: Artwork[] = [
   {
     id: 1,
-    title: "Blekksprut",
+    title: "Hav av blekk",
     year: "2024",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
@@ -28,7 +28,7 @@ export const artworks: Artwork[] = [
   },
   {
     id: 3,
-    title: "Mulvarp",
+    title: "Tapt i gresset",
     year: "2025",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
@@ -40,7 +40,7 @@ export const artworks: Artwork[] = [
   },
   {
     id: 4,
-    title: "Perlen",
+    title: "På grensen av overflaten",
     year: "2025",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
@@ -76,7 +76,7 @@ export const artworks: Artwork[] = [
   },
   {
     id: 7,
-    title: "T-banen",
+    title: "T-bane.7",
     year: "2025",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
@@ -88,7 +88,7 @@ export const artworks: Artwork[] = [
   },
   {
     id: 8,
-    title: "Myggstikk",
+    title: "Hva hvis vi begge blir stukke?",
     year: "2024",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
