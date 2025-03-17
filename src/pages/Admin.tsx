@@ -5,13 +5,53 @@ import { useAuth } from '@/contexts/AuthContext';
 import Layout from '@/components/Layout';
 import AdminGalleryManager from '@/components/AdminGalleryManager';
 import AdminMessagesInbox from '@/components/AdminMessagesInbox';
+import ArtworkUploader from '@/components/ArtworkUploader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ImageIcon, MessageSquare, ShieldAlert } from 'lucide-react';
+import { ImageIcon, MessageSquare, ShieldAlert, UploadCloud } from 'lucide-react';
+import { Artwork } from '@/types/Artwork';
+import { useToast } from '@/hooks/use-toast';
 
 const Admin = () => {
   const { currentUser, isAdmin } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('gallery');
+  const { toast } = useToast();
+
+  // Handle the uploaded artwork
+  const handleUploadComplete = (newArtwork: Artwork) => {
+    try {
+      // Get existing artworks from localStorage
+      const savedArtworks = localStorage.getItem('gallery_artworks');
+      let artworks = [];
+      
+      if (savedArtworks) {
+        artworks = JSON.parse(savedArtworks);
+      }
+      
+      // Add the new artwork
+      const updatedArtworks = [newArtwork, ...artworks];
+      
+      // Save back to localStorage
+      localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
+      
+      // Show success message
+      toast({
+        title: "Artwork added",
+        description: "Your artwork has been added to the gallery"
+      });
+      
+      // Switch to gallery tab to show the new artwork
+      setActiveTab('gallery');
+      
+    } catch (error) {
+      console.error("Error saving artwork:", error);
+      toast({
+        title: "Error",
+        description: "There was a problem saving your artwork",
+        variant: "destructive"
+      });
+    }
+  };
 
   // Admin dashboard is now directly accessible without login check
   return (
@@ -34,11 +74,16 @@ const Admin = () => {
               onValueChange={setActiveTab}
               className="w-full"
             >
-              <TabsList className="grid w-full grid-cols-2">
+              <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="gallery" className="flex items-center gap-2">
                   <ImageIcon className="h-4 w-4" />
                   <span className="hidden sm:inline">Gallery & Portfolio</span>
                   <span className="sm:hidden">Gallery</span>
+                </TabsTrigger>
+                <TabsTrigger value="upload" className="flex items-center gap-2">
+                  <UploadCloud className="h-4 w-4" />
+                  <span className="hidden sm:inline">Upload Artwork</span>
+                  <span className="sm:hidden">Upload</span>
                 </TabsTrigger>
                 <TabsTrigger value="messages" className="flex items-center gap-2">
                   <MessageSquare className="h-4 w-4" />
@@ -49,6 +94,16 @@ const Admin = () => {
               
               <TabsContent value="gallery" className="p-4">
                 <AdminGalleryManager />
+              </TabsContent>
+              
+              <TabsContent value="upload" className="p-4">
+                <div className="max-w-2xl mx-auto">
+                  <h2 className="text-xl font-semibold mb-4">Upload New Artwork</h2>
+                  <p className="text-muted-foreground mb-6">
+                    Upload images directly to add new artwork to your gallery. Images will be automatically processed and added to your collection.
+                  </p>
+                  <ArtworkUploader onUploadComplete={handleUploadComplete} />
+                </div>
               </TabsContent>
               
               <TabsContent value="messages" className="p-4">

@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import { Plus, Edit, Trash2, ImageIcon, Video, Check, X, AlertTriangle } from 'lucide-react';
+import { Plus, Edit, Trash2, ImageIcon, Video, Check, X, AlertTriangle, RefreshCw } from 'lucide-react';
 import ArtworkEditor from '@/components/ArtworkEditor';
 import ProjectEditor from '@/components/ProjectEditor';
 import ArtworkCreator from '@/components/ArtworkCreator';
@@ -29,6 +29,10 @@ const AdminGalleryManager = () => {
   const [storageError, setStorageError] = useState<string | null>(null);
 
   useEffect(() => {
+    loadGalleryData();
+  }, []);
+
+  const loadGalleryData = () => {
     const savedArtworks = localStorage.getItem('gallery_artworks');
     if (savedArtworks) {
       try {
@@ -49,7 +53,7 @@ const AdminGalleryManager = () => {
         console.error('Error parsing saved projects:', e);
       }
     }
-  }, []);
+  };
 
   const handleArtworkUpdate = (updatedArtwork: Artwork) => {
     const updatedArtworks = artworkData.map(artwork => 
@@ -241,6 +245,14 @@ const AdminGalleryManager = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h2 className="text-xl font-semibold">Content Management</h2>
         <div className="flex gap-2">
+          <Button 
+            size="sm" 
+            variant="outline" 
+            onClick={loadGalleryData}
+            className="h-10"
+          >
+            <RefreshCw className="h-4 w-4 mr-2" /> Refresh
+          </Button>
           <Input 
             placeholder="Search..." 
             value={searchTerm}
