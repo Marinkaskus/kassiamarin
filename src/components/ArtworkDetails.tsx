@@ -1,7 +1,9 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { X, ChevronLeft, ChevronRight, ImageOff } from 'lucide-react';
 import { Artwork } from '@/types/Artwork';
+import { isImageUrlValid, getFallbackImageUrl } from '@/data/artworkData';
 
 interface ArtworkDetailsProps {
   artwork: Artwork | null;
@@ -21,6 +23,8 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
   const [currentArtwork, setCurrentArtwork] = useState<Artwork | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [imageSrc, setImageSrc] = useState<string>('');
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
@@ -31,26 +35,86 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
       setCurrentImageIndex(0);
       setImageError(false);
       setCurrentArtwork(artwork);
+      setIsLoading(true);
+      
+      // Validate the main image
+      const validateImage = async () => {
+        if (!artwork.imageSrc) {
+          console.warn(`No image source for artwork: ${artwork.title}`);
+          setImageError(true);
+          setImageSrc(getFallbackImageUrl());
+          setIsLoading(false);
+          return;
+        }
+        
+        const isValid = await isImageUrlValid(artwork.imageSrc);
+        if (!isValid) {
+          console.warn(`Invalid image for artwork: ${artwork.title}, using fallback`);
+          setImageError(true);
+          setImageSrc(getFallbackImageUrl());
+        } else {
+          setImageSrc(artwork.imageSrc);
+          setImageError(false);
+        }
+        
+        setIsLoading(false);
+      };
+      
+      validateImage();
     }
   }, [artwork, open]);
   
   if (!currentArtwork) return null;
   
-  const allImages = [currentArtwork.imageSrc, ...(currentArtwork.additionalImages || [])];
+  // Get all valid images for the current artwork
+  const allImages = [currentArtwork.imageSrc, ...(currentArtwork.additionalImages || [])].filter(Boolean);
   
   const handleNextImage = () => {
+    if (allImages.length <= 1) return;
     setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
     setImageError(false);
+    setIsLoading(true);
+    
+    // Validate next image
+    isImageUrlValid(allImages[(currentImageIndex + 1) % allImages.length])
+      .then(isValid => {
+        if (!isValid) {
+          console.warn(`Invalid image in artwork gallery, using fallback`);
+          setImageError(true);
+          setImageSrc(getFallbackImageUrl());
+        } else {
+          setImageSrc(allImages[(currentImageIndex + 1) % allImages.length]);
+          setImageError(false);
+        }
+        setIsLoading(false);
+      });
   };
   
   const handlePrevImage = () => {
+    if (allImages.length <= 1) return;
     setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
     setImageError(false);
+    setIsLoading(true);
+    
+    // Validate previous image
+    isImageUrlValid(allImages[(currentImageIndex - 1 + allImages.length) % allImages.length])
+      .then(isValid => {
+        if (!isValid) {
+          console.warn(`Invalid image in artwork gallery, using fallback`);
+          setImageError(true);
+          setImageSrc(getFallbackImageUrl());
+        } else {
+          setImageSrc(allImages[(currentImageIndex - 1 + allImages.length) % allImages.length]);
+          setImageError(false);
+        }
+        setIsLoading(false);
+      });
   };
 
   const handleImageError = () => {
-    console.log(`Using fallback in details view for: ${currentArtwork.title}`);
+    console.warn(`Image error in details view for: ${currentArtwork.title}`);
     setImageError(true);
+    setImageSrc(getFallbackImageUrl());
   };
 
   const currentArtworkIndex = allArtworks.findIndex(art => art.id === currentArtwork.id);
@@ -61,6 +125,21 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
     setCurrentArtwork(allArtworks[nextIndex]);
     setCurrentImageIndex(0);
     setImageError(false);
+    setIsLoading(true);
+    
+    // Validate the new artwork's image
+    isImageUrlValid(allArtworks[nextIndex].imageSrc)
+      .then(isValid => {
+        if (!isValid) {
+          console.warn(`Invalid image for next artwork: ${allArtworks[nextIndex].title}, using fallback`);
+          setImageError(true);
+          setImageSrc(getFallbackImageUrl());
+        } else {
+          setImageSrc(allArtworks[nextIndex].imageSrc);
+          setImageError(false);
+        }
+        setIsLoading(false);
+      });
   };
   
   const goToPrevArtwork = () => {
@@ -69,11 +148,26 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
     setCurrentArtwork(allArtworks[prevIndex]);
     setCurrentImageIndex(0);
     setImageError(false);
+    setIsLoading(true);
+    
+    // Validate the new artwork's image
+    isImageUrlValid(allArtworks[prevIndex].imageSrc)
+      .then(isValid => {
+        if (!isValid) {
+          console.warn(`Invalid image for previous artwork: ${allArtworks[prevIndex].title}, using fallback`);
+          setImageError(true);
+          setImageSrc(getFallbackImageUrl());
+        } else {
+          setImageSrc(allArtworks[prevIndex].imageSrc);
+          setImageError(false);
+        }
+        setIsLoading(false);
+      });
   };
 
   const displayImage = imageError 
-    ? 'https://images.unsplash.com/photo-1518770660439-4636190af475' // Fallback image
-    : allImages[currentImageIndex];
+    ? getFallbackImageUrl()
+    : isLoading ? '' : (allImages[currentImageIndex] || getFallbackImageUrl());
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -130,11 +224,18 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
             </div>
           ) : (
             <div className="max-h-full max-w-full flex items-center justify-center">
+              {isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-secondary/10">
+                  <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              )}
               <img 
-                src={displayImage} 
+                src={displayImage}
                 alt={currentArtwork.title} 
                 className="max-w-full max-h-full object-contain"
                 onError={handleImageError}
+                onLoad={() => setIsLoading(false)}
+                style={{ opacity: isLoading ? 0 : 1, transition: 'opacity 0.3s' }}
               />
             </div>
           )}

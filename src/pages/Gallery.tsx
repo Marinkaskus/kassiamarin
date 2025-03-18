@@ -2,19 +2,61 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
-import { artworks } from '@/data/artworkData';
+import { artworks, isImageUrlValid } from '@/data/artworkData';
 import ArtworkCard from '@/components/ArtworkCard';
 import ArtworkDetails from '@/components/ArtworkDetails';
 import { Artwork } from '@/types/Artwork';
+import { toast } from 'sonner';
 
 const Gallery = () => {
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Load artworks from the data file
+  // Load artworks from the data file and validate images
   useEffect(() => {
-    setArtworkData(artworks);
+    const loadArtworks = async () => {
+      setIsLoading(true);
+      
+      try {
+        // First load all artworks
+        setArtworkData(artworks);
+        
+        // Validate artwork images in the background
+        const validationPromises = artworks.map(artwork => 
+          isImageUrlValid(artwork.imageSrc)
+            .then(isValid => {
+              if (!isValid) {
+                console.warn(`Invalid image URL for artwork: ${artwork.title}`);
+              }
+              return {
+                ...artwork,
+                validImage: isValid
+              };
+            })
+        );
+        
+        // Wait for all validations to complete
+        const validatedArtworks = await Promise.all(validationPromises);
+        const invalidCount = validatedArtworks.filter(art => !art.validImage).length;
+        
+        if (invalidCount > 0) {
+          toast.warning(`${invalidCount} artwork images could not be loaded properly.`, {
+            description: "Using placeholder images instead."
+          });
+        }
+      } catch (error) {
+        console.error('Error loading artworks:', error);
+        toast.error('Error loading artwork gallery', {
+          description: "Please refresh the page to try again."
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadArtworks();
   }, []);
   
   const handleArtworkClick = (artwork: Artwork) => {
@@ -51,26 +93,32 @@ const Gallery = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10">
-            {artworkData.map((artwork, index) => (
-              <div 
-                key={artwork.id} 
-                style={{ 
-                  opacity: 0,
-                  animation: `scaleIn 0.6s ease-out forwards`,
-                  animationDelay: `${index * 100}ms`
-                }}
-              >
-                <ArtworkCard 
-                  artwork={artwork}
-                  onClick={handleArtworkClick}
-                  className="h-full"
-                />
-              </div>
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10">
+              {artworkData.map((artwork, index) => (
+                <div 
+                  key={artwork.id} 
+                  style={{ 
+                    opacity: 0,
+                    animation: `scaleIn 0.6s ease-out forwards`,
+                    animationDelay: `${index * 100}ms`
+                  }}
+                >
+                  <ArtworkCard 
+                    artwork={artwork}
+                    onClick={handleArtworkClick}
+                    className="h-full"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
           
-          {artworkData.length === 0 && (
+          {!isLoading && artworkData.length === 0 && (
             <div className="text-center py-12">
               <p className="text-muted-foreground">No artworks found.</p>
             </div>
