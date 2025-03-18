@@ -31,14 +31,14 @@ const Index = () => {
     <Layout>
       <Helmet>
         <title>Kassia Marin - Contemporary Visual Artist Based in Oslo</title>
-        <meta name="description" content="Kassia Marin is a Norwegian contemporary visual artist based in Oslo working with painting, mixed media, and video exploring themes of memory and identity. Browse her portfolio and gallery." />
+        <meta name="description" content="Kassia Marin is a Norwegian contemporary visual artist working with painting, text, and video to explore memory and identity. Browse her portfolio and gallery." />
         <meta name="keywords" content="Kassia Marin, Norwegian artist, contemporary art, Oslo artist, painting, visual art, mixed media artist" />
         <link rel="canonical" href="https://kassiamarin.studio/" />
         <meta property="og:title" content="Kassia Marin - Contemporary Visual Artist Based in Oslo" />
         <meta property="og:description" content="Explore the contemporary artwork of Kassia Marin, Norwegian visual artist working with painting, text, and video." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://kassiamarin.studio/" />
-        <meta property="og:image" content="/lovable-uploads/adcd076a-9326-426d-a0fa-d3b5ec6bb70f.png" />
+        <meta property="og:image" content="/lovable-uploads/824ccf0a-639d-4a60-a427-5e5c4686f385.png" />
       </Helmet>
       
       <HeroSection />

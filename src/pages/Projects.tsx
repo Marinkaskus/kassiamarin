@@ -40,7 +40,6 @@ const Projects = () => {
         <meta property="og:description" content="Explore Kassia Marin's portfolio of exhibitions, installations and art projects from Oslo, Norway." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://kassiamarin.studio/portfolio" />
-        <meta property="og:image" content="/lovable-uploads/adcd076a-9326-426d-a0fa-d3b5ec6bb70f.png" />
       </Helmet>
       
       <section className="pt-28 pb-20">

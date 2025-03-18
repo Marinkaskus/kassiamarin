@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { X, ChevronLeft, ChevronRight, ImageOff } from 'lucide-react';
@@ -26,6 +27,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
   const touchStartY = useRef<number | null>(null);
   const touchEndY = useRef<number | null>(null);
 
+  // Reset state when artwork changes or dialog opens
   useEffect(() => {
     if (open && artwork) {
       setCurrentImageIndex(0);
@@ -36,6 +38,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
   
   if (!currentArtwork) return null;
   
+  // Combine main image with additional images
   const allImages = [currentArtwork.imageSrc, ...(currentArtwork.additionalImages || [])];
   
   const handleNextImage = () => {
@@ -53,8 +56,10 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
     setImageError(true);
   };
 
+  // Find current artwork index in the allArtworks array
   const currentArtworkIndex = allArtworks.findIndex(art => art.id === currentArtwork.id);
   
+  // Navigate to next artwork
   const goToNextArtwork = () => {
     if (allArtworks.length <= 1 || currentArtworkIndex === -1) return;
     const nextIndex = (currentArtworkIndex + 1) % allArtworks.length;
@@ -63,6 +68,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
     setImageError(false);
   };
   
+  // Navigate to previous artwork
   const goToPrevArtwork = () => {
     if (allArtworks.length <= 1 || currentArtworkIndex === -1) return;
     const prevIndex = (currentArtworkIndex - 1 + allArtworks.length) % allArtworks.length;
@@ -71,10 +77,12 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
     setImageError(false);
   };
 
+  // Use a placeholder image when the original image fails to load
   const displayImage = imageError 
     ? 'https://images.unsplash.com/photo-1518770660439-4636190af475' // Fallback image
     : allImages[currentImageIndex];
 
+  // Touch event handlers for swipe navigation
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
@@ -91,14 +99,17 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
     const xDiff = touchStartX.current - touchEndX.current;
     const yDiff = touchStartY.current - touchEndY.current;
     
+    // Only register horizontal swipes if they're more horizontal than vertical
     if (Math.abs(xDiff) > Math.abs(yDiff) && Math.abs(xDiff) > 50) {
       if (xDiff > 0) {
+        // Swiped left -> show next
         if (allImages.length > 1) {
           handleNextImage();
         } else {
           goToNextArtwork();
         }
       } else {
+        // Swiped right -> show previous
         if (allImages.length > 1) {
           handlePrevImage();
         } else {
@@ -117,7 +128,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="flex flex-col md:flex-row md:max-w-5xl md:h-[80vh] gap-6 p-0 overflow-hidden bg-background">
         <div 
-          className="relative flex-1 bg-white p-4 md:p-6 flex items-center justify-center"
+          className="relative flex-1 bg-white p-4 md:p-6"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -129,14 +140,12 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
               <p className="text-sm text-muted-foreground mt-2">{currentArtwork.title}</p>
             </div>
           ) : (
-            <div className="max-h-full max-w-full flex items-center justify-center">
-              <img 
-                src={displayImage} 
-                alt={currentArtwork.title} 
-                className="max-w-full max-h-full object-contain"
-                onError={handleImageError}
-              />
-            </div>
+            <img 
+              src={displayImage} 
+              alt={currentArtwork.title} 
+              className="w-full h-full object-contain"
+              onError={handleImageError}
+            />
           )}
           
           {allImages.length > 1 && (
@@ -165,6 +174,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
             </>
           )}
           
+          {/* Add navigation buttons between artworks if we have multiple artworks */}
           {allArtworks.length > 1 && currentArtworkIndex !== -1 && (
             <div className="absolute bottom-1/2 -translate-y-1/2 w-full flex justify-between px-2 md:px-4">
               <button 

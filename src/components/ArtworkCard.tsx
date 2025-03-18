@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Artwork } from '@/types/Artwork';
 import { cn } from '@/lib/utils';
 import { ImageOff } from 'lucide-react';
-import { AspectRatio } from './ui/aspect-ratio';
 
 interface ArtworkCardProps {
   artwork: Artwork;
@@ -44,16 +43,14 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
             <p className="text-xs text-muted-foreground">{artwork.title}</p>
           </div>
         ) : (
-          <div className="aspect-square relative flex items-center justify-center bg-secondary/30">
-            <div className="w-full h-full flex items-center justify-center">
-              <img
-                src={imageSrc}
-                alt={altText}
-                className="max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
-                onError={handleImageError}
-              />
-            </div>
+          <div className="aspect-square overflow-hidden flex items-center justify-center bg-secondary/30">
+            <img
+              src={imageSrc}
+              alt={altText}
+              className="max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+              onError={handleImageError}
+            />
           </div>
         )}
       </div>
