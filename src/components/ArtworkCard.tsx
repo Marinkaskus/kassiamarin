@@ -15,6 +15,7 @@ interface ArtworkCardProps {
 const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }) => {
   const [imageError, setImageError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
   
   // Preload the image to check if it's valid
   useEffect(() => {
@@ -60,33 +61,40 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
   return (
     <div 
       className={cn(
-        "group relative cursor-pointer overflow-hidden rounded-md bg-white transition-all duration-300 hover:shadow-md w-full",
+        "group relative overflow-hidden bg-white transition-all duration-500 art-card w-full",
         className
       )}
       onClick={() => onClick(artwork)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       role="button"
       aria-label={`View details of artwork: ${artwork.title}`}
     >
-      <div className="w-full overflow-hidden">
+      {/* Art frame effect */}
+      <div className={cn(
+        "w-full overflow-hidden relative transition-all duration-500",
+        isHovered ? "shadow-lg" : "shadow-sm"
+      )}>
         {imageError ? (
           <div className="w-full aspect-square flex flex-col items-center justify-center bg-muted">
             <ImageOff className="h-8 w-8 text-muted-foreground mb-2" />
             <p className="text-xs text-muted-foreground">{artwork.title}</p>
           </div>
         ) : (
-          <div className="aspect-square relative flex items-center justify-center bg-secondary/30">
+          <div className="aspect-square relative flex items-center justify-center bg-secondary/10">
             {isLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-muted/50 z-10">
                 <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
               </div>
             )}
-            <div className="w-full h-full flex items-center justify-center">
+            <div className="w-full h-full flex items-center justify-center overflow-hidden">
               <img
                 src={imageSrc}
                 alt={altText}
                 className={cn(
-                  "max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-105",
-                  isLoading ? "opacity-0" : "opacity-100"
+                  "max-w-full max-h-full object-contain transition-all duration-700",
+                  isLoading ? "opacity-0" : "opacity-100",
+                  isHovered ? "scale-105 filter saturate-105" : "scale-100"
                 )}
                 loading="lazy"
                 onError={handleImageError}
@@ -96,6 +104,17 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
             </div>
           </div>
         )}
+        
+        {/* Overlay on hover */}
+        <div className={cn(
+          "absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end opacity-0 transition-opacity duration-300",
+          isHovered ? "opacity-100" : "opacity-0"
+        )}>
+          <div className="p-4 text-white transform translate-y-2 transition-transform duration-300 w-full text-left">
+            <h3 className="text-base font-medium font-serif">{artwork.title}</h3>
+            <p className="text-xs text-white/80">{artwork.year}</p>
+          </div>
+        </div>
       </div>
       
       <div className="p-4 text-left">
