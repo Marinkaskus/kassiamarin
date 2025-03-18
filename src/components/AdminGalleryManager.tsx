@@ -1,23 +1,23 @@
+
 import React, { useState, useEffect } from 'react';
 import { artworks } from '@/data/artworkData';
 import { previousProjects } from '@/data/projectsData';
 import { Artwork } from '@/types/Artwork';
 import { Project } from '@/types/Project';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import { Plus, Edit, Trash2, ImageIcon, Video, Check, X, AlertTriangle } from 'lucide-react';
-import ArtworkEditor from '@/components/ArtworkEditor';
-import ProjectEditor from '@/components/ProjectEditor';
-import ArtworkCreator from '@/components/ArtworkCreator';
+import GalleryTabContent from '@/components/admin/GalleryTabContent';
+import ProjectsTabContent from '@/components/admin/ProjectsTabContent';
+import StorageErrorMessage from '@/components/admin/StorageErrorMessage';
+import DeleteConfirmationDialog from '@/components/admin/DeleteConfirmationDialog';
+import GallerySearchBar from '@/components/admin/GallerySearchBar';
+import ArtworkManager from '@/components/admin/ArtworkManager';
+import ProjectManager from '@/components/admin/ProjectManager';
+import ItemCreator from '@/components/admin/ItemCreator';
 
 const AdminGalleryManager = () => {
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
   const [projectsData, setProjectsData] = useState<Project[]>(previousProjects);
-  const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [editorOpen, setEditorOpen] = useState(false);
   const [projectEditorOpen, setProjectEditorOpen] = useState(false);
   const [creatorOpen, setCreatorOpen] = useState(false);
@@ -29,6 +29,10 @@ const AdminGalleryManager = () => {
   const [storageError, setStorageError] = useState<string | null>(null);
 
   useEffect(() => {
+    loadGalleryData();
+  }, []);
+
+  const loadGalleryData = () => {
     const savedArtworks = localStorage.getItem('gallery_artworks');
     if (savedArtworks) {
       try {
@@ -49,147 +53,11 @@ const AdminGalleryManager = () => {
         console.error('Error parsing saved projects:', e);
       }
     }
-  }, []);
-
-  const handleArtworkUpdate = (updatedArtwork: Artwork) => {
-    const updatedArtworks = artworkData.map(artwork => 
-      artwork.id === updatedArtwork.id ? updatedArtwork : artwork
-    );
-    
-    setArtworkData(updatedArtworks);
-    setSelectedArtwork(null);
-    
-    localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
-    
-    toast({
-      title: "Changes saved",
-      description: `"${updatedArtwork.title}" has been updated`,
-    });
-    
-    setEditorOpen(false);
-  };
-
-  const handleProjectUpdate = (updatedProject: Project) => {
-    const updatedProjects = projectsData.map(project => 
-      project.id === updatedProject.id ? updatedProject : project
-    );
-    
-    setProjectsData(updatedProjects);
-    setSelectedProject(null);
-    
-    localStorage.setItem('portfolio_projects', JSON.stringify(updatedProjects));
-    
-    toast({
-      title: "Changes saved",
-      description: `"${updatedProject.title}" has been updated`,
-    });
-    
-    setProjectEditorOpen(false);
   };
 
   const handleAddNewItem = () => {
     setStorageError(null);
     setCreatorOpen(true);
-  };
-
-  const handleCreateArtwork = (newArtwork: Artwork) => {
-    try {
-      if (artworkData.length > 30) {
-        const updatedArtworks = [...artworkData.slice(-29), newArtwork];
-        setArtworkData(updatedArtworks);
-        localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
-      } else {
-        const updatedArtworks = [...artworkData, newArtwork];
-        setArtworkData(updatedArtworks);
-        localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
-      }
-      
-      toast({
-        title: "Artwork added",
-        description: `"${newArtwork.title}" has been added to the gallery`
-      });
-      
-      setStorageError(null);
-    } catch (error) {
-      console.error("Error adding artwork:", error);
-      
-      if (error instanceof Error && error.name === "QuotaExceededError") {
-        setStorageError("Storage limit reached. Try removing some items before adding new ones.");
-        toast({
-          title: "Storage limit reached",
-          description: "Please remove some existing artworks before adding new ones.",
-          variant: "destructive"
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to add new artwork. Please try again.",
-          variant: "destructive"
-        });
-      }
-      
-      throw error;
-    }
-  };
-
-  const handleCreateProject = (newArtwork: Artwork) => {
-    try {
-      const project: Project = {
-        id: newArtwork.id,
-        title: newArtwork.title,
-        description: newArtwork.description || '',
-        year: newArtwork.year,
-        location: (newArtwork as any).location || 'Unknown location',
-        imageSrc: newArtwork.imageSrc,
-        videoUrl: (newArtwork as any).videoUrl || undefined
-      };
-      
-      if (projectsData.length > 30) {
-        const updatedProjects = [...projectsData.slice(-29), project];
-        setProjectsData(updatedProjects);
-        localStorage.setItem('portfolio_projects', JSON.stringify(updatedProjects));
-      } else {
-        const updatedProjects = [...projectsData, project];
-        setProjectsData(updatedProjects);
-        localStorage.setItem('portfolio_projects', JSON.stringify(updatedProjects));
-      }
-      
-      toast({
-        title: "Project added",
-        description: `"${project.title}" has been added to the portfolio`
-      });
-      
-      setStorageError(null);
-    } catch (error) {
-      console.error("Error adding project:", error);
-      
-      if (error instanceof Error && error.name === "QuotaExceededError") {
-        setStorageError("Storage limit reached. Try removing some items before adding new ones.");
-        toast({
-          title: "Storage limit reached",
-          description: "Please remove some existing projects before adding new ones.",
-          variant: "destructive"
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to add new project. Please try again.",
-          variant: "destructive"
-        });
-      }
-      
-      throw error;
-    }
-  };
-
-  const handleEditArtwork = (artwork: Artwork) => {
-    setSelectedArtwork(artwork);
-    setEditorOpen(true);
-  };
-
-  const handleEditProject = (project: Project) => {
-    setSelectedProject(project);
-    setProjectEditorOpen(true);
   };
 
   const handleDeleteConfirm = () => {
@@ -236,32 +104,24 @@ const AdminGalleryManager = () => {
     project.location.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleEditArtwork = (artwork: Artwork) => {
+    // This is now handled in the ArtworkManager component
+  };
+
+  const handleEditProject = (project: Project) => {
+    // This is now handled in the ProjectManager component
+  };
+
   return (
     <div>
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <h2 className="text-xl font-semibold">Content Management</h2>
-        <div className="flex gap-2">
-          <Input 
-            placeholder="Search..." 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="max-w-xs"
-          />
-          <Button size="sm" variant="default" onClick={handleAddNewItem}>
-            <Plus className="h-4 w-4 mr-2" /> Add New
-          </Button>
-        </div>
-      </div>
+      <GallerySearchBar 
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        onRefresh={loadGalleryData}
+        onAddNew={handleAddNewItem}
+      />
 
-      {storageError && (
-        <div className="mb-4 bg-destructive/15 p-3 rounded-md flex items-start gap-2 text-destructive">
-          <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />
-          <div>
-            <p className="font-medium">Storage limit reached</p>
-            <p className="text-sm">{storageError}</p>
-          </div>
-        </div>
-      )}
+      <StorageErrorMessage message={storageError} />
 
       <Tabs 
         defaultValue="gallery" 
@@ -275,165 +135,51 @@ const AdminGalleryManager = () => {
         </TabsList>
         
         <TabsContent value="gallery">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredArtworks.map(artwork => (
-              <div key={artwork.id} className="group relative border rounded-md overflow-hidden bg-card">
-                <div className="aspect-square overflow-hidden">
-                  <img 
-                    src={artwork.imageSrc} 
-                    alt={artwork.title} 
-                    className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-3">
-                  <h3 className="font-medium truncate">{artwork.title}</h3>
-                  <p className="text-sm text-muted-foreground">{artwork.year} • {artwork.medium}</p>
-                  
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="flex items-center">
-                      {artwork.available ? (
-                        <span className="text-xs flex items-center text-green-600">
-                          <Check className="h-3 w-3 mr-1" /> Available
-                        </span>
-                      ) : (
-                        <span className="text-xs flex items-center text-red-600">
-                          <X className="h-3 w-3 mr-1" /> Not Available
-                        </span>
-                      )}
-                    </span>
-                    <div className="flex gap-1">
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="h-8 w-8 p-0"
-                        onClick={() => handleEditArtwork(artwork)}
-                      >
-                        <Edit className="h-4 w-4" />
-                        <span className="sr-only">Edit</span>
-                      </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="h-8 w-8 p-0 text-destructive"
-                        onClick={() => handleDeleteClick(artwork.id, 'artwork')}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                        <span className="sr-only">Delete</span>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          {filteredArtworks.length === 0 && (
-            <div className="text-center py-12">
-              <ImageIcon className="h-12 w-12 mx-auto text-muted-foreground opacity-20" />
-              <h3 className="mt-4 text-lg font-medium">No artworks found</h3>
-              <p className="text-muted-foreground">Try a different search term or add a new artwork.</p>
-            </div>
-          )}
+          <GalleryTabContent 
+            artworks={filteredArtworks} 
+            onEditArtwork={handleEditArtwork} 
+            onDeleteItem={handleDeleteClick} 
+          />
         </TabsContent>
         
         <TabsContent value="projects">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {filteredProjects.map(project => (
-              <div key={project.id} className="group relative border rounded-md overflow-hidden bg-card">
-                <div className="aspect-video overflow-hidden relative">
-                  <img 
-                    src={project.imageSrc} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                  />
-                  {project.videoUrl && (
-                    <div className="absolute top-2 right-2 bg-black/70 text-white p-1 rounded-md">
-                      <Video className="h-4 w-4" />
-                    </div>
-                  )}
-                </div>
-                <div className="p-3">
-                  <h3 className="font-medium">{project.title}</h3>
-                  <p className="text-sm text-muted-foreground">{project.year} • {project.location}</p>
-                  
-                  <div className="flex justify-end items-center mt-2">
-                    <div className="flex gap-1">
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="h-8 w-8 p-0"
-                        onClick={() => handleEditProject(project)}
-                      >
-                        <Edit className="h-4 w-4" />
-                        <span className="sr-only">Edit</span>
-                      </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="h-8 w-8 p-0 text-destructive"
-                        onClick={() => handleDeleteClick(project.id, 'project')}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                        <span className="sr-only">Delete</span>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          {filteredProjects.length === 0 && (
-            <div className="text-center py-12">
-              <ImageIcon className="h-12 w-12 mx-auto text-muted-foreground opacity-20" />
-              <h3 className="mt-4 text-lg font-medium">No projects found</h3>
-              <p className="text-muted-foreground">Try a different search term or add a new project.</p>
-            </div>
-          )}
+          <ProjectsTabContent 
+            projects={filteredProjects} 
+            onEditProject={handleEditProject} 
+            onDeleteItem={handleDeleteClick} 
+          />
         </TabsContent>
       </Tabs>
 
-      {selectedArtwork && (
-        <ArtworkEditor
-          artwork={selectedArtwork}
-          open={editorOpen}
-          onOpenChange={setEditorOpen}
-          onSave={handleArtworkUpdate}
-        />
-      )}
-
-      {selectedProject && (
-        <ProjectEditor
-          project={selectedProject}
-          open={projectEditorOpen}
-          onOpenChange={setProjectEditorOpen}
-          onSave={handleProjectUpdate}
-        />
-      )}
-
-      <ArtworkCreator
-        open={creatorOpen}
-        onOpenChange={setCreatorOpen}
-        onSave={selectedTab === 'gallery' ? handleCreateArtwork : handleCreateProject}
-        type={selectedTab === 'gallery' ? 'artwork' : 'project'}
+      <ArtworkManager 
+        artworkData={artworkData}
+        setArtworkData={setArtworkData}
+        setStorageError={setStorageError}
       />
 
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete this {itemToDelete?.type} from your website.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteConfirm} className="bg-red-600 hover:bg-red-700">
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <ProjectManager
+        projectsData={projectsData}
+        setProjectsData={setProjectsData}
+        setStorageError={setStorageError}
+      />
+
+      <ItemCreator 
+        creatorOpen={creatorOpen}
+        setCreatorOpen={setCreatorOpen}
+        selectedTab={selectedTab}
+        artworkData={artworkData}
+        setArtworkData={setArtworkData}
+        projectsData={projectsData}
+        setProjectsData={setProjectsData}
+        setStorageError={setStorageError}
+      />
+
+      <DeleteConfirmationDialog 
+        open={deleteDialogOpen} 
+        onOpenChange={setDeleteDialogOpen} 
+        itemType={itemToDelete?.type || null}
+        onConfirm={handleDeleteConfirm}
+      />
     </div>
   );
 };
