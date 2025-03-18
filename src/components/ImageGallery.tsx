@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
 import { X, Play } from 'lucide-react';
@@ -58,12 +57,11 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
     }
   };
 
-  // Filter out images with loading errors
   const validImages = images.filter(img => !imageErrors[img.id]);
 
   return (
     <>
-      <div className="w-full aspect-[4/3] overflow-hidden mb-4 relative">
+      <div className="w-full aspect-[4/3] overflow-hidden mb-4 relative flex items-center justify-center">
         {showVideo && videoUrl ? (
           <iframe
             src={videoUrl}
@@ -75,11 +73,13 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
           ></iframe>
         ) : (
           validImages.length > 0 && (
-            <img 
-              src={selectedImage ? selectedImage.src : validImages[0].src} 
-              alt={selectedImage ? selectedImage.alt : validImages[0].alt}
-              className="w-full h-full object-contain"
-            />
+            <div className="w-full h-full flex items-center justify-center">
+              <img 
+                src={selectedImage ? selectedImage.src : validImages[0].src} 
+                alt={selectedImage ? selectedImage.alt : validImages[0].alt}
+                className="max-w-full max-h-full object-contain"
+              />
+            </div>
           )
         )}
         
@@ -106,13 +106,15 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
           >
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 z-10"></div>
             
-            <img 
-              src={image.src} 
-              alt={image.alt}
-              loading="lazy"
-              onError={() => handleImageError(image.id)}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
+            <div className="w-full h-full flex items-center justify-center">
+              <img 
+                src={image.src} 
+                alt={image.alt}
+                loading="lazy"
+                onError={() => handleImageError(image.id)}
+                className="max-w-full max-h-full object-contain transition-transform duration-700 group-hover:scale-105"
+              />
+            </div>
             
             <div className="absolute inset-0 p-6 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
               <h3 className="text-lg font-medium text-white drop-shadow-md">{image.title}</h3>
