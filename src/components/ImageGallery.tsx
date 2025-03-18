@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
-import { X, Play } from 'lucide-react';
+import { X, Play, ImageOff } from 'lucide-react';
+import { logImageError, getDeviceInfo } from '@/utils/imageUtils';
 
 interface GalleryImage {
   id: number;
@@ -25,7 +27,20 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 }) => {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
+  const [imageLoading, setImageLoading] = useState<Record<number, boolean>>({});
   const [showVideo, setShowVideo] = useState(false);
+  const [deviceInfo] = useState(getDeviceInfo());
+
+  // Initialize loading state for all images
+  useEffect(() => {
+    if (images.length > 0) {
+      const loadingState: Record<number, boolean> = {};
+      images.forEach(img => {
+        loadingState[img.id] = true;
+      });
+      setImageLoading(loadingState);
+    }
+  }, [images]);
 
   const handleImageClick = (image: GalleryImage) => {
     setSelectedImage(image);
@@ -44,7 +59,17 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   const handleImageError = (imageId: number) => {
     console.error(`Failed to load image with ID: ${imageId}`);
+    const image = images.find(img => img.id === imageId);
+    if (image) {
+      logImageError(image.src, image.title);
+    }
+    
     setImageErrors(prev => ({...prev, [imageId]: true}));
+    setImageLoading(prev => ({...prev, [imageId]: false}));
+  };
+  
+  const handleImageLoad = (imageId: number) => {
+    setImageLoading(prev => ({...prev, [imageId]: false}));
   };
 
   const getGridClass = () => {
@@ -59,9 +84,17 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   const validImages = images.filter(img => !imageErrors[img.id]);
 
+  // Detect if we're on iOS/iPad to adjust for Safari behavior
+  const specialSafariClasses = deviceInfo.isIPad && deviceInfo.isSafari 
+    ? "max-height: -webkit-fill-available; height: auto;" 
+    : "";
+
   return (
     <>
-      <div className="w-full aspect-[4/3] overflow-hidden mb-4 relative flex items-center justify-center">
+      <div 
+        className="w-full aspect-[4/3] overflow-hidden mb-4 relative flex items-center justify-center"
+        style={{ minHeight: deviceInfo.isIPad ? '300px' : 'auto' }}
+      >
         {showVideo && videoUrl ? (
           <iframe
             src={videoUrl}
@@ -73,11 +106,24 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
           ></iframe>
         ) : (
           validImages.length > 0 && (
-            <div className="w-full h-full flex items-center justify-center">
+            <div className="w-full h-full flex items-center justify-center bg-secondary/5">
+              {imageLoading[selectedImage?.id ?? validImages[0].id] && (
+                <div className="absolute inset-0 flex items-center justify-center bg-background/20 z-10">
+                  <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              )}
               <img 
                 src={selectedImage ? selectedImage.src : validImages[0].src} 
                 alt={selectedImage ? selectedImage.alt : validImages[0].alt}
                 className="max-w-full max-h-full object-contain"
+                onError={() => handleImageError(selectedImage?.id ?? validImages[0].id)}
+                onLoad={() => handleImageLoad(selectedImage?.id ?? validImages[0].id)}
+                style={{ 
+                  opacity: imageLoading[selectedImage?.id ?? validImages[0].id] ? 0 : 1,
+                  transition: 'opacity 0.3s ease' 
+                }}
+                loading="eager"
+                decoding="async"
               />
             </div>
           )
@@ -106,13 +152,25 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
           >
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 z-10"></div>
             
-            <div className="w-full h-full flex items-center justify-center">
+            {imageLoading[image.id] && (
+              <div className="absolute inset-0 bg-muted flex items-center justify-center z-5">
+                <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            )}
+            
+            <div className="w-full h-full flex items-center justify-center bg-muted/20">
               <img 
                 src={image.src} 
                 alt={image.alt}
                 loading="lazy"
+                decoding="async"
                 onError={() => handleImageError(image.id)}
+                onLoad={() => handleImageLoad(image.id)}
                 className="max-w-full max-h-full object-contain transition-transform duration-700 group-hover:scale-105"
+                style={{ 
+                  opacity: imageLoading[image.id] ? 0 : 1,
+                  transition: 'opacity 0.3s ease'  
+                }}
               />
             </div>
             
@@ -133,10 +191,23 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
           {selectedImage && (
             <div className="grid md:grid-cols-2 min-h-[60vh]">
               <div className="bg-black flex items-center justify-center p-4">
+                {imageLoading[selectedImage.id] && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10">
+                    <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                )}
                 <img
                   src={selectedImage.src}
                   alt={selectedImage.alt}
                   className="max-h-[70vh] w-auto max-w-full object-contain"
+                  onError={() => handleImageError(selectedImage.id)}
+                  onLoad={() => handleImageLoad(selectedImage.id)}
+                  style={{ 
+                    opacity: imageLoading[selectedImage.id] ? 0 : 1,
+                    transition: 'opacity 0.3s ease'  
+                  }}
+                  loading="eager"
+                  decoding="async"
                 />
               </div>
               <div className="p-8 flex flex-col justify-center">

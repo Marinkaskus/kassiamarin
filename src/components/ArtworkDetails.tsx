@@ -1,7 +1,9 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { X, ChevronLeft, ChevronRight, ImageOff } from 'lucide-react';
 import { Artwork } from '@/types/Artwork';
+import { logImageError } from '@/utils/imageUtils';
 
 interface ArtworkDetailsProps {
   artwork: Artwork | null;
@@ -20,19 +22,28 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [currentArtwork, setCurrentArtwork] = useState<Artwork | null>(null);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
   const touchEndY = useRef<number | null>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     if (open && artwork) {
       setCurrentImageIndex(0);
       setImageError(false);
+      setIsLoading(true);
       setCurrentArtwork(artwork);
     }
   }, [artwork, open]);
+  
+  useEffect(() => {
+    if (!currentArtwork) return;
+    setIsLoading(true);
+    setImageError(false);
+  }, [currentImageIndex, currentArtwork]);
   
   if (!currentArtwork) return null;
   
@@ -40,17 +51,22 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
   
   const handleNextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
-    setImageError(false);
   };
   
   const handlePrevImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
-    setImageError(false);
   };
 
   const handleImageError = () => {
     console.log(`Using fallback in details view for: ${currentArtwork.title}`);
+    logImageError(allImages[currentImageIndex], currentArtwork.title);
     setImageError(true);
+    setIsLoading(false);
+  };
+
+  const handleImageLoad = () => {
+    setIsLoading(false);
+    setImageError(false);
   };
 
   const currentArtworkIndex = allArtworks.findIndex(art => art.id === currentArtwork.id);
@@ -61,6 +77,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
     setCurrentArtwork(allArtworks[nextIndex]);
     setCurrentImageIndex(0);
     setImageError(false);
+    setIsLoading(true);
   };
   
   const goToPrevArtwork = () => {
@@ -69,6 +86,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
     setCurrentArtwork(allArtworks[prevIndex]);
     setCurrentImageIndex(0);
     setImageError(false);
+    setIsLoading(true);
   };
 
   const displayImage = imageError 
@@ -130,11 +148,21 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
             </div>
           ) : (
             <div className="max-h-full max-w-full flex items-center justify-center">
+              {isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-background/30 z-10">
+                  <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              )}
               <img 
+                ref={imgRef}
                 src={displayImage} 
                 alt={currentArtwork.title} 
                 className="max-w-full max-h-full object-contain"
                 onError={handleImageError}
+                onLoad={handleImageLoad}
+                loading="eager"
+                decoding="async"
+                style={{ opacity: isLoading ? 0 : 1, transition: 'opacity 0.3s ease' }}
               />
             </div>
           )}

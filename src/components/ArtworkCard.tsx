@@ -1,9 +1,10 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Artwork } from '@/types/Artwork';
 import { cn } from '@/lib/utils';
 import { ImageOff } from 'lucide-react';
 import { AspectRatio } from './ui/aspect-ratio';
+import { logImageError } from '@/utils/imageUtils';
 
 interface ArtworkCardProps {
   artwork: Artwork;
@@ -13,9 +14,38 @@ interface ArtworkCardProps {
 
 const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }) => {
   const [imageError, setImageError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Preload the image to check if it's valid
+  useEffect(() => {
+    if (!artwork.imageSrc) {
+      setImageError(true);
+      setIsLoading(false);
+      return;
+    }
+
+    const img = new Image();
+    img.onload = () => {
+      setIsLoading(false);
+      setImageError(false);
+    };
+    img.onerror = () => {
+      logImageError(artwork.imageSrc, artwork.title);
+      setImageError(true);
+      setIsLoading(false);
+    };
+    img.src = artwork.imageSrc;
+    
+    // Cleanup
+    return () => {
+      img.onload = null;
+      img.onerror = null;
+    };
+  }, [artwork.imageSrc, artwork.title]);
 
   const handleImageError = () => {
     console.log(`Using fallback for artwork: ${artwork.title}`);
+    logImageError(artwork.imageSrc, artwork.title);
     setImageError(true);
   };
 
@@ -45,13 +75,23 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
           </div>
         ) : (
           <div className="aspect-square relative flex items-center justify-center bg-secondary/30">
+            {isLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-muted/50 z-10">
+                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            )}
             <div className="w-full h-full flex items-center justify-center">
               <img
                 src={imageSrc}
                 alt={altText}
-                className="max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                className={cn(
+                  "max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-105",
+                  isLoading ? "opacity-0" : "opacity-100"
+                )}
                 loading="lazy"
                 onError={handleImageError}
+                onLoad={() => setIsLoading(false)}
+                decoding="async"
               />
             </div>
           </div>
