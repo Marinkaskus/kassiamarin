@@ -28,7 +28,7 @@ export const artworks: Artwork[] = [
   },
   {
     id: 3,
-    title: "Jeg er redd for hvor flink jeg har blitt til å late som om du ikke finnes",
+    title: "Bryllupsstolen",
     year: "2024",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
@@ -36,7 +36,7 @@ export const artworks: Artwork[] = [
     category: "Mixed Media",
     available: true,
     additionalImages: [],
-    alt: "Jeg er redd for hvor flink jeg har blitt til å late som om du ikke finnes - mixed media artwork by Kassia Marin with Jeg er redd for hvor flink jeg har blitt til å late som om du ikke finnes motif on tile"
+    alt: "Bryllupsstolen - mixed media artwork by Kassia Marin with wedding chair motif on tile"
   },
   {
     id: 4,
