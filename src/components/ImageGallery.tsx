@@ -1,9 +1,6 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
-import { X, Play, ImageOff } from 'lucide-react';
-import { isImageUrlValid, getFallbackImageUrl } from '@/data/artworkData';
-import { toast } from 'sonner';
+import { X, Play } from 'lucide-react';
 
 interface GalleryImage {
   id: number;
@@ -28,39 +25,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 }) => {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [showVideo, setShowVideo] = useState(false);
-
-  // Validate all images when component mounts
-  useEffect(() => {
-    const validateImages = async () => {
-      setIsLoading(true);
-      const newErrors: Record<number, boolean> = {};
-      
-      // Check each image
-      for (const image of images) {
-        const isValid = await isImageUrlValid(image.src);
-        if (!isValid) {
-          console.warn(`Invalid image in gallery: ID ${image.id} - ${image.title}`);
-          newErrors[image.id] = true;
-        }
-      }
-      
-      setImageErrors(newErrors);
-      
-      // Show toast if some images failed
-      const errorCount = Object.keys(newErrors).length;
-      if (errorCount > 0) {
-        toast.warning(`${errorCount} images couldn't be loaded`, {
-          description: "Using placeholder images instead."
-        });
-      }
-      
-      setIsLoading(false);
-    };
-    
-    validateImages();
-  }, [images]);
 
   const handleImageClick = (image: GalleryImage) => {
     setSelectedImage(image);
@@ -78,7 +43,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
   };
 
   const handleImageError = (imageId: number) => {
-    console.warn(`Failed to load gallery image with ID: ${imageId}`);
+    console.error(`Failed to load image with ID: ${imageId}`);
     setImageErrors(prev => ({...prev, [imageId]: true}));
   };
 
@@ -96,10 +61,8 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
 
   return (
     <>
-      <div className="w-full aspect-[4/3] overflow-hidden mb-4 relative flex items-center justify-center bg-muted/10">
-        {isLoading ? (
-          <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-        ) : showVideo && videoUrl ? (
+      <div className="w-full aspect-[4/3] overflow-hidden mb-4 relative flex items-center justify-center">
+        {showVideo && videoUrl ? (
           <iframe
             src={videoUrl}
             title="Exhibition Video"
@@ -115,24 +78,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
                 src={selectedImage ? selectedImage.src : validImages[0].src} 
                 alt={selectedImage ? selectedImage.alt : validImages[0].alt}
                 className="max-w-full max-h-full object-contain"
-                onError={() => {
-                  if (selectedImage) {
-                    handleImageError(selectedImage.id);
-                    // Fallback to first valid image
-                    const firstValid = validImages.find(img => img.id !== selectedImage.id);
-                    if (firstValid) setSelectedImage(firstValid);
-                  }
-                }}
               />
             </div>
           )
-        )}
-        
-        {validImages.length === 0 && !showVideo && (
-          <div className="w-full h-full flex flex-col items-center justify-center">
-            <ImageOff className="h-12 w-12 text-muted-foreground mb-4" />
-            <p className="text-muted-foreground">No valid images available</p>
-          </div>
         )}
         
         {videoUrl && (
@@ -158,9 +106,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
           >
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 z-10"></div>
             
-            <div className="w-full h-full flex items-center justify-center bg-muted/10">
+            <div className="w-full h-full flex items-center justify-center">
               <img 
-                src={imageErrors[image.id] ? getFallbackImageUrl() : image.src} 
+                src={image.src} 
                 alt={image.alt}
                 loading="lazy"
                 onError={() => handleImageError(image.id)}
@@ -186,10 +134,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
             <div className="grid md:grid-cols-2 min-h-[60vh]">
               <div className="bg-black flex items-center justify-center p-4">
                 <img
-                  src={imageErrors[selectedImage.id] ? getFallbackImageUrl() : selectedImage.src}
+                  src={selectedImage.src}
                   alt={selectedImage.alt}
                   className="max-h-[70vh] w-auto max-w-full object-contain"
-                  onError={() => handleImageError(selectedImage.id)}
                 />
               </div>
               <div className="p-8 flex flex-col justify-center">

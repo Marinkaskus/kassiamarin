@@ -1,9 +1,9 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Artwork } from '@/types/Artwork';
 import { cn } from '@/lib/utils';
 import { ImageOff } from 'lucide-react';
-import { isImageUrlValid, getFallbackImageUrl } from '@/data/artworkData';
+import { AspectRatio } from './ui/aspect-ratio';
 
 interface ArtworkCardProps {
   artwork: Artwork;
@@ -13,34 +13,16 @@ interface ArtworkCardProps {
 
 const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }) => {
   const [imageError, setImageError] = useState(false);
-  const [imageSrc, setImageSrc] = useState<string>(artwork.imageSrc);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Validate image on mount and when the artwork changes
-  useEffect(() => {
-    const validateImage = async () => {
-      setIsLoading(true);
-      const isValid = await isImageUrlValid(artwork.imageSrc);
-      
-      if (!isValid) {
-        console.warn(`Invalid image for artwork "${artwork.title}", using fallback`);
-        setImageSrc(getFallbackImageUrl());
-        setImageError(true);
-      } else {
-        setImageSrc(artwork.imageSrc);
-        setImageError(false);
-      }
-      setIsLoading(false);
-    };
-    
-    validateImage();
-  }, [artwork.imageSrc, artwork.title]);
 
   const handleImageError = () => {
-    console.warn(`Error loading image for artwork: ${artwork.title}`);
+    console.log(`Using fallback for artwork: ${artwork.title}`);
     setImageError(true);
-    setImageSrc(getFallbackImageUrl());
   };
+
+  // Use a placeholder image when the original image fails to load
+  const imageSrc = imageError 
+    ? 'https://images.unsplash.com/photo-1518770660439-4636190af475' // Fallback image
+    : artwork.imageSrc;
     
   // Use the alt text if available, otherwise create a descriptive one
   const altText = artwork.alt || `${artwork.title} - ${artwork.medium} artwork by Kassia Marin (${artwork.year})`;
@@ -63,11 +45,6 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
           </div>
         ) : (
           <div className="aspect-square relative flex items-center justify-center bg-secondary/30">
-            {isLoading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-secondary/30">
-                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-              </div>
-            )}
             <div className="w-full h-full flex items-center justify-center">
               <img
                 src={imageSrc}
@@ -75,8 +52,6 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
                 className="max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
                 onError={handleImageError}
-                onLoad={() => setIsLoading(false)}
-                style={{ opacity: isLoading ? 0 : 1, transition: 'opacity 0.3s' }}
               />
             </div>
           </div>

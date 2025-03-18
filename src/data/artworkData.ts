@@ -8,7 +8,7 @@ export const artworks: Artwork[] = [
     year: "2025",
     size: "60 × 61 cm",
     medium: "Ink and aquarelle on tile",
-    imageSrc: "/lovable-uploads/adcd076a-9326-426d-a0fa-d3b5ec6bb70f.png",
+    imageSrc: "https://dl.dropboxusercontent.com/s/fi/6dkawj1xdx6tylklk3pip/Sol.jpg?rlkey=ct0yo2tmxwnl3yg7pdesvcl83&st=6u4kbyv0&dl=0",
     category: "Ink and aquarelle on tile",
     available: true,
     additionalImages: [],
@@ -20,7 +20,7 @@ export const artworks: Artwork[] = [
     year: "2024",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
-    imageSrc: "/lovable-uploads/adcd076a-9326-426d-a0fa-d3b5ec6bb70f.png", // Changed from Dropbox URL
+    imageSrc: "https://dl.dropboxusercontent.com/s/fi/9h2affspkd8jt085h633h/Blekksprut_2024_ramme.jpg?rlkey=mgbo0s3pqzivvy7dwke4f0k7a&st=zlyecp6v&dl=0",
     category: "Mixed Media",
     available: true,
     additionalImages: [],
@@ -32,7 +32,7 @@ export const artworks: Artwork[] = [
     year: "2024",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
-    imageSrc: "/lovable-uploads/adcd076a-9326-426d-a0fa-d3b5ec6bb70f.png", // Changed from Dropbox URL
+    imageSrc: "https://dl.dropboxusercontent.com/s/fi/794w90ry1wstaccx0ukth/Bryllupsstolen_2025_ramme.jpg?rlkey=zeko4rh9016d5bw54qgy497ls&st=n2gu4dgo&dl=0",
     category: "Mixed Media",
     available: true,
     additionalImages: [],
@@ -166,37 +166,4 @@ export const artworks: Artwork[] = [
  */
 export const getArtworkById = (id: number): Artwork | undefined => {
   return artworks.find(artwork => artwork.id === id);
-};
-
-/**
- * Check if an image URL is valid by attempting to load it
- * @param url The image URL to check
- * @returns Promise that resolves to true if the image is valid, false otherwise
- */
-export const isImageUrlValid = (url: string): Promise<boolean> => {
-  return new Promise((resolve) => {
-    if (!url || url.trim() === '') {
-      resolve(false);
-      return;
-    }
-    
-    // Skip validation for local/relative URLs as they're likely valid
-    if (url.startsWith('/')) {
-      resolve(true);
-      return;
-    }
-    
-    const img = new Image();
-    img.onload = () => resolve(true);
-    img.onerror = () => resolve(false);
-    img.src = url;
-  });
-};
-
-/**
- * Get a fallback image URL
- * @returns A reliable fallback image URL
- */
-export const getFallbackImageUrl = (): string => {
-  return '/lovable-uploads/adcd076a-9326-426d-a0fa-d3b5ec6bb70f.png';
 };

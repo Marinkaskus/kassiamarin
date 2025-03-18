@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
 import HeroSection from '@/components/HeroSection';
@@ -7,10 +7,9 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { previousProjects } from '@/data/projectsData';
 import ProjectTeaser from '@/components/ProjectTeaser';
-import { artworks, isImageUrlValid } from '@/data/artworkData';
+import { artworks } from '@/data/artworkData';
 import ArtworkCard from '@/components/ArtworkCard';
 import ArtworkDetails from '@/components/ArtworkDetails';
-import { Artwork } from '@/types/Artwork';
 
 const Index = () => {
   // Get up to 3 projects for the teaser section
@@ -20,30 +19,10 @@ const Index = () => {
   const featuredArtworks = artworks.slice(0, 4);
 
   // State for artwork preview
-  const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
-  const [detailsOpen, setDetailsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [selectedArtwork, setSelectedArtwork] = React.useState(null);
+  const [detailsOpen, setDetailsOpen] = React.useState(false);
   
-  // Validate featured artwork images
-  useEffect(() => {
-    const validateImages = async () => {
-      setIsLoading(true);
-      // Validate all images in parallel
-      await Promise.all(featuredArtworks.map(artwork => 
-        isImageUrlValid(artwork.imageSrc)
-          .then(isValid => {
-            if (!isValid) {
-              console.warn(`Invalid image for featured artwork: ${artwork.title}`);
-            }
-          })
-      ));
-      setIsLoading(false);
-    };
-    
-    validateImages();
-  }, []);
-  
-  const handleArtworkClick = (artwork: Artwork) => {
+  const handleArtworkClick = artwork => {
     setSelectedArtwork(artwork);
     setDetailsOpen(true);
   };
@@ -78,31 +57,25 @@ const Index = () => {
             </Link>
           </div>
           
-          {isLoading ? (
-            <div className="min-h-[400px] flex items-center justify-center">
-              <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-3 gap-8">
-              {featuredArtworks.slice(0, 3).map((artwork, index) => (
-                <div 
-                  key={artwork.id} 
-                  className="relative transition-all duration-300 hover:-translate-y-1" 
-                  style={{
-                    opacity: 0,
-                    animation: `scaleIn 0.6s ease-out forwards`,
-                    animationDelay: `${index * 100}ms`
-                  }}
-                >
-                  <ArtworkCard 
-                    artwork={artwork} 
-                    onClick={handleArtworkClick} 
-                    className="transition-transform duration-300 h-full" 
-                  />
-                </div>
-              ))}
-            </div>
-          )}
+          <div className="grid md:grid-cols-3 gap-8">
+            {featuredArtworks.slice(0, 3).map((artwork, index) => (
+              <div 
+                key={artwork.id} 
+                className="relative transition-all duration-300 hover:-translate-y-1" 
+                style={{
+                  opacity: 0,
+                  animation: `scaleIn 0.6s ease-out forwards`,
+                  animationDelay: `${index * 100}ms`
+                }}
+              >
+                <ArtworkCard 
+                  artwork={artwork} 
+                  onClick={handleArtworkClick} 
+                  className="transition-transform duration-300 h-full" 
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
       
