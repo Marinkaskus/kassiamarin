@@ -1,3 +1,4 @@
+
 #root {
   max-width: 100%;
   margin: 0 auto;
@@ -67,6 +68,14 @@ body {
   opacity: 0;
   transform: scale(0.9);
   transition: opacity 300ms, transform 300ms;
+}
+
+/* QR code logo style */
+.qr-logo {
+  filter: drop-shadow(0 0 1px rgba(0,0,0,0.3));
+  border-radius: 50%;
+  background-color: white;
+  padding: 2px;
 }
 
 /* Mobile optimizations */

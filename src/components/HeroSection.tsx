@@ -1,13 +1,17 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, QrCode } from 'lucide-react';
 import gsap from 'gsap';
 import { Button } from './ui/button';
 import ShareQRCode from './ShareQRCode';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './ui/dialog';
+import QRCodeGenerator from './QRCodeGenerator';
 
 const HeroSection: React.FC = () => {
   const logoRef = useRef<HTMLImageElement>(null);
+  const [qrDialogOpen, setQrDialogOpen] = useState(false);
+  const logoUrl = "https://dl.dropboxusercontent.com/s/fi/mouik1soo1yaoflt186dp/Logo.png?rlkey=e1ua3zw7f1i9ikvj24b6fxswl&st=h4na5yc9&dl=0";
 
   useEffect(() => {
     if (!logoRef.current) return;
@@ -45,7 +49,7 @@ const HeroSection: React.FC = () => {
         <div className="flex justify-center max-w-4xl mx-auto overflow-visible">
           <img 
             ref={logoRef}
-            src="https://dl.dropboxusercontent.com/s/fi/mouik1soo1yaoflt186dp/Logo.png?rlkey=e1ua3zw7f1i9ikvj24b6fxswl&st=h4na5yc9&dl=0" 
+            src={logoUrl}
             alt="Kassia Marin Logo" 
             className="max-w-full h-auto max-h-[320px]"
           />
@@ -61,6 +65,15 @@ const HeroSection: React.FC = () => {
           <Link to="/contact" className="px-8 py-3 rounded-full border border-foreground bg-transparent font-medium transition-all hover:bg-foreground/5">
             Contact Me
           </Link>
+          <Button 
+            variant="outline"
+            size="icon"
+            onClick={() => setQrDialogOpen(true)}
+            className="rounded-full"
+            aria-label="Get QR Code"
+          >
+            <QrCode size={18} />
+          </Button>
           <ShareQRCode 
             url={window.location.origin} 
             title="Scan to visit Kassia Marin's website on your mobile device" 
@@ -68,6 +81,29 @@ const HeroSection: React.FC = () => {
           />
         </div>
       </div>
+
+      {/* Promotional QR Code Dialog */}
+      <Dialog open={qrDialogOpen} onOpenChange={setQrDialogOpen}>
+        <DialogContent className="max-w-sm sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl">Kassia Marin Studio</DialogTitle>
+            <DialogDescription>
+              Scan this QR code to visit my website or download it for promotional use
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="flex justify-center py-6">
+            <QRCodeGenerator 
+              value={window.location.origin}
+              size={260}
+              logoUrl={logoUrl}
+              showDownloadButton={true}
+              className="bg-white p-5 rounded-md shadow-md"
+              includeMargin={true}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
