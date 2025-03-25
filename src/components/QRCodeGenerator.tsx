@@ -54,7 +54,7 @@ const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({
       const svgString = serializer.serializeToString(svgElement);
       const svgBlob = new Blob([svgString], { type: 'image/svg+xml' });
       
-      const url = URL.createObjectURL(svgBlob);
+      const imgUrl = URL.createObjectURL(svgBlob);
       const img = new Image();
       
       img.onload = () => {
@@ -82,6 +82,7 @@ const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({
             link.download = 'kassia-marin-qrcode.png';
             link.href = canvas.toDataURL('image/png');
             link.click();
+            URL.revokeObjectURL(imgUrl);
             toast.success('QR code downloaded successfully');
           };
           
@@ -92,6 +93,7 @@ const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({
             link.download = 'kassia-marin-qrcode.png';
             link.href = canvas.toDataURL('image/png');
             link.click();
+            URL.revokeObjectURL(imgUrl);
             toast.success('QR code downloaded (without logo)');
           };
           
@@ -101,16 +103,18 @@ const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({
           link.download = 'kassia-marin-qrcode.png';
           link.href = canvas.toDataURL('image/png');
           link.click();
+          URL.revokeObjectURL(imgUrl);
           toast.success('QR code downloaded successfully');
         }
       };
       
       img.onerror = (e) => {
         console.error('Error loading QR code image:', e);
+        URL.revokeObjectURL(imgUrl);
         toast.error('Failed to download QR code');
       };
       
-      img.src = url;
+      img.src = imgUrl;
     } catch (error) {
       console.error('Error downloading QR code:', error);
       toast.error('Failed to download QR code');

@@ -1,13 +1,16 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, QrCode } from 'lucide-react';
 import gsap from 'gsap';
 import { Button } from './ui/button';
 import ShareQRCode from './ShareQRCode';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
+import QRCodeGenerator from './QRCodeGenerator';
 
 const HeroSection: React.FC = () => {
   const logoRef = useRef<HTMLImageElement>(null);
+  const [qrDialogOpen, setQrDialogOpen] = useState(false);
 
   useEffect(() => {
     if (!logoRef.current) return;
@@ -61,13 +64,38 @@ const HeroSection: React.FC = () => {
           <Link to="/contact" className="px-8 py-3 rounded-full border border-foreground bg-transparent font-medium transition-all hover:bg-foreground/5">
             Contact Me
           </Link>
-          <ShareQRCode 
-            url={window.location.origin} 
-            title="Scan to visit Kassia Marin's website on your mobile device" 
-            buttonVariant="ghost"
-          />
+          <Button 
+            variant="ghost" 
+            className="flex items-center gap-2" 
+            onClick={() => setQrDialogOpen(true)}
+          >
+            <QrCode size={16} />
+            Website QR
+          </Button>
         </div>
       </div>
+
+      {/* QR Code Dialog */}
+      <Dialog open={qrDialogOpen} onOpenChange={setQrDialogOpen}>
+        <DialogContent className="max-w-sm sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl">kassiamarin.studio</DialogTitle>
+          </DialogHeader>
+          
+          <div className="flex flex-col items-center justify-center py-4">
+            <QRCodeGenerator 
+              value="https://kassiamarin.studio" 
+              size={250}
+              logoUrl="https://dl.dropboxusercontent.com/s/fi/mouik1soo1yaoflt186dp/Logo.png?rlkey=e1ua3zw7f1i9ikvj24b6fxswl&st=h4na5yc9&dl=0"
+              showDownloadButton={true}
+              className="bg-white p-4 rounded-md shadow-md"
+            />
+            <p className="mt-4 text-sm text-center text-muted-foreground">
+              Scan this QR code to visit kassiamarin.studio or download for promotional use.
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
