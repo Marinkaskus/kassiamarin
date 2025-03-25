@@ -1,12 +1,13 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import gsap from 'gsap';
+import { Button } from './ui/button';
+import ShareQRCode from './ShareQRCode';
 
 const HeroSection: React.FC = () => {
   const logoRef = useRef<HTMLImageElement>(null);
-  const logoUrl = "https://dl.dropboxusercontent.com/s/fi/mouik1soo1yaoflt186dp/Logo.png?rlkey=e1ua3zw7f1i9ikvj24b6fxswl&st=h4na5yc9&dl=0";
 
   useEffect(() => {
     if (!logoRef.current) return;
@@ -44,7 +45,7 @@ const HeroSection: React.FC = () => {
         <div className="flex justify-center max-w-4xl mx-auto overflow-visible">
           <img 
             ref={logoRef}
-            src={logoUrl}
+            src="https://dl.dropboxusercontent.com/s/fi/mouik1soo1yaoflt186dp/Logo.png?rlkey=e1ua3zw7f1i9ikvj24b6fxswl&st=h4na5yc9&dl=0" 
             alt="Kassia Marin Logo" 
             className="max-w-full h-auto max-h-[320px]"
           />
@@ -60,6 +61,11 @@ const HeroSection: React.FC = () => {
           <Link to="/contact" className="px-8 py-3 rounded-full border border-foreground bg-transparent font-medium transition-all hover:bg-foreground/5">
             Contact Me
           </Link>
+          <ShareQRCode 
+            url={window.location.origin} 
+            title="Scan to visit Kassia Marin's website on your mobile device" 
+            buttonVariant="ghost"
+          />
         </div>
       </div>
     </section>
