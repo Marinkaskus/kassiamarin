@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-medium">Kassia Marin</h3>
             <p className="text-sm text-muted-foreground max-w-xs">
-              Contemporary artist exploring the intersection of nature, identity, and modern existence through thoughtful visual narratives.
+              Contemporary multidisciplinary artist exploring themes of memory, transformation, and the fragility of experience, focusing on how personal narratives and emotions are expressed through tangible forms.
             </p>
           </div>
           
