@@ -49,7 +49,9 @@ const HeroSection: React.FC = () => {
           />
         </div>
         
-        <p className="mt-3 text-lg md:text-xl text-muted-foreground max-w-2xl animate-fade-in-up">Kassia Marin is a contemporary artist based in Oslo, working with painting, text, and video to explore memory, perception, and the fluid nature of recollection. Her work invites contemplation, blurring the boundaries between past and present.</p>
+        <h1 className="mt-6 text-4xl md:text-6xl lg:text-7xl font-gotu animate-fade-in-up">
+          Kassia Marin
+        </h1>
         
         <div className="mt-8 flex flex-col sm:flex-row gap-4 items-center animate-fade-in-up">
           <Link to="/gallery" className="group px-8 py-3 rounded-full bg-foreground text-background font-medium transition-all hover:bg-foreground/90 flex items-center">
