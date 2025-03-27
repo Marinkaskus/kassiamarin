@@ -42,7 +42,7 @@ export const previousProjects: Project[] = [
       'https://dl.dropboxusercontent.com/s/fi/7jdq3ptvpckxpbqrcsfys/cc7.jpg?rlkey=9trcz6yasextffr3l1bufpcjt&st=tbhd34c0&dl=0',
       'https://dl.dropboxusercontent.com/s/fi/1e74927g9u0jxmq2w4xmw/cc9.jpg?rlkey=2afhjf5i5rm32vhg4f2rgwo0l&st=opwaadp4&dl=0'
     ],
-    videoUrl: 'https://player.vimeo.com/video/1069919700',
+    videoUrl: 'https://vimeo.com/1069919700?share=copy#t=0',
   },
   {
     id: 11,
