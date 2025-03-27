@@ -1,3 +1,4 @@
+
 import { Project } from "@/types/Project";
 
 export const previousProjects: Project[] = [
@@ -20,8 +21,8 @@ export const previousProjects: Project[] = [
   {
     id: 9,
     title: "Rom jeg ikke får sove i",
-    description: "Et video- og lydverk som skildrer insomnia – nærmere bestemt det fysiske og virkelige rommet der søvnløsheten utspiller seg, satt sammen med utdrag fra en 'nattbok,' en dagbok som kun skrives på netter der søvnen uteblir.",
-    norwegianDescription: "A video and sound work depicting insomnia – specifically the physical and real room where sleeplessness takes place, combined with excerpts from a 'night book,' a diary written only on nights when sleep is absent.",
+    description: 'A video and sound work depicting insomnia – specifically the physical and real room where sleeplessness takes place, combined with excerpts from a 'night book,' a diary written only on nights when sleep is absent.',
+    norwegianDescription: "Et video- og lydverk som skildrer insomnia – nærmere bestemt det fysiske og virkelige rommet der søvnløsheten utspiller seg, satt sammen med utdrag fra en 'nattbok,' en dagbok som kun skrives på netter der søvnen uteblir.",
     year: '2024',
     location: 'Oslo kunstforening',
     imageSrc: 'https://dl.dropboxusercontent.com/s/fi/b5v8uq9woucs38b0aa5f9/thumb-2.jpg?rlkey=1bho4jusi8tta9308753ntxds&st=d5n97g6j&dl=0',
@@ -41,7 +42,7 @@ export const previousProjects: Project[] = [
       'https://dl.dropboxusercontent.com/s/fi/7jdq3ptvpckxpbqrcsfys/cc7.jpg?rlkey=9trcz6yasextffr3l1bufpcjt&st=tbhd34c0&dl=0',
       'https://dl.dropboxusercontent.com/s/fi/1e74927g9u0jxmq2w4xmw/cc9.jpg?rlkey=2afhjf5i5rm32vhg4f2rgwo0l&st=opwaadp4&dl=0'
     ],
-    videoUrl: 'https://vimeo.com/1069919700?share=copy',
+    videoUrl: 'https://player.vimeo.com/video/1069919700',
   },
   {
     id: 11,
