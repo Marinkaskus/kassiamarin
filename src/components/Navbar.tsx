@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
@@ -34,7 +33,6 @@ const Navbar: React.FC = () => {
     { name: 'Home', path: '/' },
     { name: 'Portfolio', path: '/portfolio' },
     { name: 'Gallery', path: '/gallery' },
-    { name: 'CV', path: '/cv' },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
