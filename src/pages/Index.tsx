@@ -111,7 +111,7 @@ const Index = () => {
               <div className="mt-4 space-y-2 text-muted-foreground">
                 <p>
                 <strong>Kassia Marin</strong> is a contemporary visual artist based in Oslo. 
-                Her practice involves painting, video, and mixed media, often incorporating text. 
+                She is a multidisciplinary artist. Her practice involves painting, video, and mixed media, often incorporating text.
                 Her work explores themes of memory, transformation, and the fragility of experience, focusing on how personal narratives and emotions are expressed through tangible forms. 
                 Kassia examines the passage of time and the tension between presence and absence, reflecting on how memories shape identity. In a world increasingly dominated by digital media, she believes in the enduring power of material art to foster introspection and genuine connection.</p>
               </div>
