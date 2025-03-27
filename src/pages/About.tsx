@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { Separator } from '@/components/ui/separator';
 import { ExternalLink } from 'lucide-react';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
+import LogoDisplay from '@/components/LogoDisplay';
 
 const About = () => {
   return (
@@ -24,51 +25,18 @@ const About = () => {
         <div className="container-custom">
           <div className="max-w-5xl mx-auto">
             <div className="grid gap-16 md:gap-24">
-              {/* Header & Bio Section */}
-              <div className="animate-fade-in">
-                <div className="grid md:grid-cols-2 gap-12">
-                  {/* Profile Image */}
-                  <div className="relative">
-                    <div className="absolute -bottom-6 -right-6 w-3/4 h-3/4 bg-accent -z-10"></div>
-                    <img 
-                      src="https://dl.dropboxusercontent.com/s/fi/88f2ddqseerh4h98t12i8/20230919_113701.jpg?rlkey=usum14gsmbbwz057jrd83zz90&st=559y6b5o&dl=0" 
-                      alt="Kassia Marin in her studio" 
-                      className="w-full h-auto object-cover"
-                    />
-                  </div>
-                  
-                  {/* Bio */}
-                  <div className="space-y-6">
-                    <h1 className="text-4xl md:text-5xl font-medium">Kassia Marin</h1>
-                    <p className="text-lg text-muted-foreground">
-                      Kassia Marin (b.2000) lives and works in Oslo, Norway.
-                    </p>
-                    <p className="text-muted-foreground">
-                      Marin is a contemporary visual artist based in Norway, working across painting, mixed media, text, and video.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Artist Statement */}
-              <div className="animate-fade-in">
-                <h2 className="text-2xl font-medium mb-6">Artist Statement</h2>
-                <div className="prose prose-lg max-w-none text-muted-foreground">
-                  <p>
-                   I work with memory, time, and how we process our past. My art, which includes painting, writing, and video, explores how memories change over time and how we make sense of them. 
-                   I use light, texture, and space to reflect the way we remember and forget.
-                  </p>
-                  
-                  <p>
-                   Through my work, I try to understand myself and others, showing the fragile nature of memory and how it shapes who we are. 
-                   In a world where we often feel disconnected or alienated, I believe art is a space where we can confront and share these emotions, allowing us to experience something together.
-                  </p>
-                </div>
+              {/* Header Section - Minimalistic with Logo */}
+              <div className="animate-fade-in flex flex-col items-center justify-center text-center">
+                <LogoDisplay size="large" transparentBg={true} />
+                <h1 className="text-4xl md:text-5xl font-medium mt-8">Kassia Marin</h1>
+                <p className="text-lg text-muted-foreground mt-4 max-w-2xl">
+                  Kassia Marin (b.2000) lives and works in Oslo, Norway. She graduated from Oslo Academy of Fine Art (KHiO) in 2024.
+                </p>
               </div>
               
               {/* CV Section */}
               <div className="animate-fade-in">
-                <h2 className="text-2xl font-medium mb-8">Curriculum Vitae</h2>
+                <h2 className="text-2xl font-medium mb-8">CV</h2>
                 
                 <div className="space-y-12">
                   {/* Education */}
@@ -286,6 +254,22 @@ const About = () => {
                       </TableBody>
                     </Table>
                   </div>
+                </div>
+              </div>
+              
+              {/* Artist Statement (moved below CV) */}
+              <div className="animate-fade-in">
+                <h2 className="text-2xl font-medium mb-6">Artist Statement</h2>
+                <div className="prose prose-lg max-w-none text-muted-foreground">
+                  <p>
+                   I work with memory, time, and how we process our past. My art, which includes painting, writing, and video, explores how memories change over time and how we make sense of them. 
+                   I use light, texture, and space to reflect the way we remember and forget.
+                  </p>
+                  
+                  <p>
+                   Through my work, I try to understand myself and others, showing the fragile nature of memory and how it shapes who we are. 
+                   In a world where we often feel disconnected or alienated, I believe art is a space where we can confront and share these emotions, allowing us to experience something together.
+                  </p>
                 </div>
               </div>
             </div>
