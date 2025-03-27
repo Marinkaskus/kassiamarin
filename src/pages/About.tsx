@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '@/components/Layout';
 import { Helmet } from 'react-helmet-async';
@@ -6,10 +5,8 @@ import { Separator } from '@/components/ui/separator';
 import { ExternalLink } from 'lucide-react';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import LogoDisplay from '@/components/LogoDisplay';
-
 const About = () => {
-  return (
-    <Layout>
+  return <Layout>
       <Helmet>
         <title>About & CV - Kassia Marin</title>
         <meta name="description" content="Kassia Marin (b.2000) is a contemporary visual artist based in Oslo, Norway. View her biography, artist statement, and CV." />
@@ -72,12 +69,7 @@ const About = () => {
                           <TableCell>
                             <span className="block">Free Education for Some <span className="font-normal">(Group Exhibition)</span></span>
                             <span className="text-muted-foreground">Oslo Kunstforening, Oslo, Norway</span>
-                            <a 
-                              href="https://www.oslokunstforening.no/eventer/utstillings%C3%A5pning-kunstakademiets-avgangsutstilling-ba-2024" 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center mt-1 text-primary hover:text-primary/80 transition-colors"
-                            >
+                            <a href="https://www.oslokunstforening.no/eventer/utstillings%C3%A5pning-kunstakademiets-avgangsutstilling-ba-2024" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-1 text-primary hover:text-primary/80 transition-colors">
                               <ExternalLink size={14} className="mr-1" />
                               <span className="text-sm">View Exhibition</span>
                             </a>
@@ -88,12 +80,7 @@ const About = () => {
                           <TableCell>
                             <span className="block">Children's Children <span className="font-normal">(Solo Exhibition)</span></span>
                             <span className="text-muted-foreground">White Box, KhiO, Oslo, Norway</span>
-                            <a 
-                              href="https://khio.no/events/1746" 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center mt-1 text-primary hover:text-primary/80 transition-colors"
-                            >
+                            <a href="https://khio.no/events/1746" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-1 text-primary hover:text-primary/80 transition-colors">
                               <ExternalLink size={14} className="mr-1" />
                               <span className="text-sm">View Exhibition</span>
                             </a>
@@ -111,12 +98,7 @@ const About = () => {
                           <TableCell>
                             <span className="block">Samspill mellom kropp og objekt <span className="font-normal">(Curator)</span></span>
                             <span className="text-muted-foreground">Bodø Biennale, Bodø, Norway</span>
-                            <a 
-                              href="https://www.bodobiennale.no/en/bodoe-biennale-2022/interaction-between-body-object-bodoe-cultural-school-kassia-r-marin" 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center mt-1 text-primary hover:text-primary/80 transition-colors"
-                            >
+                            <a href="https://www.bodobiennale.no/en/bodoe-biennale-2022/interaction-between-body-object-bodoe-cultural-school-kassia-r-marin" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-1 text-primary hover:text-primary/80 transition-colors">
                               <ExternalLink size={14} className="mr-1" />
                               <span className="text-sm">View Project</span>
                             </a>
@@ -127,12 +109,7 @@ const About = () => {
                           <TableCell>
                             <span className="block">Performance Night <span className="font-normal">(Group Exhibition)</span></span>
                             <span className="text-muted-foreground">Kunstnernes Hus, Oslo, Norway</span>
-                            <a 
-                              href="https://kunstnerneshus.no/program/arrangementer/performance-nights" 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center mt-1 text-primary hover:text-primary/80 transition-colors"
-                            >
+                            <a href="https://kunstnerneshus.no/program/arrangementer/performance-nights" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-1 text-primary hover:text-primary/80 transition-colors">
                               <ExternalLink size={14} className="mr-1" />
                               <span className="text-sm">View Event</span>
                             </a>
@@ -150,12 +127,7 @@ const About = () => {
                           <TableCell>
                             <span className="block">Malstrøm <span className="font-normal">(Solo Exhibition)</span></span>
                             <span className="text-muted-foreground">Galleri Vekta, Oslo, Norway</span>
-                            <a 
-                              href="https://www.gallerivekta.no/utstillinger/kassia-rebekka-marin-malstrom/" 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center mt-1 text-primary hover:text-primary/80 transition-colors"
-                            >
+                            <a href="https://www.gallerivekta.no/utstillinger/kassia-rebekka-marin-malstrom/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-1 text-primary hover:text-primary/80 transition-colors">
                               <ExternalLink size={14} className="mr-1" />
                               <span className="text-sm">View Project</span>
                             </a>
@@ -203,12 +175,7 @@ const About = () => {
                           <TableCell>
                             <span className="block">Workshop Instructor</span>
                             <span className="text-muted-foreground">Art Workshop, Stormen Kunst, Bodø, Norway</span>
-                            <a 
-                              href="https://www.bodobiennale.no/bodoe-biennale-2018/program/kunstverksted-for-barn-festivalutstillingen-paa-stormen-kunst" 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center mt-1 text-primary hover:text-primary/80 transition-colors"
-                            >
+                            <a href="https://www.bodobiennale.no/bodoe-biennale-2018/program/kunstverksted-for-barn-festivalutstillingen-paa-stormen-kunst" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-1 text-primary hover:text-primary/80 transition-colors">
                               <ExternalLink size={14} className="mr-1" />
                               <span className="text-sm">View Project</span>
                             </a>
@@ -240,12 +207,7 @@ const About = () => {
                           <TableCell>
                             <span className="block">Medvirkende</span>
                             <span className="text-muted-foreground">Expert NPU-Konferansen 2017: Ungt Publikum</span>
-                            <a 
-                              href="https://norskpublikumsutvikling.no/konferanse/npu-konferansen-2017-ungt-publikum" 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center mt-1 text-primary hover:text-primary/80 transition-colors"
-                            >
+                            <a href="https://norskpublikumsutvikling.no/konferanse/npu-konferansen-2017-ungt-publikum" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-1 text-primary hover:text-primary/80 transition-colors">
                               <ExternalLink size={14} className="mr-1" />
                               <span className="text-sm">View Project</span>
                             </a>
@@ -261,23 +223,15 @@ const About = () => {
               <div className="animate-fade-in">
                 <h2 className="text-2xl font-medium mb-6">Artist Statement</h2>
                 <div className="prose prose-lg max-w-none text-muted-foreground">
-                  <p>
-                   I work with memory, time, and how we process our past. My art, which includes painting, writing, and video, explores how memories change over time and how we make sense of them. 
-                   I use light, texture, and space to reflect the way we remember and forget.
-                  </p>
+                  <p>Kassia Marin is a contemporary visual artist based in Norway, working across painting, mixed media, text, and video. Her practice explores the intricate nature of memory, identity, and perception, investigating how personal histories are shaped by time. Through her work, she examines the delicate and often distorted transformation of memories, probing the tension between past and present, and questioning their emotional weight.</p>
                   
-                  <p>
-                   Through my work, I try to understand myself and others, showing the fragile nature of memory and how it shapes who we are. 
-                   In a world where we often feel disconnected or alienated, I believe art is a space where we can confront and share these emotions, allowing us to experience something together.
-                  </p>
+                  <p>Through my work, I try to understand myself and others, showing the fragile nature of memory and how it shapes who we are. In a world where we often feel disconnected or alienated, I believe art is a space where we can confront and share these emotions, allowing us to experience something together.</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-    </Layout>
-  );
+    </Layout>;
 };
-
 export default About;
