@@ -3,7 +3,7 @@ import { Artwork } from "@/types/Artwork";
 
 export const artworks: Artwork[] = [
  {
-    id: 1.01,
+    id: 14,
     title: "Alien Party",
     year: "2025",
     size: "120 × 61 cm",
