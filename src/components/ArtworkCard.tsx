@@ -104,6 +104,9 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
           <p>{artwork.size}</p>
           <p>{artwork.year}</p>
           <p>{artwork.medium}</p>
+          {artwork.available === false && (
+            <p className="text-red-500 font-medium">Sold</p>
+          )}
         </div>
       </div>
     </div>
