@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { X, ChevronLeft, ChevronRight, ImageOff } from 'lucide-react';
@@ -249,7 +248,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
               <div>
                 <h4 className="text-xs md:text-sm uppercase text-muted-foreground mb-1">Availability</h4>
                 <p className={`text-sm md:text-base ${currentArtwork.available ? "text-green-600" : "text-amber-600"}`}>
-                  {currentArtwork.available ? "Available" : "Not Available"}
+                  {currentArtwork.available ? "Available" : "Sold"}
                 </p>
               </div>
             )}
