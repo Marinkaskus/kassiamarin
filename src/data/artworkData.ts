@@ -2,6 +2,18 @@
 import { Artwork } from "@/types/Artwork";
 
 export const artworks: Artwork[] = [
+ {
+    id: 1.01,
+    title: "Alien Party",
+    year: "2025",
+    size: "120 × 61 cm",
+    medium: "Ink and aquarelle on tile",
+    imageSrc: "https://dl.dropboxusercontent.com/s/fi/cg0ewbmbotpmzwt8z37vd/IMG_0336.PNG?rlkey=l9e4tpe6gpsq030rcmyp619kx&st=l4qzbd2k&dl=0",
+    category: "Ink and aquarelle on tile",
+    available: false,
+    additionalImages: [],
+    alt: "Alian Party- urban-inspired mixed media artwork by Kassia Marin featuring Alian party themes"
+  },
    {
     id: 1,
     title: "Du er ikke en sol",
