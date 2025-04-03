@@ -14,7 +14,9 @@ const Gallery = () => {
 
   // Load artworks from the data file
   useEffect(() => {
-    setArtworkData(artworks);
+    // Make sure we're getting all the artworks from the data file
+    console.log("Loading artworks:", artworks.length);
+    setArtworkData([...artworks]); // Create a new array to ensure state update
   }, []);
   
   const handleArtworkClick = (artwork: Artwork) => {

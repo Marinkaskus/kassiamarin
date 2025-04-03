@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -15,6 +16,7 @@ const Index = () => {
 
   // Get up to 4 artworks for the gallery teaser
   const featuredArtworks = artworks.slice(0, 4);
+  console.log("Featured artworks:", featuredArtworks.length);
 
   // State for artwork preview
   const [selectedArtwork, setSelectedArtwork] = React.useState(null);
