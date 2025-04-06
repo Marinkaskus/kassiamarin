@@ -56,7 +56,7 @@ export const artworks: Artwork[] = [
     year: "2025",
     size: "30 × 60 cm",
     medium: "Ink and aquarelle on tile",
-    imageSrc: "https://dl.dropboxusercontent.com/s/fi/6ie0qhd045vbcsstivagd/stol.jpg?rlkey=1i5afvnues8mjvexmaqhqd8wi&st=d8aejehj&dl=0",
+    imageSrc: "https://dl.dropboxusercontent.com/s/fi/q07sfxk5fer5t0ce76omv/mulvarpen.jpg?rlkey=1312brnahi6y1t0u5z1ff5enu&st=g4wpbz4l&dl=0",
     category: "Mixed Media",
     available: true,
     additionalImages: [],
