@@ -18,7 +18,7 @@ const Gallery = () => {
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
   const [filteredArtworks, setFilteredArtworks] = useState<Artwork[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [currentCategory, setCurrentCategory] = useState<string>('all');
+  const [currentCategory, setCurrentCategory] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(1);
   const artworksPerPage = 9;
 
@@ -40,7 +40,7 @@ const Gallery = () => {
       );
     }
     
-    if (currentCategory !== 'all') {
+    if (currentCategory) {
       result = result.filter(artwork => artwork.category === currentCategory);
     }
     
@@ -61,7 +61,11 @@ const Gallery = () => {
     setSearchTerm('');
   };
 
-  const categories = ['all', ...new Set(artworkData.map(artwork => artwork.category || 'Uncategorized'))];
+  // Filter out 'all' and 'osoone' from the categories list
+  const categories = [...new Set(artworkData
+    .map(artwork => artwork.category || 'Uncategorized'))]
+    .filter(category => category !== 'all' && category !== 'osoone')
+    .sort();
 
   const indexOfLastArtwork = currentPage * artworksPerPage;
   const indexOfFirstArtwork = indexOfLastArtwork - artworksPerPage;
