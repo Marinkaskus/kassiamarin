@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -10,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { X, Search, Filter } from 'lucide-react';
+
 const Gallery = () => {
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
@@ -44,13 +46,16 @@ const Gallery = () => {
     setFilteredArtworks(result);
     setCurrentPage(1); // Reset to first page when filters change
   }, [searchTerm, currentCategory, artworkData]);
+
   const handleArtworkClick = (artwork: Artwork) => {
     setSelectedArtwork(artwork);
     setDetailsOpen(true);
   };
+
   const handleDetailsOpenChange = (open: boolean) => {
     setDetailsOpen(open);
   };
+
   const handleClearSearch = () => {
     setSearchTerm('');
   };
@@ -69,7 +74,9 @@ const Gallery = () => {
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }
-  return <Layout>
+
+  return (
+    <Layout>
       <Helmet>
         <title>Art Gallery - Kassia Marin | Paintings and Mixed Media Works</title>
         <meta name="description" content="Browse Kassia Marin's gallery of paintings and mixed media artworks. Contemporary art pieces exploring memory, identity, and perception by Norwegian artist Kassia Marin." />
@@ -97,16 +104,22 @@ const Gallery = () => {
               <div className="relative w-full md:w-72">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input placeholder="Search artworks..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-10 pr-10" />
-                {searchTerm && <button onClick={handleClearSearch} className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                {searchTerm && (
+                  <button onClick={handleClearSearch} className="absolute right-3 top-1/2 transform -translate-y-1/2">
                     <X className="h-4 w-4 text-muted-foreground hover:text-foreground" />
-                  </button>}
+                  </button>
+                )}
               </div>
               
               {/* Category Tabs */}
               <div className="w-full md:w-auto overflow-x-auto">
                 <Tabs value={currentCategory} onValueChange={setCurrentCategory} className="w-full">
                   <TabsList className="h-10">
-                    {categories.map(category => {})}
+                    {categories.map(category => (
+                      <TabsTrigger key={category} value={category} className="capitalize">
+                        {category}
+                      </TabsTrigger>
+                    ))}
                   </TabsList>
                 </Tabs>
               </div>
@@ -115,48 +128,67 @@ const Gallery = () => {
           
           {/* Artworks Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10">
-            {currentArtworks.map((artwork, index) => <div key={artwork.id} style={{
-            opacity: 0,
-            animation: `scaleIn 0.6s ease-out forwards`,
-            animationDelay: `${index * 100}ms`
-          }}>
+            {currentArtworks.map((artwork, index) => (
+              <div key={artwork.id} style={{
+                opacity: 0,
+                animation: `scaleIn 0.6s ease-out forwards`,
+                animationDelay: `${index * 100}ms`
+              }}>
                 <ArtworkCard artwork={artwork} onClick={handleArtworkClick} className="h-full" />
-              </div>)}
+              </div>
+            ))}
           </div>
           
           {/* Empty State */}
-          {filteredArtworks.length === 0 && <div className="text-center py-12 border rounded-md bg-muted/10">
+          {filteredArtworks.length === 0 && (
+            <div className="text-center py-12 border rounded-md bg-muted/10">
               <p className="text-muted-foreground mb-2">No artworks found.</p>
               <Button variant="outline" onClick={() => {
-            setSearchTerm('');
-            setCurrentCategory('all');
-          }}>
+                setSearchTerm('');
+                setCurrentCategory('all');
+              }}>
                 Clear filters
               </Button>
-            </div>}
+            </div>
+          )}
           
           {/* Pagination */}
-          {filteredArtworks.length > artworksPerPage && <Pagination className="mt-10">
+          {filteredArtworks.length > artworksPerPage && (
+            <Pagination className="mt-10">
               <PaginationContent>
                 <PaginationItem>
-                  <PaginationPrevious onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} className={currentPage === 1 ? "pointer-events-none opacity-50" : ""} />
+                  <PaginationPrevious 
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
+                    className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                  />
                 </PaginationItem>
                 
-                {pageNumbers.map(number => <PaginationItem key={number}>
-                    <PaginationLink onClick={() => setCurrentPage(number)} isActive={currentPage === number}>
+                {pageNumbers.map(number => (
+                  <PaginationItem key={number}>
+                    <PaginationLink 
+                      onClick={() => setCurrentPage(number)} 
+                      isActive={currentPage === number}
+                    >
                       {number}
                     </PaginationLink>
-                  </PaginationItem>)}
+                  </PaginationItem>
+                ))}
                 
                 <PaginationItem>
-                  <PaginationNext onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""} />
+                  <PaginationNext 
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} 
+                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                  />
                 </PaginationItem>
               </PaginationContent>
-            </Pagination>}
+            </Pagination>
+          )}
         </div>
       </section>
       
       <ArtworkDetails artwork={selectedArtwork} allArtworks={artworkData} open={detailsOpen} onOpenChange={handleDetailsOpenChange} />
-    </Layout>;
+    </Layout>
+  );
 };
+
 export default Gallery;

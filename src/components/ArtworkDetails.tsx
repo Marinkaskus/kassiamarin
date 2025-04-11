@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { X, ChevronLeft, ChevronRight, ImageOff } from 'lucide-react';
@@ -132,9 +133,9 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="flex flex-col md:flex-row md:max-w-5xl md:h-[80vh] gap-6 p-0 overflow-hidden bg-background">
+      <DialogContent className="flex flex-col max-w-5xl md:h-[80vh] gap-6 p-0 overflow-hidden bg-background">
         <div 
-          className="relative flex-1 bg-white p-4 md:p-6 flex items-center justify-center"
+          className="relative w-full bg-white p-4 md:p-6 flex items-center justify-center"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -146,7 +147,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
               <p className="text-sm text-muted-foreground mt-2">{currentArtwork.title}</p>
             </div>
           ) : (
-            <div className="max-h-full max-w-full flex items-center justify-center">
+            <div className="max-h-[50vh] md:max-h-[60vh] lg:max-h-[65vh] w-full flex items-center justify-center">
               {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-background/30 z-10">
                   <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
@@ -156,7 +157,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
                 ref={imgRef}
                 src={displayImage} 
                 alt={currentArtwork.title} 
-                className="max-w-full max-h-full object-contain"
+                className="max-w-full max-h-full object-contain mx-auto"
                 onError={handleImageError}
                 onLoad={handleImageLoad}
                 loading="eager"
@@ -193,7 +194,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
           )}
           
           {allArtworks.length > 1 && currentArtworkIndex !== -1 && (
-            <div className="absolute bottom-1/2 -translate-y-1/2 w-full flex justify-between px-2 md:px-4">
+            <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-2 md:px-4">
               <button 
                 onClick={goToPrevArtwork}
                 className="h-8 w-8 md:h-12 md:w-12 rounded-full bg-foreground/10 border border-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/20 transform -translate-x-3 md:-translate-x-6"
@@ -218,45 +219,36 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
           </DialogClose>
         </div>
         
-        <div className="flex-none md:w-1/3 p-4 md:p-6 overflow-y-auto max-h-[30vh] md:max-h-full">
-          <DialogHeader className="mb-4 md:mb-6">
+        <div className="p-4 md:p-6 w-full">
+          <DialogHeader className="mb-4 text-center">
             <DialogTitle className="text-xl md:text-2xl lg:text-3xl">{currentArtwork.title}</DialogTitle>
             <DialogDescription className="text-sm md:text-base font-medium text-foreground/80">
               {currentArtwork.year}
             </DialogDescription>
           </DialogHeader>
           
-          <div className="space-y-4 md:space-y-6">
-            <div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-3xl mx-auto">
+            <div className="md:col-span-1">
               <h4 className="text-xs md:text-sm uppercase text-muted-foreground mb-1">Size</h4>
               <p className="text-sm md:text-base">{currentArtwork.size}</p>
             </div>
             
-            <div>
+            <div className="md:col-span-1">
               <h4 className="text-xs md:text-sm uppercase text-muted-foreground mb-1">Medium</h4>
               <p className="text-sm md:text-base">{currentArtwork.medium}</p>
             </div>
             
-            {currentArtwork.description && (
-              <div>
-                <h4 className="text-xs md:text-sm uppercase text-muted-foreground mb-1">Description</h4>
-                <p className="text-sm md:text-base text-foreground/80">{currentArtwork.description}</p>
-              </div>
-            )}
-            
-            {currentArtwork.available !== undefined && (
-              <div>
-                <h4 className="text-xs md:text-sm uppercase text-muted-foreground mb-1">Availability</h4>
-                <p className={`text-sm md:text-base ${currentArtwork.available ? "text-green-600" : "text-amber-600"}`}>
-                  {currentArtwork.available ? "Available" : "Sold"}
-                </p>
-              </div>
-            )}
-            
             {currentArtwork.price && (
-              <div>
+              <div className="md:col-span-1">
                 <h4 className="text-xs md:text-sm uppercase text-muted-foreground mb-1">Price</h4>
                 <p className="text-sm md:text-base">{currentArtwork.price}</p>
+              </div>
+            )}
+            
+            {currentArtwork.description && (
+              <div className="md:col-span-3">
+                <h4 className="text-xs md:text-sm uppercase text-muted-foreground mb-1">Description</h4>
+                <p className="text-sm md:text-base text-foreground/80">{currentArtwork.description}</p>
               </div>
             )}
             
