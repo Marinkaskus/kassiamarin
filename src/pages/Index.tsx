@@ -10,6 +10,8 @@ import ProjectTeaser from '@/components/ProjectTeaser';
 import { artworks } from '@/data/artworkData';
 import ArtworkCard from '@/components/ArtworkCard';
 import ArtworkDetails from '@/components/ArtworkDetails';
+import LogoDisplay from '@/components/LogoDisplay';
+
 const Index = () => {
   // Get up to 3 projects for the teaser section
   const featuredProjects = previousProjects.slice(0, 3);
@@ -21,11 +23,14 @@ const Index = () => {
   // State for artwork preview
   const [selectedArtwork, setSelectedArtwork] = React.useState(null);
   const [detailsOpen, setDetailsOpen] = React.useState(false);
+
   const handleArtworkClick = artwork => {
     setSelectedArtwork(artwork);
     setDetailsOpen(true);
   };
-  return <Layout>
+
+  return (
+    <Layout>
       <Helmet>
         <title>Kassia Marin - Contemporary Visual Artist Based in Oslo</title>
         <meta name="description" content="Kassia Marin is a Norwegian contemporary visual artist working with painting, text, and video to explore memory and identity. Browse her portfolio and gallery." />
@@ -55,13 +60,23 @@ const Index = () => {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            {featuredArtworks.slice(0, 3).map((artwork, index) => <div key={artwork.id} className="relative transition-all duration-300 hover:-translate-y-1" style={{
-            opacity: 0,
-            animation: `scaleIn 0.6s ease-out forwards`,
-            animationDelay: `${index * 100}ms`
-          }}>
-                <ArtworkCard artwork={artwork} onClick={handleArtworkClick} className="transition-transform duration-300 h-full" />
-              </div>)}
+            {featuredArtworks.slice(0, 3).map((artwork, index) => (
+              <div 
+                key={artwork.id} 
+                className="relative transition-all duration-300 hover:-translate-y-1" 
+                style={{
+                  opacity: 0,
+                  animation: `scaleIn 0.6s ease-out forwards`,
+                  animationDelay: `${index * 100}ms`
+                }}
+              >
+                <ArtworkCard 
+                  artwork={artwork} 
+                  onClick={handleArtworkClick} 
+                  className="transition-transform duration-300 h-full" 
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -81,7 +96,9 @@ const Index = () => {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            {featuredProjects.map(project => <ProjectTeaser key={project.id} project={project} />)}
+            {featuredProjects.map(project => (
+              <ProjectTeaser key={project.id} project={project} />
+            ))}
           </div>
         </div>
       </section>
@@ -125,7 +142,14 @@ const Index = () => {
       </section>
       
       {/* Artwork details dialog */}
-      <ArtworkDetails artwork={selectedArtwork} allArtworks={featuredArtworks} open={detailsOpen} onOpenChange={setDetailsOpen} />
-    </Layout>;
+      <ArtworkDetails 
+        artwork={selectedArtwork} 
+        allArtworks={featuredArtworks} 
+        open={detailsOpen} 
+        onOpenChange={setDetailsOpen} 
+      />
+    </Layout>
+  );
 };
+
 export default Index;
