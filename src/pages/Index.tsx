@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
 import HeroSection from '@/components/HeroSection';
@@ -10,21 +10,36 @@ import ProjectTeaser from '@/components/ProjectTeaser';
 import { artworks } from '@/data/artworkData';
 import ArtworkCard from '@/components/ArtworkCard';
 import ArtworkDetails from '@/components/ArtworkDetails';
+import LogoDisplay from '@/components/LogoDisplay';
+
 const Index = () => {
   // Get up to 3 projects for the teaser section
   const featuredProjects = previousProjects.slice(0, 3);
 
   // Get up to 4 artworks for the gallery teaser
   const featuredArtworks = artworks.slice(0, 4);
-  console.log("Featured artworks:", featuredArtworks.length);
-
+  
   // State for artwork preview
-  const [selectedArtwork, setSelectedArtwork] = React.useState(null);
-  const [detailsOpen, setDetailsOpen] = React.useState(false);
+  const [selectedArtwork, setSelectedArtwork] = useState(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  
+  // State for logo animation
+  const [showLogo, setShowLogo] = useState(true);
+  
+  useEffect(() => {
+    // Hide the logo animation after 3 seconds
+    const timer = setTimeout(() => {
+      setShowLogo(false);
+    }, 3000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+  
   const handleArtworkClick = artwork => {
     setSelectedArtwork(artwork);
     setDetailsOpen(true);
   };
+  
   return <Layout>
       <Helmet>
         <title>Kassia Marin - Contemporary Visual Artist Based in Oslo</title>
@@ -37,6 +52,18 @@ const Index = () => {
         <meta property="og:url" content="https://kassiamarin.studio/" />
         <meta property="og:image" content="/lovable-uploads/824ccf0a-639d-4a60-a427-5e5c4686f385.png" />
       </Helmet>
+      
+      {/* Introductory Logo Animation */}
+      {showLogo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background">
+          <div className="text-center">
+            <div className="mb-6">
+              <LogoDisplay size="large" animated={true} />
+            </div>
+            <h1 className="text-3xl md:text-4xl font-gotu animate-fade-in opacity-80">Kassia Marin</h1>
+          </div>
+        </div>
+      )}
       
       <HeroSection />
       
