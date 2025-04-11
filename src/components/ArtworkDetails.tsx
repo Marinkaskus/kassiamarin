@@ -4,6 +4,8 @@ import { X, ChevronLeft, ChevronRight, ImageOff } from 'lucide-react';
 import { Artwork } from '@/types/Artwork';
 import { logImageError } from '@/utils/imageUtils';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { Separator } from '@/components/ui/separator';
+
 interface ArtworkDetailsProps {
   artwork: Artwork | null;
   allArtworks?: Artwork[]; // Added to allow navigation between artworks
@@ -11,6 +13,7 @@ interface ArtworkDetailsProps {
   onOpenChange: (open: boolean) => void;
   children?: React.ReactNode;
 }
+
 const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
   artwork,
   allArtworks = [],
@@ -27,6 +30,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
   const touchStartY = useRef<number | null>(null);
   const touchEndY = useRef<number | null>(null);
   const imgRef = useRef<HTMLImageElement>(null);
+
   useEffect(() => {
     if (open && artwork) {
       setCurrentImageIndex(0);
@@ -35,30 +39,39 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
       setCurrentArtwork(artwork);
     }
   }, [artwork, open]);
+
   useEffect(() => {
     if (!currentArtwork) return;
     setIsLoading(true);
     setImageError(false);
   }, [currentImageIndex, currentArtwork]);
+
   if (!currentArtwork) return null;
+
   const allImages = [currentArtwork.imageSrc, ...(currentArtwork.additionalImages || [])];
+
   const handleNextImage = () => {
     setCurrentImageIndex(prev => (prev + 1) % allImages.length);
   };
+
   const handlePrevImage = () => {
     setCurrentImageIndex(prev => (prev - 1 + allImages.length) % allImages.length);
   };
+
   const handleImageError = () => {
     console.log(`Using fallback in details view for: ${currentArtwork.title}`);
     logImageError(allImages[currentImageIndex], currentArtwork.title);
     setImageError(true);
     setIsLoading(false);
   };
+
   const handleImageLoad = () => {
     setIsLoading(false);
     setImageError(false);
   };
+
   const currentArtworkIndex = allArtworks.findIndex(art => art.id === currentArtwork.id);
+
   const goToNextArtwork = () => {
     if (allArtworks.length <= 1 || currentArtworkIndex === -1) return;
     const nextIndex = (currentArtworkIndex + 1) % allArtworks.length;
@@ -67,6 +80,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
     setImageError(false);
     setIsLoading(true);
   };
+
   const goToPrevArtwork = () => {
     if (allArtworks.length <= 1 || currentArtworkIndex === -1) return;
     const prevIndex = (currentArtworkIndex - 1 + allArtworks.length) % allArtworks.length;
@@ -75,16 +89,20 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
     setImageError(false);
     setIsLoading(true);
   };
+
   const displayImage = imageError ? 'https://images.unsplash.com/photo-1518770660439-4636190af475' // Fallback image
   : allImages[currentImageIndex];
+
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
   };
+
   const handleTouchMove = (e: React.TouchEvent) => {
     touchEndX.current = e.touches[0].clientX;
     touchEndY.current = e.touches[0].clientY;
   };
+
   const handleTouchEnd = () => {
     if (!touchStartX.current || !touchEndX.current || !touchStartY.current || !touchEndY.current) return;
     const xDiff = touchStartX.current - touchEndX.current;
@@ -109,89 +127,138 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
     touchStartY.current = null;
     touchEndY.current = null;
   };
-  return <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="flex flex-col max-w-5xl w-full md:h-auto gap-6 p-0 overflow-hidden bg-background">
-        <div className="w-full flex flex-col md:flex-col">
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="flex flex-col max-w-5xl w-full md:h-auto overflow-hidden backdrop-blur-xl bg-white/70 dark:bg-black/50 border-0 shadow-lg p-0">
+        <div className="w-full flex flex-col">
           {/* Image Container */}
-          <div className="relative w-full bg-background p-4 md:p-6 flex items-center justify-center" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
-            {imageError ? <div className="w-full h-full flex flex-col items-center justify-center py-16">
+          <div 
+            className="relative w-full flex items-center justify-center p-4 md:p-6" 
+            onTouchStart={handleTouchStart} 
+            onTouchMove={handleTouchMove} 
+            onTouchEnd={handleTouchEnd}
+          >
+            {imageError ? (
+              <div className="w-full h-full flex flex-col items-center justify-center py-16">
                 <ImageOff className="h-16 w-16 text-muted-foreground mb-4" />
                 <p className="text-muted-foreground">Image could not be loaded</p>
                 <p className="text-sm text-muted-foreground mt-2">{currentArtwork.title}</p>
-              </div> : <div className="w-full flex items-center justify-center py-4">
-                {isLoading && <div className="absolute inset-0 flex items-center justify-center bg-background/30 z-10">
+              </div>
+            ) : (
+              <div className="w-full flex items-center justify-center py-4">
+                {isLoading && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-background/30 z-10">
                     <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                  </div>}
-                <img ref={imgRef} src={displayImage} alt={currentArtwork.title} className="max-w-full max-h-[70vh] w-auto h-auto object-contain mx-auto" onError={handleImageError} onLoad={handleImageLoad} loading="eager" decoding="async" style={{
-              opacity: isLoading ? 0 : 1,
-              transition: 'opacity 0.3s ease'
-            }} />
-              </div>}
+                  </div>
+                )}
+                <img
+                  ref={imgRef}
+                  src={displayImage}
+                  alt={currentArtwork.title}
+                  className="max-w-full max-h-[75vh] w-auto h-auto object-contain mx-auto"
+                  onError={handleImageError}
+                  onLoad={handleImageLoad}
+                  loading="eager"
+                  decoding="async"
+                  style={{
+                    opacity: isLoading ? 0 : 1,
+                    transition: 'opacity 0.3s ease'
+                  }}
+                />
+              </div>
+            )}
             
-            {allImages.length > 1 && <>
-                <button onClick={handlePrevImage} className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 h-8 w-8 md:h-10 md:w-10 rounded-full bg-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/20" aria-label="Previous image">
+            {allImages.length > 1 && (
+              <>
+                <button 
+                  onClick={handlePrevImage} 
+                  className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 h-8 w-8 md:h-10 md:w-10 rounded-full bg-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/20" 
+                  aria-label="Previous image"
+                >
                   <ChevronLeft className="h-4 w-4 md:h-6 md:w-6" />
                 </button>
                 
-                <button onClick={handleNextImage} className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 h-8 w-8 md:h-10 md:w-10 rounded-full bg-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/20" aria-label="Next image">
+                <button 
+                  onClick={handleNextImage} 
+                  className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 h-8 w-8 md:h-10 md:w-10 rounded-full bg-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/20" 
+                  aria-label="Next image"
+                >
                   <ChevronRight className="h-4 w-4 md:h-6 md:w-6" />
                 </button>
                 
                 <div className="absolute bottom-2 md:bottom-4 left-0 right-0 flex justify-center">
-                  <div className="bg-foreground/10 text-foreground px-2 py-1 rounded-full text-xs">
+                  <div className="bg-foreground/10 backdrop-blur-sm text-foreground px-2 py-1 rounded-full text-xs">
                     {currentImageIndex + 1} / {allImages.length}
                   </div>
                 </div>
-              </>}
+              </>
+            )}
             
-            {allArtworks.length > 1 && currentArtworkIndex !== -1 && <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-2 md:px-4">
-                <button onClick={goToPrevArtwork} className="h-8 w-8 md:h-12 md:w-12 rounded-full bg-foreground/10 border border-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/20 transform -translate-x-3 md:-translate-x-6" aria-label="Previous artwork">
+            {allArtworks.length > 1 && currentArtworkIndex !== -1 && (
+              <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-2 md:px-4">
+                <button 
+                  onClick={goToPrevArtwork} 
+                  className="h-8 w-8 md:h-12 md:w-12 rounded-full bg-foreground/10 backdrop-blur-sm border border-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/20 transform -translate-x-3 md:-translate-x-6" 
+                  aria-label="Previous artwork"
+                >
                   <ChevronLeft className="h-4 w-4 md:h-6 md:w-6" />
                 </button>
                 
-                <button onClick={goToNextArtwork} className="h-8 w-8 md:h-12 md:w-12 rounded-full bg-foreground/10 border border-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/20 transform translate-x-3 md:translate-x-6" aria-label="Next artwork">
+                <button 
+                  onClick={goToNextArtwork} 
+                  className="h-8 w-8 md:h-12 md:w-12 rounded-full bg-foreground/10 backdrop-blur-sm border border-foreground/10 flex items-center justify-center text-foreground hover:bg-foreground/20 transform translate-x-3 md:translate-x-6" 
+                  aria-label="Next artwork"
+                >
                   <ChevronRight className="h-4 w-4 md:h-6 md:w-6" />
                 </button>
-              </div>}
-            
-            
+              </div>
+            )}
           </div>
           
-          {/* Artwork Information */}
-          <div className="p-4 md:p-6 w-full">
-            <DialogHeader className="mb-4 text-center">
-              <DialogTitle className="text-xl md:text-2xl lg:text-3xl">{currentArtwork.title}</DialogTitle>
-              <DialogDescription className="text-sm md:text-base font-medium text-foreground/80">
-                {currentArtwork.year}
-              </DialogDescription>
-            </DialogHeader>
+          {/* Artwork Information - Minimalist Style */}
+          <div className="px-6 pb-6 w-full backdrop-blur-md bg-white/30 dark:bg-black/30">
+            <Separator className="mb-4" />
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-3xl mx-auto">
-              <div className="md:col-span-1">
-                <h4 className="text-xs md:text-sm uppercase text-muted-foreground mb-1">Size</h4>
-                <p className="text-sm md:text-base">{currentArtwork.size}</p>
+            <div className="flex flex-col space-y-2 max-w-3xl mx-auto">
+              <div className="text-center">
+                <h2 className="text-xl md:text-2xl font-medium">{currentArtwork.title}</h2>
+                <p className="text-sm text-muted-foreground mt-1">{currentArtwork.year}</p>
               </div>
               
-              <div className="md:col-span-1">
-                <h4 className="text-xs md:text-sm uppercase text-muted-foreground mb-1">Medium</h4>
-                <p className="text-sm md:text-base">{currentArtwork.medium}</p>
+              <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-3 text-sm">
+                {currentArtwork.size && (
+                  <span className="text-muted-foreground">
+                    {currentArtwork.size}
+                  </span>
+                )}
+                
+                {currentArtwork.medium && (
+                  <span className="text-muted-foreground">
+                    {currentArtwork.medium}
+                  </span>
+                )}
+                
+                {currentArtwork.price && (
+                  <span className="text-muted-foreground">
+                    {currentArtwork.price}
+                  </span>
+                )}
               </div>
               
-              {currentArtwork.price && <div className="md:col-span-1">
-                  <h4 className="text-xs md:text-sm uppercase text-muted-foreground mb-1">Price</h4>
-                  <p className="text-sm md:text-base">{currentArtwork.price}</p>
-                </div>}
-              
-              {currentArtwork.description && <div className="md:col-span-3">
-                  <h4 className="text-xs md:text-sm uppercase text-muted-foreground mb-1">Description</h4>
-                  <p className="text-sm md:text-base text-foreground/80">{currentArtwork.description}</p>
-                </div>}
+              {currentArtwork.description && (
+                <p className="text-sm text-center text-foreground/80 mt-3 max-w-2xl mx-auto">
+                  {currentArtwork.description}
+                </p>
+              )}
               
               {children}
             </div>
           </div>
         </div>
       </DialogContent>
-    </Dialog>;
+    </Dialog>
+  );
 };
+
 export default ArtworkDetails;
