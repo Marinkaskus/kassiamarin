@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -10,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { X, Search, Filter } from 'lucide-react';
+
 const Gallery = () => {
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
@@ -19,11 +21,13 @@ const Gallery = () => {
   const [currentCategory, setCurrentCategory] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const artworksPerPage = 9;
+
   useEffect(() => {
     console.log("Loading artworks:", artworks.length);
     setArtworkData(artworks);
     setFilteredArtworks(artworks);
   }, []);
+
   useEffect(() => {
     let result = artworkData;
     if (searchTerm) {
@@ -36,17 +40,22 @@ const Gallery = () => {
     setFilteredArtworks(result);
     setCurrentPage(1);
   }, [searchTerm, currentCategory, artworkData]);
+
   const handleArtworkClick = (artwork: Artwork) => {
     setSelectedArtwork(artwork);
     setDetailsOpen(true);
   };
+
   const handleDetailsOpenChange = (open: boolean) => {
     setDetailsOpen(open);
   };
+
   const handleClearSearch = () => {
     setSearchTerm('');
   };
+
   const categories = ['all', ...new Set(artworkData.map(artwork => artwork.category || 'Uncategorized'))];
+  
   const indexOfLastArtwork = currentPage * artworksPerPage;
   const indexOfFirstArtwork = indexOfLastArtwork - artworksPerPage;
   const currentArtworks = filteredArtworks.slice(indexOfFirstArtwork, indexOfLastArtwork);
@@ -55,6 +64,7 @@ const Gallery = () => {
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }
+
   return <Layout>
       <Helmet>
         <title>Art Gallery - Kassia Marin | Paintings and Mixed Media Works</title>
@@ -89,7 +99,11 @@ const Gallery = () => {
               <div className="w-full md:w-auto overflow-x-auto">
                 <Tabs value={currentCategory} onValueChange={setCurrentCategory} className="w-full">
                   <TabsList className="h-10">
-                    {categories.map(category => {})}
+                    {categories.map(category => (
+                      <TabsTrigger key={category} value={category}>
+                        {category.charAt(0).toUpperCase() + category.slice(1)}
+                      </TabsTrigger>
+                    ))}
                   </TabsList>
                 </Tabs>
               </div>
@@ -139,4 +153,5 @@ const Gallery = () => {
       <ArtworkDetails artwork={selectedArtwork} allArtworks={artworkData} open={detailsOpen} onOpenChange={handleDetailsOpenChange} />
     </Layout>;
 };
+
 export default Gallery;
