@@ -61,10 +61,15 @@ const Gallery = () => {
     setSearchTerm('');
   };
 
-  // Filter out 'all' and 'osoone' from the categories list
+  // Filter out 'all', 'osoone', 'Ink and aquarelle on tile', and 'Mixed Media' from the categories list
   const categories = [...new Set(artworkData
     .map(artwork => artwork.category || 'Uncategorized'))]
-    .filter(category => category !== 'all' && category !== 'osoone')
+    .filter(category => 
+      category !== 'all' && 
+      category !== 'osoone' && 
+      category !== 'Ink and aquarelle on tile' && 
+      category !== 'Mixed Media'
+    )
     .sort();
 
   const indexOfLastArtwork = currentPage * artworksPerPage;
@@ -110,17 +115,19 @@ const Gallery = () => {
                 )}
               </div>
               
-              <div className="w-full md:w-auto overflow-x-auto">
-                <Tabs value={currentCategory} onValueChange={setCurrentCategory} className="w-full">
-                  <TabsList className="h-10">
-                    {categories.map(category => (
-                      <TabsTrigger key={category} value={category} className="capitalize">
-                        {category}
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
-                </Tabs>
-              </div>
+              {categories.length > 0 && (
+                <div className="w-full md:w-auto overflow-x-auto">
+                  <Tabs value={currentCategory} onValueChange={setCurrentCategory} className="w-full">
+                    <TabsList className="h-10">
+                      {categories.map(category => (
+                        <TabsTrigger key={category} value={category} className="capitalize">
+                          {category}
+                        </TabsTrigger>
+                      ))}
+                    </TabsList>
+                  </Tabs>
+                </div>
+              )}
             </div>
           </div>
           
