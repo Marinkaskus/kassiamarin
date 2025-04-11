@@ -20,9 +20,9 @@ const LogoDisplay: React.FC<LogoDisplayProps> = ({
   const sizeClasses = {
     small: 'w-8 h-8',
     medium: 'w-16 h-16',
-    'medium-large': 'w-24 h-24',
+    'medium-large': 'w-24 h-24', // New size that's about 1/3 of x-large
     large: 'w-32 h-32',
-    'x-large': 'w-80 h-80'
+    'x-large': 'w-80 h-80' // 10x the small size
   };
 
   // Determine color variant classes
@@ -40,7 +40,7 @@ const LogoDisplay: React.FC<LogoDisplayProps> = ({
     if (animated && logoRef.current) {
       const logoElement = logoRef.current;
       
-      // Floating animation
+      // Simple floating animation
       const animateFloat = () => {
         let start: number | null = null;
         const duration = 3000; // 3 seconds per cycle
@@ -49,7 +49,7 @@ const LogoDisplay: React.FC<LogoDisplayProps> = ({
           if (!start) start = timestamp;
           const progress = (timestamp - start) / duration;
           
-          // Sine wave for gentle floating
+          // Simple sine wave for gentle floating
           const y = Math.sin(progress * Math.PI * 2) * 10;
           
           if (logoElement) {
@@ -68,13 +68,6 @@ const LogoDisplay: React.FC<LogoDisplayProps> = ({
       };
       
       animateFloat();
-      
-      // Clean up animation on unmount
-      return () => {
-        if (logoElement) {
-          logoElement.style.transform = '';
-        }
-      };
     }
   }, [animated]);
   
