@@ -130,7 +130,7 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="flex flex-col max-w-5xl w-full md:h-auto overflow-hidden backdrop-blur-xl bg-white/70 dark:bg-black/50 border-0 shadow-lg p-0">
+      <DialogContent className="flex flex-col max-w-5xl w-full md:h-auto overflow-hidden bg-white border-0 shadow-lg p-0">
         <div className="w-full flex flex-col">
           {/* Image Container */}
           <div 
@@ -216,44 +216,32 @@ const ArtworkDetails: React.FC<ArtworkDetailsProps> = ({
             )}
           </div>
           
-          {/* Artwork Information - Minimalist Style */}
-          <div className="px-6 pb-6 w-full backdrop-blur-md bg-white/30 dark:bg-black/30">
+          {/* Artwork Information - With side-by-side layout */}
+          <div className="px-6 pb-6 w-full bg-white">
             <Separator className="mb-4" />
             
-            <div className="flex flex-col space-y-2 max-w-3xl mx-auto">
-              <div className="text-center">
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between max-w-3xl mx-auto">
+              <div className="md:flex-1">
                 <h2 className="text-xl md:text-2xl font-medium">{currentArtwork.title}</h2>
-                <p className="text-sm text-muted-foreground mt-1">{currentArtwork.year}</p>
               </div>
               
-              <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-3 text-sm">
-                {currentArtwork.size && (
-                  <span className="text-muted-foreground">
-                    {currentArtwork.size}
-                  </span>
-                )}
-                
-                {currentArtwork.medium && (
-                  <span className="text-muted-foreground">
-                    {currentArtwork.medium}
-                  </span>
-                )}
-                
-                {currentArtwork.price && (
-                  <span className="text-muted-foreground">
-                    {currentArtwork.price}
-                  </span>
-                )}
+              <div className="mt-2 md:mt-0 md:text-right">
+                <div className="inline-flex flex-wrap items-center gap-x-3 text-sm text-muted-foreground">
+                  {currentArtwork.year && <span>{currentArtwork.year}</span>}
+                  {currentArtwork.size && <span>{currentArtwork.size}</span>}
+                  {currentArtwork.medium && <span>{currentArtwork.medium}</span>}
+                  {currentArtwork.price && <span className="font-medium text-foreground">{currentArtwork.price}</span>}
+                </div>
               </div>
-              
-              {currentArtwork.description && (
-                <p className="text-sm text-center text-foreground/80 mt-3 max-w-2xl mx-auto">
-                  {currentArtwork.description}
-                </p>
-              )}
-              
-              {children}
             </div>
+            
+            {currentArtwork.description && (
+              <p className="text-sm text-foreground/80 mt-4 max-w-3xl mx-auto">
+                {currentArtwork.description}
+              </p>
+            )}
+            
+            {children}
           </div>
         </div>
       </DialogContent>
