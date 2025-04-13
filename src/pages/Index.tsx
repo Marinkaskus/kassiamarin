@@ -10,7 +10,6 @@ import ProjectTeaser from '@/components/ProjectTeaser';
 import { artworks } from '@/data/artworkData';
 import ArtworkCard from '@/components/ArtworkCard';
 import ArtworkDetails from '@/components/ArtworkDetails';
-import LogoDisplay from '@/components/LogoDisplay';
 
 const Index = () => {
   // Get up to 3 projects for the teaser section
@@ -103,30 +102,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* About Section */}
-      <section className="py-20">
-        <div className="container-custom">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <span className="text-sm uppercase tracking-widest text-muted-foreground">About Me</span>
-              <h2 className="text-3xl md:text-4xl font-medium mt-2">Kassia Marin</h2>
-              <div className="mt-4 space-y-2 text-muted-foreground">
-                <p>
-                <strong>Kassia Marin</strong> is a contemporary visual artist based in Oslo. 
-                She is a multidisciplinary artist. Her practice involves painting, video, and mixed media, often incorporating text.
-                Her work explores themes of memory, transformation, and the fragility of experience, focusing on how personal narratives and emotions are expressed through tangible forms. 
-                Kassia examines the passage of time and the tension between presence and absence, reflecting on how memories shape identity. In a world increasingly dominated by digital media, she believes in the enduring power of material art to foster introspection and genuine connection.</p>
-              </div>
-              <Link to="/about" className="inline-block mt-8 px-6 py-2 border border-foreground rounded-full hover:bg-foreground/5 transition-colors">CV</Link>
-            </div>
-            <div className="relative">
-              <div className="absolute -bottom-6 -left-6 w-3/4 h-3/4 bg-accent -z-10"></div>
-              <img src="https://dl.dropboxusercontent.com/s/fi/88f2ddqseerh4h98t12i8/20230919_113701.jpg?rlkey=usum14gsmbbwz057jrd83zz90&st=559y6b5o&dl=0" alt="Kassia Marin in her studio" className="w-full h-auto object-cover" />
-            </div>
-          </div>
-        </div>
-      </section>
-      
       {/* Contact Section */}
       <section className="py-20 text-background bg-red-950">
         <div className="container-custom text-center">
@@ -153,3 +128,4 @@ const Index = () => {
 };
 
 export default Index;
+
