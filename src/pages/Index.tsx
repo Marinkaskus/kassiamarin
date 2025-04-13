@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -102,20 +101,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Contact Section */}
-      <section className="py-20 text-background bg-red-950">
-        <div className="container-custom text-center">
-          <h2 className="text-3xl md:text-4xl font-medium">Interested in collaborating?</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-background/80">
-            I'm open to exhibitions, commissions, and creative partnerships. 
-            Let's create something meaningful together.
-          </p>
-          <Link to="/contact" className="mt-8 inline-block px-8 py-3 rounded-full bg-background text-foreground font-medium hover:bg-background/90 transition-colors">
-            Get in Touch
-          </Link>
-        </div>
-      </section>
-      
       {/* Artwork details dialog */}
       <ArtworkDetails 
         artwork={selectedArtwork} 
@@ -128,4 +113,3 @@ const Index = () => {
 };
 
 export default Index;
-
