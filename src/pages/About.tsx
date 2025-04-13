@@ -5,6 +5,7 @@ import { Separator } from '@/components/ui/separator';
 import { ExternalLink } from 'lucide-react';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import LogoDisplay from '@/components/LogoDisplay';
+
 const About = () => {
   return <Layout>
       <Helmet>
@@ -216,16 +217,6 @@ const About = () => {
                       </TableBody>
                     </Table>
                   </div>
-                </div>
-              </div>
-              
-              {/* Artist Statement (moved below CV) */}
-              <div className="animate-fade-in">
-                <h2 className="text-2xl font-medium mb-6">Artist Statement</h2>
-                <div className="prose prose-lg max-w-none text-muted-foreground">
-                  <p>Kassia Marin is a contemporary visual artist based in Norway, working across painting, mixed media, text, and video. Her practice explores the intricate nature of memory, identity, and perception, investigating how personal histories are shaped by time. Through her work, she examines the delicate and often distorted transformation of memories, probing the tension between past and present, and questioning their emotional weight.</p>
-                  
-                  <p>Through her art, Marin seeks to explore how memories shape our understanding of self and the world. Her hope is that her work invites viewers to reflect on their own memories and experiences, fostering a deeper connection to both their inner worlds and the world around them.</p>
                 </div>
               </div>
             </div>
