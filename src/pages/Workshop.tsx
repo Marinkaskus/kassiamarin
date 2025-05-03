@@ -1,10 +1,12 @@
-import React from 'react';
+
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Check, Calendar } from 'lucide-react';
+import emailjs from 'emailjs-com';
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -47,6 +49,12 @@ const formSchema = z.object({
 const Workshop = () => {
   const { toast } = useToast();
   
+  // Initialize EmailJS once when component mounts
+  useEffect(() => {
+    // Using public key here which is fine to include in the client-side code
+    emailjs.init("service_placeholder");
+  }, []);
+  
   // Set up form with validation
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -76,18 +84,71 @@ const Workshop = () => {
 
   // Function to handle form submission
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // In a real application, you would send this data to a server or email service
-    // For this example, we'll just show a success toast
-    console.log(values);
-
-    // Email submission would normally be handled by a backend service
-    // Here we're just showing a success message
-    toast({
-      title: "Påmelding mottatt!",
-      description: "Vi sender en bekreftelse til din e-post snart.",
-    });
-    
-    form.reset();
+    try {
+      // Format the data for better email readability
+      const formattedData = {
+        fullName: values.fullName,
+        age: values.age,
+        guardianName: values.guardianName,
+        guardianPhone: values.guardianPhone,
+        email: values.email,
+        workshopDate: values.workshopDate,
+        additionalInfo: values.additionalInfo || "Ingen tilleggsinformasjon",
+        photoPermission: values.photoPermission ? "Ja" : "Nei",
+        acceptTerms: values.acceptTerms ? "Ja" : "Nei",
+      };
+      
+      // Prepare the email template parameters
+      const templateParams = {
+        to_email: "kassiamarin486@gmail.com",
+        reply_to: values.email,
+        subject: `Påmelding workshop: ${values.fullName}`,
+        message: `
+          Påmelding til workshop:
+          
+          Navn på deltaker: ${formattedData.fullName}
+          Alder: ${formattedData.age}
+          Navn på foresatt: ${formattedData.guardianName}
+          Telefon til foresatt: ${formattedData.guardianPhone}
+          E-post: ${formattedData.email}
+          Valgt dato: ${formattedData.workshopDate}
+          
+          Tilleggsinformasjon: ${formattedData.additionalInfo}
+          
+          Fototillatelse: ${formattedData.photoPermission}
+          Aksepterer bindende påmelding: ${formattedData.acceptTerms}
+          
+          Sendt: ${new Date().toLocaleString('no-NO')}
+        `,
+        form_data: JSON.stringify(formattedData, null, 2),
+      };
+      
+      // Send the email using EmailJS
+      await emailjs.send(
+        "service_placeholder", // Replace with your EmailJS service ID
+        "template_placeholder", // Replace with your EmailJS template ID
+        templateParams
+      );
+      
+      // Console log for debugging
+      console.log("Form submitted:", values);
+      
+      // Show success message
+      toast({
+        title: "Påmelding mottatt!",
+        description: "Vi sender en bekreftelse til din e-post snart.",
+      });
+      
+      // Reset the form
+      form.reset();
+    } catch (error) {
+      console.error("Error sending email:", error);
+      toast({
+        title: "Det oppstod en feil",
+        description: "Kunne ikke sende påmeldingen. Vennligst prøv igjen senere eller kontakt oss direkte.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
