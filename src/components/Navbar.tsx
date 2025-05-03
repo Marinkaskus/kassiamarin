@@ -1,110 +1,108 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import LogoDisplay from './LogoDisplay';
 
 const Navbar: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const closeMenu = () => setIsMenuOpen(false);
-
+  
+  const toggleMenu = () => setIsOpen(!isOpen);
+  const closeMenu = () => setIsOpen(false);
+  
+  // Handle scroll events to change navbar appearance
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 60) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
-
+    
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
-  // Close menu when changing routes
-  useEffect(() => {
-    closeMenu();
-  }, [location.pathname]);
-
-  const navLinks = [
+  // List of navigation items
+  const navItems = [
     { name: 'Home', path: '/' },
     { name: 'Portfolio', path: '/portfolio' },
     { name: 'Gallery', path: '/gallery' },
+    { name: 'Workshop', path: '/workshop' },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
-
+  
+  // Check if the path is active
   const isActive = (path: string) => {
-    return location.pathname === path;
+    if (path === '/' && location.pathname === '/') return true;
+    if (path !== '/' && location.pathname.startsWith(path)) return true;
+    return false;
   };
-
+  
   return (
-    <nav 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'glass py-3 shadow-sm' : 'bg-transparent py-6'
+    <header 
+      className={`fixed w-full z-40 transition-all duration-300 ${
+        isScrolled ? 'py-2 bg-background/90 backdrop-blur-md shadow-sm' : 'py-4 bg-transparent'
       }`}
     >
-      <div className="container-custom flex items-center justify-between">
-        <Link 
-          to="/" 
-          className="flex items-center gap-2 transition-all hover:opacity-80"
-          onClick={closeMenu}
-        >
-          <LogoDisplay size="medium-large" transparentBg={true} />
-          <span className="font-gotu text-xl md:text-2xl font-medium">Kassia Marin</span>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-12">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={`text-sm tracking-wide transition-all hover:opacity-70 ${
-                isActive(link.path) 
-                  ? 'font-medium opacity-100 border-b border-primary pb-0.5' 
-                  : 'opacity-80'
-              }`}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden text-foreground flex items-center"
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+      <div className="container-custom">
+        <nav className="flex items-center justify-between">
+          {/* Logo */}
+          <LogoDisplay isScrolled={isScrolled} />
+          
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex space-x-8 items-center">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`text-sm font-medium hover:text-accent-foreground transition-colors ${
+                  isActive(item.path)
+                    ? 'text-foreground after:scale-x-100'
+                    : 'text-muted-foreground'
+                } relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-full after:origin-bottom-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-300 hover:after:scale-x-100`}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+          
+          {/* Mobile Menu Button */}
+          <button
+            onClick={toggleMenu}
+            className="md:hidden text-foreground"
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </nav>
+        
+        {/* Mobile Navigation */}
+        {isOpen && (
+          <div className="md:hidden absolute top-full left-0 right-0 bg-background shadow-md p-4 border-t border-border animate-fade-in-down">
+            <div className="flex flex-col space-y-4">
+              {navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`text-base py-2 ${
+                    isActive(item.path)
+                      ? 'text-foreground font-medium'
+                      : 'text-muted-foreground'
+                  }`}
+                  onClick={closeMenu}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
-
-      {/* Mobile Menu */}
-      <div
-        className={`fixed inset-0 bg-background z-40 transform transition-transform duration-300 ease-in-out ${
-          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        } md:hidden pt-24`}
-      >
-        <div className="flex flex-col items-center space-y-8 py-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={`text-xl transition-all ${
-                isActive(link.path) ? 'font-medium' : 'opacity-80'
-              }`}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </div>
-      </div>
-    </nav>
+    </header>
   );
 };
 
