@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -164,7 +163,10 @@ const Workshop = () => {
         <div className="container-custom text-center">
           <h1 className="text-4xl md:text-5xl font-medium mb-6">Flisekunst for barn og unge</h1>
           <p className="text-xl md:text-2xl mb-4">Sommerworkshop i Frognerparken</p>
-          <p className="text-muted-foreground text-lg mb-8">Juli 2025</p>
+          <p className="text-muted-foreground text-lg mb-4">Juli 2025</p>
+          <p className="inline-block bg-primary text-white px-4 py-2 rounded-lg font-medium animate-pulse">
+            Påmelding åpner 10. juni 2025
+          </p>
         </div>
       </section>
 
@@ -172,6 +174,11 @@ const Workshop = () => {
       <section className="py-12 md:py-16 bg-white">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto">
+            <div className="mb-8 p-4 border border-primary rounded-lg bg-primary/5 text-center">
+              <Calendar className="h-6 w-6 mx-auto mb-2 text-primary" />
+              <p className="font-medium">Påmelding åpner 10. juni 2025</p>
+            </div>
+            
             <p className="text-lg mb-6">
               En kreativ og gratis sommeraktivitet for barn og unge i Oslo! Utforsk flisemaling med akvarell, 
               delta i workshops med profesjonell kunstner, og bli med å skape et fellesverk i Paviljongen i Vigelandsparken.
@@ -214,6 +221,9 @@ const Workshop = () => {
               >
                 Meld på nå
               </Button>
+              <p className="mt-3 font-medium text-primary">
+                Påmelding åpner 10. juni 2025
+              </p>
             </div>
           </div>
         </div>
@@ -229,6 +239,11 @@ const Workshop = () => {
                 Fyll ut skjemaet under for å melde på til workshop. 
                 Bekreftelse sendes på e-post etter påmelding.
               </p>
+              <div className="mt-3 p-3 bg-primary/10 rounded-md">
+                <p className="font-medium">
+                  Påmelding åpner 10. juni 2025
+                </p>
+              </div>
               <p className="mt-2 font-medium text-primary">Merk: Kun én påmelding per skjema</p>
             </div>
             
