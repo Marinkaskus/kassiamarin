@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
@@ -51,7 +50,7 @@ const Navbar: React.FC = () => {
       <div className="container-custom">
         <nav className="flex items-center justify-between">
           {/* Logo */}
-          <LogoDisplay isScrolled={isScrolled} />
+          <LogoDisplay />
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-8 items-center">

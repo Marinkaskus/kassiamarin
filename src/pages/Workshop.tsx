@@ -64,17 +64,17 @@ const Workshop = () => {
     },
   });
 
-  // Available workshop dates in July 2025
+  // Available workshop dates in July 2025 - Updated to Thursdays and Saturdays from 12:00-15:00
   const workshopDates = [
-    "Tirsdag 1. juli 2025 - 10:00-12:00",
-    "Lørdag 5. juli 2025 - 10:00-12:00",
-    "Tirsdag 8. juli 2025 - 10:00-12:00",
-    "Lørdag 12. juli 2025 - 10:00-12:00",
-    "Tirsdag 15. juli 2025 - 10:00-12:00",
-    "Lørdag 19. juli 2025 - 10:00-12:00",
-    "Tirsdag 22. juli 2025 - 10:00-12:00",
-    "Lørdag 26. juli 2025 - 10:00-12:00",
-    "Tirsdag 29. juli 2025 - 10:00-12:00",
+    "Torsdag 3. juli 2025 - 12:00-15:00",
+    "Lørdag 5. juli 2025 - 12:00-15:00",
+    "Torsdag 10. juli 2025 - 12:00-15:00",
+    "Lørdag 12. juli 2025 - 12:00-15:00",
+    "Torsdag 17. juli 2025 - 12:00-15:00",
+    "Lørdag 19. juli 2025 - 12:00-15:00",
+    "Torsdag 24. juli 2025 - 12:00-15:00",
+    "Lørdag 26. juli 2025 - 12:00-15:00",
+    "Torsdag 31. juli 2025 - 12:00-15:00",
   ];
 
   // Function to handle form submission
