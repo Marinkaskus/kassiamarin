@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 
 // Define the form schema with validation rules
@@ -37,6 +38,7 @@ const formSchema = z.object({
   workshopDate: z.string({
     required_error: "Velg en dato for workshopen.",
   }),
+  additionalInfo: z.string().optional(),
   photoPermission: z.boolean(),
   acceptTerms: z.boolean().refine(val => val === true, {
     message: "Du må bekrefte at påmeldingen er bindende.",
@@ -55,6 +57,7 @@ const Workshop = () => {
       guardianName: "",
       guardianPhone: "",
       email: "",
+      additionalInfo: "",
       photoPermission: false,
       acceptTerms: false,
     },
@@ -270,6 +273,27 @@ const Workshop = () => {
                             ))}
                           </SelectContent>
                         </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="additionalInfo"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Tilleggsinformasjon</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Allergier, spesielle behov, eller tilrettelegging som er nødvendig" 
+                            className="min-h-[100px]"
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          Informer om eventuelle allergier eller spesielle behov som vi bør ta hensyn til
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
