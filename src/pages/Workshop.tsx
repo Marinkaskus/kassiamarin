@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -142,7 +141,7 @@ const Workshop = () => {
                 <li>• Alle aktiviteter er gratis og tilrettelagt for barn og unge mellom 9 og 16 år</li>
                 <li>• Det kreves ingen forkunnskaper eller utstyr – alt tilbys gratis</li>
                 <li>• Verkstedet foregår i et trygt, inkluderende og inspirerende miljø med profesjonell veiledning</li>
-                <li>• Paviljongen er lett tilgjengelig i Frognerparken, og er universelt utformet</li>
+                <li>• Paviljongen er lett tilgjengelig i Frognerparken, men er ikke universelt utformet</li>
               </ul>
             </div>
             
