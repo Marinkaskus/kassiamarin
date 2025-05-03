@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -65,8 +64,8 @@ const Workshop = () => {
   });
 
   // Available workshop dates in July 2025 - Updated to Thursdays and Saturdays from 12:00-15:00
+  // Removed dates for July 3rd and July 31st
   const workshopDates = [
-    "Torsdag 3. juli 2025 - 12:00-15:00",
     "Lørdag 5. juli 2025 - 12:00-15:00",
     "Torsdag 10. juli 2025 - 12:00-15:00",
     "Lørdag 12. juli 2025 - 12:00-15:00",
@@ -74,7 +73,6 @@ const Workshop = () => {
     "Lørdag 19. juli 2025 - 12:00-15:00",
     "Torsdag 24. juli 2025 - 12:00-15:00",
     "Lørdag 26. juli 2025 - 12:00-15:00",
-    "Torsdag 31. juli 2025 - 12:00-15:00",
   ];
 
   // Function to handle form submission
