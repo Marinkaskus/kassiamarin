@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -23,9 +24,6 @@ const formSchema = z.object({
     return age >= 9 && age <= 16;
   }, {
     message: "Alder må være mellom 9 og 16 år.",
-  }),
-  numberOfParticipants: z.string().min(1, {
-    message: "Velg antall deltakere.",
   }),
   guardianName: z.string().min(2, {
     message: "Oppgi navn på foresatt.",
@@ -54,7 +52,6 @@ const Workshop = () => {
     defaultValues: {
       fullName: "",
       age: "",
-      numberOfParticipants: "1",
       guardianName: "",
       guardianPhone: "",
       email: "",
@@ -169,6 +166,7 @@ const Workshop = () => {
                 Fyll ut skjemaet under for å melde på til workshop. 
                 Bekreftelse sendes på e-post etter påmelding.
               </p>
+              <p className="mt-2 font-medium text-primary">Merk: Kun én påmelding per skjema</p>
             </div>
             
             <div className="bg-white p-8 rounded-lg shadow-sm">
@@ -188,50 +186,20 @@ const Workshop = () => {
                     )}
                   />
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="age"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Alder</FormLabel>
-                          <FormControl>
-                            <Input type="number" min="9" max="16" placeholder="9-16" {...field} />
-                          </FormControl>
-                          <FormDescription>Må være mellom 9-16 år</FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="numberOfParticipants"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Antall personer</FormLabel>
-                          <FormControl>
-                            <Select 
-                              onValueChange={field.onChange} 
-                              defaultValue={field.value}
-                            >
-                              <SelectTrigger>
-                                <SelectValue placeholder="Velg antall" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="1">1 person</SelectItem>
-                                <SelectItem value="2">2 personer</SelectItem>
-                                <SelectItem value="3">3 personer</SelectItem>
-                                <SelectItem value="4">4 personer</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </FormControl>
-                          <FormDescription>Dersom søsken/grupper</FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name="age"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Alder</FormLabel>
+                        <FormControl>
+                          <Input type="number" min="9" max="16" placeholder="9-16" {...field} />
+                        </FormControl>
+                        <FormDescription>Må være mellom 9-16 år</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   
                   <FormField
                     control={form.control}
