@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Check, Calendar } from 'lucide-react';
-import emailjs from 'emailjs-com';
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -48,12 +47,6 @@ const formSchema = z.object({
 const Workshop = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  // Initialize EmailJS once when component mounts
-  useEffect(() => {
-    // Using public key here which is fine to include in the client-side code
-    emailjs.init("user_HGn2dxYOudNRt58xRhjk2");
-  }, []);
   
   // Set up form with validation
   const form = useForm<z.infer<typeof formSchema>>({
@@ -100,58 +93,43 @@ const Workshop = () => {
         acceptTerms: values.acceptTerms ? "Ja" : "Nei",
       };
       
-      // Send the email directly to your email address
-      const result = await emailjs.send(
-        "service_3pokarw", // Your EmailJS service ID
-        "template_azsg4s9", // Your EmailJS template ID
-        {
-          to_name: "Kassia Marin",
-          from_name: values.fullName,
-          reply_to: values.email,
-          subject: `Påmelding workshop: ${values.fullName}`,
-          guardian_name: formattedData.guardianName,
-          guardian_phone: formattedData.guardianPhone,
-          participant_age: formattedData.age,
-          workshop_date: formattedData.workshopDate,
-          additional_info: formattedData.additionalInfo,
-          photo_permission: formattedData.photoPermission ? "Ja" : "Nei",
-          accepts_terms: formattedData.acceptTerms ? "Ja" : "Nei",
-          message: `
-            Påmelding til workshop:
-            
-            Navn på deltaker: ${formattedData.fullName}
-            Alder: ${formattedData.age}
-            Navn på foresatt: ${formattedData.guardianName}
-            Telefon til foresatt: ${formattedData.guardianPhone}
-            E-post: ${formattedData.email}
-            Valgt dato: ${formattedData.workshopDate}
-            
-            Tilleggsinformasjon: ${formattedData.additionalInfo}
-            
-            Fototillatelse: ${formattedData.photoPermission}
-            Aksepterer bindende påmelding: ${formattedData.acceptTerms}
-            
-            Sendt: ${new Date().toLocaleString('no-NO')}
-          `,
-        },
-        "HGn2dxYOudNRt58xRhjk2" // Your EmailJS public key
-      );
+      // Create email subject and body
+      const emailSubject = `Påmelding Workshop: ${values.fullName}, ${values.age} år`;
+      const emailBody = `
+Påmelding til workshop:
+
+Navn på deltaker: ${formattedData.fullName}
+Alder: ${formattedData.age}
+Navn på foresatt: ${formattedData.guardianName}
+Telefon til foresatt: ${formattedData.guardianPhone}
+E-post: ${formattedData.email}
+Valgt dato: ${formattedData.workshopDate}
+
+Tilleggsinformasjon: ${formattedData.additionalInfo}
+
+Fototillatelse: ${formattedData.photoPermission ? "Ja" : "Nei"}
+Aksepterer bindende påmelding: ${formattedData.acceptTerms ? "Ja" : "Nei"}
+
+Sendt: ${new Date().toLocaleString('no-NO')}
+      `;
       
-      console.log("Email sent successfully:", result);
+      // Create mailto link and open it
+      const mailtoLink = `mailto:kassiamarin486@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+      window.open(mailtoLink, '_blank');
       
       // Show success message
       toast({
-        title: "Påmelding mottatt!",
-        description: "Vi sender en bekreftelse til din e-post snart.",
+        title: "Skjema klart til å sendes",
+        description: "E-postklienten din er åpnet med skjemaet. Vennligst send e-posten for å fullføre registreringen.",
       });
       
-      // Reset the form
+      // Reset the form after successful submission
       form.reset();
     } catch (error) {
-      console.error("Error sending email:", error);
+      console.error("Error preparing email:", error);
       toast({
         title: "Det oppstod en feil",
-        description: "Kunne ikke sende påmeldingen. Vennligst prøv igjen senere eller kontakt oss direkte.",
+        description: "Kunne ikke klargjøre skjemaet. Vennligst prøv igjen eller kontakt oss direkte.",
         variant: "destructive",
       });
     } finally {
@@ -435,7 +413,7 @@ const Workshop = () => {
                     className="w-full" 
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? "Sender..." : "Send påmelding"}
+                    {isSubmitting ? "Forbereder skjema..." : "Send påmelding"}
                   </Button>
                   
                   <p className="text-xs text-center text-muted-foreground pt-4">
