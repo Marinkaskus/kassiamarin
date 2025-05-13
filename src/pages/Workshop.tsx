@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -21,9 +22,9 @@ const formSchema = z.object({
   }),
   age: z.string().refine((val) => {
     const age = parseInt(val);
-    return age >= 9 && age <= 16;
+    return age > 0 && age < 18;
   }, {
-    message: "Alder må være mellom 9 og 16 år.",
+    message: "Alder må være under 18 år.",
   }),
   guardianName: z.string().min(2, {
     message: "Oppgi navn på foresatt.",
@@ -174,7 +175,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
             <ul className="space-y-3 mb-8">
               <li className="flex items-center">
                 <Check className="h-5 w-5 text-primary mr-2" />
-                <span>For barn og unge i alderen 9 til 16 år</span>
+                <span>For alle under 18 år, spesielt tilpasset aldersgruppen 9 til 16 år</span>
               </li>
               <li className="flex items-center">
                 <Check className="h-5 w-5 text-primary mr-2" />
@@ -193,7 +194,8 @@ Sendt: ${new Date().toLocaleString('no-NO')}
             <div className="bg-secondary p-6 rounded-lg mb-8">
               <h3 className="text-lg font-medium mb-3">Tilgjengelighetsinformasjon</h3>
               <ul className="space-y-2 text-sm">
-                <li>• Alle aktiviteter er gratis og tilrettelagt for barn og unge mellom 9 og 16 år</li>
+                <li>• Alle aktiviteter er gratis og åpne for alle under 18 år</li>
+                <li>• Workshopene er spesielt tilpasset aldersgruppen 9-16 år</li>
                 <li>• Det kreves ingen forkunnskaper eller utstyr – alt tilbys gratis</li>
                 <li>• Verkstedet foregår i et trygt, inkluderende og inspirerende miljø med profesjonell veiledning</li>
                 <li>• Paviljongen er lett tilgjengelig i Frognerparken, men er ikke universelt utformet</li>
@@ -231,6 +233,11 @@ Sendt: ${new Date().toLocaleString('no-NO')}
                   Påmelding åpner 10. juni 2025
                 </p>
               </div>
+              <div className="mt-3 p-3 bg-accent/30 rounded-md">
+                <p className="font-medium text-accent-foreground">
+                  NB! Workshopen er spesielt tilpasset aldersgruppen 9-16 år, men alle under 18 år kan melde seg på
+                </p>
+              </div>
               <p className="mt-2 font-medium text-primary">Merk: Kun én påmelding per skjema</p>
             </div>
             
@@ -258,9 +265,9 @@ Sendt: ${new Date().toLocaleString('no-NO')}
                       <FormItem>
                         <FormLabel>Alder</FormLabel>
                         <FormControl>
-                          <Input type="number" min="9" max="16" placeholder="9-16" {...field} />
+                          <Input type="number" min="1" max="17" placeholder="1-17" {...field} />
                         </FormControl>
-                        <FormDescription>Må være mellom 9-16 år</FormDescription>
+                        <FormDescription>Må være under 18 år (workshopen er spesielt tilpasset 9-16 år)</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
