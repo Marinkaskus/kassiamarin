@@ -35,8 +35,8 @@ const formSchema = z.object({
   email: z.string().email({
     message: "Oppgi en gyldig e-postadresse.",
   }),
-  workshopDate: z.string({
-    required_error: "Velg en dato for workshopen.",
+  workshopDates: z.array(z.string()).min(1, {
+    message: "Velg minst én dato for workshop.",
   }),
   additionalInfo: z.string().optional(),
   photoPermission: z.boolean(),
@@ -58,6 +58,7 @@ const Workshop = () => {
       guardianName: "",
       guardianPhone: "",
       email: "",
+      workshopDates: [],
       additionalInfo: "",
       photoPermission: false,
       acceptTerms: false,
@@ -67,13 +68,34 @@ const Workshop = () => {
   // Available workshop dates in July 2025 - Updated to Thursdays and Saturdays from 12:00-15:00
   // Removed dates for July 3rd and July 31st
   const workshopDates = [
-    "Lørdag 5. juli 2025 - 12:00-15:00",
-    "Torsdag 10. juli 2025 - 12:00-15:00",
-    "Lørdag 12. juli 2025 - 12:00-15:00",
-    "Torsdag 17. juli 2025 - 12:00-15:00",
-    "Lørdag 19. juli 2025 - 12:00-15:00",
-    "Torsdag 24. juli 2025 - 12:00-15:00",
-    "Lørdag 26. juli 2025 - 12:00-15:00",
+    {
+      id: "5-jul-2025",
+      label: "Lørdag 5. juli 2025 - 12:00-15:00"
+    },
+    {
+      id: "10-jul-2025",
+      label: "Torsdag 10. juli 2025 - 12:00-15:00"
+    },
+    {
+      id: "12-jul-2025",
+      label: "Lørdag 12. juli 2025 - 12:00-15:00"
+    },
+    {
+      id: "17-jul-2025",
+      label: "Torsdag 17. juli 2025 - 12:00-15:00"
+    },
+    {
+      id: "19-jul-2025",
+      label: "Lørdag 19. juli 2025 - 12:00-15:00"
+    },
+    {
+      id: "24-jul-2025", 
+      label: "Torsdag 24. juli 2025 - 12:00-15:00"
+    },
+    {
+      id: "26-jul-2025",
+      label: "Lørdag 26. juli 2025 - 12:00-15:00"
+    }
   ];
 
   // Function to handle form submission
@@ -88,7 +110,7 @@ const Workshop = () => {
         guardianName: values.guardianName,
         guardianPhone: values.guardianPhone,
         email: values.email,
-        workshopDate: values.workshopDate,
+        workshopDates: values.workshopDates.join(", "),
         additionalInfo: values.additionalInfo || "Ingen tilleggsinformasjon",
         photoPermission: values.photoPermission ? "Ja" : "Nei",
         acceptTerms: values.acceptTerms ? "Ja" : "Nei",
@@ -104,7 +126,7 @@ Alder: ${formattedData.age}
 Navn på foresatt: ${formattedData.guardianName}
 Telefon til foresatt: ${formattedData.guardianPhone}
 E-post: ${formattedData.email}
-Valgt dato: ${formattedData.workshopDate}
+Valgte datoer: ${formattedData.workshopDates}
 
 Tilleggsinformasjon: ${formattedData.additionalInfo}
 
@@ -238,6 +260,11 @@ Sendt: ${new Date().toLocaleString('no-NO')}
                   NB! Workshopen er spesielt tilpasset aldersgruppen 9-16 år, men alle under 18 år kan melde seg på
                 </p>
               </div>
+              <div className="mt-3 p-3 bg-secondary/80 rounded-md">
+                <p className="font-medium">
+                  Velg gjerne flere datoer hvis du er fleksibel - dette hjelper oss å sette sammen grupper på best mulig måte
+                </p>
+              </div>
               <p className="mt-2 font-medium text-primary">Merk: Kun én påmelding per skjema</p>
             </div>
             
@@ -321,28 +348,54 @@ Sendt: ${new Date().toLocaleString('no-NO')}
                   
                   <FormField
                     control={form.control}
-                    name="workshopDate"
-                    render={({ field }) => (
+                    name="workshopDates"
+                    render={() => (
                       <FormItem>
-                        <FormLabel>Ønsket dato for workshop</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Velg dato og tid" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {workshopDates.map((date) => (
-                              <SelectItem key={date} value={date}>
-                                <span className="flex items-center">
-                                  <Calendar className="h-4 w-4 mr-2" />
-                                  {date}
-                                </span>
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
+                        <div className="mb-2">
+                          <FormLabel>Velg ønskede datoer for workshop</FormLabel>
+                          <FormDescription>
+                            Velg gjerne flere datoer hvis du er fleksibel slik at vi kan organisere gruppene best mulig
+                          </FormDescription>
+                        </div>
+                        <div className="space-y-2">
+                          {workshopDates.map((date) => (
+                            <FormField
+                              key={date.id}
+                              control={form.control}
+                              name="workshopDates"
+                              render={({ field }) => {
+                                return (
+                                  <FormItem
+                                    key={date.id}
+                                    className="flex flex-row items-start space-x-3 space-y-0"
+                                  >
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value?.includes(date.label)}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([...field.value, date.label])
+                                            : field.onChange(
+                                                field.value?.filter(
+                                                  (value) => value !== date.label
+                                                )
+                                              )
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormLabel className="font-normal">
+                                      <span className="flex items-center">
+                                        <Calendar className="h-4 w-4 mr-2" />
+                                        {date.label}
+                                      </span>
+                                    </FormLabel>
+                                  </FormItem>
+                                )
+                              }}
+                            />
+                          ))}
+                        </div>
+                        <FormMessage className="mt-2" />
                       </FormItem>
                     )}
                   />
