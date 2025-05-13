@@ -4,7 +4,7 @@ import Layout from '@/components/Layout';
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Check, Calendar } from 'lucide-react';
+import { Check, Calendar, CreditCard } from 'lucide-react';
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -173,9 +173,15 @@ Sendt: ${new Date().toLocaleString('no-NO')}
           <h1 className="text-4xl md:text-5xl font-medium mb-6">Flisekunst for barn og unge</h1>
           <p className="text-xl md:text-2xl mb-4">Sommerworkshop i Frognerparken</p>
           <p className="text-muted-foreground text-lg mb-4">Juli 2025</p>
-          <p className="inline-block bg-primary text-white px-4 py-2 rounded-lg font-medium animate-pulse">
-            Påmelding åpner 10. juni 2025
-          </p>
+          <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+            <p className="inline-block bg-primary text-white px-4 py-2 rounded-lg font-medium animate-pulse">
+              Påmelding åpner 10. juni 2025
+            </p>
+            <p className="inline-flex items-center bg-secondary/80 text-foreground px-4 py-2 rounded-lg font-medium">
+              <CreditCard className="h-5 w-5 mr-2" />
+              Deltakeravgift: 150 kr
+            </p>
+          </div>
         </div>
       </section>
 
@@ -189,9 +195,22 @@ Sendt: ${new Date().toLocaleString('no-NO')}
             </div>
             
             <p className="text-lg mb-6">
-              En kreativ og gratis sommeraktivitet for barn og unge i Oslo! Utforsk flisemaling med akvarell, 
+              En kreativ sommeraktivitet for barn og unge i Oslo! Utforsk flisemaling med akvarell, 
               delta i workshops med profesjonell kunstner, og bli med å skape et fellesverk i Paviljongen i Vigelandsparken.
             </p>
+            
+            <div className="mb-8 p-4 border border-secondary rounded-lg bg-secondary/10">
+              <div className="flex items-start">
+                <CreditCard className="h-5 w-5 text-secondary mr-2 mt-0.5" />
+                <div>
+                  <p className="font-medium">Deltakeravgift: 150 kr per deltaker</p>
+                  <p className="text-sm text-muted-foreground">
+                    Avgiften bidrar til å dekke materialkostnader. Vi jobber kontinuerlig med å få støtte for å kunne 
+                    redusere eller fjerne denne avgiften.
+                  </p>
+                </div>
+              </div>
+            </div>
             
             <ul className="space-y-3 mb-8">
               <li className="flex items-center">
@@ -204,7 +223,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               </li>
               <li className="flex items-center">
                 <Check className="h-5 w-5 text-primary mr-2" />
-                <span>Deltakelse er gratis, men krever forhåndspåmelding</span>
+                <span>Deltakeravgift: 150 kr for å dekke materialkostnader</span>
               </li>
               <li className="flex items-center">
                 <Check className="h-5 w-5 text-primary mr-2" />
@@ -226,9 +245,10 @@ Sendt: ${new Date().toLocaleString('no-NO')}
             <div className="bg-secondary p-6 rounded-lg mb-8">
               <h3 className="text-lg font-medium mb-3">Tilgjengelighetsinformasjon</h3>
               <ul className="space-y-2 text-sm">
-                <li>• Alle aktiviteter er gratis og åpne for alle under 18 år</li>
+                <li>• Aktivitetene er åpne for alle under 18 år</li>
                 <li>• Workshopene er spesielt tilpasset aldersgruppen 9-16 år</li>
-                <li>• Det kreves ingen forkunnskaper eller utstyr – alt tilbys gratis</li>
+                <li>• Deltakeravgift: 150 kr per deltaker (arbeid pågår for å redusere denne)</li>
+                <li>• Det kreves ingen forkunnskaper eller utstyr – alt nødvendig materiell inkluderes</li>
                 <li>• Verkstedet foregår i et trygt, inkluderende og inspirerende miljø med profesjonell veiledning</li>
                 <li>• Paviljongen er lett tilgjengelig i Frognerparken, men er ikke universelt utformet</li>
               </ul>
@@ -242,9 +262,14 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               >
                 Meld på nå
               </Button>
-              <p className="mt-3 font-medium text-primary">
-                Påmelding åpner 10. juni 2025
-              </p>
+              <div className="mt-3">
+                <p className="font-medium text-primary">
+                  Påmelding åpner 10. juni 2025
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Deltakeravgift: 150 kr per deltaker (betales ved påmelding)
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -263,6 +288,15 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               <div className="mt-3 p-3 bg-primary/10 rounded-md">
                 <p className="font-medium">
                   Påmelding åpner 10. juni 2025
+                </p>
+              </div>
+              <div className="mt-3 p-3 bg-secondary/80 rounded-md">
+                <div className="flex items-center justify-center">
+                  <CreditCard className="h-5 w-5 mr-2" />
+                  <p className="font-medium">Deltakeravgift: 150 kr per deltaker</p>
+                </div>
+                <p className="text-sm mt-1">
+                  Avgiften bidrar til å dekke materialkostnader. Det jobbes kontinuerlig med å redusere denne avgiften.
                 </p>
               </div>
               <div className="mt-3 p-3 bg-accent/30 rounded-md">
