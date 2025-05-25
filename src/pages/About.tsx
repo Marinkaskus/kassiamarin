@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '@/components/Layout';
 import { Helmet } from 'react-helmet-async';
@@ -163,6 +162,10 @@ const About = () => {
                           <TableCell>
                             <span className="block">Dks-Lab Oslo</span>
                             <span className="text-muted-foreground">Oslo kunstforening, Unge Kunstneres Samfund (UKS) og DKS Oslo, Oslo, Norway</span>
+                            <a href="https://www.oslokunstforening.no/artikler/%C3%A5rets-dks-lab-er-i-gang" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-1 text-primary hover:text-primary/80 transition-colors">
+                              <ExternalLink size={14} className="mr-1" />
+                              <span className="text-sm">View Project</span>
+                            </a>
                           </TableCell>
                         </TableRow>
                         <TableRow>
