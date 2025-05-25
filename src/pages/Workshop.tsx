@@ -185,41 +185,6 @@ Sendt: ${new Date().toLocaleString('no-NO')}
         </div>
       </section>
 
-      {/* Workshop Photos Section */}
-      <section className="py-12 md:py-16 bg-accent/30">
-        <div className="container-custom">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-medium text-center mb-8">Fra tidligere workshops</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
-              <div className="rounded-lg overflow-hidden shadow-md">
-                <img 
-                  src="/lovable-uploads/0d450187-4991-4d3c-a5c4-50a4f3498b3a.png" 
-                  alt="Flisekunst workshop - materialer og verktøy" 
-                  className="w-full h-64 object-cover"
-                />
-              </div>
-              <div className="rounded-lg overflow-hidden shadow-md">
-                <img 
-                  src="/lovable-uploads/a22de77c-5580-4537-ae63-ce901482f49d.png" 
-                  alt="Deltakere som arbeider med flisekunst" 
-                  className="w-full h-64 object-cover"
-                />
-              </div>
-              <div className="rounded-lg overflow-hidden shadow-md">
-                <img 
-                  src="/lovable-uploads/72648034-97ce-4880-bd4f-5ec1cd70ad69.png" 
-                  alt="Barn som maler på flis med akvarell" 
-                  className="w-full h-64 object-cover"
-                />
-              </div>
-            </div>
-            <p className="text-sm text-muted-foreground text-center italic">
-              Dks-Lab/Foto: Sakib Saboor / Oslo Kunstforening
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* Introduction Section */}
       <section className="py-12 md:py-16 bg-white">
         <div className="container-custom">
