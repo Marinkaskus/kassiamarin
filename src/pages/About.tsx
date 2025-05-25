@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Layout from '@/components/Layout';
 import { Helmet } from 'react-helmet-async';
@@ -158,7 +159,14 @@ const About = () => {
                     <Table>
                       <TableBody>
                         <TableRow>
-                          <TableCell className="w-1/3 font-medium">2024</TableCell>
+                          <TableCell className="w-1/3 font-medium">2025</TableCell>
+                          <TableCell>
+                            <span className="block">Dks-Lab Oslo</span>
+                            <span className="text-muted-foreground">Oslo kunstforening, Unge Kunstneres Samfund (UKS) og DKS Oslo, Oslo, Norway</span>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="w-1/3 font-medium">2024 - 2025</TableCell>
                           <TableCell>
                             <span className="block">Host</span>
                             <span className="text-muted-foreground">Oslo Open, Oslo, Norway</span>
