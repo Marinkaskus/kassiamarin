@@ -95,7 +95,7 @@ const Index = () => {
             {featuredArtworks.slice(0, 3).map((artwork, index) => (
               <div 
                 key={artwork.id} 
-                className="relative transition-all duration-300 hover:-translate-y-1 bg-amber-50/50 rounded-lg p-4" 
+                className="relative transition-all duration-300 hover:-translate-y-1 bg-stone-100/80 rounded-lg p-4" 
                 style={{
                   opacity: 0,
                   animation: `scaleIn 0.6s ease-out forwards`,
@@ -128,7 +128,7 @@ const Index = () => {
               {newsItems.map((item, index) => (
                 <div 
                   key={item.id} 
-                  className="w-80 flex-shrink-0 group relative transition-all duration-300 hover:-translate-y-1 bg-amber-50/60 rounded-lg p-4"
+                  className="w-80 flex-shrink-0 group relative transition-all duration-300 hover:-translate-y-1 bg-stone-100/80 rounded-lg p-4"
                   style={{
                     opacity: 0,
                     animation: `scaleIn 0.6s ease-out forwards`,
@@ -140,7 +140,7 @@ const Index = () => {
                       <img 
                         src={item.image} 
                         alt={item.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-500"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                         <div className="absolute bottom-0 w-full p-4">
@@ -150,16 +150,16 @@ const Index = () => {
                                 href={item.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-white text-sm hover:underline flex items-center"
+                                className="text-white text-xs hover:underline flex items-center"
                               >
-                                Les mer <ExternalLink size={14} className="ml-1" />
+                                Les mer <ExternalLink size={12} className="ml-1" />
                               </a>
                             ) : (
                               <Link 
                                 to={item.link}
-                                className="text-white text-sm hover:underline flex items-center"
+                                className="text-white text-xs hover:underline flex items-center"
                               >
-                                Les mer <ExternalLink size={14} className="ml-1" />
+                                Les mer <ExternalLink size={12} className="ml-1" />
                               </Link>
                             )
                           )}
@@ -167,19 +167,20 @@ const Index = () => {
                       </div>
                     </div>
                     <CardHeader className="pb-2 bg-transparent text-left">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs uppercase tracking-wider text-muted-foreground bg-amber-100/80 px-2 py-1 rounded">
+                      <div className="flex items-center mb-2">
+                        <span className="text-xs uppercase tracking-wider text-muted-foreground">
                           {item.type}
                         </span>
+                        <span className="mx-2 text-muted-foreground">•</span>
                         <span className="text-xs text-muted-foreground flex items-center">
                           <Calendar size={12} className="mr-1" />
                           {item.date}
                         </span>
                       </div>
-                      <CardTitle className="text-lg text-left">{item.title}</CardTitle>
+                      <CardTitle className="text-sm font-medium mb-2 text-left">{item.title}</CardTitle>
                     </CardHeader>
                     <CardContent className="bg-transparent text-left">
-                      <CardDescription className="text-sm leading-relaxed text-left">
+                      <CardDescription className="text-xs text-muted-foreground line-clamp-2 text-left">
                         {item.description}
                       </CardDescription>
                     </CardContent>
@@ -210,7 +211,7 @@ const Index = () => {
             {featuredProjects.map((project, index) => (
               <div 
                 key={project.id}
-                className="bg-amber-50/50 rounded-lg p-4 transition-all duration-300 hover:-translate-y-1"
+                className="bg-stone-100/80 rounded-lg p-4 transition-all duration-300 hover:-translate-y-1"
                 style={{
                   opacity: 0,
                   animation: `scaleIn 0.6s ease-out forwards`,
