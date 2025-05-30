@@ -78,12 +78,12 @@ const Index = () => {
       <HeroSection />
       
       {/* Gallery Section */}
-      <section className="py-20">
+      <section className="py-20 bg-amber-50/30">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
             <div className="text-left">
               <span className="text-sm uppercase tracking-widest text-muted-foreground">Featured Artworks</span>
-              <h2 className="text-3xl md:text-4xl font-medium mt-2">Gallery</h2>
+              <h2 className="text-3xl md:text-4xl font-medium mt-2 text-left">Gallery</h2>
             </div>
             <Link to="/gallery" className="group flex items-center text-sm font-medium mt-4 md:mt-0 hover:opacity-70 transition-opacity">
               Explore Gallery 
@@ -95,7 +95,7 @@ const Index = () => {
             {featuredArtworks.slice(0, 3).map((artwork, index) => (
               <div 
                 key={artwork.id} 
-                className="relative transition-all duration-300 hover:-translate-y-1" 
+                className="relative transition-all duration-300 hover:-translate-y-1 bg-amber-50/50 rounded-lg p-4" 
                 style={{
                   opacity: 0,
                   animation: `scaleIn 0.6s ease-out forwards`,
@@ -105,7 +105,7 @@ const Index = () => {
                 <ArtworkCard 
                   artwork={artwork} 
                   onClick={handleArtworkClick} 
-                  className="transition-transform duration-300 h-full" 
+                  className="transition-transform duration-300 h-full bg-transparent shadow-none" 
                 />
               </div>
             ))}
@@ -114,12 +114,12 @@ const Index = () => {
       </section>
 
       {/* News and Upcoming Projects Section */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-20 bg-amber-50/40">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
             <div className="text-left">
               <span className="text-sm uppercase tracking-widest text-muted-foreground">Oppdateringer</span>
-              <h2 className="text-3xl md:text-4xl font-medium mt-2">Nyheter eller kommende prosjekter</h2>
+              <h2 className="text-3xl md:text-4xl font-medium mt-2 text-left">Nyheter eller kommende prosjekter</h2>
             </div>
           </div>
           
@@ -128,7 +128,7 @@ const Index = () => {
               {newsItems.map((item, index) => (
                 <div 
                   key={item.id} 
-                  className="w-80 flex-shrink-0 group relative transition-all duration-300 hover:-translate-y-1"
+                  className="w-80 flex-shrink-0 group relative transition-all duration-300 hover:-translate-y-1 bg-amber-50/60 rounded-lg p-4"
                   style={{
                     opacity: 0,
                     animation: `scaleIn 0.6s ease-out forwards`,
@@ -136,7 +136,7 @@ const Index = () => {
                   }}
                 >
                   <Card className="h-full hover:shadow-lg transition-shadow duration-300 overflow-hidden border-none shadow-none bg-transparent">
-                    <div className="relative aspect-[4/3] overflow-hidden">
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
                       <img 
                         src={item.image} 
                         alt={item.title}
@@ -166,9 +166,9 @@ const Index = () => {
                         </div>
                       </div>
                     </div>
-                    <CardHeader className="pb-2 bg-white">
+                    <CardHeader className="pb-2 bg-transparent text-left">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs uppercase tracking-wider text-muted-foreground bg-secondary px-2 py-1 rounded">
+                        <span className="text-xs uppercase tracking-wider text-muted-foreground bg-amber-100/80 px-2 py-1 rounded">
                           {item.type}
                         </span>
                         <span className="text-xs text-muted-foreground flex items-center">
@@ -176,10 +176,10 @@ const Index = () => {
                           {item.date}
                         </span>
                       </div>
-                      <CardTitle className="text-lg">{item.title}</CardTitle>
+                      <CardTitle className="text-lg text-left">{item.title}</CardTitle>
                     </CardHeader>
-                    <CardContent className="bg-white">
-                      <CardDescription className="text-sm leading-relaxed">
+                    <CardContent className="bg-transparent text-left">
+                      <CardDescription className="text-sm leading-relaxed text-left">
                         {item.description}
                       </CardDescription>
                     </CardContent>
@@ -193,12 +193,12 @@ const Index = () => {
       </section>
       
       {/* Projects Section */}
-      <section className="py-20 bg-secondary">
+      <section className="py-20 bg-amber-50/30">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
             <div className="text-left">
               <span className="text-sm uppercase tracking-widest text-muted-foreground">Featured Works</span>
-              <h2 className="text-3xl md:text-4xl font-medium mt-2">Recent Projects</h2>
+              <h2 className="text-3xl md:text-4xl font-medium mt-2 text-left">Recent Projects</h2>
             </div>
             <Link to="/portfolio" className="group flex items-center text-sm font-medium mt-4 md:mt-0 hover:opacity-70 transition-opacity">
               View Portfolio 
@@ -207,8 +207,18 @@ const Index = () => {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            {featuredProjects.map(project => (
-              <ProjectTeaser key={project.id} project={project} />
+            {featuredProjects.map((project, index) => (
+              <div 
+                key={project.id}
+                className="bg-amber-50/50 rounded-lg p-4 transition-all duration-300 hover:-translate-y-1"
+                style={{
+                  opacity: 0,
+                  animation: `scaleIn 0.6s ease-out forwards`,
+                  animationDelay: `${index * 100}ms`
+                }}
+              >
+                <ProjectTeaser project={project} />
+              </div>
             ))}
           </div>
         </div>

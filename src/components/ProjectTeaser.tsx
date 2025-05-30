@@ -11,7 +11,7 @@ interface ProjectTeaserProps {
 const ProjectTeaser: React.FC<ProjectTeaserProps> = ({ project }) => {
   return (
     <div className="group animate-fade-in overflow-hidden">
-      <div className="relative overflow-hidden aspect-[4/3] mb-4">
+      <div className="relative overflow-hidden aspect-[4/3] mb-4 rounded-lg">
         <img 
           src={project.imageSrc} 
           alt={project.title}
@@ -29,7 +29,7 @@ const ProjectTeaser: React.FC<ProjectTeaserProps> = ({ project }) => {
         </div>
       </div>
       
-      <div>
+      <div className="text-left">
         <div className="flex items-center mb-2">
           <span className="text-xs uppercase tracking-wider text-muted-foreground">{project.year}</span>
           {project.location && (
@@ -40,9 +40,9 @@ const ProjectTeaser: React.FC<ProjectTeaserProps> = ({ project }) => {
           )}
         </div>
         
-        <h3 className="text-lg font-medium mb-2">{project.title}</h3>
+        <h3 className="text-lg font-medium mb-2 text-left">{project.title}</h3>
         
-        <p className="text-sm text-muted-foreground line-clamp-2">
+        <p className="text-sm text-muted-foreground line-clamp-2 text-left">
           {project.description}
         </p>
       </div>

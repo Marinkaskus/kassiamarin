@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Artwork } from '@/types/Artwork';
 import { cn } from '@/lib/utils';
@@ -60,27 +59,27 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
   return (
     <div 
       className={cn(
-        "group relative cursor-pointer overflow-hidden rounded-md bg-white transition-all duration-300 hover:shadow-md w-full",
+        "group relative cursor-pointer overflow-hidden rounded-lg bg-transparent transition-all duration-300 hover:shadow-md w-full",
         className
       )}
       onClick={() => onClick(artwork)}
       role="button"
       aria-label={`View details of artwork: ${artwork.title}`}
     >
-      <div className="w-full overflow-hidden">
+      <div className="w-full overflow-hidden rounded-lg">
         {imageError ? (
-          <div className="w-full aspect-square flex flex-col items-center justify-center bg-muted">
+          <div className="w-full aspect-square flex flex-col items-center justify-center bg-amber-50/80 rounded-lg">
             <ImageOff className="h-8 w-8 text-muted-foreground mb-2" />
-            <p className="text-xs text-muted-foreground">{artwork.title}</p>
+            <p className="text-xs text-muted-foreground text-left">{artwork.title}</p>
           </div>
         ) : (
-          <div className="aspect-square relative flex items-center justify-center bg-secondary/30">
+          <div className="aspect-square relative flex items-center justify-center bg-amber-50/30 rounded-lg">
             {isLoading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-muted/50 z-10">
+              <div className="absolute inset-0 flex items-center justify-center bg-amber-50/50 z-10 rounded-lg">
                 <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
               </div>
             )}
-            <div className="w-full h-full flex items-center justify-center">
+            <div className="w-full h-full flex items-center justify-center rounded-lg overflow-hidden">
               <img
                 src={imageSrc}
                 alt={altText}
@@ -99,12 +98,11 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
       </div>
       
       <div className="p-4 text-left">
-        <h3 className="text-base font-medium font-sans">{artwork.title}</h3>
-        <div className="mt-1 space-y-1 text-sm text-muted-foreground">
-          <p>{artwork.size}</p>
-          <p>{artwork.year}</p>
-          <p>{artwork.medium}</p>
-          {/* Removed the availability information */}
+        <h3 className="text-base font-medium font-sans text-left">{artwork.title}</h3>
+        <div className="mt-1 space-y-1 text-sm text-muted-foreground text-left">
+          <p className="text-left">{artwork.size}</p>
+          <p className="text-left">{artwork.year}</p>
+          <p className="text-left">{artwork.medium}</p>
         </div>
       </div>
     </div>
