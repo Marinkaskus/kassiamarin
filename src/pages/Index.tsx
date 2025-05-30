@@ -48,7 +48,7 @@ const Index = () => {
       date: "Juli 2025",
       type: "Solo utstilling",
       link: "https://fb.me/e/6fWiLUCkx",
-      image: "https://dl.dropboxusercontent.com/s/fi/y7brrog0cnu85r57ljdq0/Plakat_Ferdig_A3_B-rebjelke-Website.png?rlkey=re6k6e8voivpbxlew4rxbca93&st=57szrrzo&dl=0"
+      image: "https://dl.dropboxusercontent.com/s/fi/90h5p4s805f0nz3vn2vm8/Plakat_Ferdig_A3_B-rebjelke-Facebook-Ad.png?rlkey=64f3quxd84oqr83lu69ng4cns&st=u6puotvv&dl=0"
     },
     {
       id: 3,
