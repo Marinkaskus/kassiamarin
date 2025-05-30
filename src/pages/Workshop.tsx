@@ -4,7 +4,7 @@ import Layout from '@/components/Layout';
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Check, Calendar, CreditCard, CalendarPlus } from 'lucide-react';
+import { Check, Calendar, CreditCard, CalendarPlus, X } from 'lucide-react';
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 // Define the form schema with validation rules
 const formSchema = z.object({
@@ -95,6 +96,10 @@ const Workshop = () => {
       label: "Lørdag 26. juli 2025 - 12:00-15:00"
     }
   ];
+
+  // Additional state for image modal
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [imageModalOpen, setImageModalOpen] = useState(false);
 
   // Function to add calendar reminder
   const addCalendarReminder = () => {
@@ -212,6 +217,25 @@ Sendt: ${new Date().toLocaleString('no-NO')}
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Additional images to display at the bottom
+  const additionalImages = [
+    {
+      id: 1,
+      src: "https://dl.dropboxusercontent.com/s/fi//rhjezjhtv7a663o4ahda9/1.png?rlkey=gwx73hjh1dpr9rnlh7sje2gvb&st=jhzon9ab&dl=0",
+      alt: "Workshop bilde 1"
+    },
+    {
+      id: 2,
+      src: "https://dl.dropboxusercontent.com/s/fi//6gusjhrfacmr03sc2u83j/2.png?rlkey=rorr6zsubkafmnspt1fejrcia&st=lz17tgcc&dl=0",
+      alt: "Workshop bilde 2"
+    }
+  ];
+
+  const handleImageClick = (imageSrc: string) => {
+    setSelectedImage(imageSrc);
+    setImageModalOpen(true);
   };
 
   return (
@@ -387,6 +411,52 @@ Sendt: ${new Date().toLocaleString('no-NO')}
           </div>
         </div>
       </section>
+
+      {/* Additional Images Section */}
+      <section className="py-12 bg-beige-100/40 paper-texture">
+        <div className="container-custom">
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {additionalImages.map((image) => (
+                <div 
+                  key={image.id}
+                  className="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer group"
+                  onClick={() => handleImageClick(image.src)}
+                >
+                  <img 
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Image Modal */}
+      <Dialog open={imageModalOpen} onOpenChange={setImageModalOpen}>
+        <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-transparent border-none">
+          <div className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-4 right-4 z-10 bg-black/50 text-white hover:bg-black/70"
+              onClick={() => setImageModalOpen(false)}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+            {selectedImage && (
+              <img
+                src={selectedImage}
+                alt="Workshop bilde - forstørret"
+                className="w-full h-auto max-h-[90vh] object-contain rounded-lg"
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Registration Form Section */}
       <section id="registration-form" className="py-16 bg-secondary/50">
