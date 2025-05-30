@@ -1,14 +1,17 @@
+
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
 import HeroSection from '@/components/HeroSection';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Calendar, ExternalLink } from 'lucide-react';
 import { previousProjects } from '@/data/projectsData';
 import ProjectTeaser from '@/components/ProjectTeaser';
 import { artworks } from '@/data/artworkData';
 import ArtworkCard from '@/components/ArtworkCard';
 import ArtworkDetails from '@/components/ArtworkDetails';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const Index = () => {
   // Get up to 3 projects for the teaser section
@@ -26,6 +29,43 @@ const Index = () => {
     setSelectedArtwork(artwork);
     setDetailsOpen(true);
   };
+
+  // News and upcoming projects data
+  const newsItems = [
+    {
+      id: 1,
+      title: "Flisekunst Workshop",
+      description: "Kreativ workshop med fliser, fortellinger og fellesskapsarbeid. Påmelding åpner 10. juni 2025.",
+      date: "August 2025",
+      type: "Kommende workshop",
+      link: "/workshop",
+      image: "https://dl.dropboxusercontent.com/s/fi/mouik1soo1yaoflt186dp/Logo.png?rlkey=e1ua3zw7f1i9ikvj24b6fxswl&st=h4na5yc9&dl=0"
+    },
+    {
+      id: 2,
+      title: "Ny utstilling planlegges",
+      description: "Kassia arbeider med konseptet for en ny solo-utstilling som vil utforske temaer rundt hukommelse og identitet.",
+      date: "2025",
+      type: "Kommende prosjekt",
+      image: "https://dl.dropboxusercontent.com/s/fi/exqofds6tq0pkqsp2uf0p/2L5A5990.JPG?rlkey=2ujtknbudpg8hsod15zevcipd&st=tjnh5vvh&dl=0"
+    },
+    {
+      id: 3,
+      title: "Kunstnerstipend mottatt",
+      description: "Kassia har mottatt støtte til videre utvikling av sitt kunstneriske arbeid gjennom 2025.",
+      date: "Januar 2025",
+      type: "Nyheter",
+      image: "https://dl.dropboxusercontent.com/s/fi/mouik1soo1yaoflt186dp/Logo.png?rlkey=e1ua3zw7f1i9ikvj24b6fxswl&st=h4na5yc9&dl=0"
+    },
+    {
+      id: 4,
+      title: "Samarbeidsprosjekt",
+      description: "Planlegging av et tverrfaglig samarbeidsprosjekt med andre kunstnere og kulturaktører i Oslo.",
+      date: "Høst 2025",
+      type: "Kommende prosjekt",
+      image: "https://dl.dropboxusercontent.com/s/fi/exqofds6tq0pkqsp2uf0p/2L5A5990.JPG?rlkey=2ujtknbudpg8hsod15zevcipd&st=tjnh5vvh&dl=0"
+    }
+  ];
 
   return (
     <Layout>
@@ -76,6 +116,66 @@ const Index = () => {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* News and Upcoming Projects Section */}
+      <section className="py-20 bg-muted/30">
+        <div className="container-custom">
+          <div className="mb-12">
+            <span className="text-sm uppercase tracking-widest text-muted-foreground">Oppdateringer</span>
+            <h2 className="text-3xl md:text-4xl font-medium mt-2">Nyheter eller kommende prosjekter</h2>
+          </div>
+          
+          <ScrollArea className="w-full whitespace-nowrap">
+            <div className="flex w-max space-x-6 pb-4">
+              {newsItems.map((item, index) => (
+                <Card 
+                  key={item.id} 
+                  className="w-80 flex-shrink-0 hover:shadow-lg transition-shadow duration-300"
+                  style={{
+                    opacity: 0,
+                    animation: `scaleIn 0.6s ease-out forwards`,
+                    animationDelay: `${index * 150}ms`
+                  }}
+                >
+                  <div className="aspect-video overflow-hidden rounded-t-lg">
+                    <img 
+                      src={item.image} 
+                      alt={item.title}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs uppercase tracking-wider text-muted-foreground bg-secondary px-2 py-1 rounded">
+                        {item.type}
+                      </span>
+                      <span className="text-xs text-muted-foreground flex items-center">
+                        <Calendar size={12} className="mr-1" />
+                        {item.date}
+                      </span>
+                    </div>
+                    <CardTitle className="text-lg">{item.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-sm leading-relaxed mb-4">
+                      {item.description}
+                    </CardDescription>
+                    {item.link && (
+                      <Link 
+                        to={item.link}
+                        className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"
+                      >
+                        Les mer <ExternalLink size={14} className="ml-1" />
+                      </Link>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
         </div>
       </section>
       
