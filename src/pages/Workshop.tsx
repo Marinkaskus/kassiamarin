@@ -412,7 +412,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
         </div>
       </section>
 
-      {/* Additional Images Section */}
+      {/* Additional Images Section - moved here */}
       <section className="py-12 bg-beige-100/40 paper-texture">
         <div className="container-custom">
           <div className="max-w-5xl mx-auto">
