@@ -54,7 +54,7 @@ const Index = () => {
       title: "Bærebjelke | Kassia Marin",
       description: "5. juli - 27. juli 2025 kl.12:00-15:00",
       date: "Juli 2025",
-      type: "Utstilling",
+      type: "Solo utstilling",
       link: "https://fb.me/e/6h1vhJtIm",
       image: "https://dl.dropboxusercontent.com/s/fi/90h5p4s805f0nz3vn2vm8/Plakat_Ferdig_A3_B-rebjelke-Facebook-Ad.png?rlkey=64f3quxd84oqr83lu69ng4cns&st=u6puotvv&dl=0"
     }
