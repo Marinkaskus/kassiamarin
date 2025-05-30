@@ -35,7 +35,7 @@ const Index = () => {
       id: 1,
       title: "Flisekunst Workshop",
       description: "Kreativ workshop med fliser, fortellinger og fellesskapsarbeid. Påmelding åpner 10. juni 2025.",
-      date: "August 2025",
+      date: "Juli 2025",
       type: "Kommende workshop",
       link: "/workshop",
       image: "https://dl.dropboxusercontent.com/s/fi/hgvxx3mc37xsnftysfrrm/FLYER_A6_kunstworkshop-001-Website-1.png?rlkey=kd5sn5sum2duuwujtif2cwydt&st=eivwdr5h&dl=0"
@@ -46,7 +46,7 @@ const Index = () => {
       description: "Utstilling som åpner 4. juli 2025. Åpent alle dager frem til 27. juli, stengt på mandager.",
       date: "Juli 2025",
       type: "Kommende prosjekt",
-      link: "/baerebjelke",
+      link: "https://fb.me/e/6fWiLUCkx",
       image: "https://dl.dropboxusercontent.com/s/fi/y7brrog0cnu85r57ljdq0/Plakat_Ferdig_A3_B-rebjelke-Website.png?rlkey=re6k6e8voivpbxlew4rxbca93&st=57szrrzo&dl=0"
     },
     {
@@ -163,12 +163,23 @@ const Index = () => {
                       {item.description}
                     </CardDescription>
                     {item.link && (
-                      <Link 
-                        to={item.link}
-                        className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"
-                      >
-                        Les mer <ExternalLink size={14} className="ml-1" />
-                      </Link>
+                      item.link.startsWith('http') ? (
+                        <a 
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"
+                        >
+                          Les mer <ExternalLink size={14} className="ml-1" />
+                        </a>
+                      ) : (
+                        <Link 
+                          to={item.link}
+                          className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"
+                        >
+                          Les mer <ExternalLink size={14} className="ml-1" />
+                        </Link>
+                      )
                     )}
                   </CardContent>
                 </Card>
