@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -234,10 +233,10 @@ Sendt: ${new Date().toLocaleString('no-NO')}
             </ul>
             
             <div className="bg-accent/30 p-6 rounded-lg mb-8">
-              <h3 className="text-lg font-medium mb-3">For de yngste barna (under 9 år)</h3>
+              <h3 className="text-lg font-medium mb-3">For barn under 9 år</h3>
               <p className="mb-4">
-                For barn under 9 år er det lettere å tilrettelegge for yngre barn, men workshopen er åpen for alle som vil delta. 
-                Vi anbefaler også drop-in eventene som er et familietilbud som passer spesielt godt til en yngre aldersgruppe og krever ingen påmelding.
+                For barn under 9 år anbefaler vi å delta på drop-in tilbudet, men alle er velkomne til workshopen! 
+                Drop-in eventene er et familietilbud som passer spesielt godt for yngre barn og krever ingen påmelding.
               </p>
               <p>
                 Drop-in eventene annonseres på vår nettside og sosiale medier nærmere sommerferien.
@@ -313,7 +312,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               </div>
               <div className="mt-3 p-3 bg-accent/30 rounded-md">
                 <p className="font-medium">
-                  For barn under 9 år er det lettere å tilrettelegge for yngre barn, men vi anbefaler også drop-in eventene som er åpne for alle
+                  For barn under 9 år anbefaler vi å delta på drop-in tilbudet, men workshopen er åpen for alle
                 </p>
               </div>
               <p className="mt-2 font-medium text-primary">Merk: Kun én påmelding per skjema</p>
