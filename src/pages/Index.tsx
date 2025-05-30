@@ -35,8 +35,8 @@ const Index = () => {
     {
       id: 1,
       title: "Flisekunst Workshop",
-      description: "Kreativ workshop med fliser, fortellinger og fellesskapsarbeid. Påmelding åpner 10. juni 2025.",
-      date: "5. juli - 27. juli 2025",
+      description: "5. juli - 27. juli 2025",
+      date: "Juli 2025",
       type: "Kommende workshop",
       link: "/workshop",
       image: "https://dl.dropboxusercontent.com/s/fi/hgvxx3mc37xsnftysfrrm/FLYER_A6_kunstworkshop-001-Website-1.png?rlkey=kd5sn5sum2duuwujtif2cwydt&st=eivwdr5h&dl=0"
