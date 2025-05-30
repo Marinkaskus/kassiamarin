@@ -36,17 +36,17 @@ const Index = () => {
       id: 1,
       title: "Flisekunst Workshop",
       description: "Kreativ workshop med fliser, fortellinger og fellesskapsarbeid. Påmelding åpner 10. juni 2025.",
-      date: "Juli 2025",
+      date: "5. juli - 27. juli 2025",
       type: "Kommende workshop",
       link: "/workshop",
       image: "https://dl.dropboxusercontent.com/s/fi/hgvxx3mc37xsnftysfrrm/FLYER_A6_kunstworkshop-001-Website-1.png?rlkey=kd5sn5sum2duuwujtif2cwydt&st=eivwdr5h&dl=0"
     },
     {
       id: 2,
-      title: "Bærebjelke",
-      description: "Utstilling som åpner 4. juli 2025. Åpent alle dager frem til 27. juli, stengt på mandager.",
+      title: "Åpning: Bærebjelke | Kassia Marin",
+      description: "4. Juli 2025 kl18:00-kl20:00",
       date: "Juli 2025",
-      type: "Kommende prosjekt",
+      type: "Solo utstilling",
       link: "https://fb.me/e/6fWiLUCkx",
       image: "https://dl.dropboxusercontent.com/s/fi/y7brrog0cnu85r57ljdq0/Plakat_Ferdig_A3_B-rebjelke-Website.png?rlkey=re6k6e8voivpbxlew4rxbca93&st=57szrrzo&dl=0"
     },
@@ -140,7 +140,7 @@ const Index = () => {
                     animationDelay: `${index * 150}ms`
                   }}
                 >
-                  <Card className="h-full hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+                  <Card className="h-full hover:shadow-lg transition-shadow duration-300 overflow-hidden border-none shadow-none bg-transparent">
                     <div className="relative aspect-[4/3] overflow-hidden">
                       <img 
                         src={item.image} 
@@ -171,7 +171,7 @@ const Index = () => {
                         </div>
                       </div>
                     </div>
-                    <CardHeader className="pb-2">
+                    <CardHeader className="pb-2 bg-white">
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-xs uppercase tracking-wider text-muted-foreground bg-secondary px-2 py-1 rounded">
                           {item.type}
@@ -183,7 +183,7 @@ const Index = () => {
                       </div>
                       <CardTitle className="text-lg">{item.title}</CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="bg-white">
                       <CardDescription className="text-sm leading-relaxed">
                         {item.description}
                       </CardDescription>
