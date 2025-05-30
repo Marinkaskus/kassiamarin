@@ -193,6 +193,30 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               <p className="font-medium">Påmelding åpner 10. juni 2025</p>
             </div>
             
+            {/* Payment and Cancellation Policy - NB! */}
+            <div className="mb-8 p-6 border-2 border-primary rounded-lg bg-primary/5">
+              <h3 className="text-lg font-bold mb-4 text-primary">NB! Viktig informasjon om betaling og avmelding</h3>
+              <div className="space-y-3">
+                <div className="flex items-start">
+                  <CreditCard className="h-5 w-5 text-primary mr-3 mt-0.5" />
+                  <div>
+                    <p className="font-medium">Betaling skjer ved oppmøte via Vipps</p>
+                    <p className="text-sm text-muted-foreground">Deltakeravgift: 200 kr betales når du kommer til workshopen</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <Calendar className="h-5 w-5 text-primary mr-3 mt-0.5" />
+                  <div>
+                    <p className="font-medium">Påmeldingen er bindende</p>
+                    <p className="text-sm text-muted-foreground">
+                      Avmelding må skje minimum 24 timer før workshopen ved å sende e-post til kassiamarin486@gmail.com. 
+                      Dette er viktig slik at flest mulig kan få være med på prosjektet.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
             <p className="text-lg mb-6">
               I denne spesialworkshopen inviterer Kassia Marin barn og unge til en fordypende og inspirerende opplevelse i kunstens verden. Sammen med kunstneren får deltakerne utforske parken, tegne det de ser, og male på keramiske fliser med motiver inspirert av natur, arkitektur, egne inntrykk og sist men ikke minst Vigeland.
             </p>
@@ -276,7 +300,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
                   Påmelding åpner 10. juni 2025
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Deltakeravgift: 200 kr per deltaker (betales ved påmelding)
+                  Deltakeravgift: 200 kr betales ved oppmøte via Vipps
                 </p>
               </div>
             </div>
@@ -302,7 +326,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               <div className="mt-3 p-3 bg-secondary/80 rounded-md">
                 <div className="flex items-center justify-center">
                   <CreditCard className="h-5 w-5 mr-2" />
-                  <p className="font-medium">Deltakeravgift: 200 kr per deltaker</p>
+                  <p className="font-medium">Deltakeravgift: 200 kr betales ved oppmøte via Vipps</p>
                 </div>
                 <p className="text-sm mt-1">
                   Avgiften bidrar til å dekke materialkostnader.
@@ -321,6 +345,11 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               <div className="mt-3 p-3 bg-accent/30 rounded-md">
                 <p className="font-medium">
                   For barn under 9 år anbefaler vi å delta på drop-in tilbudet, men workshopen er åpen for alle
+                </p>
+              </div>
+              <div className="mt-3 p-3 bg-primary/10 rounded-md">
+                <p className="font-medium text-primary">
+                  Påmeldingen er bindende - avmelding minimum 24 timer før via e-post
                 </p>
               </div>
               <p className="mt-2 font-medium text-primary">Merk: Kun én påmelding per skjema</p>
