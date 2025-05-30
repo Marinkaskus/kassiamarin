@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -79,7 +80,7 @@ const Index = () => {
       {/* Gallery Section */}
       <section className="py-20">
         <div className="container-custom">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
             <div>
               <span className="text-sm uppercase tracking-widest text-muted-foreground">Featured Artworks</span>
               <h2 className="text-3xl md:text-4xl font-medium mt-2">Gallery</h2>
@@ -192,7 +193,7 @@ const Index = () => {
       {/* Projects Section */}
       <section className="py-20 bg-secondary">
         <div className="container-custom">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
             <div>
               <span className="text-sm uppercase tracking-widest text-muted-foreground">Featured Works</span>
               <h2 className="text-3xl md:text-4xl font-medium mt-2">Recent Projects</h2>
