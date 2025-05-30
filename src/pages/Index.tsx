@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -49,14 +48,6 @@ const Index = () => {
       type: "Solo utstilling",
       link: "https://fb.me/e/6fWiLUCkx",
       image: "https://dl.dropboxusercontent.com/s/fi/90h5p4s805f0nz3vn2vm8/Plakat_Ferdig_A3_B-rebjelke-Facebook-Ad.png?rlkey=64f3quxd84oqr83lu69ng4cns&st=u6puotvv&dl=0"
-    },
-    {
-      id: 3,
-      title: "Kunstnerstipend mottatt",
-      description: "Kassia har mottatt støtte til videre utvikling av sitt kunstneriske arbeid gjennom 2025.",
-      date: "Januar 2025",
-      type: "Nyheter",
-      image: "https://dl.dropboxusercontent.com/s/fi/mouik1soo1yaoflt186dp/Logo.png?rlkey=e1ua3zw7f1i9ikvj24b6fxswl&st=h4na5yc9&dl=0"
     },
     {
       id: 4,
