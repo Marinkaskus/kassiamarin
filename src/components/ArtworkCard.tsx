@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Artwork } from '@/types/Artwork';
 import { cn } from '@/lib/utils';
@@ -59,7 +60,7 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
   return (
     <div 
       className={cn(
-        "group relative cursor-pointer overflow-hidden rounded-lg bg-transparent transition-all duration-300 hover:shadow-md w-full",
+        "group relative cursor-pointer overflow-hidden rounded-lg bg-stone-100/80 transition-all duration-300 hover:shadow-md w-full",
         className
       )}
       onClick={() => onClick(artwork)}
@@ -68,14 +69,14 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
     >
       <div className="w-full overflow-hidden rounded-lg">
         {imageError ? (
-          <div className="w-full aspect-square flex flex-col items-center justify-center bg-amber-50/80 rounded-lg">
+          <div className="w-full aspect-square flex flex-col items-center justify-center bg-stone-100/80 rounded-lg">
             <ImageOff className="h-8 w-8 text-muted-foreground mb-2" />
             <p className="text-xs text-muted-foreground text-left">{artwork.title}</p>
           </div>
         ) : (
-          <div className="aspect-square relative flex items-center justify-center bg-amber-50/30 rounded-lg">
+          <div className="aspect-square relative flex items-center justify-center bg-stone-100/80 rounded-lg">
             {isLoading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-amber-50/50 z-10 rounded-lg">
+              <div className="absolute inset-0 flex items-center justify-center bg-stone-100/80 z-10 rounded-lg">
                 <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
               </div>
             )}
@@ -98,8 +99,8 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
       </div>
       
       <div className="p-4 text-left">
-        <h3 className="text-base font-medium font-sans text-left">{artwork.title}</h3>
-        <div className="mt-1 space-y-1 text-sm text-muted-foreground text-left">
+        <h3 className="text-sm font-medium font-sans text-left mb-2">{artwork.title}</h3>
+        <div className="space-y-1 text-xs text-muted-foreground text-left">
           <p className="text-left">{artwork.size}</p>
           <p className="text-left">{artwork.year}</p>
           <p className="text-left">{artwork.medium}</p>

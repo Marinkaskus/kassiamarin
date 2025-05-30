@@ -21,9 +21,9 @@ const ProjectTeaser: React.FC<ProjectTeaserProps> = ({ project }) => {
           <div className="absolute bottom-0 w-full p-4">
             <Link 
               to="/portfolio" 
-              className="text-white text-sm hover:underline flex items-center"
+              className="text-white text-xs hover:underline flex items-center"
             >
-              View Project <ExternalLink size={14} className="ml-1" />
+              View Project <ExternalLink size={12} className="ml-1" />
             </Link>
           </div>
         </div>
@@ -40,9 +40,9 @@ const ProjectTeaser: React.FC<ProjectTeaserProps> = ({ project }) => {
           )}
         </div>
         
-        <h3 className="text-lg font-medium mb-2 text-left">{project.title}</h3>
+        <h3 className="text-sm font-medium mb-2 text-left">{project.title}</h3>
         
-        <p className="text-sm text-muted-foreground line-clamp-2 text-left">
+        <p className="text-xs text-muted-foreground line-clamp-2 text-left">
           {project.description}
         </p>
       </div>
