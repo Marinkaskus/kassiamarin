@@ -115,7 +115,7 @@ const Index = () => {
       {/* News and Upcoming Projects Section */}
       <section className="py-20 bg-muted/30">
         <div className="container-custom">
-          <div className="mb-12">
+          <div className="mb-12 text-left">
             <span className="text-sm uppercase tracking-widest text-muted-foreground">Oppdateringer</span>
             <h2 className="text-3xl md:text-4xl font-medium mt-2">Nyheter eller kommende prosjekter</h2>
           </div>
