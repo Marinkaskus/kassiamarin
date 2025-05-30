@@ -187,7 +187,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
             </div>
             
             <p className="text-lg mb-6">
-              I denne spesialworkshopen inviterer Kassia Marin barn og unge til en fordypende og inspirerende opplevelse i kunstens verden. Sammen med kunstneren får deltakerne utforske parken, tegne det de ser, og male på keramiske fliser med motiver inspirert av natur, arkitektur og egne inntrykk.
+              I denne spesialworkshopen inviterer Kassia Marin barn og unge til en fordypende og inspirerende opplevelse i kunstens verden. Sammen med kunstneren får deltakerne utforske parken, tegne det de ser, og male på keramiske fliser med motiver inspirert av natur, arkitektur, egne inntrykk og sist men ikke minst Vigeland.
             </p>
             
             <p className="text-lg mb-6">
@@ -213,7 +213,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
             <ul className="space-y-3 mb-8">
               <li className="flex items-center">
                 <Check className="h-5 w-5 text-primary mr-2" />
-                <span>Tilrettelagt for barn og unge mellom 6 og 16 år, men åpen for alle</span>
+                <span>Tilrettelagt for barn og unge mellom 9 og 16 år, men åpen for alle under 18 år</span>
               </li>
               <li className="flex items-center">
                 <Check className="h-5 w-5 text-primary mr-2" />
@@ -303,7 +303,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               </div>
               <div className="mt-3 p-3 bg-accent/30 rounded-md">
                 <p className="font-medium text-accent-foreground">
-                  NB! Workshopen er tilrettelagt for barn og unge mellom 6 og 16 år, men åpen for alle
+                  NB! Workshopen er tilrettelagt for barn og unge mellom 9 og 16 år, men åpen for alle under 18 år
                 </p>
               </div>
               <div className="mt-3 p-3 bg-secondary/80 rounded-md">
@@ -345,7 +345,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
                         <FormControl>
                           <Input type="number" min="1" max="17" placeholder="1-17" {...field} />
                         </FormControl>
-                        <FormDescription>Må være under 18 år (workshopen er tilrettelagt for 6-16 år)</FormDescription>
+                        <FormDescription>Må være under 18 år (workshopen er tilrettelagt for 9-16 år)</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
