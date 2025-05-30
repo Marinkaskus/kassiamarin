@@ -64,7 +64,7 @@ const Workshop = () => {
     },
   });
 
-  // Available workshop dates in July 2025 - Updated to remove July 24th and 26th dates
+  // Available workshop dates in July 2025 - Updated to include July 24th and 25th
   const workshopDates = [
     {
       id: "5-jul-2025",
@@ -85,6 +85,14 @@ const Workshop = () => {
     {
       id: "19-jul-2025",
       label: "Lørdag 19. juli 2025 - 12:00-15:00"
+    },
+    {
+      id: "24-jul-2025",
+      label: "Torsdag 24. juli 2025 - 12:00-15:00"
+    },
+    {
+      id: "25-jul-2025",
+      label: "Fredag 25. juli 2025 - 12:00-15:00"
     }
   ];
 
