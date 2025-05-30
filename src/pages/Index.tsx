@@ -146,7 +146,7 @@ const Index = () => {
                       <img 
                         src={item.image} 
                         alt={item.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-125"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-500"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                         <div className="absolute bottom-0 w-full p-4">
