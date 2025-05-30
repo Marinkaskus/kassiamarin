@@ -43,11 +43,12 @@ const Index = () => {
     },
     {
       id: 2,
-      title: "Ny utstilling planlegges",
-      description: "Kassia arbeider med konseptet for en ny solo-utstilling som vil utforske temaer rundt hukommelse og identitet.",
-      date: "2025",
+      title: "Bærebjelke",
+      description: "Utstilling som åpner 4. juli 2025. Åpent alle dager frem til 27. juli, stengt på mandager.",
+      date: "Juli 2025",
       type: "Kommende prosjekt",
-      image: "https://dl.dropboxusercontent.com/s/fi/exqofds6tq0pkqsp2uf0p/2L5A5990.JPG?rlkey=2ujtknbudpg8hsod15zevcipd&st=tjnh5vvh&dl=0"
+      link: "/baerebjelke",
+      image: "https://dl.dropboxusercontent.com/s/fi/y7brrog0cnu85r57ljdq0/Plakat_Ferdig_A3_B-rebjelke-Website.png?rlkey=re6k6e8voivpbxlew4rxbca93&st=57szrrzo&dl=0"
     },
     {
       id: 3,
