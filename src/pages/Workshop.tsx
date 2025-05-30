@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -64,8 +65,7 @@ const Workshop = () => {
     },
   });
 
-  // Available workshop dates in July 2025 - Updated to Thursdays and Saturdays from 12:00-15:00
-  // Removed dates for July 3rd and July 31st
+  // Available workshop dates in July 2025 - Updated to remove July 24th and 26th dates
   const workshopDates = [
     {
       id: "5-jul-2025",
@@ -86,14 +86,6 @@ const Workshop = () => {
     {
       id: "19-jul-2025",
       label: "Lørdag 19. juli 2025 - 12:00-15:00"
-    },
-    {
-      id: "24-jul-2025", 
-      label: "Torsdag 24. juli 2025 - 12:00-15:00"
-    },
-    {
-      id: "26-jul-2025",
-      label: "Lørdag 26. juli 2025 - 12:00-15:00"
     }
   ];
 
@@ -170,8 +162,8 @@ Sendt: ${new Date().toLocaleString('no-NO')}
       {/* Hero Section */}
       <section className="py-16 bg-gradient-to-b from-secondary to-background">
         <div className="container-custom text-center">
-          <h1 className="text-4xl md:text-5xl font-medium mb-6">Flisekunst for barn og unge</h1>
-          <p className="text-xl md:text-2xl mb-4">Sommerworkshop i Frognerparken</p>
+          <h1 className="text-4xl md:text-5xl font-medium mb-6">Påmeldingsworkshop: Fliser, fortellinger og fellesverk</h1>
+          <p className="text-xl md:text-2xl mb-4">Vil du være med og lage kunst som stilles ut i Wegnerpaviljongen?</p>
           <p className="text-muted-foreground text-lg mb-4">Juli 2025</p>
           <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
             <p className="inline-block bg-primary text-white px-4 py-2 rounded-lg font-medium animate-pulse">
@@ -195,8 +187,15 @@ Sendt: ${new Date().toLocaleString('no-NO')}
             </div>
             
             <p className="text-lg mb-6">
-              En kreativ sommeraktivitet for barn og unge i Oslo! Utforsk flisemaling med akvarell, 
-              delta i workshops med profesjonell kunstner, og bli med å skape et fellesverk i Paviljongen i Vigelandsparken.
+              I denne spesialworkshopen inviterer Kassia Marin barn og unge til en fordypende og inspirerende opplevelse i kunstens verden. Sammen med kunstneren får deltakerne utforske parken, tegne det de ser, og male på keramiske fliser med motiver inspirert av natur, arkitektur og egne inntrykk.
+            </p>
+            
+            <p className="text-lg mb-6">
+              Workshopen starter med en guidet vandring i parken hvor vi tegner underveis. Etterpå jobber vi med flisene – én får deltakerne ta med hjem, og én blir en del av et fellesverk som stilles ut i paviljongen 24.–27. juli.
+            </p>
+            
+            <p className="text-lg mb-8">
+              Workshopen ledes av Kassia Marin, og gir deltakerne innblikk i både kunstneriske teknikker og kreative prosesser. Alt materiell er inkludert.
             </p>
             
             <div className="mb-8 p-4 border border-secondary rounded-lg bg-secondary/10">
@@ -214,11 +213,15 @@ Sendt: ${new Date().toLocaleString('no-NO')}
             <ul className="space-y-3 mb-8">
               <li className="flex items-center">
                 <Check className="h-5 w-5 text-primary mr-2" />
-                <span>For alle under 18 år, spesielt tilpasset aldersgruppen 9 til 16 år</span>
+                <span>Tilrettelagt for barn og unge mellom 6 og 16 år, men åpen for alle</span>
               </li>
               <li className="flex items-center">
                 <Check className="h-5 w-5 text-primary mr-2" />
-                <span>Workshopene foregår i juli 2025 i Paviljongen i Frognerparken</span>
+                <span>Tid: Utvalgte dager i juli kl. 12:00–15:00</span>
+              </li>
+              <li className="flex items-center">
+                <Check className="h-5 w-5 text-primary mr-2" />
+                <span>Sted: Wegnerpaviljongen, Frognerparken</span>
               </li>
               <li className="flex items-center">
                 <Check className="h-5 w-5 text-primary mr-2" />
@@ -233,8 +236,8 @@ Sendt: ${new Date().toLocaleString('no-NO')}
             <div className="bg-accent/30 p-6 rounded-lg mb-8">
               <h3 className="text-lg font-medium mb-3">For de yngste barna (under 9 år)</h3>
               <p className="mb-4">
-                For barn under 9 år anbefaler vi å delta på drop-in eventene som er åpne for alle. 
-                Disse er et familietilbud som passer bedre til en yngre aldersgruppe og krever ingen påmelding.
+                For barn under 9 år er det lettere å tilrettelegge for yngre barn, men workshopen er åpen for alle som vil delta. 
+                Vi anbefaler også drop-in eventene som er et familietilbud som passer spesielt godt til en yngre aldersgruppe og krever ingen påmelding.
               </p>
               <p>
                 Drop-in eventene annonseres på vår nettside og sosiale medier nærmere sommerferien.
@@ -246,7 +249,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               <ul className="space-y-2 text-sm">
                 <li>• Aktivitetene er åpne for alle under 18 år</li>
                 <li>• Workshopene er spesielt tilpasset aldersgruppen 9-16 år</li>
-                <li>• Deltakeravgift: 200 kr per deltaker (arbeid pågår for å redusere denne)</li>
+                <li>• Deltakeravgift: 200 kr per deltaker</li>
                 <li>• Det kreves ingen forkunnskaper eller utstyr – alt nødvendig materiell inkluderes</li>
                 <li>• Verkstedet foregår i et trygt, inkluderende og inspirerende miljø med profesjonell veiledning</li>
                 <li>• Paviljongen er lett tilgjengelig i Frognerparken, men er ikke universelt utformet</li>
@@ -300,7 +303,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               </div>
               <div className="mt-3 p-3 bg-accent/30 rounded-md">
                 <p className="font-medium text-accent-foreground">
-                  NB! Workshopen er spesielt tilpasset aldersgruppen 9-16 år, men alle under 18 år kan melde seg på
+                  NB! Workshopen er tilrettelagt for barn og unge mellom 6 og 16 år, men åpen for alle
                 </p>
               </div>
               <div className="mt-3 p-3 bg-secondary/80 rounded-md">
@@ -310,7 +313,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               </div>
               <div className="mt-3 p-3 bg-accent/30 rounded-md">
                 <p className="font-medium">
-                  For barn under 9 år anbefaler vi drop-in eventene som er åpne for alle og bedre tilpasset yngre barn
+                  For barn under 9 år er det lettere å tilrettelegge for yngre barn, men vi anbefaler også drop-in eventene som er åpne for alle
                 </p>
               </div>
               <p className="mt-2 font-medium text-primary">Merk: Kun én påmelding per skjema</p>
@@ -342,7 +345,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
                         <FormControl>
                           <Input type="number" min="1" max="17" placeholder="1-17" {...field} />
                         </FormControl>
-                        <FormDescription>Må være under 18 år (workshopen er spesielt tilpasset 9-16 år)</FormDescription>
+                        <FormDescription>Må være under 18 år (workshopen er tilrettelagt for 6-16 år)</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
