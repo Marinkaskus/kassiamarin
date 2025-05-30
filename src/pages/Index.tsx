@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -34,21 +33,21 @@ const Index = () => {
   const newsItems = [
     {
       id: 1,
-      title: "Flisekunst Workshop",
-      description: "5. juli - 27. juli 2025",
-      date: "Juli 2025",
-      type: "Kommende workshop",
-      link: "/workshop",
-      image: "https://dl.dropboxusercontent.com/s/fi/v7898buwxsnii80zcov39/FLYER_A6_kunstworkshop-001-Website-2.png?rlkey=a4abjraqyrlbmeqov72utlh86&st=pa06yrir&dl=0"
-    },
-    {
-      id: 2,
       title: "Åpning: Bærebjelke | Kassia Marin",
       description: "4. Juli 2025 kl18:00-kl20:00",
       date: "Juli 2025",
       type: "Solo utstilling",
       link: "https://fb.me/e/6fWiLUCkx",
       image: "https://dl.dropboxusercontent.com/s/fi/90h5p4s805f0nz3vn2vm8/Plakat_Ferdig_A3_B-rebjelke-Facebook-Ad.png?rlkey=64f3quxd84oqr83lu69ng4cns&st=u6puotvv&dl=0"
+    },
+    {
+      id: 2,
+      title: "Flisekunst Workshop",
+      description: "5. juli - 27. juli 2025",
+      date: "Juli 2025",
+      type: "Kommende workshop",
+      link: "/workshop",
+      image: "https://dl.dropboxusercontent.com/s/fi/v7898buwxsnii80zcov39/FLYER_A6_kunstworkshop-001-Website-2.png?rlkey=a4abjraqyrlbmeqov72utlh86&st=pa06yrir&dl=0"
     },
     {
       id: 3,
