@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -58,14 +57,6 @@ const Index = () => {
       type: "Utstilling",
       link: "https://fb.me/e/6h1vhJtIm",
       image: "https://dl.dropboxusercontent.com/s/fi/90h5p4s805f0nz3vn2vm8/Plakat_Ferdig_A3_B-rebjelke-Facebook-Ad.png?rlkey=64f3quxd84oqr83lu69ng4cns&st=u6puotvv&dl=0"
-    },
-    {
-      id: 4,
-      title: "Samarbeidsprosjekt",
-      description: "Planlegging av et tverrfaglig samarbeidsprosjekt med andre kunstnere og kulturaktører i Oslo.",
-      date: "Høst 2025",
-      type: "Kommende prosjekt",
-      image: "https://dl.dropboxusercontent.com/s/fi/exqofds6tq0pkqsp2uf0p/2L5A5990.JPG?rlkey=2ujtknbudpg8hsod15zevcipd&st=tjnh5vvh&dl=0"
     }
   ];
 
