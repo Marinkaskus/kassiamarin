@@ -308,6 +308,41 @@ Sendt: ${new Date().toLocaleString('no-NO')}
         </div>
       </section>
 
+      {/* Workshop Images Gallery */}
+      <section className="py-12 bg-secondary/30">
+        <div className="container-custom">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-medium text-center mb-8">Fra tidligere workshoper</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div className="aspect-[4/3] overflow-hidden rounded-lg">
+                <img 
+                  src="https://dl.dropboxusercontent.com/s/fi/zt5yi19r04jk7vzopgedl/250424_OsloKunstforening_DKSLab_KassiaMarin_19-redigert.jpg?rlkey=8x7zs9c3ecb0srtw4ghqm519j&st=wipu67c3&dl=0"
+                  alt="Workshop deltakere som arbeider med flisekunst"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div className="aspect-[4/3] overflow-hidden rounded-lg">
+                <img 
+                  src="https://dl.dropboxusercontent.com/s/fi/6m3b1khr7599hmeixzb0s/250424_OsloKunstforening_DKSLab_KassiaMarin_17-redigert.jpg?rlkey=d6cb4zk2sbolj15mrx9qj0r4k&st=uf5ylwp7&dl=0"
+                  alt="Kreativ prosess under workshop"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div className="aspect-[4/3] overflow-hidden rounded-lg">
+                <img 
+                  src="https://dl.dropboxusercontent.com/s/fi/dd556n1ch8kh0zk48rkwr/250424_OsloKunstforening_DKSLab_KassiaMarin_2-redigert.jpg?rlkey=or2u9hst96hd46fnfdlgtlpc9&st=lqo33ufy&dl=0"
+                  alt="Workshop i aksjon med deltakere"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+            </div>
+            <p className="text-center text-sm text-muted-foreground">
+              Foto DKS-Lab: Sakib Saboor / Oslo Kunstforening
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Registration Form Section */}
       <section id="registration-form" className="py-16 bg-secondary/50">
         <div className="container-custom">
