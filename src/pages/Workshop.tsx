@@ -179,7 +179,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
             </p>
             <p className="inline-flex items-center bg-secondary/80 text-foreground px-4 py-2 rounded-lg font-medium">
               <CreditCard className="h-5 w-5 mr-2" />
-              Deltakeravgift: 150 kr
+              Deltakeravgift: 200 kr
             </p>
           </div>
         </div>
@@ -203,10 +203,9 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               <div className="flex items-start">
                 <CreditCard className="h-5 w-5 text-secondary mr-2 mt-0.5" />
                 <div>
-                  <p className="font-medium">Deltakeravgift: 150 kr per deltaker</p>
+                  <p className="font-medium">Deltakeravgift: 200 kr per deltaker</p>
                   <p className="text-sm text-muted-foreground">
-                    Avgiften bidrar til å dekke materialkostnader. Vi jobber kontinuerlig med å få støtte for å kunne 
-                    redusere eller fjerne denne avgiften.
+                    Avgiften bidrar til å dekke materialkostnader.
                   </p>
                 </div>
               </div>
@@ -223,7 +222,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               </li>
               <li className="flex items-center">
                 <Check className="h-5 w-5 text-primary mr-2" />
-                <span>Deltakeravgift: 150 kr for å dekke materialkostnader</span>
+                <span>Deltakeravgift: 200 kr for å dekke materialkostnader</span>
               </li>
               <li className="flex items-center">
                 <Check className="h-5 w-5 text-primary mr-2" />
@@ -247,7 +246,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               <ul className="space-y-2 text-sm">
                 <li>• Aktivitetene er åpne for alle under 18 år</li>
                 <li>• Workshopene er spesielt tilpasset aldersgruppen 9-16 år</li>
-                <li>• Deltakeravgift: 150 kr per deltaker (arbeid pågår for å redusere denne)</li>
+                <li>• Deltakeravgift: 200 kr per deltaker (arbeid pågår for å redusere denne)</li>
                 <li>• Det kreves ingen forkunnskaper eller utstyr – alt nødvendig materiell inkluderes</li>
                 <li>• Verkstedet foregår i et trygt, inkluderende og inspirerende miljø med profesjonell veiledning</li>
                 <li>• Paviljongen er lett tilgjengelig i Frognerparken, men er ikke universelt utformet</li>
@@ -267,7 +266,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
                   Påmelding åpner 10. juni 2025
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Deltakeravgift: 150 kr per deltaker (betales ved påmelding)
+                  Deltakeravgift: 200 kr per deltaker (betales ved påmelding)
                 </p>
               </div>
             </div>
@@ -293,10 +292,10 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               <div className="mt-3 p-3 bg-secondary/80 rounded-md">
                 <div className="flex items-center justify-center">
                   <CreditCard className="h-5 w-5 mr-2" />
-                  <p className="font-medium">Deltakeravgift: 150 kr per deltaker</p>
+                  <p className="font-medium">Deltakeravgift: 200 kr per deltaker</p>
                 </div>
                 <p className="text-sm mt-1">
-                  Avgiften bidrar til å dekke materialkostnader. Det jobbes kontinuerlig med å redusere denne avgiften.
+                  Avgiften bidrar til å dekke materialkostnader.
                 </p>
               </div>
               <div className="mt-3 p-3 bg-accent/30 rounded-md">
