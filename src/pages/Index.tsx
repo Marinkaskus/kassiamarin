@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -38,7 +39,7 @@ const Index = () => {
       date: "Juli 2025",
       type: "Kommende workshop",
       link: "/workshop",
-      image: "https://dl.dropboxusercontent.com/s/fi/hgvxx3mc37xsnftysfrrm/FLYER_A6_kunstworkshop-001-Website-1.png?rlkey=kd5sn5sum2duuwujtif2cwydt&st=eivwdr5h&dl=0"
+      image: "https://dl.dropboxusercontent.com/s/fi/v7898buwxsnii80zcov39/FLYER_A6_kunstworkshop-001-Website-2.png?rlkey=a4abjraqyrlbmeqov72utlh86&st=pa06yrir&dl=0"
     },
     {
       id: 2,
