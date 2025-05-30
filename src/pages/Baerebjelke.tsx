@@ -2,8 +2,9 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
-import { Calendar, Clock, MapPin } from 'lucide-react';
+import { Calendar, Clock, MapPin, ExternalLink } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 const Baerebjelke = () => {
   return (
@@ -26,6 +27,20 @@ const Baerebjelke = () => {
               alt="Bærebjelke utstilling plakat"
               className="w-full max-w-2xl mx-auto rounded-lg shadow-lg"
             />
+          </div>
+
+          <div className="text-center mb-8">
+            <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
+              <a 
+                href="https://fb.me/e/6fWiLUCkx" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center"
+              >
+                <ExternalLink className="mr-2 h-4 w-4" />
+                Se Facebook-event
+              </a>
+            </Button>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
