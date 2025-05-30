@@ -60,7 +60,7 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
   return (
     <div 
       className={cn(
-        "group relative cursor-pointer overflow-hidden rounded-lg bg-stone-100/80 transition-all duration-300 hover:shadow-md w-full",
+        "group relative cursor-pointer overflow-hidden rounded-lg transition-all duration-300 hover:shadow-md w-full bg-transparent shadow-none",
         className
       )}
       onClick={() => onClick(artwork)}
@@ -99,7 +99,7 @@ const ArtworkCard: React.FC<ArtworkCardProps> = ({ artwork, onClick, className }
       </div>
       
       <div className="p-4 text-left">
-        <h3 className="text-sm font-medium font-sans text-left mb-2">{artwork.title}</h3>
+        <h3 className="text-sm font-medium mb-2 text-left">{artwork.title}</h3>
         <div className="space-y-1 text-xs text-muted-foreground text-left">
           <p className="text-left">{artwork.size}</p>
           <p className="text-left">{artwork.year}</p>
