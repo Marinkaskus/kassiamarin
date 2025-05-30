@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Gotu&display=swap');
 
 @tailwind base;
@@ -6,33 +7,33 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 5% 15%;
+    --background: 45 20% 96%;
+    --foreground: 30 15% 25%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 5% 15%;
+    --card: 42 25% 94%;
+    --card-foreground: 30 15% 25%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 5% 15%;
+    --popover: 42 25% 94%;
+    --popover-foreground: 30 15% 25%;
 
-    --primary: 240 5% 15%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 30 15% 25%;
+    --primary-foreground: 45 20% 96%;
 
-    --secondary: 240 4% 96%;
-    --secondary-foreground: 240 5% 15%;
+    --secondary: 40 18% 90%;
+    --secondary-foreground: 30 15% 25%;
 
-    --muted: 240 4% 96%;
-    --muted-foreground: 240 4% 46%;
+    --muted: 40 18% 88%;
+    --muted-foreground: 35 12% 45%;
 
-    --accent: 240 4% 92%;
-    --accent-foreground: 240 5% 15%;
+    --accent: 38 20% 85%;
+    --accent-foreground: 30 15% 25%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 45 20% 96%;
 
-    --border: 240 5% 88%;
-    --input: 240 5% 88%;
-    --ring: 240 5% 65%;
+    --border: 35 15% 80%;
+    --input: 35 15% 80%;
+    --ring: 35 12% 65%;
 
     --radius: 0.5rem;
   }
@@ -46,6 +47,24 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(120, 119, 198, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 40% 80%, rgba(120, 119, 198, 0.03) 0%, transparent 50%),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(120, 100, 80, 0.01) 2px,
+        rgba(120, 100, 80, 0.01) 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(120, 100, 80, 0.01) 2px,
+        rgba(120, 100, 80, 0.01) 4px
+      );
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -63,15 +82,36 @@
   }
   
   .glass {
-    @apply bg-white/70 backdrop-blur-lg border border-white/20;
+    @apply bg-card/70 backdrop-blur-lg border border-border/20;
   }
   
   .glass-dark {
-    @apply bg-black/50 backdrop-blur-lg border border-white/10;
+    @apply bg-primary/50 backdrop-blur-lg border border-border/10;
   }
   
   .container-custom {
     @apply w-full max-w-[1400px] mx-auto px-6 md:px-12;
+  }
+
+  .paper-texture {
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(120, 119, 198, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 40% 80%, rgba(120, 119, 198, 0.03) 0%, transparent 50%),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(120, 100, 80, 0.01) 2px,
+        rgba(120, 100, 80, 0.01) 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(120, 100, 80, 0.01) 2px,
+        rgba(120, 100, 80, 0.01) 4px
+      );
   }
 
   @keyframes scaleIn {

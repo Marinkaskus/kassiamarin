@@ -67,6 +67,18 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				beige: {
+					50: '#faf8f5',
+					100: '#f4f0e8',
+					200: '#e8ddd0',
+					300: '#d9c7b0',
+					400: '#c8ad8e',
+					500: '#ba966f',
+					600: '#a8825c',
+					700: '#8b6b4a',
+					800: '#71563e',
+					900: '#5c4833',
 				}
 			},
 			borderRadius: {

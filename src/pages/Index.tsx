@@ -78,7 +78,7 @@ const Index = () => {
       <HeroSection />
       
       {/* Gallery Section */}
-      <section className="py-20 bg-amber-50/30">
+      <section className="py-20 bg-beige-50/50 paper-texture">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
             <div className="text-left">
@@ -95,7 +95,7 @@ const Index = () => {
             {featuredArtworks.slice(0, 3).map((artwork, index) => (
               <div 
                 key={artwork.id} 
-                className="relative transition-all duration-300 hover:-translate-y-1 bg-stone-100/80 rounded-lg p-4" 
+                className="relative transition-all duration-300 hover:-translate-y-1 bg-beige-100/60 rounded-lg p-4" 
                 style={{
                   opacity: 0,
                   animation: `scaleIn 0.6s ease-out forwards`,
@@ -114,7 +114,7 @@ const Index = () => {
       </section>
 
       {/* News and Upcoming Projects Section */}
-      <section className="py-20 bg-amber-50/40">
+      <section className="py-20 bg-beige-100/40 paper-texture">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
             <div className="text-left">
@@ -128,7 +128,7 @@ const Index = () => {
               {newsItems.map((item, index) => (
                 <div 
                   key={item.id} 
-                  className="w-80 flex-shrink-0 group relative transition-all duration-300 hover:-translate-y-1 bg-stone-100/80 rounded-lg p-4"
+                  className="w-80 flex-shrink-0 group relative transition-all duration-300 hover:-translate-y-1 bg-beige-100/60 rounded-lg p-4"
                   style={{
                     opacity: 0,
                     animation: `scaleIn 0.6s ease-out forwards`,
@@ -194,7 +194,7 @@ const Index = () => {
       </section>
       
       {/* Projects Section */}
-      <section className="py-20 bg-amber-50/30">
+      <section className="py-20 bg-beige-50/50 paper-texture">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
             <div className="text-left">
@@ -211,7 +211,7 @@ const Index = () => {
             {featuredProjects.map((project, index) => (
               <div 
                 key={project.id}
-                className="bg-stone-100/80 rounded-lg p-4 transition-all duration-300 hover:-translate-y-1"
+                className="bg-beige-100/60 rounded-lg p-4 transition-all duration-300 hover:-translate-y-1"
                 style={{
                   opacity: 0,
                   animation: `scaleIn 0.6s ease-out forwards`,
