@@ -81,7 +81,7 @@ const Index = () => {
       <section className="py-20">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
-            <div>
+            <div className="text-left">
               <span className="text-sm uppercase tracking-widest text-muted-foreground">Featured Artworks</span>
               <h2 className="text-3xl md:text-4xl font-medium mt-2">Gallery</h2>
             </div>
@@ -116,9 +116,11 @@ const Index = () => {
       {/* News and Upcoming Projects Section */}
       <section className="py-20 bg-muted/30">
         <div className="container-custom">
-          <div className="mb-12 text-left">
-            <span className="text-sm uppercase tracking-widest text-muted-foreground">Oppdateringer</span>
-            <h2 className="text-3xl md:text-4xl font-medium mt-2">Nyheter eller kommende prosjekter</h2>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
+            <div className="text-left">
+              <span className="text-sm uppercase tracking-widest text-muted-foreground">Oppdateringer</span>
+              <h2 className="text-3xl md:text-4xl font-medium mt-2">Nyheter eller kommende prosjekter</h2>
+            </div>
           </div>
           
           <ScrollArea className="w-full whitespace-nowrap">
@@ -194,7 +196,7 @@ const Index = () => {
       <section className="py-20 bg-secondary">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
-            <div>
+            <div className="text-left">
               <span className="text-sm uppercase tracking-widest text-muted-foreground">Featured Works</span>
               <h2 className="text-3xl md:text-4xl font-medium mt-2">Recent Projects</h2>
             </div>
