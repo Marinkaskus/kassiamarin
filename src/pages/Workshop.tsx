@@ -4,7 +4,7 @@ import Layout from '@/components/Layout';
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Check, Calendar, CreditCard } from 'lucide-react';
+import { Check, Calendar, CreditCard, CalendarPlus } from 'lucide-react';
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -96,6 +96,62 @@ const Workshop = () => {
     }
   ];
 
+  // Function to add calendar reminder
+  const addCalendarReminder = () => {
+    const startDate = new Date('2025-06-10T10:00:00');
+    const endDate = new Date('2025-06-10T10:30:00');
+    
+    const event = {
+      title: 'Påmelding åpner: Flisekunst Workshop - Kassia Marin',
+      description: 'Påmelding til workshop "Fliser, fortellinger og fellesverk" åpner i dag. Besøk kassiamarin.studio/workshop for å melde deg på.',
+      start: startDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z',
+      end: endDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z',
+      location: 'Online - kassiamarin.studio/workshop'
+    };
+    
+    // Create Google Calendar URL
+    const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${event.start}/${event.end}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.location)}`;
+    
+    // Create ICS file for other calendar apps
+    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Kassia Marin//Workshop Reminder//EN
+BEGIN:VEVENT
+UID:workshop-reminder-${Date.now()}@kassiamarin.studio
+DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
+DTSTART:${event.start}
+DTEND:${event.end}
+SUMMARY:${event.title}
+DESCRIPTION:${event.description}
+LOCATION:${event.location}
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Påmelding til workshop åpner snart!
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR`;
+    
+    // Try to open Google Calendar first
+    window.open(googleCalendarUrl, '_blank');
+    
+    // Also create downloadable ICS file
+    const blob = new Blob([icsContent], { type: 'text/calendar' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'workshop-pamelding-reminder.ics';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+    
+    toast({
+      title: "Kalender-påminnelse lagt til!",
+      description: "Google Calendar åpnet og ICS-fil lastet ned. Velg den metoden som passer best for din kalender.",
+    });
+  };
+
   // Function to handle form submission
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -179,6 +235,20 @@ Sendt: ${new Date().toLocaleString('no-NO')}
             <p className="inline-flex items-center bg-secondary/80 text-foreground px-4 py-2 rounded-lg font-medium">
               <CreditCard className="h-5 w-5 mr-2" />
               Deltakeravgift: 200 kr
+            </p>
+          </div>
+          <div className="mt-6">
+            <Button
+              onClick={addCalendarReminder}
+              variant="outline"
+              size="lg"
+              className="inline-flex items-center gap-2 hover:bg-primary hover:text-white transition-colors"
+            >
+              <CalendarPlus className="h-5 w-5" />
+              Legg til kalender-påminnelse
+            </Button>
+            <p className="text-sm text-muted-foreground mt-2">
+              Få varsel når påmeldingen åpner 10. juni
             </p>
           </div>
         </div>
