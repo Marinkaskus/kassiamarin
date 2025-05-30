@@ -412,52 +412,6 @@ Sendt: ${new Date().toLocaleString('no-NO')}
         </div>
       </section>
 
-      {/* Additional Images Section - moved here */}
-      <section className="py-12 bg-beige-100/40 paper-texture">
-        <div className="container-custom">
-          <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {additionalImages.map((image) => (
-                <div 
-                  key={image.id}
-                  className="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer group"
-                  onClick={() => handleImageClick(image.src)}
-                >
-                  <img 
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Image Modal */}
-      <Dialog open={imageModalOpen} onOpenChange={setImageModalOpen}>
-        <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-transparent border-none">
-          <div className="relative">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute top-4 right-4 z-10 bg-black/50 text-white hover:bg-black/70"
-              onClick={() => setImageModalOpen(false)}
-            >
-              <X className="h-4 w-4" />
-            </Button>
-            {selectedImage && (
-              <img
-                src={selectedImage}
-                alt="Workshop bilde - forstørret"
-                className="w-full h-auto max-h-[90vh] object-contain rounded-lg"
-              />
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
-
       {/* Registration Form Section */}
       <section id="registration-form" className="py-16 bg-secondary/50">
         <div className="container-custom">
@@ -759,6 +713,52 @@ Sendt: ${new Date().toLocaleString('no-NO')}
           </div>
         </div>
       </section>
+
+      {/* Additional Images Section - moved after registration form */}
+      <section className="py-12 bg-beige-100/40 paper-texture">
+        <div className="container-custom">
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {additionalImages.map((image) => (
+                <div 
+                  key={image.id}
+                  className="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer group"
+                  onClick={() => handleImageClick(image.src)}
+                >
+                  <img 
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Image Modal */}
+      <Dialog open={imageModalOpen} onOpenChange={setImageModalOpen}>
+        <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-transparent border-none">
+          <div className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-4 right-4 z-10 bg-black/50 text-white hover:bg-black/70"
+              onClick={() => setImageModalOpen(false)}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+            {selectedImage && (
+              <img
+                src={selectedImage}
+                alt="Workshop bilde - forstørret"
+                className="w-full h-auto max-h-[90vh] object-contain rounded-lg"
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 };
