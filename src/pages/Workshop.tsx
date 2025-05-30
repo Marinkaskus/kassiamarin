@@ -193,30 +193,6 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               <p className="font-medium">Påmelding åpner 10. juni 2025</p>
             </div>
             
-            {/* Payment and Cancellation Policy - NB! */}
-            <div className="mb-8 p-6 border-2 border-primary rounded-lg bg-primary/5">
-              <h3 className="text-lg font-bold mb-4 text-primary">NB! Viktig informasjon om betaling og avmelding</h3>
-              <div className="space-y-3">
-                <div className="flex items-start">
-                  <CreditCard className="h-5 w-5 text-primary mr-3 mt-0.5" />
-                  <div>
-                    <p className="font-medium">Betaling skjer ved oppmøte via Vipps</p>
-                    <p className="text-sm text-muted-foreground">Deltakeravgift: 200 kr betales når du kommer til workshopen</p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <Calendar className="h-5 w-5 text-primary mr-3 mt-0.5" />
-                  <div>
-                    <p className="font-medium">Påmeldingen er bindende</p>
-                    <p className="text-sm text-muted-foreground">
-                      Avmelding må skje minimum 24 timer før workshopen ved å sende e-post til kassiamarin486@gmail.com. 
-                      Dette er viktig slik at flest mulig kan få være med på prosjektet.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
             <p className="text-lg mb-6">
               I denne spesialworkshopen inviterer Kassia Marin barn og unge til en fordypende og inspirerende opplevelse i kunstens verden. Sammen med kunstneren får deltakerne utforske parken, tegne det de ser, og male på keramiske fliser med motiver inspirert av natur, arkitektur, egne inntrykk og sist men ikke minst Vigeland.
             </p>
@@ -312,7 +288,6 @@ Sendt: ${new Date().toLocaleString('no-NO')}
       <section className="py-12 bg-secondary/30">
         <div className="container-custom">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-3xl font-medium text-center mb-8">Fra tidligere workshoper</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
               <div className="aspect-[4/3] overflow-hidden rounded-lg">
                 <img 
@@ -590,7 +565,31 @@ Sendt: ${new Date().toLocaleString('no-NO')}
                     )}
                   />
                   
-                  {/* Contact Information Section - moved here */}
+                  {/* NB! Info Section - moved here */}
+                  <div className="mb-8 p-6 border-2 border-primary rounded-lg bg-primary/5">
+                    <h3 className="text-lg font-bold mb-4 text-primary">NB! Viktig informasjon om betaling og avmelding</h3>
+                    <div className="space-y-3">
+                      <div className="flex items-start">
+                        <CreditCard className="h-5 w-5 text-primary mr-3 mt-0.5" />
+                        <div>
+                          <p className="font-medium">Betaling skjer ved oppmøte via Vipps</p>
+                          <p className="text-sm text-muted-foreground">Deltakeravgift: 200 kr betales når du kommer til workshopen</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                        <Calendar className="h-5 w-5 text-primary mr-3 mt-0.5" />
+                        <div>
+                          <p className="font-medium">Påmeldingen er bindende</p>
+                          <p className="text-sm text-muted-foreground">
+                            Avmelding må skje minimum 24 timer før workshopen ved å sende e-post til kassiamarin486@gmail.com. 
+                            Dette er viktig slik at flest mulig kan få være med på prosjektet.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Contact Information Section */}
                   <div className="border-t pt-6 mt-6">
                     <div className="bg-accent/10 p-4 rounded-lg mb-4">
                       <h3 className="text-lg font-medium mb-2">Kontaktinformasjon</h3>
