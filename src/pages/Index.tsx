@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -130,59 +131,65 @@ const Index = () => {
           <ScrollArea className="w-full whitespace-nowrap">
             <div className="flex w-max space-x-6 pb-4">
               {newsItems.map((item, index) => (
-                <Card 
+                <div 
                   key={item.id} 
-                  className="w-80 flex-shrink-0 hover:shadow-lg transition-shadow duration-300"
+                  className="w-80 flex-shrink-0 group relative transition-all duration-300 hover:-translate-y-1"
                   style={{
                     opacity: 0,
                     animation: `scaleIn 0.6s ease-out forwards`,
                     animationDelay: `${index * 150}ms`
                   }}
                 >
-                  <div className="aspect-video overflow-hidden rounded-t-lg">
-                    <img 
-                      src={item.image} 
-                      alt={item.title}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  <CardHeader className="pb-2">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs uppercase tracking-wider text-muted-foreground bg-secondary px-2 py-1 rounded">
-                        {item.type}
-                      </span>
-                      <span className="text-xs text-muted-foreground flex items-center">
-                        <Calendar size={12} className="mr-1" />
-                        {item.date}
-                      </span>
+                  <Card className="h-full hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <img 
+                        src={item.image} 
+                        alt={item.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="absolute bottom-0 w-full p-4">
+                          {item.link && (
+                            item.link.startsWith('http') ? (
+                              <a 
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-white text-sm hover:underline flex items-center"
+                              >
+                                Les mer <ExternalLink size={14} className="ml-1" />
+                              </a>
+                            ) : (
+                              <Link 
+                                to={item.link}
+                                className="text-white text-sm hover:underline flex items-center"
+                              >
+                                Les mer <ExternalLink size={14} className="ml-1" />
+                              </Link>
+                            )
+                          )}
+                        </div>
+                      </div>
                     </div>
-                    <CardTitle className="text-lg">{item.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-sm leading-relaxed mb-4">
-                      {item.description}
-                    </CardDescription>
-                    {item.link && (
-                      item.link.startsWith('http') ? (
-                        <a 
-                          href={item.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"
-                        >
-                          Les mer <ExternalLink size={14} className="ml-1" />
-                        </a>
-                      ) : (
-                        <Link 
-                          to={item.link}
-                          className="inline-flex items-center text-sm font-medium hover:opacity-70 transition-opacity"
-                        >
-                          Les mer <ExternalLink size={14} className="ml-1" />
-                        </Link>
-                      )
-                    )}
-                  </CardContent>
-                </Card>
+                    <CardHeader className="pb-2">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs uppercase tracking-wider text-muted-foreground bg-secondary px-2 py-1 rounded">
+                          {item.type}
+                        </span>
+                        <span className="text-xs text-muted-foreground flex items-center">
+                          <Calendar size={12} className="mr-1" />
+                          {item.date}
+                        </span>
+                      </div>
+                      <CardTitle className="text-lg">{item.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className="text-sm leading-relaxed">
+                        {item.description}
+                      </CardDescription>
+                    </CardContent>
+                  </Card>
+                </div>
               ))}
             </div>
             <ScrollBar orientation="horizontal" />
