@@ -590,6 +590,19 @@ Sendt: ${new Date().toLocaleString('no-NO')}
                     )}
                   />
                   
+                  {/* Contact Information Section - moved here */}
+                  <div className="border-t pt-6 mt-6">
+                    <div className="bg-accent/10 p-4 rounded-lg mb-4">
+                      <h3 className="text-lg font-medium mb-2">Kontaktinformasjon</h3>
+                      <div className="space-y-1 text-sm">
+                        <p><strong>Kunstner:</strong> Kassia Marin</p>
+                        <p><strong>Nettside:</strong> <a href="https://kassiamarin.studio" className="underline">kassiamarin.studio</a></p>
+                        <p><strong>E-post:</strong> <a href="mailto:kassiamarin486@gmail.com" className="underline">kassiamarin486@gmail.com</a></p>
+                        <p><strong>Telefon:</strong> <a href="tel:+4790966965" className="underline">90966965</a></p>
+                      </div>
+                    </div>
+                  </div>
+                  
                   <Button 
                     type="submit" 
                     className="w-full" 
@@ -603,21 +616,6 @@ Sendt: ${new Date().toLocaleString('no-NO')}
                   </p>
                 </form>
               </Form>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Footer with Contact Information */}
-      <section className="py-12 bg-accent">
-        <div className="container-custom">
-          <div className="max-w-2xl mx-auto text-center">
-            <h3 className="text-2xl font-medium mb-4">Kontaktinformasjon</h3>
-            <div className="space-y-2">
-              <p><strong>Kunstner:</strong> Kassia Marin</p>
-              <p><strong>Nettside:</strong> <a href="https://kassiamarin.studio" className="underline">kassiamarin.studio</a></p>
-              <p><strong>E-post:</strong> <a href="mailto:kassiamarin486@gmail.com" className="underline">kassiamarin486@gmail.com</a></p>
-              <p><strong>Telefon:</strong> <a href="tel:+4790966965" className="underline">90966965</a></p>
             </div>
           </div>
         </div>
