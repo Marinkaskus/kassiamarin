@@ -1,16 +1,23 @@
 
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App.tsx';
-import './index.css';
+import { createRoot } from 'react-dom/client'
+import App from './App.tsx'
+import './index.css'
 
-// Get the root element
-const rootElement = document.getElementById("root");
+// Ensure the DOM is loaded before rendering
+const renderApp = () => {
+  const rootElement = document.getElementById("root");
+  if (rootElement) {
+    // Clear any existing content to prevent flashes
+    while (rootElement.firstChild) {
+      rootElement.removeChild(rootElement.firstChild);
+    }
+    createRoot(rootElement).render(<App />);
+  }
+};
 
-if (!rootElement) {
-  throw new Error('Root element not found');
+// Check if the DOM is already loaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', renderApp);
+} else {
+  renderApp();
 }
-
-// Create root and render
-const root = createRoot(rootElement);
-root.render(<App />);

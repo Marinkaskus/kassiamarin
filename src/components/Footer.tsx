@@ -1,18 +1,20 @@
 
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Instagram, Mail, Linkedin, Lock, LogOut, ShieldCheck } from 'lucide-react';
+import { Instagram, Mail, Linkedin, Lock, LogOut, ShieldAlert } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
-import { toast } from '@/components/ui/use-toast';
+import { logout } from '@/services/authService';
+import { useToast } from '@/hooks/use-toast';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  const { currentUser, isAdmin, signOut } = useAuth();
+  const { currentUser, isAdmin } = useAuth();
+  const { toast } = useToast();
   const navigate = useNavigate();
   
   const handleLogout = async () => {
-    await signOut();
+    await logout();
     toast({
       title: "Logged out",
       description: "You have been logged out successfully",
@@ -20,17 +22,11 @@ const Footer: React.FC = () => {
   };
 
   const handleAdminAccess = () => {
-    if (currentUser && isAdmin) {
-      navigate('/admin');
-    } else if (currentUser && !isAdmin) {
-      toast({
-        title: "Access Denied",
-        description: "You don't have admin privileges",
-        variant: "destructive",
-      });
-    } else {
-      navigate('/admin'); // Will trigger auth guard
-    }
+    navigate('/admin');
+    toast({
+      title: "Admin Access",
+      description: "Navigating to admin dashboard",
+    });
   };
 
   return (
@@ -92,7 +88,7 @@ const Footer: React.FC = () => {
             <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               Terms of Service
             </a>
-            {currentUser ? (
+            {isAdmin ? (
               <div className="flex items-center space-x-2">
                 <Button 
                   variant="ghost" 
@@ -100,18 +96,16 @@ const Footer: React.FC = () => {
                   onClick={handleLogout}
                   className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 px-2 h-auto"
                 >
-                  <LogOut className="h-3 w-3" /> Sign Out
+                  <LogOut className="h-3 w-3" /> Logout
                 </Button>
-                {isAdmin && (
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={handleAdminAccess}
-                    className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 px-2 h-auto"
-                  >
-                    <ShieldCheck className="h-3 w-3" /> Admin
-                  </Button>
-                )}
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleAdminAccess}
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 px-2 h-auto"
+                >
+                  <ShieldAlert className="h-3 w-3" /> Admin
+                </Button>
               </div>
             ) : (
               <Button 
@@ -120,7 +114,7 @@ const Footer: React.FC = () => {
                 onClick={handleAdminAccess}
                 className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 px-2 h-auto"
               >
-                <Lock className="h-3 w-3" /> Sign In
+                <Lock className="h-3 w-3" /> Admin
               </Button>
             )}
           </div>
