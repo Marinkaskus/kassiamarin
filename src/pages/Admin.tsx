@@ -1,19 +1,27 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import AuthGuard from '@/components/AuthGuard';
 import Layout from '@/components/Layout';
 import AdminGalleryManager from '@/components/AdminGalleryManager';
 import AdminMessagesInbox from '@/components/AdminMessagesInbox';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ImageIcon, MessageSquare, ShieldAlert } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ImageIcon, MessageSquare, ShieldCheck, LogOut } from 'lucide-react';
+import { toast } from '@/components/ui/use-toast';
 
-const Admin = () => {
-  const { currentUser, isAdmin } = useAuth();
-  const navigate = useNavigate();
+const AdminContent = () => {
+  const { currentUser, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState('gallery');
 
-  // Admin dashboard is now directly accessible without login check
+  const handleLogout = async () => {
+    await signOut();
+    toast({
+      title: "Logged out",
+      description: "You have been logged out successfully",
+    });
+  };
+
   return (
     <Layout>
       <section className="pt-32 pb-20">
@@ -22,9 +30,17 @@ const Admin = () => {
             <div>
               <h1 className="text-3xl md:text-4xl font-medium">Admin Dashboard</h1>
               <p className="mt-2 text-muted-foreground">
-                Manage your website content and communications
+                Welcome back, {currentUser?.email}
               </p>
             </div>
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              className="flex items-center gap-2 mt-4 md:mt-0"
+            >
+              <LogOut className="h-4 w-4" />
+              Sign Out
+            </Button>
           </div>
 
           <div className="bg-card rounded-lg border shadow-sm p-1 mb-8">
@@ -59,11 +75,11 @@ const Admin = () => {
           
           <div className="bg-green-100 border border-green-300 rounded-lg p-4 text-sm text-green-800">
             <div className="flex items-start gap-2">
-              <ShieldAlert className="h-5 w-5 text-green-600 mt-0.5" />
+              <ShieldCheck className="h-5 w-5 text-green-600 mt-0.5" />
               <div>
-                <h3 className="font-medium">Admin Access Enabled</h3>
+                <h3 className="font-medium">Secure Admin Access</h3>
                 <p className="mt-1">
-                  Admin access is currently enabled without authentication. Remember to secure this page in production.
+                  You are authenticated as an administrator. All actions are logged and secure.
                 </p>
               </div>
             </div>
@@ -71,6 +87,14 @@ const Admin = () => {
         </div>
       </section>
     </Layout>
+  );
+};
+
+const Admin = () => {
+  return (
+    <AuthGuard requireAdmin={true}>
+      <AdminContent />
+    </AuthGuard>
   );
 };
 
