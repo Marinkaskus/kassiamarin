@@ -9,7 +9,81 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      artwork_prices: {
+        Row: {
+          artwork_id: number
+          available: boolean | null
+          created_at: string
+          currency: string | null
+          id: string
+          price: number
+          updated_at: string
+        }
+        Insert: {
+          artwork_id: number
+          available?: boolean | null
+          created_at?: string
+          currency?: string | null
+          id?: string
+          price: number
+          updated_at?: string
+        }
+        Update: {
+          artwork_id?: number
+          available?: boolean | null
+          created_at?: string
+          currency?: string | null
+          id?: string
+          price?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          amount: number
+          artwork_id: number
+          buyer_email: string | null
+          buyer_name: string | null
+          created_at: string
+          currency: string | null
+          id: string
+          shipping_address: Json | null
+          status: string | null
+          stripe_session_id: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          amount: number
+          artwork_id: number
+          buyer_email?: string | null
+          buyer_name?: string | null
+          created_at?: string
+          currency?: string | null
+          id?: string
+          shipping_address?: Json | null
+          status?: string | null
+          stripe_session_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number
+          artwork_id?: number
+          buyer_email?: string | null
+          buyer_name?: string | null
+          created_at?: string
+          currency?: string | null
+          id?: string
+          shipping_address?: Json | null
+          status?: string | null
+          stripe_session_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
