@@ -4,16 +4,15 @@ import Layout from '@/components/Layout';
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Check, Calendar, CreditCard, CalendarPlus, X } from 'lucide-react';
+import { Check, Calendar, CreditCard, X } from 'lucide-react';
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 // Define the form schema with validation rules
 const formSchema = z.object({
@@ -189,8 +188,8 @@ Valgte datoer: ${formattedData.workshopDates}
 
 Tilleggsinformasjon: ${formattedData.additionalInfo}
 
-Fototillatelse: ${formattedData.photoPermission ? "Ja" : "Nei"}
-Aksepterer bindende påmelding: ${formattedData.acceptTerms ? "Ja" : "Nei"}
+Fototillatelse: ${values.photoPermission ? "Ja" : "Nei"}
+Aksepterer bindende påmelding: ${values.acceptTerms ? "Ja" : "Nei"}
 
 Sendt: ${new Date().toLocaleString('no-NO')}
       `;
@@ -652,7 +651,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
                     )}
                   />
                   
-                  {/* NB! Info Section - moved here */}
+                  {/* NB! Info Section */}
                   <div className="mb-8 p-6 border-2 border-primary rounded-lg bg-primary/5">
                     <h3 className="text-lg font-bold mb-4 text-primary">NB! Viktig informasjon om betaling og avmelding</h3>
                     <div className="space-y-3">
@@ -707,7 +706,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
         </div>
       </section>
 
-      {/* Additional Images Section - moved after registration form */}
+      {/* Additional Images Section */}
       <section className="py-12 bg-beige-100/40 paper-texture">
         <div className="container-custom">
           <div className="max-w-5xl mx-auto">
@@ -757,5 +756,3 @@ Sendt: ${new Date().toLocaleString('no-NO')}
 };
 
 export default Workshop;
-
-</edits_to_apply>
