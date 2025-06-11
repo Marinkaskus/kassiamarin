@@ -247,32 +247,21 @@ Sendt: ${new Date().toLocaleString('no-NO')}
       </Helmet>
 
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-b from-secondary to-background">
+      <section className="py-16 bg-gradient-to-b from-green-100 to-green-50">
         <div className="container-custom text-center">
+          <div className="bg-green-600 text-white px-6 py-3 rounded-full inline-block mb-4 animate-pulse">
+            <span className="text-lg font-bold">🎉 PÅMELDING ER ÅPEN! 🎉</span>
+          </div>
           <h1 className="text-4xl md:text-5xl font-medium mb-6">Påmeldingsworkshop: Fliser, fortellinger og fellesverk</h1>
           <p className="text-xl md:text-2xl mb-4">Vil du være med og lage kunst som stilles ut i Wegnerpaviljongen?</p>
           <p className="text-muted-foreground text-lg mb-4">Juli 2025</p>
           <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-            <p className="inline-block bg-primary text-white px-4 py-2 rounded-lg font-medium animate-pulse">
-              Påmelding åpner 10. juni 2025
-            </p>
+            <div className="bg-green-600 text-white px-6 py-3 rounded-lg font-bold text-lg animate-bounce">
+              MELD PÅ NÅ!
+            </div>
             <p className="inline-flex items-center bg-secondary/80 text-foreground px-4 py-2 rounded-lg font-medium">
               <CreditCard className="h-5 w-5 mr-2" />
               Deltakeravgift: 200 kr
-            </p>
-          </div>
-          <div className="mt-6">
-            <Button
-              onClick={addCalendarReminder}
-              variant="outline"
-              size="lg"
-              className="inline-flex items-center gap-2 hover:bg-primary hover:text-white transition-colors"
-            >
-              <CalendarPlus className="h-5 w-5" />
-              Legg til kalender-påminnelse
-            </Button>
-            <p className="text-sm text-muted-foreground mt-2">
-              Få varsel når påmeldingen åpner 10. juni
             </p>
           </div>
         </div>
@@ -282,9 +271,10 @@ Sendt: ${new Date().toLocaleString('no-NO')}
       <section className="py-12 md:py-16 bg-white">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto">
-            <div className="mb-8 p-4 border border-primary rounded-lg bg-primary/5 text-center">
-              <Calendar className="h-6 w-6 mx-auto mb-2 text-primary" />
-              <p className="font-medium">Påmelding åpner 10. juni 2025</p>
+            <div className="mb-8 p-6 border-2 border-green-500 rounded-lg bg-green-50 text-center">
+              <Calendar className="h-8 w-8 mx-auto mb-3 text-green-600" />
+              <p className="font-bold text-xl text-green-700">Påmelding er nå åpen!</p>
+              <p className="text-green-600 mt-1">Meld deg på ved å fylle ut skjemaet nederst på siden</p>
             </div>
             
             <p className="text-lg mb-6">
@@ -360,14 +350,14 @@ Sendt: ${new Date().toLocaleString('no-NO')}
             <div className="text-center mb-8">
               <Button
                 size="lg"
-                className="rounded-full animate-pulse"
+                className="rounded-full bg-green-600 hover:bg-green-700 text-white px-8 py-4 text-lg font-bold animate-pulse"
                 onClick={() => document.getElementById('registration-form')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                Meld på nå
+                MELD PÅ NÅ!
               </Button>
               <div className="mt-3">
-                <p className="font-medium text-primary">
-                  Påmelding åpner 10. juni 2025
+                <p className="font-medium text-green-600 text-lg">
+                  ✅ Påmeldingen er åpen!
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
                   Deltakeravgift: 200 kr betales ved oppmøte via Vipps
@@ -413,10 +403,13 @@ Sendt: ${new Date().toLocaleString('no-NO')}
       </section>
 
       {/* Registration Form Section */}
-      <section id="registration-form" className="py-16 bg-secondary/50">
+      <section id="registration-form" className="py-16 bg-green-50/50">
         <div className="container-custom">
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-10">
+              <div className="bg-green-600 text-white px-6 py-3 rounded-full inline-block mb-4">
+                <span className="text-lg font-bold">🎉 PÅMELDING ER ÅPEN! 🎉</span>
+              </div>
               <h2 className="text-3xl font-medium mb-4">Påmeldingsskjema</h2>
               <p className="text-muted-foreground">
                 Fyll ut skjemaet under for å melde på til workshop. 
@@ -459,7 +452,7 @@ Sendt: ${new Date().toLocaleString('no-NO')}
               <p className="mt-2 font-medium text-primary">Merk: Kun én påmelding per skjema</p>
             </div>
             
-            <div className="bg-white p-8 rounded-lg shadow-sm">
+            <div className="bg-white p-8 rounded-lg shadow-sm border-2 border-green-200">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   <FormField
@@ -764,3 +757,5 @@ Sendt: ${new Date().toLocaleString('no-NO')}
 };
 
 export default Workshop;
+
+</edits_to_apply>

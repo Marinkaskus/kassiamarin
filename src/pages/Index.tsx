@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
@@ -34,21 +33,22 @@ const Index = () => {
   const newsItems = [
     {
       id: 1,
+      title: "🎉 WORKSHOP PÅMELDING ÅPEN!",
+      description: "Meld deg på flisekunst workshop nå! 5.-27. juli 2025",
+      date: "Juli 2025",
+      type: "PÅMELDING ÅPEN",
+      link: "/workshop",
+      image: "https://dl.dropboxusercontent.com/s/fi/v7898buwxsnii80zcov39/FLYER_A6_kunstworkshop-001-Website-2.png?rlkey=a4abjraqyrlbmeqov72utlh86&st=pa06yrir&dl=0",
+      urgent: true
+    },
+    {
+      id: 2,
       title: "Åpning: Bærebjelke | Kassia Marin",
       description: "4. Juli 2025 kl18:00-kl20:00",
       date: "Juli 2025",
       type: "Solo utstilling",
       link: "https://fb.me/e/6fWiLUCkx",
       image: "https://dl.dropboxusercontent.com/s/fi/90h5p4s805f0nz3vn2vm8/Plakat_Ferdig_A3_B-rebjelke-Facebook-Ad.png?rlkey=64f3quxd84oqr83lu69ng4cns&st=u6puotvv&dl=0"
-    },
-    {
-      id: 2,
-      title: "Flisekunst Workshop",
-      description: "5. juli - 27. juli 2025",
-      date: "Juli 2025",
-      type: "Kommende workshop",
-      link: "/workshop",
-      image: "https://dl.dropboxusercontent.com/s/fi/v7898buwxsnii80zcov39/FLYER_A6_kunstworkshop-001-Website-2.png?rlkey=a4abjraqyrlbmeqov72utlh86&st=pa06yrir&dl=0"
     },
     {
       id: 3,
@@ -76,6 +76,26 @@ const Index = () => {
       </Helmet>
       
       <HeroSection />
+      
+      {/* Workshop Registration Banner */}
+      <section className="py-8 bg-gradient-to-r from-green-500 to-green-600 text-white">
+        <div className="container-custom">
+          <div className="text-center">
+            <div className="animate-bounce mb-2">
+              <span className="text-2xl">🎉</span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold mb-2">Workshop påmelding er åpen!</h2>
+            <p className="text-lg mb-4">Flisekunst workshop for barn og unge - Juli 2025</p>
+            <Link 
+              to="/workshop" 
+              className="inline-flex items-center bg-white text-green-600 px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors"
+            >
+              Meld deg på nå!
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </div>
+        </div>
+      </section>
       
       {/* Gallery Section */}
       <section className="py-20 bg-beige-50/50 paper-texture">
@@ -128,13 +148,20 @@ const Index = () => {
               {newsItems.map((item, index) => (
                 <div 
                   key={item.id} 
-                  className="w-80 flex-shrink-0 group relative transition-all duration-300 hover:-translate-y-1 bg-beige-100/60 rounded-lg p-4"
+                  className={`w-80 flex-shrink-0 group relative transition-all duration-300 hover:-translate-y-1 rounded-lg p-4 ${
+                    item.urgent ? 'bg-gradient-to-br from-green-100 to-green-50 border-2 border-green-300' : 'bg-beige-100/60'
+                  }`}
                   style={{
                     opacity: 0,
                     animation: `scaleIn 0.6s ease-out forwards`,
                     animationDelay: `${index * 150}ms`
                   }}
                 >
+                  {item.urgent && (
+                    <div className="absolute -top-2 -right-2 bg-green-600 text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse">
+                      ÅPEN NÅ!
+                    </div>
+                  )}
                   <Card className="h-full hover:shadow-lg transition-shadow duration-300 overflow-hidden border-none shadow-none bg-transparent">
                     <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
                       <img 
@@ -159,7 +186,7 @@ const Index = () => {
                                 to={item.link}
                                 className="text-white text-xs hover:underline flex items-center"
                               >
-                                Les mer <ExternalLink size={12} className="ml-1" />
+                                {item.urgent ? 'MELD PÅ NÅ!' : 'Les mer'} <ExternalLink size={12} className="ml-1" />
                               </Link>
                             )
                           )}
@@ -168,7 +195,7 @@ const Index = () => {
                     </div>
                     <CardHeader className="pb-2 bg-transparent text-left">
                       <div className="flex items-center mb-2">
-                        <span className="text-xs uppercase tracking-wider text-muted-foreground">
+                        <span className={`text-xs uppercase tracking-wider ${item.urgent ? 'text-green-600 font-bold' : 'text-muted-foreground'}`}>
                           {item.type}
                         </span>
                         <span className="mx-2 text-muted-foreground">•</span>
@@ -177,7 +204,9 @@ const Index = () => {
                           {item.date}
                         </span>
                       </div>
-                      <CardTitle className="text-sm font-medium mb-2 text-left">{item.title}</CardTitle>
+                      <CardTitle className={`text-sm font-medium mb-2 text-left ${item.urgent ? 'text-green-700' : ''}`}>
+                        {item.title}
+                      </CardTitle>
                     </CardHeader>
                     <CardContent className="bg-transparent text-left">
                       <CardDescription className="text-xs text-muted-foreground line-clamp-2 text-left">
