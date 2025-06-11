@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User } from 'firebase/auth';
 import { onAuthStateChange } from '@/services/authService';
 
@@ -15,9 +15,19 @@ const AuthContext = createContext<AuthContextType>({
   isLoading: true
 });
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(true); // Always set to true to bypass admin check
   const [isLoading, setIsLoading] = useState<boolean>(false); // Set initial loading to false
@@ -38,9 +48,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
   }, []);
 
-  // Provide context with admin access by default
+  const value = {
+    currentUser,
+    isAdmin,
+    isLoading
+  };
+
   return (
-    <AuthContext.Provider value={{ currentUser, isAdmin, isLoading }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
