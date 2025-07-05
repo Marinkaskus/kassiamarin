@@ -3,6 +3,22 @@ import { Project } from "@/types/Project";
 
 export const previousProjects: Project[] = [
   {
+    id: 12,
+    title: 'Bærebjelke',
+    description: 'An upcoming solo exhibition exploring themes around structure, support and the fundamental elements that carry us through life. The exhibition invites the audience to reflect on both physical and metaphorical support beams in our lives.',
+    norwegianDescription: 'En kommende soloist som utforsker temaer rundt struktur, støtte og de fundamentale elementene som bærer oss gjennom livet. Utstillingen inviterer publikum til å reflektere over både fysiske og metaforiske bærebjelker i våre liv.',
+    year: '2025',
+    location: 'Solo utstilling',
+    imageSrc: 'https://dl.dropboxusercontent.com/s/fi/jf745zhwaguxhaoirx3nk/IMG_4931.jpg?rlkey=ep0qjrcw0410f2brf7s1zpjpy&st=u9ffu4fy&dl=0',
+    additionalImages: [
+      'https://dl.dropboxusercontent.com/s/fi/jf745zhwaguxhaoirx3nk/IMG_4931.jpg?rlkey=ep0qjrcw0410f2brf7s1zpjpy&st=u9ffu4fy&dl=0',
+      'https://dl.dropboxusercontent.com/s/fi/izdn2or4h24pxv0dx1np4/IMG_4942.jpg?rlkey=ymxm4j3yci5y5gqhhltxve90b&st=kbsj0wee&dl=0',
+      'https://dl.dropboxusercontent.com/s/fi/k2lw7q4wwh5x3k4wo4mgy/IMG_5156.jpg?rlkey=08o6i0shcok5mwkrguedfu9e8&st=75aewcwz&dl=0',
+      'https://dl.dropboxusercontent.com/s/fi/f2o2qqe9gep1pzavteiak/IMG_4948.jpg?rlkey=opo2uulgsplbaztu4w360v3sx&st=r11fsqd5&dl=0'
+    ],
+    url: '/baerebjelke',
+  },
+  {
     id: 4,
     title: 'Jeg tenker ikke på dere lenger',
     description: 'An area covered with tiles. The floor you walk on is decorated with immersive, varied, and fragile paintings that flow in and out of each other. The paintings tell stories of memories, dreams, and nightmares – everything that takes place in the world of thoughts, the sleepless nights when the only company one has is their own past and imagination. Through the act of walking on the tiles, the viewer changes the work and becomes a part of it.',
