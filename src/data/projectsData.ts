@@ -11,10 +11,10 @@ export const previousProjects: Project[] = [
     location: 'Wegnerpaviljongen i Frognerparken',
     imageSrc: 'https://dl.dropboxusercontent.com/s/fi/jf745zhwaguxhaoirx3nk/IMG_4931.jpg?rlkey=ep0qjrcw0410f2brf7s1zpjpy&st=u9ffu4fy&dl=0',
     additionalImages: [
-      'https://dl.dropboxusercontent.com/s/fi/jf745zhwaguxhaoirx3nk/IMG_4931.jpg?rlkey=ep0qjrcw0410f2brf7s1zpjpy&st=u9ffu4fy&dl=0',
+      'https://dl.dropboxusercontent.com/s/fi/f2o2qqe9gep1pzavteiak/IMG_4948.jpg?rlkey=opo2uulgsplbaztu4w360v3sx&st=r11fsqd5&dl=0',
       'https://dl.dropboxusercontent.com/s/fi/izdn2or4h24pxv0dx1np4/IMG_4942.jpg?rlkey=ymxm4j3yci5y5gqhhltxve90b&st=kbsj0wee&dl=0',
       'https://dl.dropboxusercontent.com/s/fi/k2lw7q4wwh5x3k4wo4mgy/IMG_5156.jpg?rlkey=08o6i0shcok5mwkrguedfu9e8&st=75aewcwz&dl=0',
-      'https://dl.dropboxusercontent.com/s/fi/f2o2qqe9gep1pzavteiak/IMG_4948.jpg?rlkey=opo2uulgsplbaztu4w360v3sx&st=r11fsqd5&dl=0'
+      'https://dl.dropboxusercontent.com/s/fi/jf745zhwaguxhaoirx3nk/IMG_4931.jpg?rlkey=ep0qjrcw0410f2brf7s1zpjpy&st=u9ffu4fy&dl=0'
     ],
     url: '/baerebjelke',
   },
