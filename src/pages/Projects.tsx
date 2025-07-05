@@ -14,14 +14,8 @@ const Projects = () => {
   const [projectsData, setProjectsData] = useState<Project[]>(previousProjects);
   
   useEffect(() => {
-    const savedProjects = localStorage.getItem('portfolio_projects');
-    if (savedProjects) {
-      try {
-        setProjectsData(JSON.parse(savedProjects));
-      } catch (e) {
-        console.error('Error parsing saved projects:', e);
-      }
-    }
+    // Always use the latest projects data from the file
+    setProjectsData(previousProjects);
   }, []);
   
   const openVideoDialog = (videoUrl: string) => {
