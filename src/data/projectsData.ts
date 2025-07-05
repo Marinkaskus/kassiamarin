@@ -8,7 +8,7 @@ export const previousProjects: Project[] = [
     description: 'An upcoming solo exhibition exploring themes around structure, support and the fundamental elements that carry us through life. The exhibition invites the audience to reflect on both physical and metaphorical support beams in our lives.',
     norwegianDescription: 'En kommende soloist som utforsker temaer rundt struktur, støtte og de fundamentale elementene som bærer oss gjennom livet. Utstillingen inviterer publikum til å reflektere over både fysiske og metaforiske bærebjelker i våre liv.',
     year: '2025',
-    location: 'Solo utstilling',
+    location: 'Wegnerpaviljongen i Frognerparken',
     imageSrc: 'https://dl.dropboxusercontent.com/s/fi/jf745zhwaguxhaoirx3nk/IMG_4931.jpg?rlkey=ep0qjrcw0410f2brf7s1zpjpy&st=u9ffu4fy&dl=0',
     additionalImages: [
       'https://dl.dropboxusercontent.com/s/fi/jf745zhwaguxhaoirx3nk/IMG_4931.jpg?rlkey=ep0qjrcw0410f2brf7s1zpjpy&st=u9ffu4fy&dl=0',
