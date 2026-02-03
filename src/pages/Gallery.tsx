@@ -65,9 +65,9 @@ const Gallery = () => {
         <meta property="og:url" content="https://kassiamarin.studio/gallery" />
       </Helmet>
 
-      <section className="pt-20 sm:pt-24 md:pt-32 pb-16 md:pb-24 bg-background">
+      <section className="pt-20 sm:pt-24 md:pt-28 pb-16 md:pb-24 bg-background">
         <div className="container-custom">
-          <div className="max-w-2xl mx-auto text-center mb-8 md:mb-16 animate-scale-in">
+          <div className="max-w-2xl mx-auto text-center mb-4 md:mb-6 animate-scale-in">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-medium font-gotu">Gallery</h1>
             <p className="mt-3 md:mt-4 text-muted-foreground">
               A collection of paintings and mixed media artworks.
