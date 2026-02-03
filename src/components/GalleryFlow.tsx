@@ -56,32 +56,18 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
       style={{ animationDelay: `${index * 100}ms` }}
       onClick={() => onClick(artwork)}
     >
-      {/* Info line - horizontal, same size text */}
-      <div className={cn(
-        "flex items-center gap-4 md:gap-8 mb-6 text-sm tracking-wide text-muted-foreground",
-        alignment === 'right' ? "justify-end" : "justify-start"
-      )}>
-        <span className="font-gotu">{artwork.title}</span>
-        <span className="text-border">|</span>
-        <span>{artwork.year}</span>
-        <span className="text-border">|</span>
-        <span>{artwork.medium}</span>
-        <span className="text-border">|</span>
-        <span>{artwork.size}</span>
-      </div>
-
-      {/* Image - 2/3 width */}
+      {/* Image - full width */}
       <div className={cn(
         "flex w-full",
         alignment === 'right' ? "justify-end" : "justify-start"
       )}>
         {imageError ? (
-          <div className="w-2/3 aspect-[4/3] flex flex-col items-center justify-center bg-muted/30">
+          <div className="w-full aspect-[4/3] flex flex-col items-center justify-center bg-muted/30">
             <ImageOff className="h-8 w-8 text-muted-foreground mb-2" />
             <p className="text-xs text-muted-foreground">{artwork.title}</p>
           </div>
         ) : (
-          <div className="relative w-2/3">
+          <div className="relative w-full">
             {isLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-muted/30 z-10">
                 <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
@@ -93,7 +79,7 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
               className={cn(
                 "w-full h-auto object-contain transition-all duration-500",
                 isLoading ? "opacity-0" : "opacity-100",
-                "group-hover:scale-[1.01]"
+                "group-hover:scale-[1.005]"
               )}
               loading="lazy"
               onError={() => setImageError(true)}
@@ -102,6 +88,17 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
             />
           </div>
         )}
+      </div>
+
+      {/* Info line - horizontal, under image, left aligned */}
+      <div className="flex items-center gap-4 md:gap-8 mt-6 text-sm tracking-wide text-muted-foreground justify-start">
+        <span className="font-gotu">{artwork.title}</span>
+        <span className="text-border">|</span>
+        <span>{artwork.year}</span>
+        <span className="text-border">|</span>
+        <span>{artwork.medium}</span>
+        <span className="text-border">|</span>
+        <span>{artwork.size}</span>
       </div>
 
       {/* Separator line */}
