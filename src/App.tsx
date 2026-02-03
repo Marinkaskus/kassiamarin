@@ -10,7 +10,6 @@ import Contact from './pages/Contact';
 import Gallery from './pages/Gallery';
 import Projects from './pages/Projects';
 import CV from './pages/CV';
-import Workshop from './pages/Workshop';
 import Baerebjelke from './pages/Baerebjelke';
 import Admin from './pages/Admin';
 import NotFound from './pages/NotFound';
@@ -28,7 +27,6 @@ function App() {
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/portfolio" element={<Projects />} />
             <Route path="/cv" element={<CV />} />
-            <Route path="/workshop" element={<Workshop />} />
             <Route path="/baerebjelke" element={<Baerebjelke />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />
