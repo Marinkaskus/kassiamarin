@@ -21,17 +21,20 @@ export default {
     	extend: {
     		fontFamily: {
     			sans: [
-    				'Poppins',
+    				'Montserrat',
     				'ui-sans-serif',
     				'system-ui',
-    				'sans-serif',
-    				'Apple Color Emoji',
-    				'Segoe UI Emoji',
-    				'Segoe UI Symbol',
-    				'Noto Color Emoji'
+    				'-apple-system',
+    				'BlinkMacSystemFont',
+    				'Segoe UI',
+    				'Roboto',
+    				'Helvetica Neue',
+    				'Arial',
+    				'Noto Sans',
+    				'sans-serif'
     			],
     			serif: [
-    				'Merriweather',
+    				'Cormorant Garamond',
     				'ui-serif',
     				'Georgia',
     				'Cambria',
@@ -44,7 +47,7 @@ export default {
     				'sans-serif'
     			],
     			mono: [
-    				'Fira Code',
+    				'IBM Plex Mono',
     				'ui-monospace',
     				'SFMono-Regular',
     				'Menlo',
@@ -189,6 +192,15 @@ export default {
     			'fade-in-down': 'fadeInDown 0.6s ease-out',
     			'scale-in': 'scaleIn 0.6s ease-out',
     			float: 'float 6s ease-in-out infinite'
+    		},
+    		boxShadow: {
+    			'2xs': 'var(--shadow-2xs)',
+    			xs: 'var(--shadow-xs)',
+    			sm: 'var(--shadow-sm)',
+    			md: 'var(--shadow-md)',
+    			lg: 'var(--shadow-lg)',
+    			xl: 'var(--shadow-xl)',
+    			'2xl': 'var(--shadow-2xl)'
     		}
     	}
     },
