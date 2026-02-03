@@ -50,8 +50,9 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
   return (
     <div
       className={cn(
-        "relative w-full py-8 md:py-12 animate-fade-in",
-        "cursor-pointer group"
+        "relative w-full animate-fade-in",
+        "cursor-pointer group",
+        index > 0 ? "-mt-16 md:-mt-24" : "pt-8 md:pt-12"
       )}
       style={{ animationDelay: `${index * 100}ms` }}
       onClick={() => onClick(artwork)}
