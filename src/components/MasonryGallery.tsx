@@ -48,7 +48,7 @@ const MasonryItem: React.FC<MasonryItemProps> = ({ artwork, onClick }) => {
 
   return (
     <div
-      className="group relative cursor-pointer overflow-hidden rounded-lg"
+      className="group relative cursor-pointer overflow-hidden rounded-lg break-inside-avoid mb-4 md:mb-6"
       onClick={() => onClick(artwork)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -106,17 +106,13 @@ const MasonryItem: React.FC<MasonryItemProps> = ({ artwork, onClick }) => {
 
 const MasonryGallery: React.FC<MasonryGalleryProps> = ({ artworks, onArtworkClick }) => {
   return (
-    <div className="flex flex-col items-end gap-8 md:gap-12">
+    <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 md:gap-6">
       {artworks.map((artwork) => (
-        <div 
-          key={artwork.id} 
-          className="w-full sm:w-4/5 md:w-3/4 lg:w-2/3 xl:w-1/2"
-        >
-          <MasonryItem
-            artwork={artwork}
-            onClick={onArtworkClick}
-          />
-        </div>
+        <MasonryItem
+          key={artwork.id}
+          artwork={artwork}
+          onClick={onArtworkClick}
+        />
       ))}
     </div>
   );
