@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
                 Portfolio
               </Link>
               <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                About
+                CV
               </Link>
               <Link to="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Contact
