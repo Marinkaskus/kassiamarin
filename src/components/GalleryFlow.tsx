@@ -12,7 +12,7 @@ interface GalleryFlowProps {
 interface GalleryItemProps {
   artwork: Artwork;
   onClick: (artwork: Artwork) => void;
-  alignment: 'left' | 'right';
+  alignment: 'left' | 'right' | 'center';
   index: number;
 }
 
@@ -59,7 +59,7 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
       {/* Image - full width */}
       <div className={cn(
         "flex w-full",
-        alignment === 'right' ? "justify-end" : "justify-start"
+        alignment === 'right' ? "justify-end" : alignment === 'center' ? "justify-center" : "justify-start"
       )}>
         {imageError ? (
           <div className="w-full aspect-[4/3] flex flex-col items-center justify-center bg-muted/30">
@@ -93,7 +93,7 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
       {/* Info line - horizontal, under image, aligned based on image position */}
       <div className={cn(
         "flex items-center gap-4 md:gap-8 mt-6 text-sm tracking-wide text-muted-foreground",
-        alignment === 'right' ? "justify-start" : "justify-end"
+        alignment === 'right' ? "justify-start" : alignment === 'center' ? "justify-center" : "justify-end"
       )}>
         <span className="font-gotu">{artwork.title}</span>
         <span className="text-border">|</span>
@@ -108,9 +108,10 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
 };
 
 const GalleryFlow: React.FC<GalleryFlowProps> = ({ artworks, onArtworkClick }) => {
-  const getAlignment = (index: number): 'left' | 'right' => {
-    // First image (index 0) is right-aligned, second (index 1) is left-aligned, etc.
-    return index % 2 === 0 ? 'right' : 'left';
+  const getAlignment = (index: number): 'left' | 'right' | 'center' => {
+    // Pattern: right, left, center, right, left, center...
+    const pattern: ('right' | 'left' | 'center')[] = ['right', 'left', 'center'];
+    return pattern[index % 3];
   };
 
   return (
