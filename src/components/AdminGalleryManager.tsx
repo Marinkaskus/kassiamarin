@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { artworks } from '@/data/artworkData';
-import { previousProjects } from '@/data/projectsData';
 import { Artwork } from '@/types/Artwork';
 import { Project } from '@/types/Project';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -8,14 +6,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import { Plus, Edit, Trash2, ImageIcon, Video, Check, X, AlertTriangle } from 'lucide-react';
+import { Plus, Edit, Trash2, ImageIcon, Video, Check, X, AlertTriangle, Loader2 } from 'lucide-react';
 import ArtworkEditor from '@/components/ArtworkEditor';
 import ProjectEditor from '@/components/ProjectEditor';
 import ArtworkCreator from '@/components/ArtworkCreator';
+import { supabase } from '@/integrations/supabase/client';
 
 const AdminGalleryManager = () => {
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
-  const [projectsData, setProjectsData] = useState<Project[]>(previousProjects);
+  const [projectsData, setProjectsData] = useState<Project[]>([]);
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [editorOpen, setEditorOpen] = useState(false);
@@ -26,160 +25,263 @@ const AdminGalleryManager = () => {
   const [selectedTab, setSelectedTab] = useState('gallery');
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{ id: number, type: 'artwork' | 'project' } | null>(null);
-  const [storageError, setStorageError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
 
+  // Fetch artworks and projects from Supabase
   useEffect(() => {
-    const savedArtworks = localStorage.getItem('gallery_artworks');
-    if (savedArtworks) {
-      try {
-        setArtworkData(JSON.parse(savedArtworks));
-      } catch (e) {
-        console.error('Error parsing saved artworks:', e);
-        setArtworkData(artworks);
+    const fetchData = async () => {
+      setIsLoading(true);
+      
+      // Fetch artworks
+      const { data: artworksData, error: artworksError } = await supabase
+        .from('artworks')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+      if (artworksError) {
+        console.error('Error fetching artworks:', artworksError);
+        toast({
+          title: "Error",
+          description: "Failed to load artworks from database",
+          variant: "destructive"
+        });
+      } else {
+        const mappedArtworks: Artwork[] = (artworksData || []).map((item: any) => ({
+          id: item.id,
+          title: item.title,
+          year: item.year || '',
+          size: item.size || '',
+          medium: item.medium || '',
+          description: item.description || undefined,
+          imageSrc: item.image_src || '',
+          category: item.category || undefined,
+          available: item.available ?? true,
+          price: item.price || undefined,
+          alignment: item.alignment || null,
+          showInfo: item.show_info ?? true,
+          scale: item.scale ?? 1.0,
+          overlapPrevious: item.overlap_previous ?? false,
+        }));
+        setArtworkData(mappedArtworks);
       }
+
+      // Fetch projects
+      const { data: projectsData, error: projectsError } = await supabase
+        .from('projects')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+      if (projectsError) {
+        console.error('Error fetching projects:', projectsError);
+        toast({
+          title: "Error",
+          description: "Failed to load projects from database",
+          variant: "destructive"
+        });
+      } else {
+        const mappedProjects: Project[] = (projectsData || []).map((item: any) => ({
+          id: item.id,
+          title: item.title,
+          description: item.description || '',
+          year: item.year || '',
+          location: item.location || '',
+          imageSrc: item.image_src || '',
+          videoUrl: item.video_url || undefined,
+          images: item.images || undefined,
+        }));
+        setProjectsData(mappedProjects);
+      }
+
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, [toast]);
+
+  const handleArtworkUpdate = async (updatedArtwork: Artwork) => {
+    setIsSaving(true);
+    
+    const { error } = await supabase
+      .from('artworks')
+      .update({
+        title: updatedArtwork.title,
+        year: updatedArtwork.year,
+        size: updatedArtwork.size,
+        medium: updatedArtwork.medium,
+        description: updatedArtwork.description,
+        image_src: updatedArtwork.imageSrc,
+        category: updatedArtwork.category,
+        available: updatedArtwork.available,
+        price: updatedArtwork.price,
+      })
+      .eq('id', updatedArtwork.id);
+
+    if (error) {
+      console.error('Error updating artwork:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save changes",
+        variant: "destructive"
+      });
     } else {
-      setArtworkData(artworks);
+      const updatedArtworks = artworkData.map(artwork => 
+        artwork.id === updatedArtwork.id ? updatedArtwork : artwork
+      );
+      setArtworkData(updatedArtworks);
+      setSelectedArtwork(null);
+      
+      toast({
+        title: "Changes saved",
+        description: `"${updatedArtwork.title}" has been updated`,
+      });
     }
-
-    const savedProjects = localStorage.getItem('portfolio_projects');
-    if (savedProjects) {
-      try {
-        setProjectsData(JSON.parse(savedProjects));
-      } catch (e) {
-        console.error('Error parsing saved projects:', e);
-      }
-    }
-  }, []);
-
-  const handleArtworkUpdate = (updatedArtwork: Artwork) => {
-    const updatedArtworks = artworkData.map(artwork => 
-      artwork.id === updatedArtwork.id ? updatedArtwork : artwork
-    );
     
-    setArtworkData(updatedArtworks);
-    setSelectedArtwork(null);
-    
-    localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
-    
-    toast({
-      title: "Changes saved",
-      description: `"${updatedArtwork.title}" has been updated`,
-    });
-    
+    setIsSaving(false);
     setEditorOpen(false);
   };
 
-  const handleProjectUpdate = (updatedProject: Project) => {
-    const updatedProjects = projectsData.map(project => 
-      project.id === updatedProject.id ? updatedProject : project
-    );
+  const handleProjectUpdate = async (updatedProject: Project) => {
+    setIsSaving(true);
     
-    setProjectsData(updatedProjects);
-    setSelectedProject(null);
+    const { error } = await supabase
+      .from('projects')
+      .update({
+        title: updatedProject.title,
+        description: updatedProject.description,
+        year: updatedProject.year,
+        location: updatedProject.location,
+        image_src: updatedProject.imageSrc,
+        video_url: updatedProject.videoUrl,
+      })
+      .eq('id', updatedProject.id);
+
+    if (error) {
+      console.error('Error updating project:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save changes",
+        variant: "destructive"
+      });
+    } else {
+      const updatedProjects = projectsData.map(project => 
+        project.id === updatedProject.id ? updatedProject : project
+      );
+      setProjectsData(updatedProjects);
+      setSelectedProject(null);
+      
+      toast({
+        title: "Changes saved",
+        description: `"${updatedProject.title}" has been updated`,
+      });
+    }
     
-    localStorage.setItem('portfolio_projects', JSON.stringify(updatedProjects));
-    
-    toast({
-      title: "Changes saved",
-      description: `"${updatedProject.title}" has been updated`,
-    });
-    
+    setIsSaving(false);
     setProjectEditorOpen(false);
   };
 
   const handleAddNewItem = () => {
-    setStorageError(null);
     setCreatorOpen(true);
   };
 
-  const handleCreateArtwork = (newArtwork: Artwork) => {
-    try {
-      if (artworkData.length > 30) {
-        const updatedArtworks = [...artworkData.slice(-29), newArtwork];
-        setArtworkData(updatedArtworks);
-        localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
-      } else {
-        const updatedArtworks = [...artworkData, newArtwork];
-        setArtworkData(updatedArtworks);
-        localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
-      }
-      
+  const handleCreateArtwork = async (newArtwork: Artwork) => {
+    setIsSaving(true);
+    
+    const { data, error } = await supabase
+      .from('artworks')
+      .insert({
+        title: newArtwork.title,
+        year: newArtwork.year,
+        size: newArtwork.size,
+        medium: newArtwork.medium,
+        description: newArtwork.description,
+        image_src: newArtwork.imageSrc,
+        category: newArtwork.category,
+        available: newArtwork.available ?? true,
+        price: newArtwork.price,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error creating artwork:', error);
       toast({
-        title: "Artwork added",
-        description: `"${newArtwork.title}" has been added to the gallery`
+        title: "Error",
+        description: "Failed to add new artwork",
+        variant: "destructive"
       });
-      
-      setStorageError(null);
-    } catch (error) {
-      console.error("Error adding artwork:", error);
-      
-      if (error instanceof Error && error.name === "QuotaExceededError") {
-        setStorageError("Storage limit reached. Try removing some items before adding new ones.");
-        toast({
-          title: "Storage limit reached",
-          description: "Please remove some existing artworks before adding new ones.",
-          variant: "destructive"
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to add new artwork. Please try again.",
-          variant: "destructive"
-        });
-      }
-      
+      setIsSaving(false);
       throw error;
     }
+
+    const createdArtwork: Artwork = {
+      id: data.id,
+      title: data.title,
+      year: data.year || '',
+      size: data.size || '',
+      medium: data.medium || '',
+      description: data.description || undefined,
+      imageSrc: data.image_src || '',
+      category: data.category || undefined,
+      available: data.available ?? true,
+      price: data.price || undefined,
+    };
+
+    setArtworkData([...artworkData, createdArtwork]);
+    
+    toast({
+      title: "Artwork added",
+      description: `"${newArtwork.title}" has been added to the gallery`
+    });
+    
+    setIsSaving(false);
   };
 
-  const handleCreateProject = (newArtwork: Artwork) => {
-    try {
-      const project: Project = {
-        id: newArtwork.id,
+  const handleCreateProject = async (newArtwork: Artwork) => {
+    setIsSaving(true);
+    
+    const { data, error } = await supabase
+      .from('projects')
+      .insert({
         title: newArtwork.title,
-        description: newArtwork.description || '',
+        description: newArtwork.description,
         year: newArtwork.year,
         location: (newArtwork as any).location || 'Unknown location',
-        imageSrc: newArtwork.imageSrc,
-        videoUrl: (newArtwork as any).videoUrl || undefined
-      };
-      
-      if (projectsData.length > 30) {
-        const updatedProjects = [...projectsData.slice(-29), project];
-        setProjectsData(updatedProjects);
-        localStorage.setItem('portfolio_projects', JSON.stringify(updatedProjects));
-      } else {
-        const updatedProjects = [...projectsData, project];
-        setProjectsData(updatedProjects);
-        localStorage.setItem('portfolio_projects', JSON.stringify(updatedProjects));
-      }
-      
+        image_src: newArtwork.imageSrc,
+        video_url: (newArtwork as any).videoUrl || null,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error creating project:', error);
       toast({
-        title: "Project added",
-        description: `"${project.title}" has been added to the portfolio`
+        title: "Error",
+        description: "Failed to add new project",
+        variant: "destructive"
       });
-      
-      setStorageError(null);
-    } catch (error) {
-      console.error("Error adding project:", error);
-      
-      if (error instanceof Error && error.name === "QuotaExceededError") {
-        setStorageError("Storage limit reached. Try removing some items before adding new ones.");
-        toast({
-          title: "Storage limit reached",
-          description: "Please remove some existing projects before adding new ones.",
-          variant: "destructive"
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to add new project. Please try again.",
-          variant: "destructive"
-        });
-      }
-      
+      setIsSaving(false);
       throw error;
     }
+
+    const createdProject: Project = {
+      id: data.id,
+      title: data.title,
+      description: data.description || '',
+      year: data.year || '',
+      location: data.location || '',
+      imageSrc: data.image_src || '',
+      videoUrl: data.video_url || undefined,
+    };
+
+    setProjectsData([...projectsData, createdProject]);
+    
+    toast({
+      title: "Project added",
+      description: `"${createdProject.title}" has been added to the portfolio`
+    });
+    
+    setIsSaving(false);
   };
 
   const handleEditArtwork = (artwork: Artwork) => {
@@ -192,29 +294,58 @@ const AdminGalleryManager = () => {
     setProjectEditorOpen(true);
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (!itemToDelete) return;
     
+    setIsSaving(true);
+    
     if (itemToDelete.type === 'artwork') {
-      const updatedArtworks = artworkData.filter(item => item.id !== itemToDelete.id);
-      setArtworkData(updatedArtworks);
-      localStorage.setItem('gallery_artworks', JSON.stringify(updatedArtworks));
-      
-      toast({
-        title: "Artwork deleted",
-        description: "The artwork has been permanently removed",
-      });
+      const { error } = await supabase
+        .from('artworks')
+        .delete()
+        .eq('id', itemToDelete.id);
+
+      if (error) {
+        console.error('Error deleting artwork:', error);
+        toast({
+          title: "Error",
+          description: "Failed to delete artwork",
+          variant: "destructive"
+        });
+      } else {
+        const updatedArtworks = artworkData.filter(item => item.id !== itemToDelete.id);
+        setArtworkData(updatedArtworks);
+        
+        toast({
+          title: "Artwork deleted",
+          description: "The artwork has been permanently removed",
+        });
+      }
     } else {
-      const updatedProjects = projectsData.filter(item => item.id !== itemToDelete.id);
-      setProjectsData(updatedProjects);
-      localStorage.setItem('portfolio_projects', JSON.stringify(updatedProjects));
-      
-      toast({
-        title: "Project deleted",
-        description: "The project has been permanently removed",
-      });
+      const { error } = await supabase
+        .from('projects')
+        .delete()
+        .eq('id', itemToDelete.id);
+
+      if (error) {
+        console.error('Error deleting project:', error);
+        toast({
+          title: "Error",
+          description: "Failed to delete project",
+          variant: "destructive"
+        });
+      } else {
+        const updatedProjects = projectsData.filter(item => item.id !== itemToDelete.id);
+        setProjectsData(updatedProjects);
+        
+        toast({
+          title: "Project deleted",
+          description: "The project has been permanently removed",
+        });
+      }
     }
     
+    setIsSaving(false);
     setDeleteDialogOpen(false);
     setItemToDelete(null);
   };
@@ -236,6 +367,14 @@ const AdminGalleryManager = () => {
     project.location.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
@@ -247,21 +386,12 @@ const AdminGalleryManager = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="max-w-xs"
           />
-          <Button size="sm" variant="default" onClick={handleAddNewItem}>
-            <Plus className="h-4 w-4 mr-2" /> Add New
+          <Button size="sm" variant="default" onClick={handleAddNewItem} disabled={isSaving}>
+            {isSaving ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Plus className="h-4 w-4 mr-2" />}
+            Add New
           </Button>
         </div>
       </div>
-
-      {storageError && (
-        <div className="mb-4 bg-destructive/15 p-3 rounded-md flex items-start gap-2 text-destructive">
-          <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />
-          <div>
-            <p className="font-medium">Storage limit reached</p>
-            <p className="text-sm">{storageError}</p>
-          </div>
-        </div>
-      )}
 
       <Tabs 
         defaultValue="gallery" 
@@ -307,6 +437,7 @@ const AdminGalleryManager = () => {
                         size="sm" 
                         className="h-8 w-8 p-0"
                         onClick={() => handleEditArtwork(artwork)}
+                        disabled={isSaving}
                       >
                         <Edit className="h-4 w-4" />
                         <span className="sr-only">Edit</span>
@@ -316,6 +447,7 @@ const AdminGalleryManager = () => {
                         size="sm" 
                         className="h-8 w-8 p-0 text-destructive"
                         onClick={() => handleDeleteClick(artwork.id, 'artwork')}
+                        disabled={isSaving}
                       >
                         <Trash2 className="h-4 w-4" />
                         <span className="sr-only">Delete</span>
@@ -363,6 +495,7 @@ const AdminGalleryManager = () => {
                         size="sm" 
                         className="h-8 w-8 p-0"
                         onClick={() => handleEditProject(project)}
+                        disabled={isSaving}
                       >
                         <Edit className="h-4 w-4" />
                         <span className="sr-only">Edit</span>
@@ -372,6 +505,7 @@ const AdminGalleryManager = () => {
                         size="sm" 
                         className="h-8 w-8 p-0 text-destructive"
                         onClick={() => handleDeleteClick(project.id, 'project')}
+                        disabled={isSaving}
                       >
                         <Trash2 className="h-4 w-4" />
                         <span className="sr-only">Delete</span>
@@ -427,8 +561,13 @@ const AdminGalleryManager = () => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteConfirm} className="bg-red-600 hover:bg-red-700">
+            <AlertDialogCancel disabled={isSaving}>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleDeleteConfirm} 
+              className="bg-red-600 hover:bg-red-700"
+              disabled={isSaving}
+            >
+              {isSaving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>
