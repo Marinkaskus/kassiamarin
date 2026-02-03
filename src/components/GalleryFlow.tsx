@@ -67,7 +67,10 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
             <p className="text-xs text-muted-foreground">{artwork.title}</p>
           </div>
         ) : (
-          <div className="relative w-full">
+          <div 
+            className="relative"
+            style={{ width: artwork.scale && artwork.scale < 1 ? `${artwork.scale * 100}%` : '100%' }}
+          >
             {isLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-muted/30 z-10">
                 <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
