@@ -19,7 +19,7 @@ const Gallery = () => {
       const { data, error } = await supabase
         .from('artworks')
         .select('*')
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: true });
 
       if (error) {
         console.error('Error fetching artworks:', error);
