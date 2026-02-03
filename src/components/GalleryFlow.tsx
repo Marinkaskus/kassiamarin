@@ -50,7 +50,7 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
   return (
     <div
       className={cn(
-        "relative w-full py-12 md:py-16 animate-fade-in",
+        "relative w-full py-6 md:py-8 animate-fade-in",
         "cursor-pointer group"
       )}
       style={{ animationDelay: `${index * 100}ms` }}
@@ -113,7 +113,7 @@ const GalleryFlow: React.FC<GalleryFlowProps> = ({ artworks, onArtworkClick }) =
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4">
+    <div className="w-full mx-auto">
       {artworks.map((artwork, index) => (
         <GalleryItem
           key={artwork.id}
