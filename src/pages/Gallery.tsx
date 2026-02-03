@@ -27,7 +27,7 @@ const Gallery = () => {
         return;
       }
 
-      const mappedArtworks: Artwork[] = (data || []).map((item) => ({
+      const mappedArtworks: Artwork[] = (data || []).map((item: any) => ({
         id: item.id,
         title: item.title,
         year: item.year || '',
@@ -38,6 +38,8 @@ const Gallery = () => {
         category: item.category || undefined,
         available: item.available ?? true,
         price: item.price || undefined,
+        alignment: item.alignment || null,
+        showInfo: item.show_info ?? true,
       }));
 
       setArtworkData(mappedArtworks);

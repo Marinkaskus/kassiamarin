@@ -91,24 +91,30 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
       </div>
 
       {/* Info line - horizontal, under image, aligned based on image position */}
-      <div className={cn(
-        "flex items-center gap-4 md:gap-8 mt-6 text-sm tracking-wide text-muted-foreground",
-        alignment === 'right' ? "justify-start" : alignment === 'center' ? "justify-center" : "justify-end"
-      )}>
-        <span className="font-gotu">{artwork.title}</span>
-        <span className="text-border">|</span>
-        <span>{artwork.year}</span>
-        <span className="text-border">|</span>
-        <span>{artwork.medium}</span>
-        <span className="text-border">|</span>
-        <span>{artwork.size}</span>
-      </div>
+      {artwork.showInfo !== false && (
+        <div className={cn(
+          "flex items-center gap-4 md:gap-8 mt-6 text-sm tracking-wide text-muted-foreground",
+          alignment === 'right' ? "justify-start" : alignment === 'center' ? "justify-center" : "justify-end"
+        )}>
+          <span className="font-gotu">{artwork.title}</span>
+          <span className="text-border">|</span>
+          <span>{artwork.year}</span>
+          <span className="text-border">|</span>
+          <span>{artwork.medium}</span>
+          <span className="text-border">|</span>
+          <span>{artwork.size}</span>
+        </div>
+      )}
     </div>
   );
 };
 
 const GalleryFlow: React.FC<GalleryFlowProps> = ({ artworks, onArtworkClick }) => {
-  const getAlignment = (index: number): 'left' | 'right' | 'center' => {
+  const getAlignment = (index: number, artwork: Artwork): 'left' | 'right' | 'center' => {
+    // Use artwork's custom alignment if specified, otherwise use pattern
+    if (artwork.alignment) {
+      return artwork.alignment;
+    }
     // Pattern: right, left, center, right, left, center...
     const pattern: ('right' | 'left' | 'center')[] = ['right', 'left', 'center'];
     return pattern[index % 3];
@@ -121,7 +127,7 @@ const GalleryFlow: React.FC<GalleryFlowProps> = ({ artworks, onArtworkClick }) =
           key={artwork.id}
           artwork={artwork}
           onClick={onArtworkClick}
-          alignment={getAlignment(index)}
+          alignment={getAlignment(index, artwork)}
           index={index}
         />
       ))}
