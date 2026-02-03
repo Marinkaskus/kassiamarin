@@ -50,59 +50,62 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
   return (
     <div
       className={cn(
-        "relative w-full py-6 md:py-8 animate-fade-in",
+        "relative w-full py-8 md:py-12 animate-fade-in",
         "cursor-pointer group"
       )}
       style={{ animationDelay: `${index * 100}ms` }}
       onClick={() => onClick(artwork)}
     >
-      {/* Image - full width */}
+      {/* Row with image and text side by side */}
       <div className={cn(
-        "flex w-full",
-        alignment === 'right' ? "justify-end" : "justify-start"
+        "flex flex-col md:flex-row gap-6 md:gap-12 items-start",
+        alignment === 'right' ? "md:flex-row-reverse" : "md:flex-row"
       )}>
-        {imageError ? (
-          <div className="w-full aspect-[4/3] flex flex-col items-center justify-center bg-muted/30">
-            <ImageOff className="h-8 w-8 text-muted-foreground mb-2" />
-            <p className="text-xs text-muted-foreground">{artwork.title}</p>
-          </div>
-        ) : (
-          <div className="relative w-full">
-            {isLoading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-muted/30 z-10">
-                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-              </div>
-            )}
-            <img
-              src={artwork.imageSrc}
-              alt={altText}
-              className={cn(
-                "w-full h-auto object-contain transition-all duration-500",
-                isLoading ? "opacity-0" : "opacity-100",
-                "group-hover:scale-[1.005]"
+        {/* Image */}
+        <div className="w-full md:w-2/3">
+          {imageError ? (
+            <div className="w-full aspect-[4/3] flex flex-col items-center justify-center bg-muted/30">
+              <ImageOff className="h-8 w-8 text-muted-foreground mb-2" />
+              <p className="text-xs text-muted-foreground">{artwork.title}</p>
+            </div>
+          ) : (
+            <div className="relative w-full">
+              {isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-muted/30 z-10">
+                  <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                </div>
               )}
-              loading="lazy"
-              onError={() => setImageError(true)}
-              onLoad={() => setIsLoading(false)}
-              decoding="async"
-            />
-          </div>
-        )}
-      </div>
+              <img
+                src={artwork.imageSrc}
+                alt={altText}
+                className={cn(
+                  "w-full h-auto object-contain transition-all duration-500",
+                  isLoading ? "opacity-0" : "opacity-100",
+                  "group-hover:scale-[1.005]"
+                )}
+                loading="lazy"
+                onError={() => setImageError(true)}
+                onLoad={() => setIsLoading(false)}
+                decoding="async"
+              />
+            </div>
+          )}
+        </div>
 
-      {/* Info line - horizontal, under image, left aligned */}
-      <div className="flex items-center gap-4 md:gap-8 mt-6 text-sm tracking-wide text-muted-foreground justify-start">
-        <span className="font-gotu">{artwork.title}</span>
-        <span className="text-border">|</span>
-        <span>{artwork.year}</span>
-        <span className="text-border">|</span>
-        <span>{artwork.medium}</span>
-        <span className="text-border">|</span>
-        <span>{artwork.size}</span>
+        {/* Info - vertical on the side */}
+        <div className={cn(
+          "w-full md:w-1/3 flex flex-col justify-end text-sm tracking-wide text-muted-foreground",
+          alignment === 'right' ? "md:text-right md:items-end" : "md:text-left md:items-start"
+        )}>
+          <span className="font-gotu text-base md:text-lg mb-2">{artwork.title}</span>
+          <span>{artwork.year}</span>
+          <span>{artwork.medium}</span>
+          <span>{artwork.size}</span>
+        </div>
       </div>
 
       {/* Separator line */}
-      <div className="mt-12 md:mt-16 border-b border-border/40" />
+      <div className="mt-10 md:mt-14 border-b border-border/40" />
     </div>
   );
 };
