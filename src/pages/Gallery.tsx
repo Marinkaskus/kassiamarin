@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
-import { artworks } from '@/data/artworkData';
 import MasonryGallery from '@/components/MasonryGallery';
 import ArtworkDetails from '@/components/ArtworkDetails';
 import { Artwork } from '@/types/Artwork';
 import { Input } from '@/components/ui/input';
-import { X, Search } from 'lucide-react';
+import { X, Search, Loader2 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const Gallery = () => {
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
@@ -14,10 +14,41 @@ const Gallery = () => {
   const [artworkData, setArtworkData] = useState<Artwork[]>([]);
   const [filteredArtworks, setFilteredArtworks] = useState<Artwork[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setArtworkData(artworks);
-    setFilteredArtworks(artworks);
+    const fetchArtworks = async () => {
+      setIsLoading(true);
+      const { data, error } = await supabase
+        .from('artworks')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching artworks:', error);
+        setIsLoading(false);
+        return;
+      }
+
+      const mappedArtworks: Artwork[] = (data || []).map((item) => ({
+        id: item.id,
+        title: item.title,
+        year: item.year || '',
+        size: item.size || '',
+        medium: item.medium || '',
+        description: item.description || undefined,
+        imageSrc: item.image_src || '',
+        category: item.category || undefined,
+        available: item.available ?? true,
+        price: item.price || undefined,
+      }));
+
+      setArtworkData(mappedArtworks);
+      setFilteredArtworks(mappedArtworks);
+      setIsLoading(false);
+    };
+
+    fetchArtworks();
   }, []);
 
   useEffect(() => {
@@ -84,7 +115,11 @@ const Gallery = () => {
           </div>
 
           {/* Masonry Gallery */}
-          {filteredArtworks.length > 0 ? (
+          {isLoading ? (
+            <div className="flex justify-center items-center py-20">
+              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            </div>
+          ) : filteredArtworks.length > 0 ? (
             <MasonryGallery
               artworks={filteredArtworks}
               onArtworkClick={handleArtworkClick}
