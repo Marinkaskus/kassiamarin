@@ -15,4 +15,5 @@ export interface Artwork {
   alignment?: 'left' | 'right' | 'center' | null;  // Override automatic alignment
   showInfo?: boolean;  // Whether to show info line below image
   scale?: number;  // Image scale factor (1.0 = full size, 0.8 = 80%, etc.)
+  overlapPrevious?: boolean;  // Whether to overlap with the artwork above
 }
