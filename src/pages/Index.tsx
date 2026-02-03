@@ -11,7 +11,6 @@ import ArtworkCard from '@/components/ArtworkCard';
 import ArtworkDetails from '@/components/ArtworkDetails';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-
 const Index = () => {
   // Get up to 3 projects for the teaser section
   const featuredProjects = previousProjects.slice(0, 3);
@@ -23,36 +22,30 @@ const Index = () => {
   // State for artwork preview
   const [selectedArtwork, setSelectedArtwork] = React.useState(null);
   const [detailsOpen, setDetailsOpen] = React.useState(false);
-
   const handleArtworkClick = artwork => {
     setSelectedArtwork(artwork);
     setDetailsOpen(true);
   };
 
   // News and upcoming projects data
-  const newsItems = [
-    {
-      id: 1,
-      title: "Åpning: Bærebjelke | Kassia Marin",
-      description: "4. Juli 2025 kl18:00-kl20:00",
-      date: "Juli 2025",
-      type: "Solo utstilling",
-      link: "https://fb.me/e/6fWiLUCkx",
-      image: "https://dl.dropboxusercontent.com/s/fi/90h5p4s805f0nz3vn2vm8/Plakat_Ferdig_A3_B-rebjelke-Facebook-Ad.png?rlkey=64f3quxd84oqr83lu69ng4cns&st=u6puotvv&dl=0"
-    },
-    {
-      id: 2,
-      title: "Bærebjelke | Kassia Marin",
-      description: "5. juli - 27. juli 2025 kl.12:00-15:00",
-      date: "Juli 2025",
-      type: "Solo utstilling",
-      link: "https://fb.me/e/6h1vhJtIm",
-      image: "https://dl.dropboxusercontent.com/s/fi/90h5p4s805f0nz3vn2vm8/Plakat_Ferdig_A3_B-rebjelke-Facebook-Ad.png?rlkey=64f3quxd84oqr83lu69ng4cns&st=u6puotvv&dl=0"
-    }
-  ];
-
-  return (
-    <Layout>
+  const newsItems = [{
+    id: 1,
+    title: "Åpning: Bærebjelke | Kassia Marin",
+    description: "4. Juli 2025 kl18:00-kl20:00",
+    date: "Juli 2025",
+    type: "Solo utstilling",
+    link: "https://fb.me/e/6fWiLUCkx",
+    image: "https://dl.dropboxusercontent.com/s/fi/90h5p4s805f0nz3vn2vm8/Plakat_Ferdig_A3_B-rebjelke-Facebook-Ad.png?rlkey=64f3quxd84oqr83lu69ng4cns&st=u6puotvv&dl=0"
+  }, {
+    id: 2,
+    title: "Bærebjelke | Kassia Marin",
+    description: "5. juli - 27. juli 2025 kl.12:00-15:00",
+    date: "Juli 2025",
+    type: "Solo utstilling",
+    link: "https://fb.me/e/6h1vhJtIm",
+    image: "https://dl.dropboxusercontent.com/s/fi/90h5p4s805f0nz3vn2vm8/Plakat_Ferdig_A3_B-rebjelke-Facebook-Ad.png?rlkey=64f3quxd84oqr83lu69ng4cns&st=u6puotvv&dl=0"
+  }];
+  return <Layout>
       <Helmet>
         <title>Kassia Marin - Contemporary Visual Artist Based in Oslo</title>
         <meta name="description" content="Kassia Marin is a Norwegian contemporary visual artist working with painting, text, and video to explore memory and identity. Browse her portfolio and gallery." />
@@ -69,113 +62,10 @@ const Index = () => {
       
       
       {/* Gallery Section */}
-      <section className="py-20 bg-beige-50/50 paper-texture">
-        <div className="container-custom">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
-            <div className="text-left">
-              <span className="text-sm uppercase tracking-widest text-muted-foreground">Featured Artworks</span>
-              <h2 className="text-3xl md:text-4xl font-medium mt-2 text-left">Gallery</h2>
-            </div>
-            <Link to="/gallery" className="group flex items-center text-sm font-medium mt-4 md:mt-0 hover:opacity-70 transition-opacity">
-              Explore Gallery 
-              <ArrowRight size={16} className="ml-2 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {featuredArtworks.slice(0, 3).map((artwork, index) => (
-              <div 
-                key={artwork.id} 
-                className="relative transition-all duration-300 hover:-translate-y-1 bg-beige-100/60 rounded-lg p-4" 
-                style={{
-                  opacity: 0,
-                  animation: `scaleIn 0.6s ease-out forwards`,
-                  animationDelay: `${index * 100}ms`
-                }}
-              >
-                <ArtworkCard 
-                  artwork={artwork} 
-                  onClick={handleArtworkClick} 
-                  className="transition-transform duration-300 h-full bg-transparent shadow-none" 
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* News and Upcoming Projects Section */}
-      <section className="py-20 bg-beige-100/40 paper-texture">
-        <div className="container-custom">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
-            <div className="text-left">
-              <span className="text-sm uppercase tracking-widest text-muted-foreground">Oppdateringer</span>
-              <h2 className="text-3xl md:text-4xl font-medium mt-2 text-left">Nyheter eller kommende prosjekter</h2>
-            </div>
-          </div>
-          
-          <ScrollArea className="w-full whitespace-nowrap">
-            <div className="flex w-max space-x-6 pb-4">
-              {newsItems.map((item, index) => (
-                <div 
-                  key={item.id} 
-                  className="w-80 flex-shrink-0 group relative transition-all duration-300 hover:-translate-y-1 rounded-lg p-4 bg-beige-100/60"
-                  style={{
-                    opacity: 0,
-                    animation: `scaleIn 0.6s ease-out forwards`,
-                    animationDelay: `${index * 150}ms`
-                  }}
-                >
-                  <Card className="h-full hover:shadow-lg transition-shadow duration-300 overflow-hidden border-none shadow-none bg-transparent">
-                    <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
-                      <img 
-                        src={item.image} 
-                        alt={item.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                        <div className="absolute bottom-0 w-full p-4">
-                          {item.link && (
-                            <a 
-                              href={item.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-white text-xs hover:underline flex items-center"
-                            >
-                              Les mer <ExternalLink size={12} className="ml-1" />
-                            </a>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <CardHeader className="pb-2 bg-transparent text-left">
-                      <div className="flex items-center mb-2">
-                        <span className="text-xs uppercase tracking-wider text-muted-foreground">
-                          {item.type}
-                        </span>
-                        <span className="mx-2 text-muted-foreground">•</span>
-                        <span className="text-xs text-muted-foreground flex items-center">
-                          <Calendar size={12} className="mr-1" />
-                          {item.date}
-                        </span>
-                      </div>
-                      <CardTitle className="text-sm font-medium mb-2 text-left">
-                        {item.title}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="bg-transparent text-left">
-                      <CardDescription className="text-xs text-muted-foreground line-clamp-2 text-left">
-                        {item.description}
-                      </CardDescription>
-                    </CardContent>
-                  </Card>
-                </div>
-              ))}
-            </div>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-        </div>
-      </section>
+      
       
       {/* Projects Section */}
       <section className="py-20 bg-beige-50/50 paper-texture">
@@ -192,32 +82,19 @@ const Index = () => {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            {featuredProjects.map((project, index) => (
-              <div 
-                key={project.id}
-                className="bg-beige-100/60 rounded-lg p-4 transition-all duration-300 hover:-translate-y-1"
-                style={{
-                  opacity: 0,
-                  animation: `scaleIn 0.6s ease-out forwards`,
-                  animationDelay: `${index * 100}ms`
-                }}
-              >
+            {featuredProjects.map((project, index) => <div key={project.id} className="bg-beige-100/60 rounded-lg p-4 transition-all duration-300 hover:-translate-y-1" style={{
+            opacity: 0,
+            animation: `scaleIn 0.6s ease-out forwards`,
+            animationDelay: `${index * 100}ms`
+          }}>
                 <ProjectTeaser project={project} />
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </section>
       
       {/* Artwork details dialog */}
-      <ArtworkDetails 
-        artwork={selectedArtwork} 
-        allArtworks={featuredArtworks} 
-        open={detailsOpen} 
-        onOpenChange={setDetailsOpen} 
-      />
-    </Layout>
-  );
+      <ArtworkDetails artwork={selectedArtwork} allArtworks={featuredArtworks} open={detailsOpen} onOpenChange={setDetailsOpen} />
+    </Layout>;
 };
-
 export default Index;
