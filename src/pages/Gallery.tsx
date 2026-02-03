@@ -40,6 +40,7 @@ const Gallery = () => {
         price: item.price || undefined,
         alignment: item.alignment || null,
         showInfo: item.show_info ?? true,
+        scale: item.scale ?? 1.0,
       }));
 
       setArtworkData(mappedArtworks);
