@@ -1,31 +1,28 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { 
-  MessageCircle, 
   User, 
   Mail, 
-  Calendar, 
   Search, 
-  ArrowUpRight,
   MailOpen,
   Clock,
-  Inbox as InboxIcon
+  Inbox as InboxIcon,
+  Loader2
 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
-// Message interface
+// Message interface matching database schema
 interface Message {
   id: string;
   name: string;
   email: string;
   subject: string;
   message: string;
-  date: string;
-  read: boolean;
+  created_at: string;
+  is_read: boolean;
 }
 
 const AdminMessagesInbox = () => {
@@ -33,26 +30,36 @@ const AdminMessagesInbox = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const [replyText, setReplyText] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
   const { toast } = useToast();
 
-  // Load messages from localStorage
+  // Load messages from Supabase
   useEffect(() => {
-    const savedMessages = localStorage.getItem('contact_messages');
-    if (savedMessages) {
-      try {
-        setMessages(JSON.parse(savedMessages));
-      } catch (e) {
-        console.error('Error parsing saved messages:', e);
-        // Initialize with sample data if parsing fails
-        setMessages(getSampleMessages());
+    const fetchMessages = async () => {
+      setIsLoading(true);
+      
+      const { data, error } = await supabase
+        .from('contact_messages')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching messages:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load messages from database",
+          variant: "destructive"
+        });
+      } else {
+        setMessages(data || []);
       }
-    } else {
-      // Initialize with sample data if no saved messages
-      setMessages(getSampleMessages());
-      // Save sample data to localStorage
-      localStorage.setItem('contact_messages', JSON.stringify(getSampleMessages()));
-    }
-  }, []);
+      
+      setIsLoading(false);
+    };
+
+    fetchMessages();
+  }, [toast]);
 
   const filteredMessages = messages.filter(message => 
     message.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -61,16 +68,22 @@ const AdminMessagesInbox = () => {
     message.message.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleSelectMessage = (message: Message) => {
+  const handleSelectMessage = async (message: Message) => {
     // Mark as read if not already
-    if (!message.read) {
-      const updatedMessages = messages.map(m => 
-        m.id === message.id ? { ...m, read: true } : m
-      );
-      setMessages(updatedMessages);
-      localStorage.setItem('contact_messages', JSON.stringify(updatedMessages));
+    if (!message.is_read) {
+      const { error } = await supabase
+        .from('contact_messages')
+        .update({ is_read: true })
+        .eq('id', message.id);
+
+      if (!error) {
+        const updatedMessages = messages.map(m => 
+          m.id === message.id ? { ...m, is_read: true } : m
+        );
+        setMessages(updatedMessages);
+      }
     }
-    setSelectedMessage(message);
+    setSelectedMessage({ ...message, is_read: true });
     setReplyText('');
   };
 
@@ -96,25 +109,57 @@ Kassia Marin
     window.open(mailtoLink, '_blank');
     
     toast({
-      title: "Reply sent",
+      title: "Reply prepared",
       description: `Your reply to ${selectedMessage.name} has been prepared. Please send it from your email client.`,
     });
     
     setReplyText('');
   };
 
-  const markAllAsRead = () => {
-    const updatedMessages = messages.map(m => ({ ...m, read: true }));
-    setMessages(updatedMessages);
-    localStorage.setItem('contact_messages', JSON.stringify(updatedMessages));
+  const markAllAsRead = async () => {
+    setIsSaving(true);
     
-    toast({
-      title: "Marked as read",
-      description: "All messages have been marked as read.",
-    });
+    const unreadIds = messages.filter(m => !m.is_read).map(m => m.id);
+    
+    if (unreadIds.length === 0) {
+      setIsSaving(false);
+      return;
+    }
+
+    const { error } = await supabase
+      .from('contact_messages')
+      .update({ is_read: true })
+      .in('id', unreadIds);
+
+    if (error) {
+      console.error('Error marking messages as read:', error);
+      toast({
+        title: "Error",
+        description: "Failed to mark messages as read",
+        variant: "destructive"
+      });
+    } else {
+      const updatedMessages = messages.map(m => ({ ...m, is_read: true }));
+      setMessages(updatedMessages);
+      
+      toast({
+        title: "Marked as read",
+        description: "All messages have been marked as read.",
+      });
+    }
+    
+    setIsSaving(false);
   };
 
-  const unreadCount = messages.filter(m => !m.read).length;
+  const unreadCount = messages.filter(m => !m.is_read).length;
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -129,7 +174,9 @@ Kassia Marin
                 size="sm" 
                 onClick={markAllAsRead}
                 className="text-xs h-7"
+                disabled={isSaving}
               >
+                {isSaving ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : null}
                 Mark all as read
               </Button>
             )}
@@ -153,7 +200,7 @@ Kassia Marin
                 onClick={() => handleSelectMessage(message)}
                 className={`p-3 cursor-pointer transition-colors hover:bg-muted/50 ${
                   selectedMessage?.id === message.id ? 'bg-muted' : ''
-                } ${!message.read ? 'bg-blue-50 dark:bg-blue-900/10' : ''}`}
+                } ${!message.is_read ? 'bg-blue-50 dark:bg-blue-900/10' : ''}`}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2">
@@ -161,7 +208,7 @@ Kassia Marin
                       <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                         <User className="h-4 w-4 text-primary" />
                       </div>
-                      {!message.read && (
+                      {!message.is_read && (
                         <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-blue-500"></div>
                       )}
                     </div>
@@ -171,7 +218,7 @@ Kassia Marin
                     </div>
                   </div>
                   <span className="text-xs text-muted-foreground whitespace-nowrap">
-                    {formatDate(message.date)}
+                    {formatDate(message.created_at)}
                   </span>
                 </div>
                 <h3 className="text-sm font-medium mt-2 line-clamp-1">{message.subject}</h3>
@@ -205,7 +252,7 @@ Kassia Marin
                 </div>
                 <div className="flex items-center text-sm text-muted-foreground">
                   <Clock className="h-4 w-4 mr-1" />
-                  <span>{formatDate(selectedMessage.date, true)}</span>
+                  <span>{formatDate(selectedMessage.created_at, true)}</span>
                 </div>
               </div>
             </div>
@@ -275,36 +322,5 @@ const formatDate = (dateStr: string, full: boolean = false) => {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   }
 };
-
-// Sample messages for demo
-const getSampleMessages = (): Message[] => [
-  {
-    id: '1',
-    name: 'Maria Johnson',
-    email: 'maria@example.com',
-    subject: 'Commission Request',
-    message: 'Hello, I am interested in commissioning a piece similar to your "Dream Sequence" artwork. Could you please provide more information about your commission process and pricing? I would like something approximately 40 × 80 cm for my living room. Thank you for your time!',
-    date: '2023-11-10T14:32:00',
-    read: true
-  },
-  {
-    id: '2',
-    name: 'Thomas Anderson',
-    email: 'thomas@example.com',
-    subject: 'Exhibition Opportunity',
-    message: 'Dear Kassia, I represent Gallery NordArt in Oslo and we are curating a new exhibition focused on contemporary Norwegian artists. We are very impressed with your portfolio and would like to discuss the possibility of featuring your work in our upcoming spring show. Please let me know if you would be interested in discussing this opportunity further.',
-    date: '2023-11-15T09:45:00',
-    read: false
-  },
-  {
-    id: '3',
-    name: 'Sarah Williams',
-    email: 'sarah@example.com',
-    subject: 'Workshop Inquiry',
-    message: 'Hi Kassia, I saw your recent exhibition and was fascinated by your mixed media techniques. Do you offer any workshops or classes where you teach these methods? I am part of a small art collective in Bergen and we would be very interested in learning from you. Looking forward to your response!',
-    date: '2023-11-18T16:20:00',
-    read: false
-  }
-];
 
 export default AdminMessagesInbox;
