@@ -1,33 +1,19 @@
-
-import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, User } from 'firebase/auth';
-
-// Firebase configuration with a placeholder API key (not used actively now)
-const firebaseConfig = {
-  apiKey: "placeholder-api-key",
-  authDomain: "kassia-marin-gallery.firebaseapp.com",
-  projectId: "kassia-marin-gallery",
-  storageBucket: "kassia-marin-gallery.appspot.com",
-  messagingSenderId: "176834256912",
-  appId: "1:176834256912:web:d0fc3ee81f3d5f47a5c7b4"
-};
-
-// Initialize Firebase once
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+import { supabase } from '@/integrations/supabase/client';
+import type { User } from '@supabase/supabase-js';
 
 export const login = async (email: string, password: string) => {
   try {
-    console.log('Simulating login with:', email);
-    
-    // Return a successful response without actual Firebase authentication
-    return { 
-      success: true, 
-      user: { 
-        email: 'kassiamarin486@gmail.com',
-        uid: 'simulated-user-id'
-      } 
-    };
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      console.error('Login error:', error.message);
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, user: data.user };
   } catch (error: any) {
     console.error('Login error:', error);
     return { success: false, error: 'Authentication error' };
@@ -36,21 +22,43 @@ export const login = async (email: string, password: string) => {
 
 export const logout = async () => {
   try {
-    console.log('Simulating logout');
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      return { success: false, error: error.message };
+    }
     return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };
   }
 };
 
-export const getCurrentUser = (): User | null => {
-  return null; // Always return null as we're not using actual authentication
+export const getCurrentUser = async (): Promise<User | null> => {
+  const { data: { user } } = await supabase.auth.getUser();
+  return user;
 };
 
 export const onAuthStateChange = (callback: (user: User | null) => void) => {
-  // Immediately call the callback with null to indicate no user
-  setTimeout(() => callback(null), 10);
-  
-  // Return a dummy unsubscribe function
-  return () => console.log('Auth listener unsubscribed');
+  const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    async (event, session) => {
+      callback(session?.user ?? null);
+    }
+  );
+
+  return () => subscription.unsubscribe();
+};
+
+export const checkIsAdmin = async (userId: string): Promise<boolean> => {
+  try {
+    const { data, error } = await supabase.rpc('is_admin');
+    
+    if (error) {
+      console.error('Error checking admin status:', error);
+      return false;
+    }
+    
+    return data === true;
+  } catch (error) {
+    console.error('Error checking admin status:', error);
+    return false;
+  }
 };
