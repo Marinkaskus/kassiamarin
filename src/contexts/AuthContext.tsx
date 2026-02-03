@@ -1,7 +1,6 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { User } from 'firebase/auth';
-import { onAuthStateChange } from '@/services/authService';
+import type { User } from '@supabase/supabase-js';
+import { onAuthStateChange, checkIsAdmin } from '@/services/authService';
 
 interface AuthContextType {
   currentUser: User | null;
@@ -29,17 +28,24 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [isAdmin, setIsAdmin] = useState<boolean>(true); // Always set to true to bypass admin check
-  const [isLoading, setIsLoading] = useState<boolean>(false); // Set initial loading to false
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    console.log('Initializing auth context with bypass...');
+    console.log('Initializing auth context...');
     
-    // Still listen for auth changes but don't enforce them
-    const unsubscribe = onAuthStateChange((user) => {
+    const unsubscribe = onAuthStateChange(async (user) => {
       console.log('Auth state changed:', user?.email);
       setCurrentUser(user);
-      setIsAdmin(true); // Always admin regardless of auth state
+      
+      if (user) {
+        // Check if user is admin
+        const adminStatus = await checkIsAdmin(user.id);
+        setIsAdmin(adminStatus);
+      } else {
+        setIsAdmin(false);
+      }
+      
       setIsLoading(false);
     });
 

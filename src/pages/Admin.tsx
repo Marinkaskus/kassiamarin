@@ -1,19 +1,64 @@
-
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import Layout from '@/components/Layout';
+import AdminLogin from '@/components/AdminLogin';
 import AdminGalleryManager from '@/components/AdminGalleryManager';
 import AdminMessagesInbox from '@/components/AdminMessagesInbox';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ImageIcon, MessageSquare, ShieldAlert } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ImageIcon, MessageSquare, LogOut, Loader2 } from 'lucide-react';
+import { logout } from '@/services/authService';
+import { useToast } from '@/hooks/use-toast';
 
 const Admin = () => {
-  const { currentUser, isAdmin } = useAuth();
-  const navigate = useNavigate();
+  const { currentUser, isAdmin, isLoading } = useAuth();
   const [activeTab, setActiveTab] = useState('gallery');
+  const { toast } = useToast();
 
-  // Admin dashboard is now directly accessible without login check
+  const handleLogout = async () => {
+    const result = await logout();
+    if (result.success) {
+      toast({
+        title: "Logged out",
+        description: "You have been signed out successfully.",
+      });
+    }
+  };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <Layout>
+        <section className="pt-32 pb-20">
+          <div className="container-custom flex justify-center items-center min-h-[50vh]">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
+        </section>
+      </Layout>
+    );
+  }
+
+  // Show login if not authenticated or not admin
+  if (!currentUser || !isAdmin) {
+    return (
+      <Layout>
+        <section className="pt-32 pb-20">
+          <div className="container-custom">
+            <AdminLogin />
+            {currentUser && !isAdmin && (
+              <div className="mt-4 text-center text-sm text-muted-foreground">
+                <p>You are logged in but do not have admin privileges.</p>
+                <Button variant="link" onClick={handleLogout} className="mt-2">
+                  Sign out and try another account
+                </Button>
+              </div>
+            )}
+          </div>
+        </section>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <section className="pt-32 pb-20">
@@ -24,6 +69,15 @@ const Admin = () => {
               <p className="mt-2 text-muted-foreground">
                 Manage your website content and communications
               </p>
+            </div>
+            <div className="flex items-center gap-4 mt-4 md:mt-0">
+              <span className="text-sm text-muted-foreground">
+                {currentUser.email}
+              </span>
+              <Button variant="outline" size="sm" onClick={handleLogout}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </Button>
             </div>
           </div>
 
@@ -55,18 +109,6 @@ const Admin = () => {
                 <AdminMessagesInbox />
               </TabsContent>
             </Tabs>
-          </div>
-          
-          <div className="bg-green-100 border border-green-300 rounded-lg p-4 text-sm text-green-800">
-            <div className="flex items-start gap-2">
-              <ShieldAlert className="h-5 w-5 text-green-600 mt-0.5" />
-              <div>
-                <h3 className="font-medium">Admin Access Enabled</h3>
-                <p className="mt-1">
-                  Admin access is currently enabled without authentication. Remember to secure this page in production.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>

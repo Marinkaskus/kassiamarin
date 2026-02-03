@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { login } from '@/services/authService';
 import { useToast } from '@/hooks/use-toast';
@@ -12,7 +11,7 @@ interface AdminLoginProps {
 }
 
 const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
-  const [email] = useState('kassiamarin486@gmail.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -24,18 +23,15 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
     setError(null);
 
     try {
-      console.log('Login attempt initiated');
       const result = await login(email, password);
       
       if (result.success) {
-        console.log('Login successful');
         toast({
           title: "Success",
           description: "Welcome back, admin!",
         });
         if (onLoginSuccess) onLoginSuccess();
       } else {
-        console.error('Login failed:', result.error);
         setError(result.error || "Login failed");
         toast({
           title: "Authentication Error",
@@ -84,8 +80,9 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
             id="email"
             type="email"
             value={email}
-            readOnly
-            className="bg-muted"
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            required
           />
         </div>
 
@@ -99,9 +96,6 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
             placeholder="Enter your password"
             required
           />
-          <p className="text-xs text-muted-foreground">
-            Default admin password: KassiaMarin2024!
-          </p>
         </div>
 
         <Button 
