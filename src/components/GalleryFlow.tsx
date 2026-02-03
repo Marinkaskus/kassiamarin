@@ -90,8 +90,11 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
         )}
       </div>
 
-      {/* Info line - horizontal, under image, left aligned */}
-      <div className="flex items-center gap-4 md:gap-8 mt-6 text-sm tracking-wide text-muted-foreground justify-start">
+      {/* Info line - horizontal, under image, aligned based on image position */}
+      <div className={cn(
+        "flex items-center gap-4 md:gap-8 mt-6 text-sm tracking-wide text-muted-foreground",
+        alignment === 'right' ? "justify-start" : "justify-end"
+      )}>
         <span className="font-gotu">{artwork.title}</span>
         <span className="text-border">|</span>
         <span>{artwork.year}</span>
