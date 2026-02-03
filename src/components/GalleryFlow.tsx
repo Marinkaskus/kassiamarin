@@ -104,8 +104,6 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
         </div>
       </div>
 
-      {/* Separator line */}
-      <div className="mt-10 md:mt-14 border-b border-border/40" />
     </div>
   );
 };
