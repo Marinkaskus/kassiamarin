@@ -41,6 +41,7 @@ const Gallery = () => {
         alignment: item.alignment || null,
         showInfo: item.show_info ?? true,
         scale: item.scale ?? 1.0,
+        overlapPrevious: item.overlap_previous ?? false,
       }));
 
       setArtworkData(mappedArtworks);
