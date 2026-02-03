@@ -25,6 +25,7 @@ export type Database = {
           image_src: string | null
           medium: string | null
           price: string | null
+          scale: number | null
           show_info: boolean | null
           size: string | null
           title: string
@@ -41,6 +42,7 @@ export type Database = {
           image_src?: string | null
           medium?: string | null
           price?: string | null
+          scale?: number | null
           show_info?: boolean | null
           size?: string | null
           title: string
@@ -57,6 +59,7 @@ export type Database = {
           image_src?: string | null
           medium?: string | null
           price?: string | null
+          scale?: number | null
           show_info?: boolean | null
           size?: string | null
           title?: string
