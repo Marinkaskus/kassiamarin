@@ -24,6 +24,7 @@ export type Database = {
           id: number
           image_src: string | null
           medium: string | null
+          overlap_previous: boolean | null
           price: string | null
           scale: number | null
           show_info: boolean | null
@@ -41,6 +42,7 @@ export type Database = {
           id?: number
           image_src?: string | null
           medium?: string | null
+          overlap_previous?: boolean | null
           price?: string | null
           scale?: number | null
           show_info?: boolean | null
@@ -58,6 +60,7 @@ export type Database = {
           id?: number
           image_src?: string | null
           medium?: string | null
+          overlap_previous?: boolean | null
           price?: string | null
           scale?: number | null
           show_info?: boolean | null
