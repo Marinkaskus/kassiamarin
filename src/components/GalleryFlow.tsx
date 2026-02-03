@@ -50,88 +50,73 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
   return (
     <div
       className={cn(
-        "relative w-full py-12 md:py-20 animate-fade-in",
+        "relative w-full py-12 md:py-16 animate-fade-in",
         "cursor-pointer group"
       )}
       style={{ animationDelay: `${index * 100}ms` }}
       onClick={() => onClick(artwork)}
     >
-      <div
-        className={cn(
-          "flex flex-col gap-6 md:gap-12",
-          alignment === 'right' ? "md:flex-row-reverse" : "md:flex-row"
-        )}
-      >
-        {/* Image */}
-        <div className={cn(
-          "flex-1 flex",
-          alignment === 'right' ? "justify-end" : "justify-start"
-        )}>
-          {imageError ? (
-            <div className="w-full max-w-2xl aspect-[4/3] flex flex-col items-center justify-center bg-muted/30 rounded-sm">
-              <ImageOff className="h-8 w-8 text-muted-foreground mb-2" />
-              <p className="text-xs text-muted-foreground">{artwork.title}</p>
-            </div>
-          ) : (
-            <div className="relative w-full max-w-2xl">
-              {isLoading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-muted/30 z-10">
-                  <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                </div>
-              )}
-              <img
-                src={artwork.imageSrc}
-                alt={altText}
-                className={cn(
-                  "w-full h-auto object-contain transition-all duration-500",
-                  isLoading ? "opacity-0" : "opacity-100",
-                  "group-hover:scale-[1.01]"
-                )}
-                loading="lazy"
-                onError={() => setImageError(true)}
-                onLoad={() => setIsLoading(false)}
-                decoding="async"
-              />
-            </div>
-          )}
-        </div>
+      {/* Info line - horizontal, same size text */}
+      <div className={cn(
+        "flex items-center gap-4 md:gap-8 mb-6 text-sm tracking-wide text-muted-foreground",
+        alignment === 'right' ? "justify-end" : "justify-start"
+      )}>
+        <span className="font-gotu">{artwork.title}</span>
+        <span className="text-border">|</span>
+        <span>{artwork.year}</span>
+        <span className="text-border">|</span>
+        <span>{artwork.medium}</span>
+        <span className="text-border">|</span>
+        <span>{artwork.size}</span>
+      </div>
 
-        {/* Info */}
-        <div className={cn(
-          "flex-shrink-0 w-full md:w-64 flex flex-col justify-end",
-          alignment === 'right' ? "md:text-left md:items-start" : "md:text-left md:items-start"
-        )}>
-          <h2 className="font-gotu text-xl md:text-2xl mb-3 tracking-wide">
-            {artwork.title}
-          </h2>
-          <div className="space-y-1 text-sm text-muted-foreground">
-            <p>{artwork.year}</p>
-            <p>{artwork.medium}</p>
-            <p>{artwork.size}</p>
+      {/* Image - 2/3 width */}
+      <div className={cn(
+        "flex w-full",
+        alignment === 'right' ? "justify-end" : "justify-start"
+      )}>
+        {imageError ? (
+          <div className="w-2/3 aspect-[4/3] flex flex-col items-center justify-center bg-muted/30">
+            <ImageOff className="h-8 w-8 text-muted-foreground mb-2" />
+            <p className="text-xs text-muted-foreground">{artwork.title}</p>
           </div>
-          {artwork.description && (
-            <p className="mt-4 text-sm text-muted-foreground/80 max-w-xs">
-              {artwork.description}
-            </p>
-          )}
-        </div>
+        ) : (
+          <div className="relative w-2/3">
+            {isLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-muted/30 z-10">
+                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+              </div>
+            )}
+            <img
+              src={artwork.imageSrc}
+              alt={altText}
+              className={cn(
+                "w-full h-auto object-contain transition-all duration-500",
+                isLoading ? "opacity-0" : "opacity-100",
+                "group-hover:scale-[1.01]"
+              )}
+              loading="lazy"
+              onError={() => setImageError(true)}
+              onLoad={() => setIsLoading(false)}
+              decoding="async"
+            />
+          </div>
+        )}
       </div>
 
       {/* Separator line */}
-      <div className="mt-12 md:mt-20 border-b border-border/40" />
+      <div className="mt-12 md:mt-16 border-b border-border/40" />
     </div>
   );
 };
 
 const GalleryFlow: React.FC<GalleryFlowProps> = ({ artworks, onArtworkClick }) => {
-  // Alternating pattern for alignment
   const getAlignment = (index: number): 'left' | 'right' => {
-    // First image is right-aligned as requested
     return index % 2 === 0 ? 'right' : 'left';
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4">
+    <div className="w-full max-w-7xl mx-auto px-4">
       {artworks.map((artwork, index) => (
         <GalleryItem
           key={artwork.id}
