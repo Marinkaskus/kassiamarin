@@ -46,6 +46,9 @@ const Footer: React.FC = () => {
               <Link to="/gallery" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Gallery
               </Link>
+              <Link to="/portfolio" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Portfolio
+              </Link>
               <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 CV
               </Link>

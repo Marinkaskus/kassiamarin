@@ -27,6 +27,7 @@ const Navbar: React.FC = () => {
   // List of navigation items
   const navItems = [
     { name: 'Gallery', path: '/gallery' },
+    { name: 'Portfolio', path: '/portfolio' },
     { name: 'CV', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
