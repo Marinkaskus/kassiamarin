@@ -43,20 +43,14 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-medium">Navigation</h3>
             <div className="grid grid-cols-2 gap-2">
-              <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Home
-              </Link>
-              <Link to="/portfolio" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Portfolio
+              <Link to="/gallery" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Gallery
               </Link>
               <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 CV
               </Link>
               <Link to="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Contact
-              </Link>
-              <Link to="/gallery" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Gallery
               </Link>
             </div>
           </div>
