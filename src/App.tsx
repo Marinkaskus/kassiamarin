@@ -12,6 +12,7 @@ import Projects from './pages/Projects';
 import CV from './pages/CV';
 import Baerebjelke from './pages/Baerebjelke';
 import Admin from './pages/Admin';
+import OAuthConsent from './pages/OAuthConsent';
 import NotFound from './pages/NotFound';
 import './App.css';
 
@@ -29,6 +30,7 @@ function App() {
             <Route path="/cv" element={<CV />} />
             <Route path="/baerebjelke" element={<Baerebjelke />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Toaster />
