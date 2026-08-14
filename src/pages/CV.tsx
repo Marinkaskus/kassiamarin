@@ -4,7 +4,9 @@ import React from 'react';
 import Layout from '../components/Layout';
 import { Helmet } from 'react-helmet-async';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ExternalLink, Download } from 'lucide-react';
+
 
 const CV = () => {
   return (
