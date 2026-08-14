@@ -3,6 +3,7 @@ import Layout from '@/components/Layout';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, Instagram, Linkedin, ExternalLink } from 'lucide-react';
 import LogoDisplay from '@/components/LogoDisplay';
+import { supabase } from '@/integrations/supabase/client';
 
 const Contact = () => {
   const { toast } = useToast();
