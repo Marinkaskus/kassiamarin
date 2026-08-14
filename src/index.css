@@ -115,3 +115,72 @@
     @apply font-sans text-sm leading-relaxed text-muted-foreground;
   }
 }
+
+/* Print-friendly CV layout */
+@media print {
+  @page {
+    size: A4;
+    margin: 18mm 16mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #cv-printable,
+  #cv-printable * {
+    visibility: visible;
+  }
+
+  #cv-printable {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #000 !important;
+    font-size: 11pt;
+    line-height: 1.45;
+  }
+
+  #cv-printable h1 {
+    font-size: 22pt;
+    margin-bottom: 0.4rem;
+  }
+
+  #cv-printable h2 {
+    font-size: 13pt;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #999;
+    padding-bottom: 2px;
+  }
+
+  #cv-printable .text-muted-foreground {
+    color: #444 !important;
+  }
+
+  #cv-printable a {
+    color: #000 !important;
+    text-decoration: none;
+  }
+
+  #cv-printable li {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  #cv-printable > div > div,
+  #cv-printable section {
+    break-inside: auto;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
