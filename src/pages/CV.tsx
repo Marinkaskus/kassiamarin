@@ -4,7 +4,9 @@ import React from 'react';
 import Layout from '../components/Layout';
 import { Helmet } from 'react-helmet-async';
 import { Separator } from '@/components/ui/separator';
-import { ExternalLink } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ExternalLink, Download } from 'lucide-react';
+
 
 const CV = () => {
   return (
@@ -23,9 +25,23 @@ const CV = () => {
       <section className="pt-32 pb-20">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto">
-            <div className="animate-fade-in-up">
-              <span className="text-sm uppercase tracking-widest text-muted-foreground">CV</span>
-              <h1 className="text-4xl md:text-5xl font-medium mt-2 mb-8">Kassia Marin</h1>
+            <div className="animate-fade-in-up" id="cv-printable">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <span className="text-sm uppercase tracking-widest text-muted-foreground">CV</span>
+                  <h1 className="text-4xl md:text-5xl font-medium mt-2 mb-8">Kassia Marin</h1>
+                </div>
+                <Button
+                  variant="outline"
+                  className="no-print mt-2 shrink-0"
+                  onClick={() => window.print()}
+                >
+                  <Download size={16} className="mr-2" />
+                  Last ned PDF
+                </Button>
+              </div>
+              
+
               
               {/* Education Section */}
               <div className="mt-12">
