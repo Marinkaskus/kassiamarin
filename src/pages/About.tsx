@@ -43,6 +43,13 @@ const About = () => {
                     <Table>
                       <TableBody>
                         <TableRow>
+                          <TableCell className="w-1/3 font-medium">2026 - dd</TableCell>
+                          <TableCell>
+                            <span className="block">Master i Billedkunst</span>
+                            <span className="text-muted-foreground">Kunsthøyskolen i Oslo, Oslo, Norway</span>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
                           <TableCell className="w-1/3 font-medium">2021 - 2024</TableCell>
                           <TableCell>
                             <span className="block">Bachelor i Billedkunst</span>
