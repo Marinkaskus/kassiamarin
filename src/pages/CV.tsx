@@ -32,6 +32,11 @@ const CV = () => {
                 <h2 className="text-2xl font-medium mb-6">Education</h2>
                 <ul className="space-y-4">
                   <li>
+                    <div className="text-sm text-muted-foreground">2026 - dd</div>
+                    <div className="font-medium">Master i Billedkunst</div>
+                    <div>Kunsthøyskolen i Oslo, Oslo, Norway</div>
+                  </li>
+                  <li>
                     <div className="text-sm text-muted-foreground">2021 - 2024</div>
                     <div className="font-medium">Bachelor i Billedkunst</div>
                     <div>Kunsthøyskolen i Oslo, Oslo, Norway</div>
@@ -50,6 +55,27 @@ const CV = () => {
               <div>
                 <h2 className="text-2xl font-medium mb-6">Exhibitions</h2>
                 <ul className="space-y-4">
+                  <li>
+                    <div className="text-sm text-muted-foreground">2026</div>
+                    <div className="font-medium">
+                      Handling Cobwebs <span className="font-normal">(Gruppeutstilling)</span>
+                    </div>
+                    <div>UKS, Oslo, Norge</div>
+                  </li>
+                  <li>
+                    <div className="text-sm text-muted-foreground">2026</div>
+                    <div className="font-medium">
+                      Gåningstegn <span className="font-normal">(Duoutsilling)</span>
+                    </div>
+                    <div>Hvervenbukta paviljong, Oslo, Norge</div>
+                  </li>
+                  <li>
+                    <div className="text-sm text-muted-foreground">2025</div>
+                    <div className="font-medium">
+                      Bærebjelker <span className="font-normal">(Soloutstilling)</span>
+                    </div>
+                    <div>Frogner paviljongen, Oslo, Norge</div>
+                  </li>
                   <li>
                     <div className="text-sm text-muted-foreground">2024</div>
                     <div className="font-medium">
