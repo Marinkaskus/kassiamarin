@@ -52,7 +52,7 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
       className={cn(
         "relative w-full py-8 md:py-12 animate-fade-in",
         "cursor-pointer group",
-        artwork.overlapPrevious && "mt-8 md:mt-52 -mb-72 md:-mb-[46rem] z-10"
+        artwork.overlapPrevious && "mt-8 md:mt-52 -mb-72 md:-mb-[46rem] z-10 md:translate-x-[62%] md:translate-y-[26px] overflow-hidden"
       )}
       style={{ animationDelay: `${index * 100}ms` }}
       onClick={() => onClick(artwork)}
