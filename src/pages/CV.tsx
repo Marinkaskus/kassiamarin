@@ -186,6 +186,36 @@ const CV = () => {
                 <h2 className="text-2xl font-medium mb-6">Professional Experience</h2>
                 <ul className="space-y-4">
                   <li>
+                    <div className="text-sm text-muted-foreground">2026</div>
+                    <div className="font-medium">Nasjonal Arena for tilrettelagt DKS</div>
+                    <div>Harstad, Norge</div>
+                  </li>
+                  <li>
+                    <div className="text-sm text-muted-foreground">2026</div>
+                    <div className="font-medium">Formidler/Co-produsent av La oss vibrere!</div>
+                    <div>Munchmuseet, Oslo, Norge</div>
+                  </li>
+                  <li>
+                    <div className="text-sm text-muted-foreground">2025</div>
+                    <div className="font-medium">Kurs i Fresko</div>
+                    <div>Muralverkstedet, Oslo, Norge</div>
+                  </li>
+                  <li>
+                    <div className="text-sm text-muted-foreground">2025</div>
+                    <div className="font-medium">Prosjektleder og kunstner under kunstworkshops for barn i Frognerparken Juli</div>
+                    <div>Oslo, Norge</div>
+                  </li>
+                  <li>
+                    <div className="text-sm text-muted-foreground">2025</div>
+                    <div className="font-medium">Residency i regi av Palarctic filmmaking program</div>
+                    <div>Tvibit, Tromsø, Norge</div>
+                  </li>
+                  <li>
+                    <div className="text-sm text-muted-foreground">2025</div>
+                    <div className="font-medium">Vertskap på Munch</div>
+                    <div>Oslo, Norge</div>
+                  </li>
+                  <li>
                     <div className="text-sm text-muted-foreground">2024</div>
                     <div className="font-medium">Host</div>
                     <div>Oslo Open, Oslo, Norway</div>
