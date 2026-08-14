@@ -52,7 +52,7 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
       className={cn(
         "relative w-full py-8 md:py-12 animate-fade-in",
         "cursor-pointer group",
-        artwork.overlapPrevious && "mt-8 md:mt-24 -mb-72 md:-mb-[38rem] z-10"
+        artwork.overlapPrevious && "mt-8 md:mt-52 -mb-72 md:-mb-[46rem] z-10 md:translate-x-[300px] md:translate-y-[26px]"
       )}
       style={{ animationDelay: `${index * 100}ms` }}
       onClick={() => onClick(artwork)}
@@ -60,7 +60,6 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
       {/* Image - full width */}
       <div className={cn(
         "flex w-full",
-        artwork.overlapPrevious && alignment === 'right' && "pr-[18%] md:pr-[22%]",
         alignment === 'right' ? "justify-end" : alignment === 'center' ? "justify-center" : "justify-start"
       )}>
         {imageError ? (
@@ -126,7 +125,7 @@ const GalleryFlow: React.FC<GalleryFlowProps> = ({ artworks, onArtworkClick }) =
   };
 
   return (
-    <div className="w-full mx-auto">
+    <div className="w-full mx-auto overflow-x-hidden">
       {artworks.map((artwork, index) => (
         <GalleryItem
           key={artwork.id}
