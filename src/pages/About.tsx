@@ -73,6 +73,27 @@ const About = () => {
                     <Table>
                       <TableBody>
                         <TableRow>
+                          <TableCell className="w-1/3 font-medium">2026</TableCell>
+                          <TableCell>
+                            <span className="block">Handling Cobwebs <span className="font-normal">(Gruppeutstilling)</span></span>
+                            <span className="text-muted-foreground">UKS, Oslo, Norge</span>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="w-1/3 font-medium">2026</TableCell>
+                          <TableCell>
+                            <span className="block">Gåningstegn <span className="font-normal">(Duoutsilling)</span></span>
+                            <span className="text-muted-foreground">Hvervenbukta paviljong, Oslo, Norge</span>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="w-1/3 font-medium">2025</TableCell>
+                          <TableCell>
+                            <span className="block">Bærebjelker <span className="font-normal">(Soloutstilling)</span></span>
+                            <span className="text-muted-foreground">Frogner paviljongen, Oslo, Norge</span>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
                           <TableCell className="w-1/3 font-medium">2024</TableCell>
                           <TableCell>
                             <span className="block">Free Education for Some <span className="font-normal">(Group Exhibition)</span></span>
