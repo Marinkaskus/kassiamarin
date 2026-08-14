@@ -52,7 +52,7 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
       className={cn(
         "relative w-full py-8 md:py-12 animate-fade-in",
         "cursor-pointer group",
-        artwork.overlapPrevious && "mt-8 md:mt-52 -mb-72 md:-mb-[46rem] z-10 md:translate-x-[200px] md:translate-y-[26px]"
+        artwork.overlapPrevious && "md:mt-52 md:-mb-[46rem] md:z-10 md:translate-x-[200px] md:translate-y-[26px]"
       )}
       style={{ animationDelay: `${index * 100}ms` }}
       onClick={() => onClick(artwork)}
@@ -69,8 +69,8 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
           </div>
         ) : (
           <div 
-            className="relative"
-            style={{ width: artwork.scale && artwork.scale < 1 ? `${artwork.scale * 100}%` : '100%' }}
+            className="relative w-full md:w-[var(--aw-w)]"
+            style={{ ['--aw-w' as string]: artwork.scale && artwork.scale < 1 ? `${artwork.scale * 100}%` : '100%' } as React.CSSProperties}
           >
             {isLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-muted/30 z-10">
@@ -97,8 +97,8 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
       {/* Info line - horizontal, under image, aligned based on image position */}
       {artwork.showInfo !== false && (
         <div className={cn(
-          "flex items-center gap-4 md:gap-8 mt-6 text-sm tracking-wide text-muted-foreground",
-          alignment === 'right' ? "justify-start" : alignment === 'center' ? "justify-center" : "justify-end"
+          "flex flex-wrap items-center gap-x-3 gap-y-1 md:gap-8 mt-6 text-xs md:text-sm tracking-wide text-muted-foreground",
+          alignment === 'right' ? "justify-start" : alignment === 'center' ? "justify-center" : "md:justify-end"
         )}>
           <span className="font-gotu">{artwork.title}</span>
           <span className="text-border">|</span>
