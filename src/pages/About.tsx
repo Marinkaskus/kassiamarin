@@ -186,6 +186,48 @@ const About = () => {
                     <Table>
                       <TableBody>
                         <TableRow>
+                          <TableCell className="w-1/3 font-medium">2026</TableCell>
+                          <TableCell>
+                            <span className="block">Nasjonal Arena for tilrettelagt DKS</span>
+                            <span className="text-muted-foreground">Harstad, Norge</span>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="w-1/3 font-medium">2026</TableCell>
+                          <TableCell>
+                            <span className="block">Formidler/Co-produsent av La oss vibrere!</span>
+                            <span className="text-muted-foreground">Munchmuseet, Oslo, Norge</span>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="w-1/3 font-medium">2025</TableCell>
+                          <TableCell>
+                            <span className="block">Kurs i Fresko</span>
+                            <span className="text-muted-foreground">Muralverkstedet, Oslo, Norge</span>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="w-1/3 font-medium">2025</TableCell>
+                          <TableCell>
+                            <span className="block">Prosjektleder og kunstner under kunstworkshops for barn</span>
+                            <span className="text-muted-foreground">Frognerparken, Juli, Oslo, Norge</span>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="w-1/3 font-medium">2025</TableCell>
+                          <TableCell>
+                            <span className="block">Residency i regi av Palarctic filmmaking program</span>
+                            <span className="text-muted-foreground">Tvibit, Tromsø, Norge</span>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="w-1/3 font-medium">2025</TableCell>
+                          <TableCell>
+                            <span className="block">Vertskap</span>
+                            <span className="text-muted-foreground">Munch, Oslo, Norge</span>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
                           <TableCell className="w-1/3 font-medium">2025</TableCell>
                           <TableCell>
                             <span className="block">Dks-Lab Oslo</span>
