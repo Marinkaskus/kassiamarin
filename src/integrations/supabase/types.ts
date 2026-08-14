@@ -161,6 +161,51 @@ export type Database = {
         }
         Relationships: []
       }
+      workshop_registrations: {
+        Row: {
+          accept_terms: boolean | null
+          additional_info: string | null
+          age: string
+          created_at: string | null
+          email: string
+          full_name: string
+          guardian_name: string
+          guardian_phone: string
+          id: string
+          is_processed: boolean | null
+          photo_permission: boolean | null
+          workshop_dates: string[]
+        }
+        Insert: {
+          accept_terms?: boolean | null
+          additional_info?: string | null
+          age: string
+          created_at?: string | null
+          email: string
+          full_name: string
+          guardian_name: string
+          guardian_phone: string
+          id?: string
+          is_processed?: boolean | null
+          photo_permission?: boolean | null
+          workshop_dates: string[]
+        }
+        Update: {
+          accept_terms?: boolean | null
+          additional_info?: string | null
+          age?: string
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          guardian_name?: string
+          guardian_phone?: string
+          id?: string
+          is_processed?: boolean | null
+          photo_permission?: boolean | null
+          workshop_dates?: string[]
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
