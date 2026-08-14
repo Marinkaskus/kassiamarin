@@ -60,6 +60,7 @@ const GalleryItem: React.FC<GalleryItemProps> = ({ artwork, onClick, alignment, 
       {/* Image - full width */}
       <div className={cn(
         "flex w-full",
+        artwork.overlapPrevious && alignment === 'right' && "pr-[18%] md:pr-[22%]",
         alignment === 'right' ? "justify-end" : alignment === 'center' ? "justify-center" : "justify-start"
       )}>
         {imageError ? (
