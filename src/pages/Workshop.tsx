@@ -13,6 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { supabase } from '@/integrations/supabase/client';
 
 // Define the form schema with validation rules
 const formSchema = z.object({
@@ -161,48 +162,28 @@ END:VCALENDAR`;
     try {
       setIsSubmitting(true);
       
-      // Format the data for better email readability
-      const formattedData = {
-        fullName: values.fullName,
-        age: values.age,
-        guardianName: values.guardianName,
-        guardianPhone: values.guardianPhone,
-        email: values.email,
-        workshopDates: values.workshopDates.join(", "),
-        additionalInfo: values.additionalInfo || "Ingen tilleggsinformasjon",
-        photoPermission: values.photoPermission ? "Ja" : "Nei",
-        acceptTerms: values.acceptTerms ? "Ja" : "Nei",
-      };
-      
-      // Create email subject and body
-      const emailSubject = `Påmelding Workshop: ${values.fullName}, ${values.age} år`;
-      const emailBody = `
-Påmelding til workshop:
+      const { error } = await supabase
+        .from('workshop_registrations')
+        .insert({
+          full_name: values.fullName.trim(),
+          age: values.age.trim(),
+          guardian_name: values.guardianName.trim(),
+          guardian_phone: values.guardianPhone.trim(),
+          email: values.email.trim(),
+          workshop_dates: values.workshopDates,
+          additional_info: values.additionalInfo?.trim() || null,
+          photo_permission: values.photoPermission,
+          accept_terms: values.acceptTerms,
+        });
 
-Navn på deltaker: ${formattedData.fullName}
-Alder: ${formattedData.age}
-Navn på foresatt: ${formattedData.guardianName}
-Telefon til foresatt: ${formattedData.guardianPhone}
-E-post: ${formattedData.email}
-Valgte datoer: ${formattedData.workshopDates}
+      if (error) throw error;
 
-Tilleggsinformasjon: ${formattedData.additionalInfo}
-
-Fototillatelse: ${values.photoPermission ? "Ja" : "Nei"}
-Aksepterer bindende påmelding: ${values.acceptTerms ? "Ja" : "Nei"}
-
-Sendt: ${new Date().toLocaleString('no-NO')}
-      `;
-      
-      // Create mailto link and open it
-      const mailtoLink = `mailto:kassiamarin486@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-      window.open(mailtoLink, '_blank');
-      
       // Show success message
       toast({
-        title: "Skjema klart til å sendes",
-        description: "E-postklienten din er åpnet med skjemaet. Vennligst send e-posten for å fullføre registreringen.",
+        title: "Påmelding registrert",
+        description: "Takk! Påmeldingen din er registrert, og vi tar kontakt på e-post.",
       });
+
       
       // Reset the form after successful submission
       form.reset();
