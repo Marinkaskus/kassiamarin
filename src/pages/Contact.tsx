@@ -22,42 +22,57 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    try {
-      const emailSubject = `Website Contact: ${formData.subject}`;
-      const emailBody = `
-Name: ${formData.name}
-Email: ${formData.email}
-Subject: ${formData.subject}
 
-Message:
-${formData.message}
-      `;
-      
-      const mailtoLink = `mailto:kassiamarin486@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-      window.open(mailtoLink, '_blank');
-      
+    const name = formData.name.trim();
+    const email = formData.email.trim();
+    const subject = formData.subject.trim();
+    const message = formData.message.trim();
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (
+      name.length < 2 || name.length > 100 ||
+      !emailPattern.test(email) || email.length > 254 ||
+      subject.length < 1 || subject.length > 150 ||
+      message.length < 5 || message.length > 5000
+    ) {
+      toast({
+        title: "Invalid input",
+        description: "Please check your name, email, subject and message and try again.",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert({ name, email, subject, message });
+
+      if (error) throw error;
+
       setFormData({
         name: '',
         email: '',
         subject: '',
         message: '',
       });
-      
+
       toast({
-        title: "Message ready to send",
-        description: "Your email client has been opened with the message. Please send the email to complete.",
+        title: "Message sent",
+        description: "Thank you for reaching out. Your message has been received.",
       });
     } catch (error) {
       toast({
         title: "Error",
-        description: "There was an error preparing your message. Please try again or contact directly via email.",
+        description: "There was an error sending your message. Please try again or contact directly via email.",
         variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
     }
   };
+
 
   return (
     <Layout>
